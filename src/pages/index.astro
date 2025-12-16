@@ -1,12 +1,42 @@
 ---
-import Layout from '../components/Layout.astro';
-import Header from '../components/Header.jsx';
+import FormIsland from "../components/FormIsland.tsx";
 ---
 
-<Layout>
-  <Header client:load />
-  <main style="padding:1rem">
-    <h1>Welcome to the Marketing Site</h1>
-    <p>Starter built with Astro + React.</p>
-  </main>
-</Layout>
+<html lang="en">
+  <head>
+    <title>Astro Form</title>
+  </head>
+  <body>
+    <!-- <nav>
+      <h1>My App</h1>
+    </nav> -->
+
+    <main>
+      <FormIsland client:load />
+    </main>
+
+    <footer>
+      <p>Static footer</p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  :root {
+    --font-title: "ADLaM Display", serif;
+    --font-body: "AR One Sans", system-ui, sans-serif;
+    --background: #1a1a1a;
+    --foreground: #f8f8f8;
+    --primary: #f25c54;
+    --secondary: #faf3dd;
+    --card: #333333;
+  }
+
+  .font-title {
+    font-family: var(--font-title);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+</style>
