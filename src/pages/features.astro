@@ -1,5 +1,11 @@
 ---
 import FormIsland from "../components/FormIsland.tsx";
+
+const submissionId = Astro.url.searchParams.get("id");
+
+if (!submissionId) {
+  throw new Error("Missing submission id");
+}
 ---
 
 <html lang="en">
@@ -8,7 +14,11 @@ import FormIsland from "../components/FormIsland.tsx";
   </head>
   <body>
     <main>
-      <FormIsland submissionId={""} initialStep="initial" client:load />
+      <FormIsland
+        initialStep="features"
+        submissionId={submissionId}
+        client:load
+      />
     </main>
   </body>
 </html>

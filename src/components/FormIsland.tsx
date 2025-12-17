@@ -1,28 +1,27 @@
-import { useState, lazy, Suspense } from "react";
+import React, { useState, lazy } from "react";
+import type { FormIslandProps } from "./utils/interfaces";
 
 /* ───────────────── Types ───────────────── */
 
-export type FormStep = "first" | "second";
+export type FormStep = "initial" | "features";
 
-/* ───────────────── Lazy step ───────────────── */
-
-const StepOne = lazy(() => import("./StepOne"));
-const StepTwo = lazy(() => import("./StepTwo"));
+/* ───────────────── Lazy steps ───────────────── */
+const StepOne = lazy(() => import("./DealForm"));
+const FeaturesForm = lazy(() => import("./FeaturesForm"));
 
 /* ───────────────── Component ───────────────── */
 
-export default function FormIsland() {
-  const [step, setStep] = useState<FormStep>("first");
+const FormIsland: React.FC<FormIslandProps> = ({ initialStep }) => {
+  const [step, setStep] = useState<FormStep>(initialStep);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      {step !== "second" && (
-        <StepOne onSubmit={() => setStep("")} />
+    <div>
+      {step === "initial" && <StepOne onSubmit={() => setStep("features")} />}
+      {step === "features" && (
+        <FeaturesForm onSubmit={() => setStep("initial")} />
       )}
-
-      {step === "second" && (
-        <StepTwo onSubmit={() => setStep("first")} />
-      )}
-    </Suspense>
+    </div>
   );
-}
+};
+
+export default FormIsland;

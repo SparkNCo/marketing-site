@@ -11,7 +11,7 @@ import {
   Clock,
   Loader2,
 } from "lucide-react";
-import type { FormStep } from "../FormIsland";
+import type { FormStep } from "./interfaces";
 
 interface CalendarBookingProps {
   onSubmit: (data: { selectedDate: string; selectedTime: string }) => void;

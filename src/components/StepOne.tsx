@@ -1,3 +1,9 @@
+/* import type {
+  CalendarSubmitData,
+  StepOneProps,
+  FormData,
+} from "./utils/interfaces";
+
 import { useState } from "react";
 import { StepIndicator } from "./utils/step-indicator";
 import { ContactForm } from "./forms/contact-form";
@@ -5,32 +11,6 @@ import { CompanyDetailsForm } from "./forms/company-details-form";
 import { ProductIdeaForm } from "./forms/product-idea-form";
 import { CalendarBooking } from "./utils/calendar-booking";
 import { SuccessMessage } from "./utils/success-message";
-import { FormStep } from "./StepTwo";
-
-interface BudgetRange {
-  min: number;
-  max: number;
-}
-
-interface FormData {
-  name: string;
-  email: string;
-  companyName: string;
-  industry: string;
-  budget: BudgetRange;
-  productIdea: string;
-  selectedDate: string;
-  selectedTime: string;
-}
-
-interface CalendarSubmitData {
-  selectedDate: string;
-  selectedTime: string;
-}
-
-interface StepOneProps {
-  onSubmit?: (data: FormData) => void;
-}
 
 export default function StepOne({ onSubmit }: StepOneProps) {
   const [currentStep, setCurrentStep] = useState<FormStep>("contact");
@@ -150,3 +130,4 @@ export default function StepOne({ onSubmit }: StepOneProps) {
     </main>
   );
 }
+ */

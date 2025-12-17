@@ -48,7 +48,7 @@ export const GET: APIRoute = async () => {
     const { data, error } = await supabase
       .from("leads")
       .select("*") // get all columns
-      .order("formatted_date", { ascending: true }); // optional: order by date
+      .order("formatted_date", { ascending: true }); 
 
     if (error) throw error;
 

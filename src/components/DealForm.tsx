@@ -1,41 +1,20 @@
-/* ───────────────── Imports ───────────────── */
 import { useState } from "react";
+import type {
+  CalendarSubmitData,
+  DealFormProps,
+  FormData,
+  FormStep,
+} from "./utils/interfaces";
+import { StepIndicator } from "./utils/step-indicator";
+import { ContactForm } from "./forms/contact-form";
+import { CompanyDetailsForm } from "./forms/company-details-form";
+import { ProductIdeaForm } from "./forms/product-idea-form";
+import { CalendarBooking } from "./utils/calendar-booking";
+import { SuccessMessage } from "./utils/success-message";
 
-export type FormStep =
-  | "contact"
-  | "company"
-  | "product"
-  | "calendar"
-  | "success";
-
-interface BudgetRange {
-  min: number;
-  max: number;
-}
-
-interface FormData {
-  name: string;
-  email: string;
-  companyName: string;
-  industry: string;
-  budget: BudgetRange;
-  productIdea: string;
-  selectedDate: string;
-  selectedTime: string;
-}
-
-interface CalendarSubmitData {
-  selectedDate: string;
-  selectedTime: string;
-}
-
-interface StepOneProps {
-  onSubmit?: (data: FormData) => void;
-}
-
-export default function StepTwo({ onSubmit }: StepOneProps) {
+export default function StepOne({ onSubmit }: DealFormProps) {
   const [currentStep, setCurrentStep] = useState<FormStep>("contact");
-  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -56,21 +35,17 @@ export default function StepTwo({ onSubmit }: StepOneProps) {
     };
 
     try {
-      const res = await fetch("/api/submissions", {
+      const res = await fetch("/api/submissions/post-submissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(finalData),
       });
 
-      if (!res.ok) {
-        console.error("Failed to submit form");
-        return;
-      }
-
+      if (!res.ok) throw new Error("Failed to submit");
       onSubmit?.(finalData);
       setCurrentStep("success");
     } catch (err) {
-      console.error("Error submitting:", err);
+      console.error(err);
     }
   };
 
@@ -104,16 +79,12 @@ export default function StepTwo({ onSubmit }: StepOneProps) {
             email={formData.email}
             company={formData.companyName}
             industry={formData.industry}
-            setName={(v: string) =>
-              setFormData((prev) => ({ ...prev, name: v }))
-            }
-            setEmail={(v: string) =>
-              setFormData((prev) => ({ ...prev, email: v }))
-            }
-            setCompany={(v: string) =>
+            setName={(v) => setFormData((prev) => ({ ...prev, name: v }))}
+            setEmail={(v) => setFormData((prev) => ({ ...prev, email: v }))}
+            setCompany={(v) =>
               setFormData((prev) => ({ ...prev, companyName: v }))
             }
-            setIndustry={(v: string) =>
+            setIndustry={(v) =>
               setFormData((prev) => ({ ...prev, industry: v }))
             }
           />
@@ -124,7 +95,7 @@ export default function StepTwo({ onSubmit }: StepOneProps) {
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
             budgetRange={[formData.budget.min, formData.budget.max]}
-            setBudgetRange={(value: [number, number]) =>
+            setBudgetRange={(value) =>
               setFormData((prev) => ({
                 ...prev,
                 budget: { min: value[0], max: value[1] },
@@ -138,7 +109,7 @@ export default function StepTwo({ onSubmit }: StepOneProps) {
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
             productIdea={formData.productIdea}
-            setProductIdea={(value: string) =>
+            setProductIdea={(value) =>
               setFormData((prev) => ({ ...prev, productIdea: value }))
             }
           />

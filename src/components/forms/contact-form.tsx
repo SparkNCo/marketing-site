@@ -5,24 +5,8 @@ import { Input } from "../ui/input";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Label } from "../ui/label";
-import type { FormStep } from "../StepTwo";
+import type { ContactFormProps } from "../utils/types";
 
-interface ContactFormProps {
-  currentStep: string;
-  setCurrentStep: (step: FormStep) => void;
-
-  // Controlled values from parent:
-  name: string;
-  email: string;
-  company: string;
-  industry: string;
-
-  // Setters from parent:
-  setName: (v: string) => void;
-  setEmail: (v: string) => void;
-  setCompany: (v: string) => void;
-  setIndustry: (v: string) => void;
-}
 
 export function ContactForm({
   currentStep,

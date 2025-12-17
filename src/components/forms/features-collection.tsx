@@ -1,5 +1,3 @@
-/* "use client";
-
 import { useState, useEffect } from "react";
 import { Button } from "../../components/ui/button";
 import {
@@ -222,7 +220,8 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
   const saveFeatures = async () => {
     setIsSaving(true);
     try {
-      await fetch("/api/features", {
+      console.log("features", features);
+      await fetch("/api/features/post-features", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -239,14 +238,23 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
+      <div className="flex items-center justify-center py-12  ">
         <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6 w-full">
+      <div className="mb-8 text-center">
+        <h1 className="mb-3 text-4xl font-bold tracking-tight text-secondary ">
+          Tell us about your Project
+        </h1>
+        <p className="text-foreground">
+          Add All features you are interested to implement in your Project
+        </p>
+      </div>
+
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -294,4 +302,3 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
     </div>
   );
 }
- */

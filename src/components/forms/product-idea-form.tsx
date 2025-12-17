@@ -10,7 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import type { FormStep } from "../StepTwo";
+import type { FormStep } from "../utils/interfaces";
 
 interface ProductIdeaFormProps {
   currentStep: string;

@@ -1,18 +1,7 @@
-"use client";
-
 import { Button } from "../../components/ui/button";
-import type { FormStep } from "../FormIsland";
 import { Slider } from "../ui/slider2";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-interface CompanyDetailsFormProps {
-  currentStep: string;
-  setCurrentStep: (step: FormStep) => void;
-
-  // new props from parent:
-  budgetRange: [number, number];
-  setBudgetRange: (value: [number, number]) => void;
-}
+import type { CompanyDetailsFormProps } from "../utils/types";
 
 export function CompanyDetailsForm({
   currentStep,
