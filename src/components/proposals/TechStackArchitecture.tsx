@@ -72,7 +72,7 @@ export default function TechStackArchitecture() {
         </h2>
       </div>
 
-      <Card className="border-border bg-card p-8">
+      <Card className="border-border bg-card p-8 border-card">
         <div className="grid gap-8 md:grid-cols-2">
           {stackSections.map((section) => (
             <div key={section.title}>
@@ -95,7 +95,7 @@ export default function TechStackArchitecture() {
           ))}
         </div>
 
-        <div className="mt-8 rounded-md border border-border bg-background p-6">
+        <div className="mt-8 rounded-md border border-border bg-background p-6 border-card">
           <h3 className="mb-3 text-lg font-semibold text-primary">
             Why This Stack?
           </h3>

@@ -66,11 +66,11 @@ export default function DedicatedTeam() {
         </h2>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
         {teamMembers.map((member) => (
           <Card
             key={member.name}
-            className="border-border bg-card p-6 transition-colors hover:border-primary"
+            className="border-border bg-card p-6 transition-colors hover:border-primary border-card"
           >
             <div className="mb-3">
               <h3 className="text-lg font-semibold text-foreground">

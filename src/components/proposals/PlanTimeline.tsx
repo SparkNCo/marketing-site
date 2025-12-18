@@ -52,7 +52,7 @@ export default function PlanTimeline() {
           Project Plan & Timeline
         </h2>
       </div>
-      <Card className="p-8 bg-card border-border">
+      <Card className="p-8 bg-card border-border border-card">
         <p className="text-foreground mb-6 leading-relaxed">
           Total project duration:{" "}
           <span className="font-semibold text-primary">16 weeks</span> from
@@ -145,11 +145,11 @@ export default function PlanTimeline() {
             Dependencies & Decision Deadlines
           </h3>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ">
             {dependencies.map((item) => (
               <div
                 key={item.week}
-                className="rounded-md border border-border bg-background p-4"
+                className="rounded-md border border-border bg-background p-4 border-card"
               >
                 <p className="mb-1 font-semibold text-secondary">{item.week}</p>
                 <p className="text-sm text-foreground">{item.description}</p>

@@ -93,7 +93,7 @@ export default function ProjectScope() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {sections.map((section) => (
-          <Card key={section.title} className="border-border bg-card p-6">
+          <Card key={section.title} className="border-border bg-card p-6 border-card">
             <h3 className="mb-4 text-xl font-bold text-primary">
               {section.title}
             </h3>
@@ -108,7 +108,7 @@ export default function ProjectScope() {
       </div>
 
       {/* In / Out Scope */}
-      <Card className="mt-6 border-border bg-card p-6">
+      <Card className="mt-6 border-border bg-card p-6 border-card">
         <h3 className="mb-4 text-xl font-bold text-primary">
           In-Scope vs. Out-of-Scope
         </h3>

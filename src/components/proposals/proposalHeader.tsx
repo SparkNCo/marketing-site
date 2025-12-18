@@ -2,7 +2,7 @@ import { Badge } from "../ui/badge";
 
 export default function ProposalHeader() {
   return (
-    <header className="border-b border-border sticky top-0 bg-background backdrop-blur-sm z-10">
+    <header className="border-b border-border sticky top-0 bg-background backdrop-blur-sm z-10 border-b-card ">
       <div className="container mx-auto px-4 py-6 max-w-6xl">
         <div className="flex items-center justify-between">
           <div>

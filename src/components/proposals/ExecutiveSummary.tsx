@@ -38,7 +38,7 @@ export default function ExecutiveSummary() {
         </h2>
       </div>
 
-      <Card className="p-8 bg-card border-border">
+      <Card className="p-8 bg-card border-border border-card">
         <div className="space-y-6">
           {summaryItems.map((item) => (
             <div key={item.title}>

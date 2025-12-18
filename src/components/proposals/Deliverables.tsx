@@ -59,7 +59,7 @@ export default function Deliverables() {
             ],
           },
         ].map((deliverable, idx) => (
-          <Card key={idx} className="p-6 bg-card border-border">
+          <Card key={idx} className="p-6 bg-card border-border border-card">
             <h3 className="text-lg font-semibold text-primary mb-3">
               {deliverable.title}
             </h3>

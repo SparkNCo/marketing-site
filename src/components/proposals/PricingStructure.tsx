@@ -100,7 +100,7 @@ export default function PricingStructure() {
         </h2>
       </div>
 
-      <Card className="border-border bg-card p-8">
+      <Card className="border-border bg-card p-8 border-card">
         {/* Total + Breakdown */}
         <div className="mb-8 grid gap-8 md:grid-cols-2">
           <div>
@@ -115,7 +115,7 @@ export default function PricingStructure() {
             </p>
           </div>
 
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center ">
             <div className="space-y-2 text-sm">
               {costBreakdown.map((item) => (
                 <div key={item.label} className="flex justify-between">
@@ -138,17 +138,17 @@ export default function PricingStructure() {
 
         {/* Payment Milestones */}
         <div className="mb-8">
-          <h3 className="mb-4 text-lg font-semibold text-primary">
+          <h3 className="mb-4 text-lg font-semibold text-primary ">
             Payment Milestones
           </h3>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2 ">
             {/* Column 1 */}
             <div className="space-y-4">
               {firstColumn.map((payment) => (
                 <div
                   key={payment.milestone}
-                  className="rounded-md border border-border bg-background p-4"
+                  className="rounded-md border border-border bg-background p-4 border-card"
                 >
                   <div className="mb-1 flex items-center justify-between">
                     <p className="font-semibold text-foreground">
@@ -172,7 +172,7 @@ export default function PricingStructure() {
               {secondColumn.map((payment) => (
                 <div
                   key={payment.milestone}
-                  className="rounded-md border border-border bg-background p-4"
+                  className="rounded-md border border-border bg-background p-4 border-card"
                 >
                   <div className="mb-1 flex items-center justify-between">
                     <p className="font-semibold text-foreground">
@@ -194,7 +194,7 @@ export default function PricingStructure() {
         </div>
 
         {/* Assumptions */}
-        <div className="rounded-md border border-border bg-background p-6">
+        <div className="rounded-md border border-border bg-background p-6 border-card">
           <h3 className="mb-3 text-lg font-semibold text-primary">
             Assumptions & What Changes Cost
           </h3>
