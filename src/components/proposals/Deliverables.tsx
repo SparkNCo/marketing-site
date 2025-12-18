@@ -1,4 +1,4 @@
-import { FileText } from "lucide-react";
+import { ArrowRight, FileText } from "lucide-react";
 import { Card } from "../ui/card";
 
 export default function Deliverables() {
@@ -66,7 +66,7 @@ export default function Deliverables() {
             <ul className="space-y-2 text-foreground">
               {deliverable.items.map((item, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm">
-                  <span className="text-primary mt-1">→</span>
+                  <ArrowRight className="mb-1 text-primary  " />
                   <span>{item}</span>
                 </li>
               ))}

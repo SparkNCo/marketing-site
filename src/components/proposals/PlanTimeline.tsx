@@ -2,6 +2,47 @@ import { Calendar } from "lucide-react";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 
+interface Dependency {
+  week: string;
+  description: string;
+}
+
+interface Risk {
+  title: string;
+  mitigation: string;
+}
+
+const dependencies: Dependency[] = [
+  {
+    week: "Week 1",
+    description: "Client must provide SAP API credentials and documentation",
+  },
+  {
+    week: "Week 3",
+    description: "Final design approval required to proceed with development",
+  },
+  {
+    week: "Week 12",
+    description: "UAT participants identified and scheduled",
+  },
+];
+
+const risks: Risk[] = [
+  {
+    title: "SAP Integration Complexity",
+    mitigation:
+      "Early API testing and fallback to batch sync if real-time proves infeasible",
+  },
+  {
+    title: "Legacy Data Quality",
+    mitigation: "Data audit in Week 1, cleansing scripts, and validation rules",
+  },
+  {
+    title: "Scope Creep",
+    mitigation: "Formal change request process with impact analysis",
+  },
+];
+
 export default function PlanTimeline() {
   return (
     <section className="mb-16 w-[80vw]">
@@ -99,65 +140,21 @@ export default function PlanTimeline() {
           ))}
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border">
-          <h3 className="text-lg font-semibold text-primary mb-4">
+        <div className="mt-8 border-t border-border pt-6">
+          <h3 className="mb-4 text-lg font-semibold text-primary">
             Dependencies & Decision Deadlines
           </h3>
-          <div className="space-y-3 text-sm text-foreground">
-            <div className="flex items-start gap-3">
-              <span className="font-semibold text-secondary min-w-[100px]">
-                Week 1:
-              </span>
-              <span>
-                Client must provide SAP API credentials and documentation
-              </span>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="font-semibold text-secondary min-w-[100px]">
-                Week 3:
-              </span>
-              <span>
-                Final design approval required to proceed with development
-              </span>
-            </div>
-            <div className="flex items-start gap-3">
-              <span className="font-semibold text-secondary min-w-[100px]">
-                Week 12:
-              </span>
-              <span>UAT participants identified and scheduled</span>
-            </div>
-          </div>
-        </div>
 
-        <div className="mt-6 pt-6 border-t border-border">
-          <h3 className="text-lg font-semibold text-primary mb-4">Key Risks</h3>
-          <div className="space-y-3 text-sm">
-            <div className="p-4 bg-background rounded-md border border-border">
-              <p className="font-semibold text-foreground mb-1">
-                🔸 SAP Integration Complexity
-              </p>
-              <p className="text-muted-foreground">
-                Mitigation: Early API testing and fallback to batch sync if
-                real-time proves infeasible
-              </p>
-            </div>
-            <div className="p-4 bg-background rounded-md border border-border">
-              <p className="font-semibold text-foreground mb-1">
-                🔸 Legacy Data Quality
-              </p>
-              <p className="text-muted-foreground">
-                Mitigation: Data audit in Week 1, cleansing scripts, and
-                validation rules
-              </p>
-            </div>
-            <div className="p-4 bg-background rounded-md border border-border">
-              <p className="font-semibold text-foreground mb-1">
-                🔸 Scope Creep
-              </p>
-              <p className="text-muted-foreground">
-                Mitigation: Formal change request process with impact analysis
-              </p>
-            </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {dependencies.map((item) => (
+              <div
+                key={item.week}
+                className="rounded-md border border-border bg-background p-4"
+              >
+                <p className="mb-1 font-semibold text-secondary">{item.week}</p>
+                <p className="text-sm text-foreground">{item.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </Card>
