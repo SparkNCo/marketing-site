@@ -63,7 +63,11 @@ function SortableFeatureCard({
   };
 
   return (
-    <Card ref={setNodeRef} style={style} className="relative">
+    <Card
+      ref={setNodeRef}
+      style={style}
+      className="relative font-body font-title  "
+    >
       <CardHeader className="flex flex-row items-center gap-4 pb-4">
         <button
           className="cursor-grab touch-none text-slate-400 hover:text-slate-600 active:cursor-grabbing"
@@ -92,7 +96,7 @@ function SortableFeatureCard({
             value={feature.title}
             onChange={(e) => onUpdate(feature.id, "title", e.target.value)}
             placeholder="Feature name"
-            className="mt-1.5"
+            className="mt-1.5 "
           />
         </div>
         <div>
@@ -243,14 +247,14 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
       </div>
     );
   }
-
+  const isEmpty = features.length === 0;
   return (
-    <div className="mx-auto max-w-4xl space-y-6 w-full">
+    <div className="mx-auto max-w-4xl space-y-6 w-full min-h-[80vh] font-body ">
       <div className="mb-8 text-center">
-        <h1 className="mb-3 text-4xl font-bold tracking-tight text-secondary ">
+        <h1 className="mb-3 text-4xl md:text-5xl font-bold font-title  tracking-tight">
           Tell us about your Project
         </h1>
-        <p className="text-foreground">
+        <p className="text-2xl text-foreground font-body">
           Add All features you are interested to implement in your Project
         </p>
       </div>

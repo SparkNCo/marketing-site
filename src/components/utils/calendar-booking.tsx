@@ -74,12 +74,14 @@ export function CalendarBooking({
   const businessDays = getNextBusinessDays();
 
   return (
-    <div className="animate-fade-in space-y-8">
+    <div className="animate-fade-in space-y-8 font-body">
       <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold text-secondary">
+        <h2 className="text-3xl font-bold text-secondary font-title">
           Schedule your discovery call
         </h2>
-        <p className="text-foreground">Choose a time that works for you</p>
+        <p className="text-foreground text-2xl">
+          Choose a time that works for you
+        </p>
       </div>
 
       <form className="space-y-6">

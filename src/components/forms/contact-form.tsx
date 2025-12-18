@@ -7,7 +7,6 @@ import { useState } from "react";
 import { Label } from "../ui/label";
 import type { ContactFormProps } from "../utils/types";
 
-
 export function ContactForm({
   currentStep,
   setCurrentStep,
@@ -34,7 +33,6 @@ export function ContactForm({
 
   const handleNext = () => {
     setTouchedNext(true);
-
     if (canProceed) {
       setCurrentStep("company");
     }
@@ -42,74 +40,109 @@ export function ContactForm({
 
   return (
     <div className="animate-fade-in flex flex-col h-full">
-      <div className="space-y-6">
-        <h2 className="mb-6 text-2xl font-semibold text-surface ">
+      <div className="space-y-8">
+        <h2 className="mb-6 text-3xl lg:text-2xl font-body font-semibold text-surface">
           Let's get to know you
         </h2>
 
-        <div className="space-y-4">
+        <div className="space-y-8">
           {/* NAME */}
-          <div className="text-surface">
-            <Label htmlFor="name">Name</Label>
+          <div className="text-surface font-body">
+            <Label className="text-3xl lg:text-sm" htmlFor="name">
+              Name
+            </Label>
             <Input
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="John Doe"
-              className="mt-1.5"
+              autoFocus
+              className="
+                mt-3
+                h-16 lg:h-10
+                text-4xl lg:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:opacity-60
+              "
             />
             {touchedNext && !isValidName && (
-              <p className="text-sm text-primary">
+              <p className="mt-3 text-3xl lg:text-sm text-primary">
                 Name must be at least 5 characters
               </p>
             )}
           </div>
 
           {/* EMAIL */}
-          <div className="text-surface">
-            <Label htmlFor="email">Email</Label>
+          <div className="text-surface font-body">
+            <Label className="text-3xl lg:text-sm" htmlFor="email">
+              Email
+            </Label>
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="john@example.com"
-              className="mt-1.5"
+              className="
+                mt-3
+                h-16 lg:h-10
+                text-4xl lg:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:opacity-60
+              "
             />
             {touchedNext && !isValidEmail && (
-              <p className="text-sm text-primary">Mail format is not valid</p>
+              <p className="mt-3 text-3xl lg:text-sm text-primary">
+                Mail format is not valid
+              </p>
             )}
           </div>
 
           {/* COMPANY */}
-          <div className="text-surface">
-            <Label htmlFor="company">Company</Label>
+          <div className="text-surface font-body">
+            <Label className="text-3xl lg:text-sm" htmlFor="company">
+              Company
+            </Label>
             <Input
               id="company"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               placeholder="Acme Inc"
-              className="mt-1.5"
+              className="
+                mt-3
+                h-16 lg:h-10
+                text-4xl lg:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:opacity-60
+              "
             />
             {touchedNext && !isValidCompany && (
-              <p className="text-sm text-primary">
+              <p className="mt-3 text-3xl lg:text-sm text-primary">
                 Company must be at least 5 characters
               </p>
             )}
           </div>
 
           {/* INDUSTRY */}
-          <div className="text-surface">
-            <Label htmlFor="industry">Industry</Label>
+          <div className="text-surface font-body">
+            <Label className="text-3xl lg:text-sm" htmlFor="industry">
+              Industry
+            </Label>
             <Input
               id="industry"
               value={industry}
               onChange={(e) => setIndustry(e.target.value)}
               placeholder="Technology"
-              className="mt-1.5"
+              className="
+                mt-3
+                h-16 lg:h-10
+                text-4xl lg:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:opacity-60
+              "
             />
             {touchedNext && !isValidIndustry && (
-              <p className="text-sm text-primary">
+              <p className="mt-3 text-3xl lg:text-sm text-primary">
                 Industry must be at least 5 characters
               </p>
             )}
@@ -118,25 +151,27 @@ export function ContactForm({
       </div>
 
       {/* Navigation */}
-      <div className="mt-8 flex justify-between">
+      <div className="mt-12 flex flex-col gap-6 font-body lg:flex-row lg:justify-between lg:gap-0">
         <Button
-          variant={"nav"}
-          size={"default"}
+          variant="nav"
+          size="lg"
+          className="w-full lg:w-auto text-2xl lg:text-sm py-6 lg:py-2"
           onClick={() => setCurrentStep("contact")}
           disabled={currentStep === "contact"}
         >
-          <ChevronLeft className="mr-2 h-4 w-4" />
+          <ChevronLeft className="mr-3 h-6 w-6 lg:h-4 lg:w-4" />
           Previous
         </Button>
 
         <Button
-          variant={"nav"}
-          size={"default"}
+          variant="nav"
+          size="lg"
+          className="w-full lg:w-auto text-2xl lg:text-sm py-6 lg:py-2"
           onClick={handleNext}
           disabled={touchedNext && !canProceed}
         >
           Next
-          <ChevronRight className="ml-2 h-4 w-4" />
+          <ChevronRight className="ml-3 h-6 w-6 lg:h-4 lg:w-4" />
         </Button>
       </div>
     </div>

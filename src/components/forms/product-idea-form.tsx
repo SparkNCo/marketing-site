@@ -80,12 +80,12 @@ export function ProductIdeaForm({
   };
 
   return (
-    <div className="animate-fade-in space-y-8">
+    <div className="animate-fade-in space-y-8 font-body text-xl">
       <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold text-secondary">
+        <h2 className="text-3xl font-bold text-secondary font-title">
           Describe your product idea
         </h2>
-        <p className="text-foreground">
+        <p className="text-foreground ">
           The more detail you provide, the better we can help
         </p>
       </div>
@@ -93,7 +93,7 @@ export function ProductIdeaForm({
       <form className="space-y-6">
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <Label htmlFor="idea" className="text-base font-medium text-secondary">
+            <Label htmlFor="idea" className=" font-medium text-secondary">
               Your Vision
             </Label>
             <div className="flex items-center gap-2">
@@ -113,14 +113,14 @@ export function ProductIdeaForm({
             id="idea"
             placeholder="Describe your software product idea..."
             value={productIdea}
-            onChange={(e) => setProductIdea(e.target.value)}
-            className="w-full min-h-48 p-4 rounded-lg  border-input bg-background text-foreground text-base focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            onChange={(e) => setProductIdea(e.target.value)} /* text-base  */
+            className="w-full min-h-48 p-4 rounded-lg  border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
           />
         </div>
 
         {missingTips.length > 0 && (
           <div className="bg-muted/50 rounded-lg p-4 space-y-3 text-secondary">
-            <div className="flex items-center gap-2 text-secondary font-medium">
+            <div className="flex items-center gap-2 text-secondary ">
               <Lightbulb className="w-5 h-5 text-primary" />
               <span>Tips to improve your description</span>
             </div>
@@ -128,7 +128,7 @@ export function ProductIdeaForm({
               {missingTips.map((tip) => (
                 <li
                   key={tip.key}
-                  className="flex items-start gap-2 text-sm text-foreground"
+                  className="flex items-start gap-2 text-base text-foreground"
                 >
                   <span className="text-primary font-semibold mt-0.5">→</span>
                   <span>{tip.text}</span>
@@ -138,7 +138,7 @@ export function ProductIdeaForm({
           </div>
         )}
 
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center gap-2 text-base">
           {completeness >= 50 ? (
             <>
               <CheckCircle2 className="w-5 h-5 text-green-600" />

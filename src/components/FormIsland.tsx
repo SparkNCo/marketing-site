@@ -16,7 +16,7 @@ const FormIsland: React.FC<FormIslandProps> = ({ initialStep }) => {
 
   return (
     <div>
-      {step === "initial" && <StepOne onSubmit={() => setStep("features")} />}
+      {step === "initial" && <StepOne />}
       {step === "features" && (
         <FeaturesForm onSubmit={() => setStep("initial")} />
       )}

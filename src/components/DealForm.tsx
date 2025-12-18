@@ -1,18 +1,17 @@
 import { useState } from "react";
 import type {
   CalendarSubmitData,
-  DealFormProps,
   FormData,
   FormStep,
 } from "./utils/interfaces";
-import { StepIndicator } from "./utils/step-indicator";
 import { ContactForm } from "./forms/contact-form";
 import { CompanyDetailsForm } from "./forms/company-details-form";
 import { ProductIdeaForm } from "./forms/product-idea-form";
 import { CalendarBooking } from "./utils/calendar-booking";
 import { SuccessMessage } from "./utils/success-message";
+import AnimatedStepper from "./utils/animated-stepper";
 
-export default function StepOne({ onSubmit }: DealFormProps) {
+export default function StepOne() {
   const [currentStep, setCurrentStep] = useState<FormStep>("contact");
   const [submitting, setSubmitting] = useState(false);
 
@@ -42,7 +41,6 @@ export default function StepOne({ onSubmit }: DealFormProps) {
       });
 
       if (!res.ok) throw new Error("Failed to submit");
-      onSubmit?.(finalData);
       setCurrentStep("success");
     } catch (err) {
       console.error(err);
@@ -58,19 +56,20 @@ export default function StepOne({ onSubmit }: DealFormProps) {
   ].indexOf(currentStep);
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-secondary">
-      <div className="mb-8 text-center">
-        <h1 className="mb-3 text-4xl font-bold tracking-tight">
+    <main className="min-h-screen flex flex-col items-center justify-start sm:justify-center px-4 py-6 sm:p-4 bg-background text-secondary  ">
+      <div className="mb-6 sm:mb-8 text-center px-2">
+        <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold font-title tracking-tight">
           Start Your Project
         </h1>
-        <p className="text-foreground">
+        <p className="text-lg sm:text-xl md:text-2xl text-foreground font-body">
           Tell us about your vision and we'll bring it to life
         </p>
       </div>
 
-      <StepIndicator currentStep={stepIndex} totalSteps={5} />
+      {/* <StepIndicator currentStep={stepIndex} totalSteps={5} /> */}
+      <AnimatedStepper currentStep={stepIndex} totalSteps={5} />
 
-      <div className="w-full max-w-2xl border-t-4 border-primary bg-card p-8 shadow-xl rounded-xl">
+      <div className="w-full lg:max-w-2xl border-t-4 border-primary bg-card p-8 shadow-xl rounded-xl">
         {currentStep === "contact" && (
           <ContactForm
             currentStep={currentStep}

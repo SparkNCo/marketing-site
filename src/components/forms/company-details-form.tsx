@@ -10,14 +10,14 @@ export function CompanyDetailsForm({
   setBudgetRange,
 }: CompanyDetailsFormProps) {
   return (
-    <form className="animate-fade-in flex flex-col h-full">
+    <form className="animate-fade-in flex flex-col h-full font-body">
       {/* Top Content */}
       <div className="flex-1 space-y-8">
         <div>
-          <h2 className="mb-2 text-2xl font-semibold text-secondary">
+          <h2 className="mb-2 text-3xl font-semibold text-secondary font-title">
             What's your budget range?
           </h2>
-          <p className="text-sm text-foreground">
+          <p className=" text-foreground text-xl">
             Help us understand your investment capacity
           </p>
         </div>
