@@ -1,16 +1,20 @@
 "use client";
 
-import { FileText } from "lucide-react";
+import { FileText, Pencil, Save } from "lucide-react";
 import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 import { useState } from "react";
+import ExecutiveSummaryEditor from "./ExecutiveSummaryEditor";
 
-interface SummaryItem {
+export interface SummaryItem {
   title: string;
   content: string;
 }
 
 export default function ExecutiveSummary() {
-  const [summaryItems] = useState<SummaryItem[]>([
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [summaryItems, setSummaryItems] = useState<SummaryItem[]>([
     {
       title: "Client Objectives",
       content:
@@ -28,28 +32,68 @@ export default function ExecutiveSummary() {
     },
   ]);
 
+  const toggleEditMode = () => {
+    setIsEditing((prev) => !prev);
+  };
+
+  const updateItem = (
+    index: number,
+    field: keyof SummaryItem,
+    value: string
+  ) => {
+    setSummaryItems((prev) =>
+      prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
+    );
+  };
+
   return (
     <section className="mb-16 w-[80vw]">
-      {/* Section Header (hardcoded title is OK) */}
-      <div className="flex items-center gap-3 mb-6 mt-10">
-        <FileText className="w-6 h-6 text-primary" />
-        <h2 className="text-3xl font-bold text-foreground">
-          Executive Summary
-        </h2>
+      {/* Header */}
+      <div className="mb-6 mt-10 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <FileText className="h-6 w-6 text-primary" />
+          <h2 className="text-3xl font-bold text-foreground">
+            Executive Summary
+          </h2>
+        </div>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => toggleEditMode()}
+          className="flex items-center gap-2"
+        >
+          {isEditing ? (
+            <>
+              <Save className="h-4 w-4" /> Save
+            </>
+          ) : (
+            <>
+              <Pencil className="h-4 w-4" /> Edit
+            </>
+          )}
+        </Button>
       </div>
 
-      <Card className="p-8 bg-card border-border border-card">
-        <div className="space-y-6">
-          {summaryItems.map((item) => (
-            <div key={item.title}>
-              <h3 className="text-lg font-bold text-primary mb-2">
-                {item.title}
-              </h3>
-              <p className="text-foreground leading-relaxed">{item.content}</p>
-            </div>
-          ))}
-        </div>
-      </Card>
+      {/* Conditional Render */}
+      {isEditing ? (
+        <ExecutiveSummaryEditor items={summaryItems} onChange={updateItem} />
+      ) : (
+        <Card className="border-border bg-card p-8">
+          <div className="space-y-6">
+            {summaryItems.map((item) => (
+              <div key={item.title}>
+                <h3 className="mb-2 text-lg font-bold text-primary">
+                  {item.title}
+                </h3>
+                <p className="leading-relaxed text-foreground">
+                  {item.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Card>
+      )}
     </section>
   );
 }
