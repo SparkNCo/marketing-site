@@ -119,7 +119,7 @@ function SortableFeatureCard({
             }
             placeholder="Detailed description of the feature"
             rows={3}
-            className="mt-1.5"
+              className="font-body text-body"
           />
         </div>
         <div>
@@ -254,7 +254,8 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
         <h1 className="mb-3 text-4xl md:text-5xl font-bold font-title  tracking-tight">
           Tell us about your Project
         </h1>
-        <p className="text-2xl text-foreground font-body">
+        <a href="/"> Home</a>
+        <p className="text-2xl text-body font-body">
           Add All features you are interested to implement in your Project
         </p>
       </div>

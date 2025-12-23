@@ -15,12 +15,7 @@ const FormIsland: React.FC<FormIslandProps> = ({ initialStep }) => {
   const [step, setStep] = useState<FormStep>(initialStep);
 
   return (
-    <div>
-      {step === "initial" && <StepOne />}
-      {step === "features" && (
-        <FeaturesForm onSubmit={() => setStep("initial")} />
-      )}
-    </div>
+    <div className="bg-secondary ">{step === "initial" && <StepOne />}</div>
   );
 };
 

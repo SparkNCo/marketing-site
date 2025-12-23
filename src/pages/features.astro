@@ -1,5 +1,6 @@
 ---
 import FormIsland from "../components/FormIsland.tsx";
+import BaseLayout from "../components/layouts/BaseLayout.astro";
 
 const submissionId = Astro.url.searchParams.get("id");
 
@@ -8,37 +9,12 @@ if (!submissionId) {
 }
 ---
 
-<html lang="en">
-  <head>
-    <title>Astro Form</title>
-  </head>
-  <body>
-    <main>
-      <FormIsland
-        initialStep="features"
-        submissionId={submissionId}
-        client:load
-      />
-    </main>
-  </body>
-</html>
-
-<style>
-  :root {
-    --font-title: "ADLaM Display", serif;
-    --font-body: "AR One Sans", system-ui, sans-serif;
-    --background: #1a1a1a;
-    --foreground: #f8f8f8;
-    --primary: #f25c54;
-    --secondary: #faf3dd;
-    --card: #333333;
-  }
-
-  .font-title {
-    font-family: var(--font-title);
-  }
-
-  .font-body {
-    font-family: var(--font-body);
-  }
-</style>
+<BaseLayout>
+  <main>
+    <FormIsland
+      initialStep="features"
+      submissionId={submissionId}
+      client:load
+    />
+  </main>
+</BaseLayout>

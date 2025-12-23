@@ -11,8 +11,8 @@ import { CalendarBooking } from "./utils/calendar-booking";
 import { SuccessMessage } from "./utils/success-message";
 import AnimatedStepper from "./utils/animated-stepper";
 
-export default function StepOne() {
-  const [currentStep, setCurrentStep] = useState<FormStep>("contact");
+export default function DealForm() {
+  const [currentStep, setCurrentStep] = useState<FormStep>("product");
   const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
@@ -48,28 +48,46 @@ export default function StepOne() {
   };
 
   const stepIndex = [
+    "product",
     "contact",
     "company",
-    "product",
     "calendar",
     "success",
   ].indexOf(currentStep);
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-start sm:justify-center px-4 py-6 sm:p-4 bg-background text-secondary  ">
+    <main className="flex flex-col items-center justify-start sm:justify-center px-4 py-6 bg-secondary h-full">
       <div className="mb-6 sm:mb-8 text-center px-2">
-        <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold font-title tracking-tight">
+        <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold font-title text-title tracking-tight">
           Start Your Project
         </h1>
-        <p className="text-lg sm:text-xl md:text-2xl text-foreground font-body">
+
+        <p className="text-lg sm:text-xl md:text-2xl font-body text-body">
           Tell us about your vision and we'll bring it to life
         </p>
+
+        <a href="/features?id=123"> Features</a>
       </div>
 
       {/* <StepIndicator currentStep={stepIndex} totalSteps={5} /> */}
-      <AnimatedStepper currentStep={stepIndex} totalSteps={5} />
+      <AnimatedStepper
+        currentStep={stepIndex}
+        totalSteps={5}
+        setCurrentStep={setCurrentStep}
+      />
 
       <div className="w-full lg:max-w-2xl border-t-4 border-primary bg-card p-8 shadow-xl rounded-xl">
+        {currentStep === "product" && (
+          <ProductIdeaForm
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
+            productIdea={formData.productIdea}
+            setProductIdea={(value) =>
+              setFormData((prev) => ({ ...prev, productIdea: value }))
+            }
+          />
+        )}
+
         {currentStep === "contact" && (
           <ContactForm
             currentStep={currentStep}
@@ -99,17 +117,6 @@ export default function StepOne() {
                 ...prev,
                 budget: { min: value[0], max: value[1] },
               }))
-            }
-          />
-        )}
-
-        {currentStep === "product" && (
-          <ProductIdeaForm
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            productIdea={formData.productIdea}
-            setProductIdea={(value) =>
-              setFormData((prev) => ({ ...prev, productIdea: value }))
             }
           />
         )}

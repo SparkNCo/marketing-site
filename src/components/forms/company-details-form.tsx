@@ -60,7 +60,7 @@ export function CompanyDetailsForm({
         </Button>
 
         {currentStep === "company" && (
-          <Button variant={"nav"} onClick={() => setCurrentStep("product")}>
+          <Button variant={"nav"} onClick={() => setCurrentStep("calendar")}>
             Next
             <ChevronRight className="ml-2 h-4 w-4" />
           </Button>

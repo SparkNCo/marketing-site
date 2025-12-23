@@ -1,34 +1,12 @@
 ---
 import FormIsland from "../components/FormIsland.tsx";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import StairsLayout from "../components/layouts/StairsLayout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <title>Astro Form</title>
-  </head>
-  <body>
-    <main>
-      <FormIsland submissionId={""} initialStep="initial" client:load />
-    </main>
-  </body>
-</html>
-
-<style>
-  :root {
-    --font-title: "ADLaM Display";
-    --font-body: "AR One Sans";
-    --background: #1a1a1a;
-    --foreground: #f8f8f8;
-    --primary: #f25c54;
-    --secondary: #faf3dd;
-    --card: #333333;
-  }
-
-  .font-title {
-    font-family: var(--font-title);
-  }
-
-  .font-body {
-    font-family: var(--font-body);
-  }
-</style>
+<StairsLayout>
+  <Header client:load />
+  <FormIsland submissionId={""} initialStep="initial" client:load />
+  <Footer client:load /> 
+</StairsLayout>

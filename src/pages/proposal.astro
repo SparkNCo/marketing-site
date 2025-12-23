@@ -1,19 +1,15 @@
 ---
+import BaseLayout from "../components/layouts/BaseLayout.astro";
 import ProposalPage from "../components/proposals/Proposal";
 ---
 
-<html lang="en">
-  <meta charset="utf-8" />
-  <title>Astro Form</title>
+<BaseLayout>
+  <main>
+    <ProposalPage client:load />
+  </main>
+</BaseLayout>
 
-  <body>
-    <main>
-      <ProposalPage client:load />
-    </main>
-  </body>
-</html>
-
-<style>
+<!-- <style>
   :root {
     --font-title: "ADLaM Display";
     --font-body: "AR One Sans";
@@ -31,4 +27,4 @@ import ProposalPage from "../components/proposals/Proposal";
   .font-body {
     font-family: var(--font-body);
   }
-</style>
+</style> -->

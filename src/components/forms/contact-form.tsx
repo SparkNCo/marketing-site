@@ -61,8 +61,10 @@ export function ContactForm({
                 mt-3
                 h-16 lg:h-10
                 text-4xl lg:text-sm
-                placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
                 placeholder:opacity-60
+                bg-secondary
+                text-body
               "
             />
             {touchedNext && !isValidName && (
@@ -87,8 +89,10 @@ export function ContactForm({
                 mt-3
                 h-16 lg:h-10
                 text-4xl lg:text-sm
-                placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
                 placeholder:opacity-60
+                bg-secondary
+                text-body
               "
             />
             {touchedNext && !isValidEmail && (
@@ -112,8 +116,10 @@ export function ContactForm({
                 mt-3
                 h-16 lg:h-10
                 text-4xl lg:text-sm
-                placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
                 placeholder:opacity-60
+                bg-secondary
+                text-body
               "
             />
             {touchedNext && !isValidCompany && (
@@ -137,8 +143,10 @@ export function ContactForm({
                 mt-3
                 h-16 lg:h-10
                 text-4xl lg:text-sm
-                placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
                 placeholder:opacity-60
+                bg-secondary
+                text-body
               "
             />
             {touchedNext && !isValidIndustry && (
@@ -156,8 +164,8 @@ export function ContactForm({
           variant="nav"
           size="lg"
           className="w-full lg:w-auto text-2xl lg:text-sm py-6 lg:py-2"
-          onClick={() => setCurrentStep("contact")}
-          disabled={currentStep === "contact"}
+          onClick={() => setCurrentStep("product")}
+          disabled={currentStep === "product"}
         >
           <ChevronLeft className="mr-3 h-6 w-6 lg:h-4 lg:w-4" />
           Previous

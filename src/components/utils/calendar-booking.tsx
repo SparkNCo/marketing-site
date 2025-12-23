@@ -158,7 +158,7 @@ export function CalendarBooking({
         <div className="mt-8 flex justify-between">
           <Button
             variant={"nav"}
-            onClick={() => setCurrentStep("product")}
+            onClick={() => setCurrentStep("company")}
             disabled={currentStep === "contact"}
           >
             <ChevronLeft className="mr-2 h-4 w-4" />

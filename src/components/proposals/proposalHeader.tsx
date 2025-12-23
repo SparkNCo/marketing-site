@@ -12,6 +12,7 @@ export default function ProposalHeader() {
             <p className="text-sm text-secondary mt-1">
               TechForge Solutions - Prepared for Acme Corp
             </p>
+            <a href="/"> Home</a>
           </div>
           <Badge variant="secondary" className="text-xs">
             Valid until: Jan 31, 2025
