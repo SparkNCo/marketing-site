@@ -17,9 +17,10 @@ const Stairs: React.FC<StairsProps> = ({ children }) => {
   const nmOfColumns = 10;
 
   const expand = {
-    initial: { top: "100" }, // start from bottom
+    initial: { top: "100", height: "screen-h" },
     enter: (i: number) => ({
-      top: 2000,
+      bottom: 1000,
+      height: 0,
       transition: { duration: 0.5, delay: 0.05 * i },
     }),
     exit: (i: number) => ({
@@ -35,7 +36,9 @@ const Stairs: React.FC<StairsProps> = ({ children }) => {
   };
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none bg-secondary">
+    <div className=" bg-secondary ">
+      {" "}
+      {/* overflow-hidden */}
       <AnimatePresence>
         {mounted && (
           <>
@@ -68,7 +71,6 @@ const Stairs: React.FC<StairsProps> = ({ children }) => {
           </>
         )}
       </AnimatePresence>
-
       {/* Page content */}
       <div className="relative z-10 pointer-events-auto">{children}</div>
     </div>

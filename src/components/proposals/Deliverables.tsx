@@ -111,7 +111,7 @@ export default function Deliverables() {
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <FileText className="h-6 w-6 text-primary" />
-          <h2 className="text-3xl font-bold text-foreground">
+          <h2 className="text-3xl font-bold text-card">
             Detailed Deliverables
           </h2>
         </div>

@@ -1,6 +1,5 @@
 ---
 import Stairs from "../animation/StairsAstro";
-import { AnimatePresence, motion } from "framer-motion";
 ---
 
 <html lang="en">
@@ -9,15 +8,13 @@ import { AnimatePresence, motion } from "framer-motion";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
 
-  <Stairs client:load>
-    <slot />
-  </Stairs>
-
+  <body class="bg-secondary overflow-y-auto">
+    <Stairs client:load>
+      <slot />
+    </Stairs>
+  </body>
 
   <style>
-    .body {
-      background-color: #faf3dd;
-    }
     :root {
       --font-title: "ADLaM Display";
       --font-body: "AR One Sans";
@@ -26,6 +23,14 @@ import { AnimatePresence, motion } from "framer-motion";
       --primary: #f25c54;
       --secondary: #faf3dd;
       --card: #333333;
+      overflow-y: auto;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      background-color: var(--secondary);
+      overflow-y: auto;
     }
 
     .font-title {

@@ -146,7 +146,7 @@ export default function PricingStructure() {
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <DollarSign className="h-6 w-6 text-primary" />
-          <h2 className="text-3xl font-bold text-foreground">
+          <h2 className="text-3xl font-bold text-card">
             Pricing & Payment Structure
           </h2>
         </div>
@@ -228,7 +228,7 @@ export default function PricingStructure() {
                 {firstColumn.map((payment) => (
                   <div
                     key={payment.milestone}
-                    className="rounded-md border border-border bg-background p-4 border-card"
+                    className="rounded-md border border-border bg-card p-4 border-primary"
                   >
                     <div className="mb-1 flex items-center justify-between">
                       <p className="font-semibold text-foreground">
@@ -252,7 +252,7 @@ export default function PricingStructure() {
                 {secondColumn.map((payment) => (
                   <div
                     key={payment.milestone}
-                    className="rounded-md border border-border bg-background p-4 border-card"
+                    className="rounded-md border border-border bg-card p-4 border-primary"
                   >
                     <div className="mb-1 flex items-center justify-between">
                       <p className="font-semibold text-foreground">
@@ -274,7 +274,7 @@ export default function PricingStructure() {
           </div>
 
           {/* Assumptions */}
-          <div className="rounded-md border border-border bg-background p-6 border-card">
+          <div className="rounded-md border border-border bg-card p-6 border-primary">
             <h3 className="mb-3 text-lg font-semibold text-primary">
               Assumptions & What Changes Cost
             </h3>

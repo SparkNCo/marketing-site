@@ -1,30 +1,17 @@
 ---
+import Header from "../components/Header";
 import BaseLayout from "../components/layouts/BaseLayout.astro";
-import ProposalPage from "../components/proposals/Proposal";
+import ProposalIsland from "../components/proposals/Proposal.tsx";
+
+const searchParams = Astro.url.searchParams;
+
+const mode = searchParams.get("mode") ?? "view";
+const submissionId = searchParams.get("submissionId") ?? undefined;
 ---
 
 <BaseLayout>
   <main>
-    <ProposalPage client:load />
+    <Header client:load />
+    <ProposalIsland mode={mode} submissionId={submissionId} client:load />
   </main>
 </BaseLayout>
-
-<!-- <style>
-  :root {
-    --font-title: "ADLaM Display";
-    --font-body: "AR One Sans";
-    --background: #1a1a1a;
-    --foreground: #f8f8f8;
-    --primary: #f25c54;
-    --secondary: #faf3dd;
-    --card: #333333;
-  }
-
-  .font-title {
-    font-family: var(--font-title);
-  }
-
-  .font-body {
-    font-family: var(--font-body);
-  }
-</style> -->

@@ -76,7 +76,7 @@ function SortableFeatureCard({
         >
           <GripVertical className="h-5 w-5" />
         </button>
-        <CardTitle className="flex-1 text-lg">
+        <CardTitle className="flex-1 text-lg text-primary">
           Feature #{feature.sort_order + 1}
         </CardTitle>
         <Button
@@ -88,29 +88,54 @@ function SortableFeatureCard({
           <Trash2 className="h-4 w-4" />
         </Button>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 ">
         <div>
-          <Label htmlFor={`title-${feature.id}`}>Title</Label>
+          <Label className="text-secondary " htmlFor={`title-${feature.id}`}>
+            Title
+          </Label>
           <Input
             id={`title-${feature.id}`}
             value={feature.title}
             onChange={(e) => onUpdate(feature.id, "title", e.target.value)}
             placeholder="Feature name"
-            className="mt-1.5 "
+            className="
+                mt-3
+                h-16 lg:h-10
+                text-4xl lg:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
+                placeholder:opacity-60
+                bg-secondary
+                text-body focus:ring-2 focus:ring-primary 
+              "
           />
         </div>
         <div>
-          <Label htmlFor={`purpose-${feature.id}`}>Purpose</Label>
+          <Label className="text-secondary" htmlFor={`purpose-${feature.id}`}>
+            Purpose
+          </Label>
           <Input
             id={`purpose-${feature.id}`}
             value={feature.purpose}
             onChange={(e) => onUpdate(feature.id, "purpose", e.target.value)}
             placeholder="What problem does this solve?"
-            className="mt-1.5"
+            className="
+                mt-3
+                h-16 lg:h-10
+                text-4xl lg:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
+                placeholder:opacity-60
+                bg-secondary
+                text-body focus:ring-2 focus:ring-primary 
+              "
           />
         </div>
         <div>
-          <Label htmlFor={`description-${feature.id}`}>Description</Label>
+          <Label
+            className="text-secondary"
+            htmlFor={`description-${feature.id}`}
+          >
+            Description
+          </Label>
           <Textarea
             id={`description-${feature.id}`}
             value={feature.description}
@@ -119,11 +144,16 @@ function SortableFeatureCard({
             }
             placeholder="Detailed description of the feature"
             rows={3}
-              className="font-body text-body"
+            className="mt-3 w-full min-h-48 p-4 pb-8 rounded-lg border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none"
           />
         </div>
         <div>
-          <Label htmlFor={`integrations-${feature.id}`}>Integrations</Label>
+          <Label
+            className="text-secondary"
+            htmlFor={`integrations-${feature.id}`}
+          >
+            Integrations
+          </Label>
           <Input
             id={`integrations-${feature.id}`}
             value={feature.integrations}
@@ -131,11 +161,21 @@ function SortableFeatureCard({
               onUpdate(feature.id, "integrations", e.target.value)
             }
             placeholder="Third-party services needed"
-            className="mt-1.5"
+            className="
+                mt-3
+                h-16 lg:h-10
+                text-4xl lg:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
+                placeholder:opacity-60
+                bg-secondary
+                text-body focus:ring-2 focus:ring-primary 
+              "
           />
         </div>
         <div>
-          <Label htmlFor={`tech-${feature.id}`}>Tech Constraints</Label>
+          <Label className="text-secondary" htmlFor={`tech-${feature.id}`}>
+            Tech Constraints
+          </Label>
           <Input
             id={`tech-${feature.id}`}
             value={feature.tech_constraints}
@@ -143,7 +183,15 @@ function SortableFeatureCard({
               onUpdate(feature.id, "tech_constraints", e.target.value)
             }
             placeholder="Technical requirements or limitations"
-            className="mt-1.5"
+            className="
+                mt-3
+                h-16 lg:h-10
+                text-4xl lg:text-sm
+                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
+                placeholder:opacity-60
+                bg-secondary
+                text-body focus:ring-2 focus:ring-primary 
+              "
           />
         </div>
       </CardContent>
@@ -225,7 +273,7 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
     setIsSaving(true);
     try {
       console.log("features", features);
-      await fetch("/api/features/post-features", {
+      const response = await fetch("/api/features/post-features", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -233,6 +281,10 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
           features: features,
         }),
       });
+      console.log("response", response);
+      if (response) {
+        window.location.href = "/proposal?mode=loading&submissionId=123";
+      }
     } catch (error) {
       console.error("[v0] Error saving features:", error);
     } finally {
@@ -247,15 +299,13 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
       </div>
     );
   }
-  const isEmpty = features.length === 0;
   return (
-    <div className="mx-auto max-w-4xl space-y-6 w-full min-h-[80vh] font-body ">
+    <div className="mx-auto max-w-4xl space-y-6 w-full min-h-[80vh] font-body py-8">
       <div className="mb-8 text-center">
         <h1 className="mb-3 text-4xl md:text-5xl font-bold font-title  tracking-tight">
           Tell us about your Project
         </h1>
-        <a href="/"> Home</a>
-        <p className="text-2xl text-body font-body">
+        <p className="text-2xl text-body font-title">
           Add All features you are interested to implement in your Project
         </p>
       </div>

@@ -52,7 +52,7 @@ export default function ExecutiveSummary() {
       <div className="mb-6 mt-10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <FileText className="h-6 w-6 text-primary" />
-          <h2 className="text-3xl font-bold text-foreground">
+          <h2 className="text-3xl font-bold text-card">
             Executive Summary
           </h2>
         </div>

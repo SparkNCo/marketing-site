@@ -56,7 +56,7 @@ export default function DealForm() {
   ].indexOf(currentStep);
 
   return (
-    <main className="flex flex-col items-center justify-start sm:justify-center px-4 py-6 bg-secondary h-full">
+    <main className="flex flex-col items-center justify-start px-4 py-6 bg-secondary ">
       <div className="mb-6 sm:mb-8 text-center px-2">
         <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold font-title text-title tracking-tight">
           Start Your Project

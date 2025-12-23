@@ -32,6 +32,11 @@ export interface FormIslandProps {
   submissionId: string;
 }
 
+export interface ProposalIslandProps {
+  mode: string;
+  submissionId?: string;
+}
+
 export type FormStage = "initial" | "features";
 
 export type FormStep =

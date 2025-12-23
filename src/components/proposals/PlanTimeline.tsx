@@ -130,7 +130,7 @@ export default function PlanTimeline() {
       <div className="mb-6 mt-10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Calendar className="h-6 w-6 text-primary" />
-          <h2 className="text-3xl font-bold text-foreground">
+          <h2 className="text-3xl font-bold text-card">
             Project Plan & Timeline
           </h2>
         </div>
@@ -202,7 +202,7 @@ export default function PlanTimeline() {
               {dependencies.map((item) => (
                 <div
                   key={item.week}
-                  className="rounded-md border border-border bg-background p-4 border-card"
+                  className="rounded-md border border-border bg-card p-4 border-primary"
                 >
                   <p className="mb-1 font-semibold text-secondary">
                     {item.week}
