@@ -200,7 +200,7 @@ export default function ProjectScope() {
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Code className="h-6 w-6 text-primary" />
-          <h2 className="text-3xl font-bold text-Card">Project Scope</h2>
+          <h2 className="text-3xl font-bold text-card">Project Scope</h2>
         </div>
 
         <Button

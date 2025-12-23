@@ -1,4 +1,5 @@
 ---
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import BaseLayout from "../components/layouts/BaseLayout.astro";
 import ProposalIsland from "../components/proposals/Proposal.tsx";
@@ -13,5 +14,6 @@ const submissionId = searchParams.get("submissionId") ?? undefined;
   <main>
     <Header client:load />
     <ProposalIsland mode={mode} submissionId={submissionId} client:load />
+    <Footer client:load />
   </main>
 </BaseLayout>

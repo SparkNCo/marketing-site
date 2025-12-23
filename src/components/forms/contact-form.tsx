@@ -41,7 +41,7 @@ export function ContactForm({
   return (
     <div className="animate-fade-in flex flex-col h-full">
       <div className="space-y-8">
-        <h2 className="mb-6 text-3xl lg:text-2xl font-body font-semibold text-surface">
+        <h2 className="mb-6 text-3xl lg:text-2xl font-body font-semibold text-secondary">
           Let's get to know you
         </h2>
 

@@ -105,11 +105,11 @@ export function CalendarBooking({
                   onClick={() => setSelectedDate(dateStr)}
                   className={`
                   p-3 rounded-xl border-2 transition-all cursor-pointer
-                  flex flex-col items-center justify-center font-medium
+                  flex flex-col items-center justify-center font-medium 
                   ${
                     isActive
-                      ? "border-primary bg-primary text-foreground shadow-sm"
-                      : "border-input hover:border-foreground hover:bg-primary"
+                      ? "border-primary bg-primary shadow-sm text-card font-bold"
+                      : "border-input hover:border-primary  text-foreground border-foreground"
                   }
                   active:scale-[0.97]
                 `}
@@ -139,11 +139,12 @@ export function CalendarBooking({
                   type="button"
                   onClick={() => setSelectedTime(time)}
                   className={`
-          p-3 rounded-xl border-2 transition-all cursor-pointer font-medium
+          p-3 rounded-xl border-2 transition-all cursor-pointer
+          flex flex-col items-center justify-center font-medium 
           ${
             isActive
-              ? "border-primary bg-primary text-foreground shadow-sm"
-              : "border-input hover:border-foreground hover:hover:bg-primary"
+              ? "border-primary bg-primary shadow-sm text-card font-bold"
+              : "border-input hover:border-primary  text-foreground border-foreground"
           }
           active:scale-[0.97]
         `}
