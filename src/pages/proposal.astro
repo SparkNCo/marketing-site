@@ -1,19 +1,20 @@
 ---
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import BaseLayout from "../components/layouts/BaseLayout.astro";
-import ProposalIsland from "../components/proposals/Proposal.tsx";
+import StairsLayout from "../components/layouts/StairsLayout.astro";
+import ProposalShell from "./ProposalShell";
 
 const searchParams = Astro.url.searchParams;
-
 const mode = searchParams.get("mode") ?? "view";
-const submissionId = searchParams.get("submissionId") ?? undefined;
+const submissionId = searchParams.get("id") ?? undefined;
+const user = Astro.locals.user;
 ---
 
-<BaseLayout>
-  <main>
-    <Header client:load />
-    <ProposalIsland mode={mode} submissionId={submissionId} client:load />
-    <Footer client:load />
-  </main>
-</BaseLayout>
+<StairsLayout>
+  <ProposalShell
+    client:load
+    user={user}
+    mode={mode}
+    submissionId={submissionId}
+  />
+</StairsLayout>

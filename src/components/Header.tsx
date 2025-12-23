@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { User } from "lucide-react";
+"use client";
 
-type UserData = {
-  email: string;
-};
+import { useState } from "react";
+import { useApp } from "../lib/AppProvider";
 
 export default function Header() {
-  const [user, setUser] = useState<UserData | null>(null);
+  const { user, login, logout } = useApp();
+
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +13,7 @@ export default function Header() {
 
   const handleLogin = () => {
     if (email === "kabir@buildwithspark.co" && password === "admin") {
-      setUser({ email });
+      login(email);
       setShowLogin(false);
       setError("");
       setEmail("");
@@ -25,9 +24,11 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full  px-6 py-8 flex items-center justify-between bg-secondary">
-      <div className="font-title text-xl font-bold text-black">Spark & Co</div>
-      {/* Right side */}
+    <header className="w-full px-6 py-8 flex items-center justify-between bg-secondary">
+      <div className="font-title text-xl font-bold text-black">
+        Spark & Co
+      </div>
+
       <div className="relative">
         {!user ? (
           <>
@@ -56,7 +57,9 @@ export default function Header() {
                     className="w-full border rounded-md px-3 py-2 text-sm"
                   />
 
-                  {error && <p className="text-sm text-red-600">{error}</p>}
+                  {error && (
+                    <p className="text-sm text-red-600">{error}</p>
+                  )}
 
                   <button
                     onClick={handleLogin}
@@ -73,6 +76,13 @@ export default function Header() {
             <div className="h-9 w-9 rounded-full bg-black text-white flex items-center justify-center font-bold">
               {user.email.charAt(0).toUpperCase()}
             </div>
+
+            <button
+              onClick={logout}
+              className="text-sm underline text-black"
+            >
+              Logout
+            </button>
           </div>
         )}
       </div>

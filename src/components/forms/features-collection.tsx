@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import { Button } from "../../components/ui/button";
 import {
   Card,
@@ -27,6 +27,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useApp } from "../../lib/AppProvider";
 
 type Feature = {
   id: string;
@@ -199,7 +200,15 @@ function SortableFeatureCard({
   );
 }
 
-export function FeaturesCollection({ submissionId }: { submissionId: string }) {
+export function FeaturesCollection({
+  submissionId,
+  pageMode,
+  setPageMode,
+}: {
+  submissionId: string;
+  pageMode: string;
+  setPageMode: Dispatch<SetStateAction<string>>;
+}) {
   const [features, setFeatures] = useState<Feature[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -283,7 +292,7 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
       });
       console.log("response", response);
       if (response) {
-        window.location.href = "/proposal?mode=loading&submissionId=123";
+        setPageMode("loading");
       }
     } catch (error) {
       console.error("[v0] Error saving features:", error);
@@ -291,6 +300,18 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
       setIsSaving(false);
     }
   };
+
+  const isFeatureComplete = (feature: Feature) => {
+    return (
+      feature.title.trim() !== "" &&
+      feature.purpose.trim() !== "" &&
+      feature.description.trim() !== "" &&
+      feature.integrations.trim() !== "" &&
+      feature.tech_constraints.trim() !== ""
+    );
+  };
+
+  const hasCompletedFeature = features.some(isFeatureComplete);
 
   if (isLoading) {
     return (
@@ -341,7 +362,12 @@ export function FeaturesCollection({ submissionId }: { submissionId: string }) {
         </Button>
         <Button
           onClick={saveFeatures}
-          disabled={isSaving || features.length === 0}
+          disabled={isSaving || !hasCompletedFeature}
+          title={
+            !hasCompletedFeature
+              ? "Complete at least one feature before saving"
+              : undefined
+          }
           className="flex-1"
         >
           {isSaving ? (

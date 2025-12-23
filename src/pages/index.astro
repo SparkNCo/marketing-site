@@ -1,12 +1,10 @@
 ---
-import FormIsland from "../components/FormIsland.tsx";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import StairsLayout from "../components/layouts/StairsLayout.astro";
+import IndexShell from "./IndexShell";
+
+const user = Astro.locals.user;
 ---
 
 <StairsLayout>
-  <Header client:load />
-  <FormIsland submissionId={""} initialStep="initial" client:load />
-  <Footer client:load /> 
+  <IndexShell client:load user={user} />
 </StairsLayout>

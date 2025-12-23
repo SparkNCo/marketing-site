@@ -1,13 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { CheckCircle } from "lucide-react";
+import { useApp } from "../../lib/AppProvider";
 
-export function ProposalLoadingMessage({}: {}) {
+export function ProposalLoadingMessage({
+  pageMode,
+  setPageMode,
+}: {
+  pageMode: string;
+  setPageMode: Dispatch<SetStateAction<string>>;
+}) {
   const [isReady, setIsReady] = useState(false);
+  const { user } = useApp();
 
   const onViewProposal = () => {
-    window.location.href = "/proposal?mode=view&submissionId=123";
+    setPageMode("view");
   };
 
   useEffect(() => {
@@ -51,7 +59,15 @@ export function ProposalLoadingMessage({}: {}) {
         <div className="flex justify-center pt-4">
           <button
             onClick={onViewProposal}
-            className="px-8 py-3 rounded-lg bg-primary text-secondary font-semibold text-lg hover:bg-primary/90 transition"
+            disabled={!user}
+            className="
+    px-8 py-3 rounded-lg bg-primary text-secondary font-semibold text-lg
+    transition
+    hover:bg-primary/90
+    disabled:opacity-50
+    disabled:cursor-not-allowed
+    disabled:hover:bg-primary
+  "
           >
             View Proposal
           </button>

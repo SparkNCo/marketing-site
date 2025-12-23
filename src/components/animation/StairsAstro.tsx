@@ -19,9 +19,9 @@ const Stairs: React.FC<StairsProps> = ({ children }) => {
   const expand = {
     initial: { top: "100", height: "screen-h" },
     enter: (i: number) => ({
-      bottom: 1000,
+      bottom: 1200,
       height: 0,
-      transition: { duration: 0.5, delay: 0.05 * i },
+      transition: { duration: 0.8, delay: 0.05 * i, ease: [0.1, 0, 1, 1] },
     }),
     exit: (i: number) => ({
       top: "-200%",

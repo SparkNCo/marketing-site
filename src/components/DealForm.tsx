@@ -65,8 +65,6 @@ export default function DealForm() {
         <p className="text-lg sm:text-xl md:text-2xl font-body text-body">
           Tell us about your vision and we'll bring it to life
         </p>
-
-        <a href="/features?id=123"> Features</a>
       </div>
 
       {/* <StepIndicator currentStep={stepIndex} totalSteps={5} /> */}

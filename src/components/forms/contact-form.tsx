@@ -48,7 +48,7 @@ export function ContactForm({
         <div className="space-y-8">
           {/* NAME */}
           <div className="text-surface font-body">
-            <Label className="text-3xl lg:text-sm" htmlFor="name">
+            <Label className="text-3xl lg:text-sm text-secondary" htmlFor="name">
               Name
             </Label>
             <Input
@@ -76,7 +76,7 @@ export function ContactForm({
 
           {/* EMAIL */}
           <div className="text-surface font-body">
-            <Label className="text-3xl lg:text-sm" htmlFor="email">
+            <Label className="text-3xl lg:text-sm text-secondary" htmlFor="email">
               Email
             </Label>
             <Input
@@ -104,7 +104,7 @@ export function ContactForm({
 
           {/* COMPANY */}
           <div className="text-surface font-body">
-            <Label className="text-3xl lg:text-sm" htmlFor="company">
+            <Label className="text-3xl lg:text-sm text-secondary" htmlFor="company">
               Company
             </Label>
             <Input
@@ -131,7 +131,7 @@ export function ContactForm({
 
           {/* INDUSTRY */}
           <div className="text-surface font-body">
-            <Label className="text-3xl lg:text-sm" htmlFor="industry">
+            <Label className="text-3xl lg:text-sm text-secondary" htmlFor="industry">
               Industry
             </Label>
             <Input

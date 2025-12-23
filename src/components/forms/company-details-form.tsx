@@ -28,7 +28,7 @@ export function CompanyDetailsForm({
               <span className="text-2xl font-bold text-primary">
                 ${budgetRange[0].toLocaleString()}
               </span>
-              <span className="text-[--light-accent]">to</span>
+              <span className="text-foreground">to</span>
               <span className="text-2xl font-bold text-primary">
                 ${budgetRange[1].toLocaleString()}
               </span>

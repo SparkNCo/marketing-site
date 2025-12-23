@@ -99,7 +99,7 @@ export function ProductIdeaForm({
           />
 
           {/* Progress bar INSIDE textarea */}
-          <div className="pointer-events-none absolute left-2 right-2 bottom-2 h-1 rounded-full bg-muted overflow-hidden">
+          <div className="pointer-events-none absolute left-2 right-2 bottom-2 h-1.5 rounded-full bg-muted overflow-hidden">
             <div
               className="h-full bg-primary transition-all duration-300"
               style={{ width: `${progress}%` }}
@@ -109,7 +109,7 @@ export function ProductIdeaForm({
 
         {/* Helper tip under textarea */}
         {currentTip && (
-          <div className="flex items-start gap-2 text-sm text-muted-foreground">
+          <div className="flex items-start gap-2 text-sm text-foreground">
             <Check className="mt-0.5 h-4 w-4 text-gray-400" />
             <span>{currentTip.text}</span>
           </div>
