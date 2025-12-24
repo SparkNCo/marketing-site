@@ -155,7 +155,7 @@ export default function PricingStructure() {
           variant="outline"
           size="sm"
           onClick={toggleEdit}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-card"
         >
           {isEditing ? (
             <>

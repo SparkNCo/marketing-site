@@ -49,7 +49,7 @@ export default function ProjectScopeEditor({
     <div className="space-y-6">
       <div className="grid gap-6 md:grid-cols-2">
         {sections.map((section, sectionIndex) => (
-          <Card key={section.title} className="border-border bg-background p-6">
+          <Card key={section.title} className="border-border bg-card p-6">
             {/* Title (read-only) */}
             <h3 className="mb-4 text-xl font-bold text-primary">
               {section.title}

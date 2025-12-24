@@ -15,9 +15,7 @@ const FormIsland: React.FC<FormIslandProps> = ({ initialStep }) => {
   const [step, setStep] = useState<FormStep>(initialStep);
 
   return (
-    <div className="bg-secondary min-h-[90vh] ">
-      {step === "initial" && <StepOne />}
-    </div>
+    <div className="bg-secondary  ">{step === "initial" && <StepOne />}</div>
   );
 };
 

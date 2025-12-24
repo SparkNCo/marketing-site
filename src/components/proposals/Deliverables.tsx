@@ -120,7 +120,7 @@ export default function Deliverables() {
           variant="outline"
           size="sm"
           onClick={() => setIsEditing((v) => !v)}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-card"
         >
           {isEditing ? (
             <>

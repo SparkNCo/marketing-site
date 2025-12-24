@@ -32,7 +32,7 @@ export default function TechStackArchitectureEditor({
 }: Props) {
   return (
     <div className="space-y-6">
-      <Card className="border-border bg-background p-8">
+      <Card className="border-border bg-card p-8">
         <div className="grid gap-8 md:grid-cols-2">
           {stackSections.map((section, sectionIndex) => (
             <div key={section.title}>

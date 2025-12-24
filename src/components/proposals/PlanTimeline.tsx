@@ -139,7 +139,7 @@ export default function PlanTimeline() {
           variant="outline"
           size="sm"
           onClick={() => toggleEditMode()}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-card"
         >
           {isEditing ? (
             <>

@@ -115,15 +115,15 @@ export function ProductIdeaForm({
           </div>
         )}
 
-        <div className="mt-8 flex justify-between">
-          <Button
+        <div className="mt-8 flex justify-center w-full">
+          {/*           <Button
             variant="nav"
             onClick={() => setCurrentStep("company")}
             disabled={currentStep === "product"}
           >
             <ChevronLeft className="mr-2 h-4 w-4" />
             Previous
-          </Button>
+          </Button> */}
 
           <Button variant="nav" onClick={handleNext} disabled={!canProceed}>
             Next

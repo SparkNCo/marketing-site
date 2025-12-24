@@ -56,24 +56,23 @@ export default function DealForm() {
   ].indexOf(currentStep);
 
   return (
-    <main className="flex flex-col items-center justify-start px-4 py-6 bg-secondary ">
-      <div className="mb-6 sm:mb-8 text-center px-2">
-        <h1 className="mb-2 sm:mb-3 text-3xl sm:text-4xl md:text-5xl font-bold font-title text-title tracking-tight">
-          Start Your Project
-        </h1>
-
-        <p className="text-lg sm:text-xl md:text-2xl font-body text-body">
-          Tell us about your vision and we'll bring it to life
-        </p>
-      </div>
-
-      {/* <StepIndicator currentStep={stepIndex} totalSteps={5} /> */}
+    <main
+      className="
+    min-h-[88vh]
+    sm:min-h-[40vh]
+    md:min-h-[80vh]
+    lg:min-h-[80vh]
+    xl:min-h-[80vh]
+    flex flex-col items-center justify-center
+    px-4 py-6 bg-secondary
+  "
+    >
+      {" "}
       <AnimatedStepper
         currentStep={stepIndex}
         totalSteps={5}
         setCurrentStep={setCurrentStep}
       />
-
       <div className="w-full lg:max-w-2xl border-t-4 border-primary bg-card p-8 shadow-xl rounded-xl">
         {currentStep === "product" && (
           <ProductIdeaForm

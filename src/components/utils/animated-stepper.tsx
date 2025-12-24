@@ -28,7 +28,7 @@ export default function AnimatedStepper({
         const isActive = stepNumber === currentStep + 1;
         const isCompleted = stepNumber < currentStep + 1;
 
-        let stepClasses = "bg-card text-secondary-foreground";
+        let stepClasses = "bg-card text-foreground";
 
         if (isCompleted) {
           stepClasses = "bg-primary text-accent-foreground";
@@ -36,7 +36,7 @@ export default function AnimatedStepper({
 
         if (isActive) {
           stepClasses =
-            "bg-primary text-primary-foreground scale-110 rotate-12 translate-y-[-4px]";
+            "bg-primary text-primary-foreground scale-110 rotate-12 translate-y-[-4px] text-card";
         }
 
         const handleClick = () => {

@@ -1,13 +1,21 @@
 import { Button } from "../../components/ui/button";
 import { Slider } from "../ui/slider2";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { CompanyDetailsFormProps } from "../utils/types";
+
+export interface CompanyDetailsFormProps {
+  budgetRange: [number, number];
+  setBudgetRange: (v: [number, number]) => void;
+  onNext: () => void;
+  onPrev?: () => void;
+}
 
 export function CompanyDetailsForm({
   currentStep,
   setCurrentStep,
   budgetRange,
   setBudgetRange,
+  onNext,
+  onPrev,
 }: CompanyDetailsFormProps) {
   return (
     <form className="animate-fade-in flex flex-col h-full font-body">
@@ -49,18 +57,9 @@ export function CompanyDetailsForm({
       </div>
 
       {/* Bottom Navigation */}
-      <div className="mt-20 flex justify-between">
-        <Button
-          variant={"nav"}
-          onClick={() => setCurrentStep("contact")}
-          disabled={currentStep === "contact"}
-        >
-          <ChevronLeft className="mr-2 h-4 w-4" />
-          Previous
-        </Button>
-
+      <div className="mt-20 flex justify-center">
         {currentStep === "company" && (
-          <Button variant={"nav"} onClick={() => setCurrentStep("calendar")}>
+          <Button variant="nav" onClick={() => setCurrentStep("calendar")}>
             Next
             <ChevronRight className="ml-2 h-4 w-4" />
           </Button>

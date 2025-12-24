@@ -11,9 +11,8 @@ export interface SummaryItem {
   content: string;
 }
 
-export default function ExecutiveSummary() {
+export default function ExecutiveSummary({  }) {
   const [isEditing, setIsEditing] = useState(false);
-
   const [summaryItems, setSummaryItems] = useState<SummaryItem[]>([
     {
       title: "Client Objectives",
@@ -61,7 +60,7 @@ export default function ExecutiveSummary() {
           variant="outline"
           size="sm"
           onClick={() => toggleEditMode()}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 bg-card"
         >
           {isEditing ? (
             <>

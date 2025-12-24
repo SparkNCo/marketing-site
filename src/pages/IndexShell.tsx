@@ -5,8 +5,6 @@ import FormIsland from "../components/FormIsland";
 import Header from "../components/Header";
 import { AppProvider } from "../lib/AppProvider";
 
-
-
 type Props = {
   user?: {
     email: string;
@@ -16,9 +14,11 @@ type Props = {
 export default function IndexShell({ user }: Props) {
   return (
     <AppProvider initialUser={user}>
-      <Header />
-      <FormIsland submissionId="" initialStep="initial" />
-      <Footer />
+      <div className="">
+        <Header />
+        <FormIsland submissionId="" initialStep="initial" />
+        <Footer />
+      </div>
     </AppProvider>
   );
 }

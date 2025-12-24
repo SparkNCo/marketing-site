@@ -18,6 +18,8 @@ export function ContactForm({
   setEmail,
   setCompany,
   setIndustry,
+  onNext,
+  onPrev,
 }: ContactFormProps) {
   const [touchedNext, setTouchedNext] = useState(false);
 
@@ -48,7 +50,10 @@ export function ContactForm({
         <div className="space-y-8">
           {/* NAME */}
           <div className="text-surface font-body">
-            <Label className="text-3xl lg:text-sm text-secondary" htmlFor="name">
+            <Label
+              className="text-3xl lg:text-sm text-secondary"
+              htmlFor="name"
+            >
               Name
             </Label>
             <Input
@@ -76,7 +81,10 @@ export function ContactForm({
 
           {/* EMAIL */}
           <div className="text-surface font-body">
-            <Label className="text-3xl lg:text-sm text-secondary" htmlFor="email">
+            <Label
+              className="text-3xl lg:text-sm text-secondary"
+              htmlFor="email"
+            >
               Email
             </Label>
             <Input
@@ -104,7 +112,10 @@ export function ContactForm({
 
           {/* COMPANY */}
           <div className="text-surface font-body">
-            <Label className="text-3xl lg:text-sm text-secondary" htmlFor="company">
+            <Label
+              className="text-3xl lg:text-sm text-secondary"
+              htmlFor="company"
+            >
               Company
             </Label>
             <Input
@@ -131,7 +142,10 @@ export function ContactForm({
 
           {/* INDUSTRY */}
           <div className="text-surface font-body">
-            <Label className="text-3xl lg:text-sm text-secondary" htmlFor="industry">
+            <Label
+              className="text-3xl lg:text-sm text-secondary"
+              htmlFor="industry"
+            >
               Industry
             </Label>
             <Input
@@ -159,17 +173,17 @@ export function ContactForm({
       </div>
 
       {/* Navigation */}
-      <div className="mt-12 flex flex-col gap-6 font-body lg:flex-row lg:justify-between lg:gap-0">
-        <Button
+      <div className="mt-12 flex flex-col gap-6 font-body lg:flex-row lg:justify-center lg:gap-0 w-full">
+        {/*         <Button
           variant="nav"
           size="lg"
           className="w-full lg:w-auto text-2xl lg:text-sm py-6 lg:py-2"
-          onClick={() => setCurrentStep("product")}
+          onClick={() => onPrev()}
           disabled={currentStep === "product"}
         >
           <ChevronLeft className="mr-3 h-6 w-6 lg:h-4 lg:w-4" />
           Previous
-        </Button>
+        </Button> */}
 
         <Button
           variant="nav"
