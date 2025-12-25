@@ -8,28 +8,38 @@ import Stairs from "../animation/StairsAstro";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
 
-  <body class="bg-secondary overflow-y-auto">
+  <body class="bg-background text-foreground overflow-y-auto">
     <Stairs client:load>
       <slot />
     </Stairs>
   </body>
-  <!-- foreground -->
   <style>
     :root {
       --font-title: "ADLaM Display";
       --font-body: "AR One Sans";
-      --background: #1a1a1a;
-      --foreground: #f8f8f8;
-      --primary: #f25c54;
-      --secondary: #faf6ef;
-      --card: #333333;
+      --background: #0b0a12;
+      --foreground: #f7f2e8;
+      --primary: #ff5dd4;
+      --secondary: #fef1dc;
+      --card: #181522;
+      --surface: #231e31;
       overflow-y: auto;
     }
 
     body {
       margin: 0;
       font-family: var(--font-body);
-      background-color: var(--secondary);
+      background: radial-gradient(
+          circle at top left,
+          rgba(255, 93, 212, 0.2),
+          transparent 45%
+        ),
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(124, 246, 255, 0.12),
+          transparent 45%
+        ),
+        var(--background);
       overflow-y: auto;
     }
 
