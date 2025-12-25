@@ -1,12 +1,10 @@
 ---
-import Layout from '../components/Layout.astro';
-import Header from '../components/Header.jsx';
+import StairsLayout from "../components/layouts/StairsLayout.astro";
+import IndexShell from "./IndexShell";
+
+const user = Astro.locals.user;
 ---
 
-<Layout>
-  <Header client:load />
-  <main style="padding:1rem">
-    <h1>Welcome to the Marketing Site</h1>
-    <p>Starter built with Astro + React.</p>
-  </main>
-</Layout>
+<StairsLayout>
+  <IndexShell client:load user={user} />
+</StairsLayout>

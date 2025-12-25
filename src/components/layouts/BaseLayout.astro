@@ -1,0 +1,108 @@
+---
+/* BaseLayout.astro */
+import { ClientRouter } from "astro:transitions";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- ONE router, GLOBAL -->
+    <ClientRouter />
+
+    <style>
+      ::view-transition-old(root) {
+        animation: slide-out-left 300ms ease both;
+      }
+
+      ::view-transition-new(root) {
+        animation: slide-in-right 300ms ease both;
+      }
+
+      @keyframes slide-out-left {
+        from {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateX(-40px);
+        }
+      }
+
+      @keyframes slide-in-right {
+        from {
+          opacity: 0;
+          transform: translateX(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* ---------- Theme ---------- */
+
+      :root {
+        --font-title: "ADLaM Display", serif;
+        --font-body: "AR One Sans", system-ui, sans-serif;
+        --color-title: #0d0d0e;
+        --color-body: #0d0d0e;
+        --background: #faf6ef;
+        --foreground: #f8f8f8;
+        --primary: #f25c54;
+        --secondary: #ebe7e0;
+        --card: #0d0d0e; /* 404044 */
+      }
+
+      body {
+        margin: 0;
+        background: var(--background);
+      }
+
+      .font-title {
+        font-family: var(--font-title);
+        color: #1a1a1a;
+      }
+
+      .font-body {
+        font-family: var(--font-body);
+        color: #0d0d0e;
+      }
+    </style>
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>
+<!-- <style>
+  :root {
+    --font-title: "ADLaM Display", serif;
+    --font-body: "AR One Sans", system-ui, sans-serif;
+    --color-title: #0d0d0e;
+    --color-body: #0d0d0e;
+    --background: #faf6ef;
+    --foreground: #f8f8f8;
+    --primary: #f25c54;
+    --secondary: #ebe7e0;
+    --card: #0d0d0e; /* 404044 */
+  }
+
+  body {
+    margin: 0;
+    background: var(--background);
+  }
+
+  .font-title {
+    font-family: var(--font-title);
+    color: #1a1a1a;
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+    color: #0d0d0e;
+  }
+</style>
+ -->
