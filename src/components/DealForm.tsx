@@ -56,80 +56,108 @@ export default function DealForm() {
   ].indexOf(currentStep);
 
   return (
-    <main
-      className="
-    min-h-[88vh]
-    sm:min-h-[40vh]
-    md:min-h-[80vh]
-    lg:min-h-[80vh]
-    xl:min-h-[80vh]
-    flex flex-col items-center justify-center
-    px-4 py-6 bg-secondary
-  "
-    >
-      {" "}
-      <AnimatedStepper
-        currentStep={stepIndex}
-        totalSteps={5}
-        setCurrentStep={setCurrentStep}
-      />
-      <div className="w-full lg:max-w-2xl border-t-4 border-primary bg-card p-8 shadow-xl rounded-xl">
-        {currentStep === "product" && (
-          <ProductIdeaForm
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            productIdea={formData.productIdea}
-            setProductIdea={(value) =>
-              setFormData((prev) => ({ ...prev, productIdea: value }))
-            }
-          />
-        )}
+    <main className="relative mx-auto flex min-h-[88vh] max-w-6xl flex-col gap-12 px-6 pb-20 pt-4 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+      <section className="flex flex-col gap-6 pt-6">
+        <span className="w-fit rounded-full border border-foreground/20 bg-card/50 px-4 py-1 text-xs uppercase tracking-[0.25em] text-secondary">
+          Toyfight inspired
+        </span>
+        <h2 className="text-4xl font-title text-foreground sm:text-5xl">
+          Brands that feel like a joyride.
+        </h2>
+        <p className="max-w-lg text-base text-foreground/70">
+          We build bold, playful digital experiences with a punchy palette,
+          layered motion, and curious detail. Share your product idea and we’ll
+          craft the story together.
+        </p>
+        <div className="grid max-w-md grid-cols-2 gap-4">
+          {[
+            { label: "Founded", value: "2018" },
+            { label: "Projects", value: "120+" },
+            { label: "Avg. launch", value: "6 weeks" },
+            { label: "Team", value: "Global" },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="rounded-2xl border border-foreground/10 bg-card/70 p-4"
+            >
+              <p className="text-xs uppercase tracking-[0.2em] text-foreground/50">
+                {item.label}
+              </p>
+              <p className="text-lg font-semibold text-secondary">
+                {item.value}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
 
-        {currentStep === "contact" && (
-          <ContactForm
-            currentStep={currentStep}
+      <section className="relative">
+        <div className="absolute -inset-4 -z-10 rounded-[32px] bg-primary/20 blur-2xl" />
+        <div className="rounded-[32px] border border-foreground/10 bg-card/90 p-8 shadow-2xl backdrop-blur">
+          <AnimatedStepper
+            currentStep={stepIndex}
+            totalSteps={5}
             setCurrentStep={setCurrentStep}
-            name={formData.name}
-            email={formData.email}
-            company={formData.companyName}
-            industry={formData.industry}
-            setName={(v) => setFormData((prev) => ({ ...prev, name: v }))}
-            setEmail={(v) => setFormData((prev) => ({ ...prev, email: v }))}
-            setCompany={(v) =>
-              setFormData((prev) => ({ ...prev, companyName: v }))
-            }
-            setIndustry={(v) =>
-              setFormData((prev) => ({ ...prev, industry: v }))
-            }
           />
-        )}
+          <div className="mt-6">
+            {currentStep === "product" && (
+              <ProductIdeaForm
+                currentStep={currentStep}
+                setCurrentStep={setCurrentStep}
+                productIdea={formData.productIdea}
+                setProductIdea={(value) =>
+                  setFormData((prev) => ({ ...prev, productIdea: value }))
+                }
+              />
+            )}
 
-        {currentStep === "company" && (
-          <CompanyDetailsForm
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            budgetRange={[formData.budget.min, formData.budget.max]}
-            setBudgetRange={(value) =>
-              setFormData((prev) => ({
-                ...prev,
-                budget: { min: value[0], max: value[1] },
-              }))
-            }
-          />
-        )}
+            {currentStep === "contact" && (
+              <ContactForm
+                currentStep={currentStep}
+                setCurrentStep={setCurrentStep}
+                name={formData.name}
+                email={formData.email}
+                company={formData.companyName}
+                industry={formData.industry}
+                setName={(v) => setFormData((prev) => ({ ...prev, name: v }))}
+                setEmail={(v) => setFormData((prev) => ({ ...prev, email: v }))}
+                setCompany={(v) =>
+                  setFormData((prev) => ({ ...prev, companyName: v }))
+                }
+                setIndustry={(v) =>
+                  setFormData((prev) => ({ ...prev, industry: v }))
+                }
+              />
+            )}
 
-        {currentStep === "calendar" && (
-          <CalendarBooking
-            onSubmit={handleCalendarSubmit}
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            submitting={submitting}
-            setSubmitting={setSubmitting}
-          />
-        )}
+            {currentStep === "company" && (
+              <CompanyDetailsForm
+                currentStep={currentStep}
+                setCurrentStep={setCurrentStep}
+                budgetRange={[formData.budget.min, formData.budget.max]}
+                setBudgetRange={(value) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    budget: { min: value[0], max: value[1] },
+                  }))
+                }
+              />
+            )}
 
-        {currentStep === "success" && <SuccessMessage />}
-      </div>
+            {currentStep === "calendar" && (
+              <CalendarBooking
+                onSubmit={handleCalendarSubmit}
+                currentStep={currentStep}
+                setCurrentStep={setCurrentStep}
+                submitting={submitting}
+                setSubmitting={setSubmitting}
+              />
+            )}
+
+            {currentStep === "success" && <SuccessMessage />}
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
