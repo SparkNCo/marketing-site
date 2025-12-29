@@ -74,14 +74,11 @@ export function CalendarBooking({
   const businessDays = getNextBusinessDays();
 
   return (
-    <div className="animate-fade-in space-y-8 font-body">
-      <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold text-secondary font-title">
+    <div className="animate-fade-in space-y-8">
+      <div className=" space-y-2">
+        <h2 className="text-3xl  text-secondary font-title">
           Schedule your discovery call
         </h2>
-        <p className="text-foreground text-2xl">
-          Choose a time that works for you
-        </p>
       </div>
 
       <form className="space-y-6">
@@ -105,19 +102,19 @@ export function CalendarBooking({
                   onClick={() => setSelectedDate(dateStr)}
                   className={`
                   p-3 rounded-xl border-2 transition-all cursor-pointer
-                  flex flex-col items-center justify-center font-medium 
+                  flex flex-col items-center justify-center font-medium text-xl
                   ${
                     isActive
-                      ? "border-primary bg-primary shadow-sm text-card font-bold"
-                      : "border-input hover:border-primary  text-foreground border-foreground"
+                      ? "border-primary shadow-sm font-bold bg-primary text-title text-xl"
+                      : "border-input hover:border-primary bg-foreground text-xl text-title"
                   }
                   active:scale-[0.97]
                 `}
                 >
-                  <div className="text-xs font-semibold opacity-80">
+                  <div className="text-xl  font-semibold opacity-80">
                     {dayName}
                   </div>
-                  <div className="text-lg font-bold">{dayNum}</div>
+                  <div className="text-3xl font-bold">{dayNum}</div>
                 </button>
               );
             })}
@@ -125,7 +122,7 @@ export function CalendarBooking({
         </div>
 
         <div className="space-y-3">
-          <div className="flex items-center gap-2 font-medium text-secondary">
+          <div className="flex items-center gap-2 font-bold text-secondary">
             <Clock className="w-5 h-5" />
             <span>Select a Time</span>
           </div>
@@ -140,11 +137,11 @@ export function CalendarBooking({
                   onClick={() => setSelectedTime(time)}
                   className={`
           p-3 rounded-xl border-2 transition-all cursor-pointer
-          flex flex-col items-center justify-center font-medium 
+          flex flex-col items-center justify-center  bg-foreground font-medium text-title text-xl
           ${
             isActive
-              ? "border-primary bg-primary shadow-sm text-card font-bold"
-              : "border-input hover:border-primary  text-foreground border-foreground"
+              ? "border-primary bg-primary shadow-sm text-title font-medium "
+              : "border-input hover:border-primary  text-title border-foreground "
           }
           active:scale-[0.97]
         `}
@@ -156,29 +153,18 @@ export function CalendarBooking({
           </div>
         </div>
 
-        <div className="mt-8 flex justify-between">
-          <Button
-            variant={"nav"}
-            onClick={() => setCurrentStep("company")}
-            disabled={currentStep === "contact"}
-          >
-            <ChevronLeft className="mr-2 h-4 w-4" />
-            Previous
-          </Button>
-
+        <div className="mt-8 flex justify-between ">
           <Button
             variant={"nav"}
             type="button"
             onClick={() => handleSubmit()}
             disabled={!selectedDate || !selectedTime || submitting}
+            className="mx-auto  text-lg font-bold py-6 lg:py-2 bg-background bg-foreground text-title"
           >
             {submitting ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
-              <>
-                Submit
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </>
+              <>Submit</>
             )}
           </Button>
         </div>

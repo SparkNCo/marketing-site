@@ -36,7 +36,7 @@ const Stairs: React.FC<StairsProps> = ({ children }) => {
   };
 
   return (
-    <div className=" bg-secondary ">
+    <div className=" bg-background ">
       {" "}
       {/* overflow-hidden */}
       <AnimatePresence>
@@ -63,7 +63,7 @@ const Stairs: React.FC<StairsProps> = ({ children }) => {
                     animate="enter"
                     exit="exit"
                     variants={expand}
-                    className="relative flex-1 bg-black z-50"
+                    className="relative flex-1 bg-background z-50"
                     style={{ top: 0 }}
                   />
                 ))}

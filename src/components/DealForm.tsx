@@ -12,7 +12,7 @@ import { SuccessMessage } from "./utils/success-message";
 import AnimatedStepper from "./utils/animated-stepper";
 
 export default function DealForm() {
-  const [currentStep, setCurrentStep] = useState<FormStep>("product");
+  const [currentStep, setCurrentStep] = useState<FormStep>("contact");
   const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
@@ -20,7 +20,8 @@ export default function DealForm() {
     email: "",
     companyName: "",
     industry: "",
-    budget: { min: 10000, max: 100000 },
+    monthlybudget: { min: 10000, max: 100000 },
+    estimateTimeline: { min: 1, max: 24 },
     productIdea: "",
     selectedDate: "",
     selectedTime: "",
@@ -48,8 +49,8 @@ export default function DealForm() {
   };
 
   const stepIndex = [
-    "product",
     "contact",
+    "product",
     "company",
     "calendar",
     "success",
@@ -64,7 +65,7 @@ export default function DealForm() {
     lg:min-h-[80vh]
     xl:min-h-[80vh]
     flex flex-col items-center justify-center
-    px-4 py-6 bg-secondary
+    px-4 py-6 bg-background
   "
     >
       {" "}
@@ -73,18 +74,11 @@ export default function DealForm() {
         totalSteps={5}
         setCurrentStep={setCurrentStep}
       />
-      <div className="w-full lg:max-w-2xl border-t-4 border-primary bg-card p-8 shadow-xl rounded-xl">
-        {currentStep === "product" && (
-          <ProductIdeaForm
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            productIdea={formData.productIdea}
-            setProductIdea={(value) =>
-              setFormData((prev) => ({ ...prev, productIdea: value }))
-            }
-          />
-        )}
-
+      <div
+        className={`w-full lg:max-w-2xl   p-8 shadow-xl rounded-xl ${
+          currentStep === "contact" ? "bg-card" : "bg-background"
+        }`}
+      >
         {currentStep === "contact" && (
           <ContactForm
             currentStep={currentStep}
@@ -104,17 +98,41 @@ export default function DealForm() {
           />
         )}
 
-        {currentStep === "company" && (
-          <CompanyDetailsForm
+        {currentStep === "product" && (
+          <ProductIdeaForm
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
-            budgetRange={[formData.budget.min, formData.budget.max]}
+            productIdea={formData.productIdea}
+            setProductIdea={(value) =>
+              setFormData((prev) => ({ ...prev, productIdea: value }))
+            }
+          />
+        )}
+
+        {currentStep === "company" && (
+          <CompanyDetailsForm
+            budgetRange={[
+              formData.monthlybudget.min,
+              formData.monthlybudget.max,
+            ]}
             setBudgetRange={(value) =>
               setFormData((prev) => ({
                 ...prev,
-                budget: { min: value[0], max: value[1] },
+                monthlybudget: { min: value[0], max: value[1] },
               }))
             }
+            timelineRange={[
+              formData.estimateTimeline.min,
+              formData.estimateTimeline.max,
+            ]}
+            setTimelineRange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                estimateTimeline: { min: value[0], max: value[1] },
+              }))
+            }
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
           />
         )}
 
