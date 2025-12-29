@@ -27,15 +27,20 @@ export default function Header() {
     <>
       <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl px-4">
         <div className="bg-card rounded-full px-6 py-3 flex items-center justify-between shadow-lg relative">
-          <h1 className="text-2xl font-bold text-foreground font-title">
-            spark/co
-          </h1>
+          <div className="w-12 h-12 flex items-center justify-center">
+            <img
+              src="/nbarIcon.png"
+              alt="Supabase"
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <h1 className="text-2xl text-foreground">spark/co</h1>
 
           {!user ? (
             <div className="relative">
               <button
                 onClick={() => setShowLogin((v) => !v)}
-                className="px-6 py-2 rounded-full bg-foreground text-card transition-colors font-medium hover:opacity-90 transition"
+                className="px-6 py-2 rounded-full bg-foreground text-background transition-colors font-medium hover:opacity-90 transition"
               >
                 Login
               </button>

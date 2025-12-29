@@ -31,11 +31,14 @@ export interface FormIslandProps {
   initialStep: FormStage;
   submissionId: string;
 }
+export interface HeroSectionProps {
+  initialStep: FormStage;
+  submissionId: string;
+}
 
 export interface ProposalIslandProps {
   mode: string;
   submissionId?: string;
-
 }
 
 export type FormStage = "initial" | "features";
