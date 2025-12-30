@@ -1,6 +1,7 @@
 import React, { lazy } from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
 import { Button } from "../ui/button";
+import BuildScaleToggle from "./components/BuildScaleComponent";
 
 /* ───────────────── Types ───────────────── */
 
@@ -25,7 +26,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
     >
       <section
         data-header="light"
-        className="container relative px-6 pt-32 pb-20 bg-foreground w-1/2"
+        className="container relative px-24 pt-10 pb-20 bg-foreground w-1/2 "
       >
         <div className="max-w-4xl">
           <h1 className="text-4xl font-bold tracking-tight text-background mb-6 text-balance leading-tight">
@@ -75,21 +76,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             </div>
           </div>
 
-          {/* Build Card */}
-          <div className="bg-background p-8 max-w-lg ">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Build</h2>
-            <p className="text-foreground mb-6 leading-relaxed">
-              Launch your new business or product line with Spark & Co's fully
-              managed software delivery system.
-            </p>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-secondary-foreground/20 text-foreground text-2xl font-bold"
-            >
-              Scale
-            </Button>
-          </div>
+          <BuildScaleToggle />
         </div>
 
         <div className="absolute bottom-0 right-0">

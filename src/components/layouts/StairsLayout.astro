@@ -22,7 +22,7 @@ const location = Astro.url.pathname;
     </Stairs>
   </body>
   <!-- foreground -->
-  <style>
+  <style is:global>
     :root {
       --font-title: "ADLaM Display";
       --font-body: "AR One Sans";
@@ -31,7 +31,15 @@ const location = Astro.url.pathname;
       --primary: #f78035;
       --secondary: #f8f8f8;
       --card: #f7f4f0;
-      overflow-y: auto;
+
+      .hide-scrollbar {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+      }
+
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+      }
     }
 
     body {
@@ -47,6 +55,42 @@ const location = Astro.url.pathname;
 
     .font-body {
       font-family: var(--font-body);
+    }
+
+    /* ✅ KEYFRAMES MUST BE TOP LEVEL */
+    @keyframes scroll-right {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes scroll-left {
+      from {
+        transform: translateX(-50%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    /* ✅ SHARED STYLES */
+    .animate-scroll-right,
+    .animate-scroll-left {
+      display: flex;
+      gap: 2rem;
+      width: max-content;
+    }
+
+    /* ✅ INDIVIDUAL ANIMATIONS */
+    .animate-scroll-right {
+      animation: scroll-right 90s linear infinite;
+    }
+
+    .animate-scroll-left {
+      animation: scroll-left 90s linear infinite;
     }
   </style>
 </html>

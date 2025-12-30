@@ -1,92 +1,205 @@
-"use client"
-import { useEffect, useRef, useState } from "react"
+"use client";
+import { useEffect, useRef, useState } from "react";
 
 const steps = [
+  { id: 0, title: "" },
   { id: 1, title: "Sign Up" },
   { id: 2, title: "Project Discovery" },
   { id: 3, title: "MVP" },
-  { id: 4, title: "Added Assets" },
-  { id: 5, title: "Finished Project" },
-]
+  { id: 4, title: "3213213213213" },
+  { id: 5, title: "MsadasdsadsadasVP" },
+  { id: 6, title: "MV3214321453543P" },
+  { id: 7, title: "" },
+];
 
-export function ProcessSection() {
-  const [activeStep, setActiveStep] = useState(0)
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const stepsRef = useRef<HTMLDivElement>(null)
+export default function ProcessSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const stepsRef = useRef<HTMLDivElement>(null);
+  const isAnimatingRef = useRef(false);
+
+  const [goingDown, setGoingDown] = useState(true);
+
+  const [activeStep, setActiveStep] = useState(0);
+
+  /* -------------------------------------------
+     STEP FOCUS TRACKING (middle-based)
+  -------------------------------------------- */
+  useEffect(() => {
+    const el = stepsRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      const items = Array.from(el.children) as HTMLElement[];
+      const middle = el.scrollTop + el.clientHeight / 2;
+
+      const index = items.findIndex(
+        (item) =>
+          item.offsetTop <= middle &&
+          item.offsetTop + item.offsetHeight >= middle
+      );
+
+      if (index !== -1) setActiveStep(index);
+    };
+
+    el.addEventListener("scroll", onScroll);
+    onScroll();
+
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current || !stepsRef.current) return
+    const onWheel = (e: WheelEvent) => {
+      // 🚫 only hijack when goingDown is true
+      if (!goingDown) return;
 
-      const sectionRect = sectionRef.current.getBoundingClientRect()
-      const stepsHeight = stepsRef.current.scrollHeight
-      const windowHeight = window.innerHeight
+      const section = sectionRef.current;
+      const stepsEl = stepsRef.current;
+      if (!section || !stepsEl) return;
 
-      // Calculate which step should be active based on scroll position
-      if (sectionRect.top <= 100 && sectionRect.bottom >= windowHeight / 2) {
-        const scrollProgress = Math.abs(sectionRect.top - 100) / (stepsHeight - windowHeight / 2)
-        const stepIndex = Math.min(Math.floor(scrollProgress * steps.length), steps.length - 1)
-        setActiveStep(Math.max(0, stepIndex))
+      const rect = section.getBoundingClientRect();
+      const bottomInView = rect.bottom <= window.innerHeight;
+
+      if (!bottomInView) return;
+
+      const atTop = stepsEl.scrollTop <= 0;
+      const atBottom =
+        stepsEl.scrollTop + stepsEl.clientHeight >= stepsEl.scrollHeight - 1;
+
+      const scrollingDown = e.deltaY > 0;
+      const scrollingUp = e.deltaY < 0;
+
+      // ✅ RELEASE scroll & disable goingDown
+      if ((scrollingUp && atTop) || (scrollingDown && atBottom)) {
+        setGoingDown(false);
+        return;
       }
-    }
 
-    window.addEventListener("scroll", handleScroll)
-    handleScroll()
+      // Lock page scroll
+      e.preventDefault();
 
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+      if (isAnimatingRef.current) return;
+      isAnimatingRef.current = true;
+
+      const items = Array.from(stepsEl.children) as HTMLElement[];
+      const currentItem = items[activeStep];
+      if (!currentItem) return;
+
+      const scrollAmount = currentItem.offsetHeight;
+
+      stepsEl.scrollBy({
+        top: scrollingDown ? scrollAmount : -scrollAmount,
+        behavior: "smooth",
+      });
+
+      setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 450);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [activeStep, goingDown]);
+
+  useEffect(() => {
+    const onWheelUp = (e: WheelEvent) => {
+      // 🚫 only when scrolling UP
+      if (e.deltaY > 0) return;
+
+      // 🚫 only when upward mode is active
+      if (goingDown) return;
+
+      const section = sectionRef.current;
+      const stepsEl = stepsRef.current;
+      if (!section || !stepsEl) return;
+
+      const rect = section.getBoundingClientRect();
+
+      // ✅ Hijack when TOP BORDER is visible
+      const sectionInView = rect.top >= 0 && rect.top <= window.innerHeight;
+
+      if (!sectionInView) return;
+
+      // ✅ RELEASE at first step
+      if (activeStep <= 0) {
+        setGoingDown(true);
+        return;
+      }
+
+      e.preventDefault();
+
+      if (isAnimatingRef.current) return;
+      isAnimatingRef.current = true;
+
+      const items = Array.from(stepsEl.children) as HTMLElement[];
+      const current = items[activeStep];
+      if (!current) return;
+
+      stepsEl.scrollBy({
+        top: -current.offsetHeight,
+        behavior: "smooth",
+      });
+
+      setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 450);
+    };
+
+    window.addEventListener("wheel", onWheelUp, { passive: false });
+    return () => window.removeEventListener("wheel", onWheelUp);
+  }, [activeStep, goingDown]);
 
   return (
-    <section ref={sectionRef} className="relative bg-black py-32">
-      <div className="container mx-auto px-6">
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-20 text-center">The Spark & Co Process</h2>
+    <section ref={sectionRef} className="bg-black border">
+      <div className="sticky top-0 h-screen flex items-center border">
+        <div className="container mx-auto px-6">
+          <h2 className="text-5xl font-bold text-white mb-16 text-center">
+            The Spark & Co Process {goingDown ? "(Going Down)" : "(Going Up)"}
+          </h2>
 
-        <div className="grid lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
-          {/* Left Column - Scrolling Steps */}
-          <div ref={stepsRef} className="relative space-y-0">
-            <div className="absolute left-6 top-6 bottom-6 w-0.5 bg-[#F78035]/30"></div>
+          <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto border">
+            {/* LEFT */}
+            <div
+              ref={stepsRef}
+              className="lg:col-span-2 h-[36rem] overflow-y-auto pr-4 hide-scrollbar"
+            >
+              {steps.map((step, index) => {
+                const isFocused = index === activeStep + 1;
 
-            {steps.map((step, index) => (
-              <div
-                key={step.id}
-                className={`transition-all duration-500 relative ${activeStep >= index ? "opacity-100" : "opacity-30"}`}
-              >
-                <div className="flex gap-6 pb-32">
-                  {/* Step Number */}
-                  <div className="flex flex-col items-center relative z-10">
-                    <div className="w-12 h-12 rounded-full bg-[#F78035] flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                      {step.id}
-                    </div>
+                return (
+                  <div
+                    key={step.id}
+                    className={`py-24 transition-all duration-300
+                      ${
+                        isFocused
+                          ? "opacity-100 blur-0 scale-100"
+                          : "opacity-30 blur-sm scale-[0.97]"
+                      }
+                    `}
+                  >
+                    {step.title && (
+                      <h3 className="text-3xl font-bold text-white">
+                        {step.title}
+                      </h3>
+                    )}
                   </div>
+                );
+              })}
+            </div>
 
-                  <div className="pt-2">
-                    <div className="space-y-3">
-                      <h3 className="text-3xl font-bold text-white">{step.title}</h3>
-                      <div className="w-20 h-1 bg-[#F78035]"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Right Column - Sticky Content */}
-          <div className="lg:sticky lg:top-32 h-fit">
-            <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-8 space-y-6">
-              <h3 className="text-3xl font-bold text-white">Project Discovery</h3>
-              <p className="text-[#F7F4F0]/80 leading-relaxed text-lg">
-                The more we can solidify at the start of the project, the smoother the project will be. We start with a
-                discovery call to go through the ins and outs of your industry, ICPs and problem statements.
-              </p>
-
-              {/* Placeholder for image */}
-              <div className="w-full aspect-square bg-emerald-600 rounded-lg mt-8 flex items-center justify-center">
-                <span className="text-white/50 text-sm font-mono">Image Placeholder</span>
+            {/* RIGHT */}
+            <div className="lg:col-span-3">
+              <div className="max-w-xl p-6">
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  {steps[activeStep]?.title}
+                </h3>
+                <p className="text-white/70 h-48">
+                  Content for step {steps[activeStep]?.id}
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
