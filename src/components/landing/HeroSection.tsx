@@ -1,20 +1,15 @@
-import React, { useState, lazy } from "react";
+import React, { lazy } from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
 import { Button } from "../ui/button";
-import { Cloud } from "lucide-react";
 
 /* ───────────────── Types ───────────────── */
-
-export type FormStep = "initial" | "features";
 
 /* ───────────────── Lazy steps ───────────────── */
 const StepOne = lazy(() => import("../DealForm"));
 
 /* ───────────────── Component ───────────────── */
 
-const HeroSection: React.FC<HeroSectionProps> = ({ initialStep }) => {
-  const [step, setStep] = useState<FormStep>(initialStep);
-
+const HeroSection: React.FC<HeroSectionProps> = () => {
   return (
     <main
       className="
@@ -23,11 +18,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ initialStep }) => {
     md:min-h-[80vh]
     lg:min-h-[80vh]
     xl:min-h-[80vh]
-    flex flex-col items-start justify-center
- bg-background
+    flex flex-row items-start justify-center
+ bg-background 
+
   "
     >
-      <section className="container relative px-6 pt-32 pb-20 bg-foreground w-1/2">
+      <section
+        data-header="light"
+        className="container relative px-6 pt-32 pb-20 bg-foreground w-1/2"
+      >
         <div className="max-w-4xl">
           <h1 className="text-4xl font-bold tracking-tight text-background mb-6 text-balance leading-tight">
             Hands-free Software Delivery
@@ -93,22 +92,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({ initialStep }) => {
           </div>
         </div>
 
-        {/* Decorative Sqaures */}
         <div className="absolute bottom-0 right-0">
           <div className="relative w-32 h-32 bg-black">
             <div className="relative w-32 h-32 bg-black">
-              {/* Top orange */}
               <div className="absolute -top-16 right-0 w-16 h-16 bg-orange-500 z-10" />
-
-              {/* Top red (foreground) */}
               <div className="absolute -top-16 right-16 w-16 h-16 bg-foreground" />
-
-              {/* Bottom left orange */}
               <div className="absolute bottom-0 -left-16 w-16 h-16 bg-orange-500" />
             </div>
           </div>
         </div>
       </section>{" "}
+      <section className=" relative  w-1/2   min-h-[88vh]">
+        <div className="absolute top-0 left-0 pointer-events-none bg-foreground">
+          <div className="relative w-32 h-32">
+            <div className="absolute -bottom-16 left-0 w-16 h-16 bg-orange-500 z-10" />
+            <div className="absolute top-0 -right-16 w-16 h-16 bg-orange-500" />
+          </div>
+        </div>
+      </section>
     </main>
   );
 };

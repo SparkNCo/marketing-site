@@ -4,7 +4,7 @@ import { Mail } from "lucide-react";
 
 export function SuccessMessage() {
   return (
-    <div className="animate-fade-in bg-foreground text-center space-y-10 py-6">
+    <div className="rounded-xl animate-fade-in bg-foreground text-center space-y-10 py-6">
       {/* Check Icon */}
       <img
         src="/checkIcon.png"
@@ -15,7 +15,7 @@ export function SuccessMessage() {
       {/* Text */}
       <div className="space-y-4">
         <h2 className="text-4xl font-bold text-title">You're all set!</h2>
-        <p className="text-4xl mx-6">
+        <p className="text-3xl mx-6">
           We've received your information and confirmed your discovery call.
         </p>
       </div>

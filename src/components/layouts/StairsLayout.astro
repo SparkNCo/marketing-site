@@ -1,5 +1,7 @@
 ---
 import Stairs from "../animation/StairsAstro";
+
+const location = Astro.url.pathname;
 ---
 
 <html lang="en">
@@ -15,7 +17,7 @@ import Stairs from "../animation/StairsAstro";
   </head>
 
   <body class="bg-background overflow-y-auto">
-    <Stairs client:load>
+    <Stairs location={location} client:load>
       <slot />
     </Stairs>
   </body>

@@ -9,13 +9,14 @@ type Props = {
   user?: {
     email: string;
   };
+  location: string;
 };
 
-export default function LandingShell({ user }: Props) {
+export default function LandingShell({ user, location }: Props) {
   return (
     <AppProvider initialUser={user}>
-      <div className="">
-        <Header />
+      <div className="bg-backgropund  border-4 border-blue-500">
+        <Header location={location} />
         <LandingIsland submissionId="" initialStep="initial" />
         <Footer />
       </div>

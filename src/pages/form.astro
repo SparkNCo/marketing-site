@@ -3,8 +3,9 @@ import StairsLayout from "../components/layouts/StairsLayout.astro";
 import IndexShell from "./IndexShell";
 
 const user = Astro.locals.user;
+const location = Astro.url.pathname;
 ---
 
 <StairsLayout>
-  <IndexShell client:load user={user} />
+  <IndexShell location={location} client:load user={user} />
 </StairsLayout>
