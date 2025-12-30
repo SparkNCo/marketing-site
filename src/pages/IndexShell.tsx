@@ -15,7 +15,7 @@ export default function IndexShell({ user, location }: Props) {
   return (
     <AppProvider initialUser={user}>
       <div className="">
-        <Header location={location} />
+        {/* <Header location={location} /> */}
         <FormIsland submissionId="" initialStep="initial" />
         {/* <Footer /> */}
       </div>

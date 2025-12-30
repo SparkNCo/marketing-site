@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { useApp } from "../lib/AppProvider";
 
-export default function Header() {
+export default function Header({ location }) {
   const { user, login, logout } = useApp();
-
   const [mode, setMode] = useState<"light" | "dark">("light");
 
   const [showLogin, setShowLogin] = useState(false);
@@ -49,13 +48,13 @@ export default function Header() {
   };
 
   return (
-    <>
-      <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl px-4">
+    <div className={mode === "dark" ? "bg-card" : "bg-foreground"}>
+      <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl px-4 ">
         <div
           className={`
             relative overflow-hidden rounded-full px-6 py-2
             flex items-center justify-between
-            shadow-lg backdrop-blur-md transition-colors duration-300
+            shadow-lg backdrop-blur-md transition-colors duration-300 
             ${
               mode === "dark"
                 ? "bg-card text-foreground"
@@ -139,6 +138,6 @@ export default function Header() {
 
       {/* Spacer */}
       <div className="h-28" />
-    </>
+    </div>
   );
 }

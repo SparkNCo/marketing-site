@@ -10,7 +10,7 @@ const StepOne = lazy(() => import("../DealForm"));
 
 /* ───────────────── Component ───────────────── */
 
-const HeroSection: React.FC<HeroSectionProps> = () => {
+const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   return (
     <main
       className="
@@ -76,7 +76,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             </div>
           </div>
 
-          <BuildScaleToggle />
+          <BuildScaleToggle setMode={setMode} />
         </div>
 
         <div className="absolute bottom-0 right-0">
