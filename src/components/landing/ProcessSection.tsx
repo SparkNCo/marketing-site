@@ -14,7 +14,6 @@ const steps = [
 
 export default function ProcessSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const stepsRef = useRef<HTMLDivElement>(null);
   const isAnimatingRef = useRef(false);
   const listRef = useRef<HTMLDivElement>(null);
   const [goingDown, setGoingDown] = useState(true);
@@ -25,6 +24,49 @@ export default function ProcessSection() {
   -------------------------------------------- */
 
   const STEP_HEIGHT = 192;
+
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      // 🚫 only hijack when enabled
+      if (goingDown) return;
+
+      console.log("going up");
+      const section = sectionRef.current;
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      console.log(rect);
+
+      const topInView = rect.top >= 0;
+      if (!topInView) return;
+
+      // 🚨 lock page scroll
+      e.preventDefault();
+
+      // 🔒 animation lock (VERY important)
+      if (isAnimatingRef.current) return;
+      isAnimatingRef.current = true;
+
+      // mark hijacked (for testing)
+      if (!isHijacked) setIsHijacked(true);
+
+      setActiveStep((prev) => {
+        const next =
+          e.deltaY > 0
+            ? Math.min(prev + 1, steps.length - 1)
+            : Math.max(prev - 1, 0);
+
+        return next;
+      });
+
+      setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 450);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [goingDown, isHijacked]);
 
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
@@ -71,15 +113,15 @@ export default function ProcessSection() {
       setGoingDown(false);
       setIsHijacked(false);
     } else if (!goingDown && activeStep === 1) {
-      setGoingDown(false);
+      setGoingDown(true);
       setIsHijacked(false);
     }
   }, [activeStep]);
 
   return (
-    <section ref={sectionRef} className="bg-black ">
+    <section ref={sectionRef} className="bg-black py-10">
       <div className="sticky top-0 h-screen flex items-center ">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 py-10">
           <h2 className="text-5xl font-bold text-white mb-16 text-center">
             The Spark & Co Process {goingDown ? "(Going Down)" : "(Going Up)"} $
             {isHijacked ? "[Hijacked]" : ""}
