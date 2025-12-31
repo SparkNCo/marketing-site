@@ -149,14 +149,14 @@ export default function ProcessSection() {
   }, [activeStep, goingDown]);
 
   return (
-    <section ref={sectionRef} className="bg-black border">
-      <div className="sticky top-0 h-screen flex items-center border">
+    <section ref={sectionRef} className="bg-black ">
+      <div className="sticky top-0 h-screen flex items-center ">
         <div className="container mx-auto px-6">
           <h2 className="text-5xl font-bold text-white mb-16 text-center">
             The Spark & Co Process {goingDown ? "(Going Down)" : "(Going Up)"}
           </h2>
 
-          <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto border">
+          <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto ">
             {/* LEFT */}
             <div
               ref={stepsRef}
@@ -168,11 +168,11 @@ export default function ProcessSection() {
                 return (
                   <div
                     key={step.id}
-                    className={`py-24 transition-all duration-300
+                    className={`p-4 my-12 transition-all duration-300  w-[24rem] mx-auto text-center ${step.title !== "" && "border-4"}
                       ${
                         isFocused
                           ? "opacity-100 blur-0 scale-100"
-                          : "opacity-30 blur-sm scale-[0.97]"
+                          : "opacity-30 blur-sm scale-[0.7]"
                       }
                     `}
                   >
@@ -188,11 +188,11 @@ export default function ProcessSection() {
 
             {/* RIGHT */}
             <div className="lg:col-span-3">
-              <div className="max-w-xl p-6">
-                <h3 className="text-2xl font-bold text-white mb-4">
+              <div className="max-w-xl p-6 ">
+                <h3 className="text-2xl font-bold text-white mb-4 ">
                   {steps[activeStep]?.title}
                 </h3>
-                <p className="text-white/70 h-48">
+                <p className="text-white/70 h-48 ">
                   Content for step {steps[activeStep]?.id}
                 </p>
               </div>
