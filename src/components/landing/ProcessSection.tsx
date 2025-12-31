@@ -16,79 +16,45 @@ export default function ProcessSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const stepsRef = useRef<HTMLDivElement>(null);
   const isAnimatingRef = useRef(false);
-
+  const listRef = useRef<HTMLDivElement>(null);
   const [goingDown, setGoingDown] = useState(true);
-
-  const [activeStep, setActiveStep] = useState(0);
-
+  const [activeStep, setActiveStep] = useState(1);
+  const [isHijacked, setIsHijacked] = useState(false);
   /* -------------------------------------------
      STEP FOCUS TRACKING (middle-based)
   -------------------------------------------- */
-  useEffect(() => {
-    const el = stepsRef.current;
-    if (!el) return;
 
-    const onScroll = () => {
-      const items = Array.from(el.children) as HTMLElement[];
-      const middle = el.scrollTop + el.clientHeight / 2;
-
-      const index = items.findIndex(
-        (item) =>
-          item.offsetTop <= middle &&
-          item.offsetTop + item.offsetHeight >= middle
-      );
-
-      if (index !== -1) setActiveStep(index);
-    };
-
-    el.addEventListener("scroll", onScroll);
-    onScroll();
-
-    return () => el.removeEventListener("scroll", onScroll);
-  }, []);
+  const STEP_HEIGHT = 192;
 
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
-      // 🚫 only hijack when goingDown is true
+      // 🚫 only hijack when enabled
       if (!goingDown) return;
 
       const section = sectionRef.current;
-      const stepsEl = stepsRef.current;
-      if (!section || !stepsEl) return;
+      if (!section) return;
 
       const rect = section.getBoundingClientRect();
       const bottomInView = rect.bottom <= window.innerHeight;
-
       if (!bottomInView) return;
 
-      const atTop = stepsEl.scrollTop <= 0;
-      const atBottom =
-        stepsEl.scrollTop + stepsEl.clientHeight >= stepsEl.scrollHeight - 1;
-
-      const scrollingDown = e.deltaY > 0;
-      const scrollingUp = e.deltaY < 0;
-
-      // ✅ RELEASE scroll & disable goingDown
-      if ((scrollingUp && atTop) || (scrollingDown && atBottom)) {
-        setGoingDown(false);
-        return;
-      }
-
-      // Lock page scroll
+      // 🚨 lock page scroll
       e.preventDefault();
 
+      // 🔒 animation lock (VERY important)
       if (isAnimatingRef.current) return;
       isAnimatingRef.current = true;
 
-      const items = Array.from(stepsEl.children) as HTMLElement[];
-      const currentItem = items[activeStep];
-      if (!currentItem) return;
+      // mark hijacked (for testing)
+      if (!isHijacked) setIsHijacked(true);
 
-      const scrollAmount = currentItem.offsetHeight;
+      setActiveStep((prev) => {
+        const next =
+          e.deltaY > 0
+            ? Math.min(prev + 1, steps.length - 1)
+            : Math.max(prev - 1, 0);
 
-      stepsEl.scrollBy({
-        top: scrollingDown ? scrollAmount : -scrollAmount,
-        behavior: "smooth",
+        return next;
       });
 
       setTimeout(() => {
@@ -98,92 +64,63 @@ export default function ProcessSection() {
 
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
-  }, [activeStep, goingDown]);
+  }, [goingDown, isHijacked]);
 
   useEffect(() => {
-    const onWheelUp = (e: WheelEvent) => {
-      // 🚫 only when scrolling UP
-      if (e.deltaY > 0) return;
-
-      // 🚫 only when upward mode is active
-      if (goingDown) return;
-
-      const section = sectionRef.current;
-      const stepsEl = stepsRef.current;
-      if (!section || !stepsEl) return;
-
-      const rect = section.getBoundingClientRect();
-
-      // ✅ Hijack when TOP BORDER is visible
-      const sectionInView = rect.top >= 0 && rect.top <= window.innerHeight;
-
-      if (!sectionInView) return;
-
-      // ✅ RELEASE at first step
-      if (activeStep <= 0) {
-        setGoingDown(true);
-        return;
-      }
-
-      e.preventDefault();
-
-      if (isAnimatingRef.current) return;
-      isAnimatingRef.current = true;
-
-      const items = Array.from(stepsEl.children) as HTMLElement[];
-      const current = items[activeStep];
-      if (!current) return;
-
-      stepsEl.scrollBy({
-        top: -current.offsetHeight,
-        behavior: "smooth",
-      });
-
-      setTimeout(() => {
-        isAnimatingRef.current = false;
-      }, 450);
-    };
-
-    window.addEventListener("wheel", onWheelUp, { passive: false });
-    return () => window.removeEventListener("wheel", onWheelUp);
-  }, [activeStep, goingDown]);
+    if (goingDown && activeStep === 6) {
+      setGoingDown(false);
+      setIsHijacked(false);
+    } else if (!goingDown && activeStep === 1) {
+      setGoingDown(false);
+      setIsHijacked(false);
+    }
+  }, [activeStep]);
 
   return (
     <section ref={sectionRef} className="bg-black ">
       <div className="sticky top-0 h-screen flex items-center ">
         <div className="container mx-auto px-6">
           <h2 className="text-5xl font-bold text-white mb-16 text-center">
-            The Spark & Co Process {goingDown ? "(Going Down)" : "(Going Up)"}
+            The Spark & Co Process {goingDown ? "(Going Down)" : "(Going Up)"} $
+            {isHijacked ? "[Hijacked]" : ""}
           </h2>
 
           <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto ">
             {/* LEFT */}
-            <div
-              ref={stepsRef}
-              className="lg:col-span-2 h-[36rem] overflow-y-auto pr-4 hide-scrollbar"
-            >
-              {steps.map((step, index) => {
-                const isFocused = index === activeStep + 1;
+            <div className="lg:col-span-2 h-[36rem] overflow-hidden pr-4">
+              <div
+                ref={listRef}
+                className="transition-transform duration-500 ease-out"
+                style={{
+                  transform: `translateY(${
+                    18 * 16 - activeStep * STEP_HEIGHT
+                  }px)`,
+                }}
+              >
+                {steps.map((step, index) => {
+                  const isFocused = index === activeStep;
 
-                return (
-                  <div
-                    key={step.id}
-                    className={`p-4 my-12 transition-all duration-300  w-[24rem] mx-auto text-center ${step.title !== "" && "border-4"}
-                      ${
-                        isFocused
-                          ? "opacity-100 blur-0 scale-100"
-                          : "opacity-30 blur-sm scale-[0.7]"
-                      }
-                    `}
-                  >
-                    {step.title && (
-                      <h3 className="text-3xl font-bold text-white">
-                        {step.title}
-                      </h3>
-                    )}
-                  </div>
-                );
-              })}
+                  return (
+                    <div
+                      key={step.id}
+                      className={`p-4 my-24 w-[24rem] mx-auto text-center transition-all duration-300
+            ${step.title !== "" && "border-4"}
+            ${
+              isFocused
+                ? "opacity-100 blur-0 scale-100"
+                : "opacity-30 blur-sm scale-[0.7]"
+            }
+          `}
+                    >
+                      {step.title && (
+                        <h3 className="text-3xl font-bold text-white">
+                          {step.title}
+                        </h3>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* RIGHT */}
