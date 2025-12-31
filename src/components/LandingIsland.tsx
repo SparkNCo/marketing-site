@@ -1,5 +1,4 @@
 import React, { lazy } from "react";
-import { motion } from "framer-motion";
 import type { FormIslandProps } from "./utils/interfaces";
 
 /* Lazy sections */

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
 import FeaturesOptions from "./components/FeaturesOptions";
 
 function FeaturesSection() {
@@ -27,8 +26,17 @@ function FeaturesSection() {
     <section
       data-header="dark"
       ref={sectionRef}
-      className="bg-background w-full"
+      className="bg-background w-full "
     >
+      <div className="h-24 w-full  relative">
+        <div className="absolute top-0 left-0 pointer-events-none bg-foreground">
+          <div className="relative w-32 h-16">
+            <div className="absolute -bottom-16 left-0 w-16 h-16 bg-orange-500 z-10" />
+            <div className="absolute top-0 -right-16 w-16 h-16 bg-orange-500" />
+          </div>
+        </div>
+      </div>
+
       <div className="mx-auto w-3/5 relative container py-40 overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 text-title items-stretch">
           {/* Left Column */}
@@ -72,8 +80,8 @@ function FeaturesSection() {
           {/* Right Column */}
           <div className="lg:col-span-3 flex relative">
             <div className="absolute bottom-0 right-0">
-              <div className="relative w-32 h-32 bg-black">
-                <div className="relative w-32 h-32 bg-black">
+              <div className="relative w-32 h-32 bg-background">
+                <div className="relative w-32 h-32 bg-background">
                   <div className="absolute -top-16 right-0 w-16 h-16 bg-orange-500 z-10" />
                   <div className="absolute -top-16 right-16 w-16 h-16 bg-foreground" />
                   <div className="absolute bottom-0 -left-16 w-16 h-16 bg-orange-500" />

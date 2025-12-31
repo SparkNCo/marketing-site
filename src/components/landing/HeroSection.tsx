@@ -1,6 +1,5 @@
 import React, { lazy } from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
-import { Button } from "../ui/button";
 import BuildScaleToggle from "./components/BuildScaleComponent";
 
 /* ───────────────── Types ───────────────── */
@@ -14,15 +13,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   return (
     <main
       className="
-    min-h-[88vh]
-    sm:min-h-[40vh]
-    md:min-h-[80vh]
-    lg:min-h-[80vh]
-    xl:min-h-[80vh]
     flex flex-row items-start justify-center
- bg-background 
-
-  "
+ bg-background "
     >
       <section
         data-header="light"
@@ -79,17 +71,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           <BuildScaleToggle setMode={setMode} />
         </div>
 
-        <div className="absolute bottom-0 right-0">
-          <div className="relative w-32 h-32 bg-black">
-            <div className="relative w-32 h-32 bg-black">
+        <div className="absolute bottom-0 right-0 ">
+          <div className="relative w-32 h-32 bg-background">
+            <div className="relative w-32 h-32 bg-background">
               <div className="absolute -top-16 right-0 w-16 h-16 bg-orange-500 z-10" />
               <div className="absolute -top-16 right-16 w-16 h-16 bg-foreground" />
               <div className="absolute bottom-0 -left-16 w-16 h-16 bg-orange-500" />
             </div>
           </div>
         </div>
-      </section>{" "}
-      <section className=" relative  w-1/2   min-h-[88vh]">
+      </section>
+
+      <section className=" relative  w-1/2   ">
         <div className="absolute top-0 left-0 pointer-events-none bg-foreground">
           <div className="relative w-32 h-32">
             <div className="absolute -bottom-16 left-0 w-16 h-16 bg-orange-500 z-10" />
