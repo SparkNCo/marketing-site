@@ -3,16 +3,28 @@
 import { useEffect, useState } from "react";
 import { useApp } from "../lib/AppProvider";
 
-export default function Header({ location }) {
+export default function Header({
+  headerMode,
+}: {
+  headerMode?: "index" | "form";
+}) {
   const { user, login, logout } = useApp();
   const [mode, setMode] = useState<"light" | "dark">("light");
-
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
+    console.log("setting", headerMode);
+    if (headerMode === "form") {
+      setMode("dark");
+    }
+  }, [headerMode]);
+
+  useEffect(() => {
+    if (headerMode === "form") return;
+
     const sections = document.querySelectorAll<HTMLElement>("[data-header]");
 
     const observer = new IntersectionObserver(
@@ -25,7 +37,7 @@ export default function Header({ location }) {
         });
       },
       {
-        rootMargin: "-100px 0px 0px 0px", // header height offset
+        rootMargin: "-100px 0px 0px 0px",
         threshold: 0.15,
       }
     );
@@ -33,7 +45,7 @@ export default function Header({ location }) {
     sections.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
-  }, []);
+  }, [headerMode]);
 
   const handleLogin = () => {
     if (email === "kabir@buildwithspark.co" && password === "admin") {
@@ -137,7 +149,9 @@ export default function Header({ location }) {
       </header>
 
       {/* Spacer */}
-      <div className="h-28" />
+      <div
+        className={`h-28 ${mode === "dark" ? "bg-background" : "bg-foreground"}`}
+      />
     </div>
   );
 }

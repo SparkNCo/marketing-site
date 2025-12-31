@@ -120,7 +120,7 @@ export function ProductIdeaForm({
             variant="nav"
             onClick={handleNext}
             disabled={!canProceed}
-            className="w-full lg:w-auto text-lg font-bold py-6 lg:py-2 bg-foreground text-background"
+            className="w-full lg:w-auto text-lg font-bold py-6 bg-foreground text-background"
           >
             Next
           </Button>

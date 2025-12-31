@@ -165,7 +165,7 @@ export function ContactForm({
         <Button
           variant="nav"
           size="lg"
-          className="mx-auto text-lg font-bold py-6 lg:py-2 bg-background"
+          className="mx-auto text-lg font-bold py-6  bg-background"
           onClick={handleNext}
           disabled={touchedNext && !canProceed}
         >

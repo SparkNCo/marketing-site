@@ -159,7 +159,7 @@ export function CalendarBooking({
             type="button"
             onClick={() => handleSubmit()}
             disabled={!selectedDate || !selectedTime || submitting}
-            className="mx-auto  text-lg font-bold py-6 lg:py-2 bg-background bg-foreground text-title"
+            className="mx-auto  text-lg font-bold py-6  bg-background bg-foreground text-title"
           >
             {submitting ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

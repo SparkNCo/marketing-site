@@ -25,7 +25,7 @@ export default function LandingShell({ user, location }: Props) {
   return (
     <AppProvider initialUser={user}>
       <div className="bg-background ">
-        <Header location={location} />
+        <Header headerMode={mode} />
         <AnimatePresence mode="wait">
           {mode === "index" && (
             <motion.div

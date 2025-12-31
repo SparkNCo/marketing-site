@@ -58,6 +58,7 @@ export default function DealForm() {
 
   return (
     <main
+      data-header="light"
       className="
     min-h-[88vh]
     sm:min-h-[40vh]
