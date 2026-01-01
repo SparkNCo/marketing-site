@@ -15,15 +15,16 @@ const textVariants = {
   },
 };
 
-export default function BuildScaleToggle({ setMode }) {
-  const [selected, setSelected] = useState<"build" | "scale">("build");
+export default function BuildScaleToggle({ setMode }: { setMode: (mode: "index" | "form") => void }) {
+
+  const [selected, setSelected] = useState<"build" | "scale" | "none">("none");
 
   const cardClasses = (type: "build" | "scale") => {
     const isSelected = selected === type;
     return `
       bg-background rounded-lg shadow-md cursor-pointer overflow-hidden
-      transition-[width,padding,transform] duration-700 ease-out
-      ${isSelected ? "w-3/5 p-8 scale-100" : "w-max px-6 py-3 scale-95 hover:scale-100"}
+      transition-all duration-700 ease-out
+      ${isSelected ? "w-3/5 p-8 scale-100" : "w-max px-6 py-3 scale-95"}
     `;
   };
 
@@ -37,11 +38,13 @@ export default function BuildScaleToggle({ setMode }) {
   };
 
   return (
-    <div className="flex flex-col gap-6 justify-center items-start">
+    <div className="flex flex-row gap-6 items-start">
       {/* BUILD */}
       <div
         className={cardClasses("build")}
-        onClick={() => setSelected("build")}
+        onMouseOver={() => setSelected("build")}
+        onMouseLeave={() => setSelected("none")}
+        onClick={() => setMode("form")}
       >
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -52,17 +55,18 @@ export default function BuildScaleToggle({ setMode }) {
           <AnimatePresence>
             {selected === "build" && (
               <motion.img
-                key="build-go"
+                key="scale-go"
                 src="/GoIcon.png"
                 className="w-8 h-8 cursor-pointer"
-                initial={{ opacity: 0, x: 8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 8 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 onClick={() => setMode("form")}
               />
             )}
           </AnimatePresence>
+
         </div>
 
         <AnimatePresence mode="wait">
@@ -85,7 +89,8 @@ export default function BuildScaleToggle({ setMode }) {
       {/* SCALE */}
       <div
         className={cardClasses("scale")}
-        onClick={() => setSelected("scale")}
+        onMouseOver={() => setSelected("scale")}
+        onMouseLeave={() => setSelected("none")}
       >
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">

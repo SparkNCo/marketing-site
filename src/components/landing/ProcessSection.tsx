@@ -120,7 +120,7 @@ export default function ProcessSection() {
     <section ref={sectionRef} className="bg-background py-10">
       <div className="sticky top-0 h-screen flex items-center ">
         <div className="container mx-auto px-6 py-10">
-          <h2 className="text-5xl font-bold text-white mb-16 text-center">
+          <h2 className="text-5xl font-bold text-foreground mb-16 text-center">
             The Spark & Co Process
           </h2>
 
@@ -150,11 +150,11 @@ ${
                     >
                       {step.title && (
                         <div className="inline-flex items-center gap-4 px-6 py-3 ">
-                          <span className="text-white text-xl font-semibold">
+                          <span className="text-foreground text-xl font-semibold">
                             {index}.
                           </span>
 
-                          <h3 className="text-2xl font-bold text-white whitespace-nowrap border-4 border-white rounded-lg p-4 w-[18rem]">
+                          <h3 className="text-2xl font-bold text-foreground whitespace-nowrap border-4 border-white rounded-lg p-4 w-[18rem]">
                             {step.title}
                           </h3>
                         </div>
@@ -168,10 +168,10 @@ ${
             {/* RIGHT */}
             <div className="lg:col-span-3 border">
               <div className="max-w-xl p-6 ">
-                <h3 className="text-2xl font-bold text-white mb-4 ">
+                <h3 className="text-2xl font-bold text-foreground mb-4 ">
                   {steps[activeStep]?.title}
                 </h3>
-                <p className="text-white/70 h-48 ">
+                <p className="text-foreground/70 h-48 ">
                   Content for step {steps[activeStep]?.id}
                 </p>
               </div>

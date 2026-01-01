@@ -16,35 +16,23 @@ export default function Header({
   const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log("setting", headerMode);
     if (headerMode === "form") {
       setMode("dark");
+      return;
     }
-  }, [headerMode]);
 
-  useEffect(() => {
-    if (headerMode === "form") return;
+    // Update header color based on scroll position
+    // Light mode for top of page (first ~600px), dark mode after that
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setMode(scrollY > 128 ? "dark" : "light");
+    };
 
-    const sections = document.querySelectorAll<HTMLElement>("[data-header]");
+    // Set initial state
+    handleScroll();
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const headerMode = entry.target.dataset.header as "light" | "dark";
-            setMode(headerMode);
-          }
-        });
-      },
-      {
-        rootMargin: "-100px 0px 0px 0px",
-        threshold: 0.15,
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [headerMode]);
 
   const handleLogin = () => {
@@ -60,7 +48,6 @@ export default function Header({
   };
 
   return (
-    <div className={mode === "dark" ? "bg-card" : "bg-foreground"}>
       <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl px-4 ">
         <div
           className={`
@@ -80,6 +67,7 @@ export default function Header({
               src={mode === "dark" ? "/nbarIcon2.png" : "/nbarIcon.png"}
               alt="spark/co"
               className="w-full h-full object-contain "
+              onClick={() => window.location.href = "/"}
             />
           </div>
 
@@ -148,10 +136,6 @@ export default function Header({
         </div>
       </header>
 
-      {/* Spacer */}
-      <div
-        className={`h-28 ${mode === "dark" ? "bg-background" : "bg-foreground"}`}
-      />
-    </div>
+
   );
 }

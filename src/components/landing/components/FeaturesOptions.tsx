@@ -2,30 +2,17 @@ import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const featuresConfig = {
-  default: {
-    title: "MVP to Enterprise",
-    subtitle: "Guidance and support from just an idea to thousands of users",
-    options: [
+  mvp: [
       "Battle tested systems that are ready to scale",
       "Flexible Partnership Models",
       "Consulting on go-to-market and growth strategy",
     ],
-  },
-  supercharged: {
-    title: "AI Supercharged",
-    subtitle: "The perfect balance of human creativity and AI efficiency",
-    options: ["Option 1", "Option 2", "Option 3"],
-  },
-  control: {
-    title: "Business Control",
-    subtitle:
-      "Transparency and clarity that leads to better business decisions",
-    options: ["Option 1", "Option 2", "Option 3"],
-  },
+  supercharged: ["Option 1", "Option 2", "Option 3"],
+  control: ["Option 1", "Option 2", "Option 3"],
 };
 
-function FeaturesOptions({ mode = "default" }) {
-  const content = featuresConfig[mode] || featuresConfig.default;
+function FeaturesOptions({ mode = "mvp", title, subtitle }) {
+  const content = featuresConfig[mode] || featuresConfig.mvp;
 
   const fadeVariant = {
     hidden: { opacity: 0, x: -10 },
@@ -44,7 +31,7 @@ function FeaturesOptions({ mode = "default" }) {
           exit="exit"
         >
           <div className="flex items-around justify-between w-full">
-            <h3 className="text-3xl font-bold mb-4">{content.title}</h3>
+            <h3 className="text-3xl font-bold mb-4">{title}</h3>
             <div className="w-16 h-16 flex items-center justify-center z-10">
               <img
                 src={"/Frame.png"}
@@ -54,12 +41,12 @@ function FeaturesOptions({ mode = "default" }) {
             </div>
           </div>
           <div className="w-3/4">
-            <p className="mb-6 text-xl ">{content.subtitle}</p>
+            <p className="mb-6 text-xl ">{subtitle}</p>
             <ul className="space-y-4 text-muted-foreground leading-relaxed">
-              {content.options.map((option, index) => (
-                <li key={index} className="flex items-start gap-3 text-xl">
+              {content.map((feat) => (
+                <li key={feat} className="flex items-start gap-3 text-xl">
                   <ArrowRight className="w-5 h-5 mt-1 text-accent flex-shrink-0" />
-                  <span>{option}</span>
+                  <span>{feat}</span>
                 </li>
               ))}
             </ul>

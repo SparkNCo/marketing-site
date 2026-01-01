@@ -51,9 +51,9 @@ function CaseStudiesSection() {
   ];
 
   return (
-    <section className="bg-[#F7F4F0] py-32 overflow-hidden">
+    <section className="bg-background py-32 overflow-hidden">
       <div className="container mx-auto px-6 mb-20">
-        <h2 className="text-4xl md:text-5xl font-bold text-black mb-12 text-center">
+        <h2 className="text-4xl text-foreground md:text-5xl font-bold mb-12 text-center">
           Case Studies
         </h2>
       </div>

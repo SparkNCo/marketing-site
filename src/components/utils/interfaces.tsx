@@ -34,6 +34,7 @@ export interface FormIslandProps {
 export interface HeroSectionProps {
   initialStep: FormStage;
   submissionId: string;
+  setMode: (mode: "index" | "form") => void;
 }
 
 export interface ProposalIslandProps {

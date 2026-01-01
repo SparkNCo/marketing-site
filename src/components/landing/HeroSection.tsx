@@ -16,15 +16,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
     flex flex-row items-start justify-center
  bg-background "
     >
+      <div className="absolute top-0 left-0 w-full h-[128px] bg-foreground"></div>
       <section
         data-header="light"
-        className="container relative px-24 pt-10 pb-20 bg-foreground w-1/2 "
+        className="container relative px-24 pt-10 mt-[128px] pb-20 bg-foreground w-1/2 h-[calc(100vh-256px)] min-h-[600px] min-w-[750px]"
       >
         <div className="max-w-4xl">
           <h1 className="text-4xl font-bold tracking-tight text-background mb-6 text-balance leading-tight">
             Hands-free Software Delivery
           </h1>
-          <p className="text-4xl mb-12  max-w-2xl">
+          <p className="text-4xl mb-12  max-w-2xl" style={{ color: 'var(--background)' }}>
             Take the first step towards enterprise grade software, at next
             generation speeds
           </p>
