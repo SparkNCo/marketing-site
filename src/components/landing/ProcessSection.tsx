@@ -6,177 +6,136 @@ const steps = [
   { id: 1, title: "Sign Up" },
   { id: 2, title: "Project Discovery" },
   { id: 3, title: "MVP" },
-  { id: 4, title: "3213213213213" },
-  { id: 5, title: "MsadasdsadsadasVP" },
-  { id: 6, title: "MV3214321453543P" },
-  { id: 7, title: "" },
+  { id: 4, title: "" },
 ];
 
 export default function ProcessSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const isAnimatingRef = useRef(false);
-  const listRef = useRef<HTMLDivElement>(null);
-  const [goingDown, setGoingDown] = useState(true);
-  const [activeStep, setActiveStep] = useState(1);
-  const [isHijacked, setIsHijacked] = useState(false);
-  /* -------------------------------------------
-     STEP FOCUS TRACKING (middle-based)
-  -------------------------------------------- */
-
-  const STEP_HEIGHT = 230;
+  const [activeStep, setActiveStep] = useState(0);
+  console.log(activeStep)
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const onWheel = (e: WheelEvent) => {
-      // 🚫 only hijack when enabled
-      if (goingDown) return;
+    const observers: IntersectionObserver[] = [];
 
-      const section = sectionRef.current;
-      if (!section) return;
+    // Function to check all steps and find the one closest to center
+    const updateActiveStep = () => {
+      const viewportCenter = window.innerHeight / 2;
+      let closestStep = 0;
+      let closestDistance = Infinity;
 
-      const rect = section.getBoundingClientRect();
+      // Check ALL steps to find which is closest to center
+      console.log("---")
+      stepRefs.current.forEach((stepElement, index) => {
+        
+        if (!stepElement) return;
 
-      const topInView = rect.top >= 0;
-      if (!topInView) return;
+        const rect = stepElement.getBoundingClientRect();
+        const stepCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(stepCenter - viewportCenter);
 
-      // 🚨 lock page scroll
-      e.preventDefault();
+        console.log(stepCenter, viewportCenter, distance)
+        // Only consider steps that are at least partially visible
+        const isVisible =
+          rect.top < window.innerHeight && rect.bottom > 0;
 
-      // 🔒 animation lock (VERY important)
-      if (isAnimatingRef.current) return;
-      isAnimatingRef.current = true;
-
-      // mark hijacked (for testing)
-      if (!isHijacked) setIsHijacked(true);
-
-      setActiveStep((prev) => {
-        const next =
-          e.deltaY > 0
-            ? Math.min(prev + 1, steps.length - 1)
-            : Math.max(prev - 1, 0);
-
-        return next;
+        if (isVisible && distance < closestDistance) {
+          closestDistance = distance;
+          closestStep = index;
+        }
       });
 
-      setTimeout(() => {
-        isAnimatingRef.current = false;
-      }, 450);
-    };
-
-    window.addEventListener("wheel", onWheel, { passive: false });
-    return () => window.removeEventListener("wheel", onWheel);
-  }, [goingDown, isHijacked]);
-
-  useEffect(() => {
-    const onWheel = (e: WheelEvent) => {
-      // 🚫 only hijack when enabled
-      if (!goingDown) return;
-
-      const section = sectionRef.current;
-      if (!section) return;
-
-      const rect = section.getBoundingClientRect();
-      const bottomInView = rect.bottom <= window.innerHeight;
-      if (!bottomInView) return;
-
-      // 🚨 lock page scroll
-      e.preventDefault();
-
-      // 🔒 animation lock (VERY important)
-      if (isAnimatingRef.current) return;
-      isAnimatingRef.current = true;
-
-      // mark hijacked (for testing)
-      if (!isHijacked) setIsHijacked(true);
-
       setActiveStep((prev) => {
-        const next =
-          e.deltaY > 0
-            ? Math.min(prev + 1, steps.length - 1)
-            : Math.max(prev - 1, 0);
-
-        return next;
+        return closestStep !== prev ? closestStep : prev;
       });
-
-      setTimeout(() => {
-        isAnimatingRef.current = false;
-      }, 450);
     };
 
-    window.addEventListener("wheel", onWheel, { passive: false });
-    return () => window.removeEventListener("wheel", onWheel);
-  }, [goingDown, isHijacked]);
+    // Create an IntersectionObserver for each step
+    stepRefs.current.forEach((stepElement) => {
+      if (!stepElement) return;
 
-  useEffect(() => {
-    if (goingDown && activeStep === 6) {
-      setGoingDown(false);
-      setIsHijacked(false);
-    } else if (!goingDown && activeStep === 1) {
-      setGoingDown(true);
-      setIsHijacked(false);
-    }
-  }, [activeStep]);
+      const observer = new IntersectionObserver(
+        () => {
+          updateActiveStep();
+        },
+        {
+          threshold: [0, 1],
+        }
+      );
+
+      observer.observe(stepElement);
+      observers.push(observer);
+    });
+
+    // Initial check
+    updateActiveStep();
+
+    // // Update on scroll for smoother tracking
+    // window.addEventListener("scroll", updateActiveStep, { passive: true });
+    // // Update on resize
+    // window.addEventListener("resize", updateActiveStep, { passive: true });
+
+    // Cleanup observers on unmount
+    return () => {
+      // window.removeEventListener("scroll", updateActiveStep);
+      // window.removeEventListener("resize", updateActiveStep);
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, []);
 
   return (
-    <section ref={sectionRef} className="bg-background py-10">
-      <div className="sticky top-0 h-screen flex items-center ">
-        <div className="container mx-auto px-6 py-10">
-          <h2 className="text-5xl font-bold text-foreground mb-16 text-center">
-            The Spark & Co Process
-          </h2>
+    <section className="bg-background py-10">
+      <div className="container mx-auto px-6 py-10">
+        <h2 className="text-5xl font-bold text-foreground mb-16 text-center">
+          The Spark & Co Process
+        </h2>
 
-          <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto ">
-            {/* LEFT */}
-            <div className="lg:col-span-2 h-[36rem] overflow-hidden pr-4">
-              <div
-                ref={listRef}
-                className="transition-transform duration-500 ease-out"
-                style={{
-                  transform: `translateY(${
-                    18 * 16 - activeStep * STEP_HEIGHT
-                  }px)`,
-                }}
-              >
-                {steps.map((step, index) => {
-                  const isFocused = index === activeStep;
+        <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto">
+          {/* LEFT - Scrolls naturally */}
+          <div className="lg:col-span-2 pr-4">
+            {steps.map((step, index) => {
+              const isFocused = index === activeStep;
 
-                  return (
-                    <div
-                      key={step.id}
-                      className={`p-4 my-20  mx-auto text-center transition-all duration-300
-${
-  isFocused ? "opacity-100 blur-0 scale-100" : "opacity-20 blur-sm scale-[0.65]"
-}
-          `}
-                    >
-                      {step.title && (
-                        <div className="inline-flex items-center gap-4 px-6 py-3 ">
-                          <span className="text-foreground text-xl font-semibold">
-                            {index}.
-                          </span>
-
-                          <h3 className="text-2xl font-bold text-foreground whitespace-nowrap border-4 border-white rounded-lg p-4 w-[18rem]">
-                            {step.title}
-                          </h3>
-                        </div>
-                      )}
+              return (
+                <div
+                  key={step.id}
+                  ref={(el) => {
+                    stepRefs.current[index] = el;
+                  }}
+                  className={`p-4 my-20 mx-auto text-center transition-all duration-300 min-h-[230px] flex items-center justify-center
+                    ${
+                      isFocused
+                        ? "opacity-100 blur-0 scale-100"
+                        : "opacity-20 blur-sm scale-[0.65]"
+                    }
+                  `}
+                >
+                  {step.title && (
+                    <div className="inline-flex items-center gap-4 px-6 py-3">
+                      <span className="text-foreground text-xl font-semibold">
+                        {index}.
+                      </span>
+                      <h3 className="text-2xl font-bold text-foreground whitespace-nowrap border-4 border-white rounded-lg p-4 w-[18rem]">
+                        {step.title}
+                      </h3>
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* RIGHT */}
-            <div className="lg:col-span-3 border">
-              <div className="max-w-xl p-6 ">
-                <h3 className="text-2xl font-bold text-foreground mb-4 ">
-                  {steps[activeStep]?.title}
-                </h3>
-                <p className="text-foreground/70 h-48 ">
-                  Content for step {steps[activeStep]?.id}
-                </p>
-              </div>
-            </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
+
+          {/* RIGHT - Sticky on desktop, normal scroll on mobile */}
+          {activeStep > 0 && activeStep < 4 && (
+            <div className="lg:col-span-3 fixed top-[192px] right-0 w-1/2">
+            <h3 className="text-2xl font-bold text-foreground mb-4">
+              {steps[activeStep]?.title || "Step " + steps[activeStep]?.id}
+            </h3>
+            <p className="text-foreground min-h-[12rem]">
+              Content for step {steps[activeStep]?.id}
+            </p>
+          </div>
+          )}
+
         </div>
       </div>
     </section>
