@@ -35,6 +35,7 @@ export default function DealForm() {
     };
 
     try {
+      console.log("finalData", finalData);
       const res = await fetch("/api/submissions/post-submissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -61,15 +62,18 @@ export default function DealForm() {
       data-header="light"
       className="
     min-h-[88vh]
-    sm:min-h-[40vh]
-    md:min-h-[80vh]
-    lg:min-h-[80vh]
-    xl:min-h-[80vh]
     flex flex-col items-center justify-center
     px-4 py-6 bg-background
   "
     >
-      {" "}
+      <div
+        className="
+    min-h-[10vh]     
+    sm:min-h-[15vh]
+    md:min-h-[15vh]
+    lg:min-h-[15vh]
+    xl:min-h-[15vh]"
+      ></div>{" "}
       <AnimatedStepper
         currentStep={stepIndex}
         totalSteps={5}

@@ -11,7 +11,6 @@ const steps = [
 
 export default function ProcessSection() {
   const [activeStep, setActiveStep] = useState(0);
-  console.log(activeStep)
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -24,7 +23,6 @@ export default function ProcessSection() {
       let closestDistance = Infinity;
 
       // Check ALL steps to find which is closest to center
-      console.log("---")
       stepRefs.current.forEach((stepElement, index) => {
         
         if (!stepElement) return;
@@ -33,7 +31,6 @@ export default function ProcessSection() {
         const stepCenter = rect.top + rect.height / 2;
         const distance = Math.abs(stepCenter - viewportCenter);
 
-        console.log(stepCenter, viewportCenter, distance)
         // Only consider steps that are at least partially visible
         const isVisible =
           rect.top < window.innerHeight && rect.bottom > 0;
