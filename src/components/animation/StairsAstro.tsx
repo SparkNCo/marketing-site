@@ -7,7 +7,7 @@ interface StairsProps {
   children?: ReactNode;
 }
 
-const Stairs: React.FC<StairsProps> = ({ children }) => {
+const Stairs: React.FC<StairsProps> = ({ children, location }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,9 @@ const Stairs: React.FC<StairsProps> = ({ children }) => {
   };
 
   return (
-    <div className=" bg-secondary ">
+    <div
+      className={`${location === "/" ? "bg-secondary" : "bg-background"} overflow-hidden`}
+    >
       {" "}
       {/* overflow-hidden */}
       <AnimatePresence>
@@ -73,6 +75,13 @@ const Stairs: React.FC<StairsProps> = ({ children }) => {
       </AnimatePresence>
       {/* Page content */}
       <div className="relative z-10 pointer-events-auto">{children}</div>
+      {location === "/" && (
+        <div className="absolute top-0 right-0 pointer-events-none ">
+          <div className="relative w-32 h-32 bg-background">
+            <div className="absolute top-0 -left-16 w-16 h-14 bg-orange-500" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
