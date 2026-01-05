@@ -15,8 +15,8 @@ type Props = {
 export default function ProposalShell({ user, mode, submissionId }: Props) {
   return (
     <AppProvider initialUser={user}>
-      <Header />
-      <ProposalIsland  mode={mode} submissionId={submissionId} />
+      <Header headerMode={"form"} />
+      <ProposalIsland mode={mode} submissionId={submissionId} />
       <Footer />
     </AppProvider>
   );

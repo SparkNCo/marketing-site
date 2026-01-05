@@ -60,7 +60,7 @@ export function CalendarBooking({
     return days.slice(0, 5);
   };
 
-  const handleSubmit = (e?: React.FormEvent) => {
+  /*   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault();
 
     if (selectedDate && selectedTime) {
@@ -68,6 +68,33 @@ export function CalendarBooking({
         selectedDate,
         selectedTime,
       });
+    }
+  }; */
+
+  const handleSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+
+    if (!selectedDate || !selectedTime) return;
+
+    setSubmitting(true);
+
+    try {
+      const start = new Date().toISOString();
+      const end = new Date(Date.now() + 1000 * 60 * 60 * 24 * 14).toISOString();
+
+      const res = await fetch(
+        `/api/calendly/availability?start=${start}&end=${end}`
+      );
+
+      const data = await res.json();
+      console.log(data.collection);
+
+      onSubmit({
+        selectedDate,
+        selectedTime,
+      });
+    } finally {
+      setSubmitting(false);
     }
   };
 

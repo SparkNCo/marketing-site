@@ -60,7 +60,7 @@ export default function ExecutiveSummary({  }) {
           variant="outline"
           size="sm"
           onClick={() => toggleEditMode()}
-          className="flex items-center gap-2 bg-card"
+          className="flex items-center gap-2 bg-background"
         >
           {isEditing ? (
             <>
@@ -78,7 +78,7 @@ export default function ExecutiveSummary({  }) {
       {isEditing ? (
         <ExecutiveSummaryEditor items={summaryItems} onChange={updateItem} />
       ) : (
-        <Card className="border-border bg-card p-8">
+        <Card className="border-border bg-background p-8">
           <div className="space-y-6">
             {summaryItems.map((item) => (
               <div key={item.title}>

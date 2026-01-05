@@ -154,7 +154,7 @@ export default function TechStackArchitecture() {
           variant="outline"
           size="sm"
           onClick={toggleEdit}
-          className="flex items-center gap-2 bg-card"
+          className="flex items-center gap-2 bg-background"
         >
           {isEditing ? (
             <>
@@ -169,7 +169,7 @@ export default function TechStackArchitecture() {
       </div>
 
       {!isEditing ? (
-        <Card className="border-border bg-card p-8 border-card">
+        <Card className="border-border bg-background p-8 border-card">
           <div className="grid gap-8 md:grid-cols-2">
             {stackSections.map((section) => (
               <div key={section.title}>
@@ -194,7 +194,7 @@ export default function TechStackArchitecture() {
             ))}
           </div>
 
-          <div className="mt-8 rounded-md border border-border bg-card p-6 border-primary">
+          <div className="mt-8 rounded-md border border-border bg-background p-6 border-primary">
             <h3 className="mb-3 text-lg font-semibold text-primary">
               Why This Stack?
             </h3>

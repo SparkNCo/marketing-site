@@ -14,9 +14,7 @@ interface Props {
   setTotalInvestment: React.Dispatch<React.SetStateAction<TotalInvestment>>;
 
   costBreakdown: CostBreakdownItem[];
-  setCostBreakdown: React.Dispatch<
-    React.SetStateAction<CostBreakdownItem[]>
-  >;
+  setCostBreakdown: React.Dispatch<React.SetStateAction<CostBreakdownItem[]>>;
 
   paymentMilestones: PaymentMilestone[];
   setPaymentMilestones: React.Dispatch<
@@ -38,7 +36,7 @@ export default function PricingStructureEditor({
   setAssumptions,
 }: Props) {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 bg-background ">
       {/* Total investment */}
       <Card className="p-6">
         <h3 className="mb-4 text-xl font-bold text-primary">
@@ -71,9 +69,7 @@ export default function PricingStructureEditor({
 
       {/* Cost Breakdown */}
       <Card className="p-6">
-        <h3 className="mb-4 text-xl font-bold text-primary">
-          Cost Breakdown
-        </h3>
+        <h3 className="mb-4 text-xl font-bold text-primary">Cost Breakdown</h3>
 
         <div className="space-y-2">
           {costBreakdown.map((item, index) => (
@@ -106,9 +102,7 @@ export default function PricingStructureEditor({
                 size="icon"
                 className="text-destructive"
                 onClick={() =>
-                  setCostBreakdown((prev) =>
-                    prev.filter((_, i) => i !== index)
-                  )
+                  setCostBreakdown((prev) => prev.filter((_, i) => i !== index))
                 }
               >
                 <Trash2 className="h-4 w-4" />
@@ -144,9 +138,7 @@ export default function PricingStructureEditor({
                 onChange={(e) =>
                   setPaymentMilestones((prev) =>
                     prev.map((p, i) =>
-                      i === index
-                        ? { ...p, milestone: e.target.value }
-                        : p
+                      i === index ? { ...p, milestone: e.target.value } : p
                     )
                   )
                 }
@@ -159,9 +151,7 @@ export default function PricingStructureEditor({
                   onChange={(e) =>
                     setPaymentMilestones((prev) =>
                       prev.map((p, i) =>
-                        i === index
-                          ? { ...p, amount: e.target.value }
-                          : p
+                        i === index ? { ...p, amount: e.target.value } : p
                       )
                     )
                   }
@@ -172,9 +162,7 @@ export default function PricingStructureEditor({
                   onChange={(e) =>
                     setPaymentMilestones((prev) =>
                       prev.map((p, i) =>
-                        i === index
-                          ? { ...p, percentage: e.target.value }
-                          : p
+                        i === index ? { ...p, percentage: e.target.value } : p
                       )
                     )
                   }
@@ -187,9 +175,7 @@ export default function PricingStructureEditor({
                 onChange={(e) =>
                   setPaymentMilestones((prev) =>
                     prev.map((p, i) =>
-                      i === index
-                        ? { ...p, trigger: e.target.value }
-                        : p
+                      i === index ? { ...p, trigger: e.target.value } : p
                     )
                   )
                 }
@@ -228,9 +214,7 @@ export default function PricingStructureEditor({
 
       {/* Assumptions */}
       <Card className="p-6">
-        <h3 className="mb-4 text-xl font-bold text-primary">
-          Assumptions
-        </h3>
+        <h3 className="mb-4 text-xl font-bold text-primary">Assumptions</h3>
 
         <div className="space-y-3">
           {assumptions.map((a, index) => (
@@ -252,9 +236,7 @@ export default function PricingStructureEditor({
                 onChange={(e) =>
                   setAssumptions((prev) =>
                     prev.map((x, i) =>
-                      i === index
-                        ? { ...x, description: e.target.value }
-                        : x
+                      i === index ? { ...x, description: e.target.value } : x
                     )
                   )
                 }
@@ -265,9 +247,7 @@ export default function PricingStructureEditor({
                 size="sm"
                 className="text-destructive"
                 onClick={() =>
-                  setAssumptions((prev) =>
-                    prev.filter((_, i) => i !== index)
-                  )
+                  setAssumptions((prev) => prev.filter((_, i) => i !== index))
                 }
               >
                 Remove
@@ -281,10 +261,7 @@ export default function PricingStructureEditor({
           size="sm"
           className="mt-4 flex gap-2"
           onClick={() =>
-            setAssumptions((prev) => [
-              ...prev,
-              { title: "", description: "" },
-            ])
+            setAssumptions((prev) => [...prev, { title: "", description: "" }])
           }
         >
           <Plus className="h-4 w-4" /> Add assumption

@@ -27,17 +27,8 @@ export function ProposalLoadingMessage({
   }, []);
 
   return (
-    <div className="animate-fade-in space-y-8 text-center font-body">
+    <div className="animate-fade-in space-y-8 text-center font-body  min-h-[90vh] mt-28">
       {/* Icon / Loader */}
-      <div className="flex justify-center">
-        <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center">
-          {!isReady ? (
-            <LoadingDots />
-          ) : (
-            <CheckCircle className="w-12 h-12 text-primary" />
-          )}
-        </div>
-      </div>
 
       {/* Titles */}
       <div className="space-y-3 text-card">

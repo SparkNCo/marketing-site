@@ -95,7 +95,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
         >
           <>
             <ProposalHeader />
-            <main className="min-h-screen flex flex-col items-center justify-start px-4 py-6 bg-secondary text-secondary">
+            <main className="min-h-screen flex flex-col items-center justify-start px-4 py-6 bg-background text-secondary">
               <ExecutiveSummary />
               <ProjectScope />
               <Deliverables />

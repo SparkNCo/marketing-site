@@ -10,6 +10,7 @@ import { ProductIdeaForm } from "./forms/product-idea-form";
 import { CalendarBooking } from "./utils/calendar-booking";
 import { SuccessMessage } from "./utils/success-message";
 import AnimatedStepper from "./utils/animated-stepper";
+import CalendlyBooking from "./utils/CalendlyBooking";
 
 export default function DealForm() {
   const [currentStep, setCurrentStep] = useState<FormStep>("contact");
@@ -141,15 +142,33 @@ export default function DealForm() {
           />
         )}
 
-        {currentStep === "calendar" && (
-          <CalendarBooking
+        {/*  {currentStep === "calendar" && (
+          <CalendlyBooking url="https://calendly.com/kabir-vb6o/interview?back=1&month=2026-01" />
+        )} */}
+
+        {currentStep === "calendar" &&
+          (() => {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, "0");
+            console.log(
+              "Calendly URL:",
+              `https://calendly.com/${import.meta.env.PUBLIC_CALENDLY_USERNAME}/interview?back=1&month=${year}-${month}`
+            );
+            return (
+              <CalendlyBooking
+                url={`https://calendly.com/${import.meta.env.PUBLIC_CALENDLY_USERNAME}/interview?back=1&month=${year}-${month}`}
+              />
+            );
+          })()}
+
+        {/* <CalendarBooking
             onSubmit={handleCalendarSubmit}
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
             submitting={submitting}
             setSubmitting={setSubmitting}
-          />
-        )}
+          /> */}
 
         {currentStep === "success" && <SuccessMessage />}
       </div>

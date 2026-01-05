@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 export default function CtaProposal() {
   return (
     <section className="mb-16 w-[80vw]">
-      <Card className="p-8 bg-card border-primary border-2 text-center">
+      <Card className="p-8 bg-background border-primary border-2 text-center">
         <h2 className="text-2xl font-bold text-foreground mb-4">
           Ready to Transform Your Inventory Management?
         </h2>
@@ -15,7 +15,7 @@ export default function CtaProposal() {
           <button className="px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-md hover:opacity-90 transition-opacity">
             Accept Proposal
           </button>
-          <button className="px-8 py-3 bg-card text-foreground border border-border font-semibold rounded-md hover:bg-muted transition-colors">
+          <button className="px-8 py-3 bg-background text-foreground border border-border font-semibold rounded-md hover:bg-muted transition-colors">
             Schedule a Call
           </button>
         </div>

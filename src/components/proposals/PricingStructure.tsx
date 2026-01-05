@@ -155,7 +155,7 @@ export default function PricingStructure() {
           variant="outline"
           size="sm"
           onClick={toggleEdit}
-          className="flex items-center gap-2 bg-card"
+          className="flex items-center gap-2 bg-background"
         >
           {isEditing ? (
             <>
@@ -181,7 +181,7 @@ export default function PricingStructure() {
           setAssumptions={setAssumptions}
         />
       ) : (
-        <Card className="border-border bg-card p-8 border-card">
+        <Card className="border-border bg-background p-8 border-card">
           <div className="mb-8 grid gap-8 md:grid-cols-2">
             <div>
               <h3 className="mb-4 text-2xl font-bold text-primary">
@@ -228,7 +228,7 @@ export default function PricingStructure() {
                 {firstColumn.map((payment) => (
                   <div
                     key={payment.milestone}
-                    className="rounded-md border border-border bg-card p-4 border-primary"
+                    className="rounded-md border border-border bg-background p-4 border-primary"
                   >
                     <div className="mb-1 flex items-center justify-between">
                       <p className="font-semibold text-foreground">
@@ -252,7 +252,7 @@ export default function PricingStructure() {
                 {secondColumn.map((payment) => (
                   <div
                     key={payment.milestone}
-                    className="rounded-md border border-border bg-card p-4 border-primary"
+                    className="rounded-md border border-border bg-background p-4 border-primary"
                   >
                     <div className="mb-1 flex items-center justify-between">
                       <p className="font-semibold text-foreground">
@@ -274,7 +274,7 @@ export default function PricingStructure() {
           </div>
 
           {/* Assumptions */}
-          <div className="rounded-md border border-border bg-card p-6 border-primary">
+          <div className="rounded-md border border-border bg-background p-6 border-primary">
             <h3 className="mb-3 text-lg font-semibold text-primary">
               Assumptions & What Changes Cost
             </h3>

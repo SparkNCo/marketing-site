@@ -207,7 +207,7 @@ export default function ProjectScope() {
           variant="outline"
           size="sm"
           onClick={toggleEdit}
-          className="flex items-center gap-2 bg-card"
+          className="flex items-center gap-2 bg-background"
         >
           {isEditing ? (
             <>
@@ -239,7 +239,7 @@ export default function ProjectScope() {
             {sections.map((section) => (
               <Card
                 key={section.title}
-                className="border-border bg-card p-6 border-card"
+                className="border-border bg-background p-6 border-card"
               >
                 <h3 className="mb-4 text-xl font-bold text-primary">
                   {section.title}
@@ -254,7 +254,7 @@ export default function ProjectScope() {
             ))}
           </div>
 
-          <Card className="mt-6 border-border bg-card p-6 border-card">
+          <Card className="mt-6 border-border bg-background p-6 border-card">
             <h3 className="mb-4 text-xl font-bold text-primary">
               In-Scope vs. Out-of-Scope
             </h3>

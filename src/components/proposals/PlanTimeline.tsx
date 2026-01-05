@@ -139,7 +139,7 @@ export default function PlanTimeline() {
           variant="outline"
           size="sm"
           onClick={() => toggleEditMode()}
-          className="flex items-center gap-2 bg-card"
+          className="flex items-center gap-2 bg-background"
         >
           {isEditing ? (
             <>
@@ -163,7 +163,7 @@ export default function PlanTimeline() {
           setDependencies={setDependencies}
         />
       ) : (
-        <Card className="p-8 bg-card border-border border-card">
+        <Card className="p-8 bg-background border-border border-card">
           <p className="text-foreground mb-6 leading-relaxed">
             Total project duration:{" "}
             <span className="font-semibold text-primary">{totalDuration}</span>
@@ -202,7 +202,7 @@ export default function PlanTimeline() {
               {dependencies.map((item) => (
                 <div
                   key={item.week}
-                  className="rounded-md border border-border bg-card p-4 border-primary"
+                  className="rounded-md border border-border bg-background p-4 border-primary"
                 >
                   <p className="mb-1 font-semibold text-secondary">
                     {item.week}

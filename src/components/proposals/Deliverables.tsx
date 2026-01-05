@@ -120,7 +120,7 @@ export default function Deliverables() {
           variant="outline"
           size="sm"
           onClick={() => setIsEditing((v) => !v)}
-          className="flex items-center gap-2 bg-card"
+          className="flex items-center gap-2 bg-background"
         >
           {isEditing ? (
             <>
@@ -136,7 +136,7 @@ export default function Deliverables() {
 
       <div className="grid gap-4">
         {deliverables.map((deliverable, dIdx) => (
-          <Card key={deliverable.title} className="border-border bg-card p-6">
+          <Card key={deliverable.title} className="border-border bg-background p-6">
             <h3 className="mb-3 text-lg font-semibold text-primary">
               {deliverable.title}
             </h3>

@@ -106,7 +106,7 @@ export default function DedicatedTeam() {
           variant="outline"
           size="sm"
           onClick={() => toggleEditMode()}
-          className="flex items-center gap-2 bg-card"
+          className="flex items-center gap-2 bg-background"
         >
           {isEditing ? (
             <>
@@ -132,7 +132,7 @@ export default function DedicatedTeam() {
           {teamMembers.map((member) => (
             <Card
               key={member.name}
-              className="border-border bg-card p-6 transition-colors hover:border-primary border-card"
+              className="border-border bg-background p-6 transition-colors hover:border-primary border-card"
             >
               <div className="mb-3">
                 <h3 className="text-lg font-semibold text-foreground">
