@@ -1,12 +1,13 @@
 ---
 import Stairs from "../animation/StairsAstro";
+import Posthog from "../posthog.astro";
 
 const location = Astro.url.pathname;
 ---
 
 <html lang="en">
   <head>
-    <script src="https://t.contentsquare.net/uxa/d6a7628f5d433.js"></script>
+    <Posthog />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -21,8 +22,7 @@ const location = Astro.url.pathname;
     <Stairs location={location} client:load>
       <slot />
     </Stairs>
-  </body>
-  <!-- foreground -->
+  </body><!-- foreground -->
   <style is:global>
     :root {
       --font-title: "ADLaM Display";
@@ -92,6 +92,35 @@ const location = Astro.url.pathname;
 
     .animate-scroll-left {
       animation: scroll-left 90s linear infinite;
+    }
+
+    @keyframes loading-dot {
+      0% {
+        transform: translateX(120%) scale(0.9);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      50% {
+        transform: translateX(0%) scale(1.05);
+        opacity: 1;
+      }
+
+      80% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateX(-120%) scale(0.9);
+        opacity: 0;
+      }
+    }
+
+    .animate-loading-dot {
+      animation: loading-dot 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
   </style>
 </html>

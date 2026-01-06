@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   CalendarSubmitData,
   FormData,
@@ -7,14 +7,22 @@ import type {
 import { ContactForm } from "./forms/contact-form";
 import { CompanyDetailsForm } from "./forms/company-details-form";
 import { ProductIdeaForm } from "./forms/product-idea-form";
-import { CalendarBooking } from "./utils/calendar-booking";
 import { SuccessMessage } from "./utils/success-message";
 import AnimatedStepper from "./utils/animated-stepper";
 import CalendlyBooking from "./utils/CalendlyBooking";
 
+type AvailabilityResponse = {
+  timezone: string;
+  days: Record<string, Slot[]>;
+};
+
 export default function DealForm() {
   const [currentStep, setCurrentStep] = useState<FormStep>("contact");
   const [submitting, setSubmitting] = useState(false);
+  const [availability, setAvailability] = useState<AvailabilityResponse | null>(
+    null
+  );
+  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -25,18 +33,22 @@ export default function DealForm() {
     estimateTimeline: { min: 1, max: 24 },
     productIdea: "",
     selectedDate: "",
-    selectedTime: "",
+    selectedTime: { start: "", end: "" },
+    scheduling_url: "",
   });
 
   const handleCalendarSubmit = async (data: CalendarSubmitData) => {
     const finalData: FormData = {
       ...formData,
       selectedDate: data.selectedDate,
-      selectedTime: data.selectedTime,
+      selectedTime: {
+        start: data.selectedStartTime,
+        end: data.selectedEndTime,
+      },
+      scheduling_url: data.scheduling_url,
     };
-
     try {
-      console.log("finalData", finalData);
+      setSubmitting(true);
       const res = await fetch("/api/submissions/post-submissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -44,9 +56,12 @@ export default function DealForm() {
       });
 
       if (!res.ok) throw new Error("Failed to submit");
+      setSubmitting(false);
+      setFormData(finalData);
       setCurrentStep("success");
     } catch (err) {
       console.error(err);
+      setSubmitting(false);
     }
   };
 
@@ -57,6 +72,45 @@ export default function DealForm() {
     "calendar",
     "success",
   ].indexOf(currentStep);
+
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      try {
+        const now = new Date();
+
+        // Tomorrow at 00:00
+        const start = new Date(now);
+        start.setDate(start.getDate() + 1);
+        start.setHours(0, 0, 0, 0);
+
+        // 5 days from today at 23:59
+        const end = new Date(now);
+        end.setDate(end.getDate() + 5);
+        end.setHours(23, 59, 59, 999);
+
+        const res = await fetch(
+          `/api/calendly/availability?` +
+            new URLSearchParams({
+              eventSlug: "15min",
+              start: start.toISOString(),
+              end: end.toISOString(),
+            })
+        );
+
+        if (!res.ok) throw new Error("Failed to load availability");
+
+        const data = await res.json();
+        console.log("data", data);
+
+        setAvailability(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load availability");
+      }
+    };
+
+    fetchAvailability();
+  }, []);
 
   return (
     <main
@@ -142,10 +196,6 @@ export default function DealForm() {
           />
         )}
 
-        {/*  {currentStep === "calendar" && (
-          <CalendlyBooking url="https://calendly.com/kabir-vb6o/interview?back=1&month=2026-01" />
-        )} */}
-
         {currentStep === "calendar" &&
           (() => {
             const now = new Date();
@@ -157,18 +207,12 @@ export default function DealForm() {
             );
             return (
               <CalendlyBooking
-                url={`https://calendly.com/${import.meta.env.PUBLIC_CALENDLY_USERNAME}/interview?back=1&month=${year}-${month}`}
+                onSubmit={handleCalendarSubmit}
+                submitting={submitting}
+                availability={availability?.days}
               />
             );
           })()}
-
-        {/* <CalendarBooking
-            onSubmit={handleCalendarSubmit}
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            submitting={submitting}
-            setSubmitting={setSubmitting}
-          /> */}
 
         {currentStep === "success" && <SuccessMessage />}
       </div>

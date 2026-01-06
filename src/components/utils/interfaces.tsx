@@ -11,7 +11,11 @@ export interface FormData {
   budget: BudgetRange;
   productIdea: string;
   selectedDate: string;
-  selectedTime: string;
+  selectedTime: {
+    start: string;
+    end: string;
+  };
+  scheduling_url: string;
 }
 
 export type FeaturesFormProps = Readonly<{
@@ -22,10 +26,13 @@ export type DealFormProps = Readonly<{
   onSubmit?: (data: FormData) => void;
 }>;
 
-export interface CalendarSubmitData {
+export type CalendarSubmitData = {
   selectedDate: string;
   selectedTime: string;
-}
+  selectedStartTime: string;
+  selectedEndTime: string;
+  scheduling_url: string;
+};
 
 export interface FormIslandProps {
   initialStep: FormStage;

@@ -15,14 +15,17 @@ import {
 interface WelcomeProposalTemplateProps {
   name: string;
   leadId: string;
+  schedulingUrl: string;
 }
 
 const WelcomeProposalTemplate = ({
   name,
   leadId,
+  schedulingUrl,
 }: WelcomeProposalTemplateProps) => {
   const proposalUrl = `http://localhost:4321/proposal?mode=features&id=${leadId}`;
-  const previewText = "We’ve received your submission and prepared a proposal.";
+  const previewText =
+    "Your proposal is ready — confirm your meeting to continue.";
 
   return (
     <Html>
@@ -36,12 +39,13 @@ const WelcomeProposalTemplate = ({
             </Heading>
 
             <Text className="text-black text-[14px] leading-[24px]">
-              Thanks for reaching out! We’ve received your submission and started
-              putting together a proposal tailored to your project.
+              Thanks for reaching out! We’ve received your submission and
+              started preparing a proposal tailored to your project.
             </Text>
 
+            {/* ---------- PROPOSAL ---------- */}
             <Text className="text-black text-[14px] leading-[24px]">
-              You can access your proposal using the link below:
+              You can access and complete your proposal using the link below:
             </Text>
 
             <Section className="text-center my-[24px]">
@@ -54,9 +58,36 @@ const WelcomeProposalTemplate = ({
             </Section>
 
             <Text className="text-black text-[14px] leading-[24px]">
-              Please add the necessary information about the features you’d like
-              for your project. Once your input is complete, you’ll be able to
-              review the finalized proposal at the same link.
+              Please add the required details about the features you’d like.
+              Once completed, you’ll be able to review the finalized proposal at
+              the same link.
+            </Text>
+
+            <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
+
+            {/* ---------- SCHEDULING ---------- */}
+            <Text className="text-black text-[14px] leading-[24px] font-medium">
+              📅 Confirm your meeting
+            </Text>
+
+            <Text className="text-black text-[14px] leading-[24px]">
+              To move forward, please confirm your meeting by selecting your
+              preferred time using the link below. This step is required to
+              finalize your booking.
+            </Text>
+
+            <Section className="text-center my-[24px]">
+              <Link
+                href={schedulingUrl}
+                className="bg-black text-white px-4 py-2 rounded no-underline text-[14px]"
+              >
+                Confirm meeting time
+              </Link>
+            </Section>
+
+            <Text className="text-black text-[13px] leading-[22px] text-gray-600">
+              Once the meeting is confirmed, you’ll receive a calendar invite
+              with all the details.
             </Text>
 
             <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />

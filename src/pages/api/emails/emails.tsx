@@ -6,17 +6,23 @@ type SendWelcomeMailParams = {
   email: string;
   name: string;
   leadId: string;
+  schedulingUrl: string;
 };
 
 export async function sendWelcomeMail({
   email,
   name,
   leadId,
+  schedulingUrl,
 }: SendWelcomeMailParams) {
   console.log("Sending welcome email to:", email, leadId, name);
 
   const html = await render(
-    <WelcomeProposalTemplate name={name} leadId={leadId} />
+    <WelcomeProposalTemplate
+      name={name}
+      leadId={leadId}
+      schedulingUrl={schedulingUrl}
+    />
   );
 
   const response = await resend.emails.send({

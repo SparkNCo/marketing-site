@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
-import { CheckCircle } from "lucide-react";
 import { useApp } from "../../lib/AppProvider";
 
 export function ProposalLoadingMessage({
@@ -28,7 +27,6 @@ export function ProposalLoadingMessage({
 
   return (
     <div className="animate-fade-in space-y-8 text-center font-body  min-h-[90vh] mt-28">
-      {/* Icon / Loader */}
 
       {/* Titles */}
       <div className="space-y-3 text-card">
