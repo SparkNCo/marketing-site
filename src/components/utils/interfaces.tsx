@@ -8,7 +8,14 @@ export interface FormData {
   email: string;
   companyName: string;
   industry: string;
-  budget: BudgetRange;
+  monthlybudget: {
+    min: number;
+    max: number;
+  };
+  estimateTimeline: {
+    min: number;
+    max: number;
+  };
   productIdea: string;
   selectedDate: string;
   selectedTime: {

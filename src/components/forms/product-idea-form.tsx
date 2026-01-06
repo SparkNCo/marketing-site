@@ -2,15 +2,14 @@
 
 import { useMemo } from "react";
 import { Button } from "../../components/ui/button";
-import { ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import type { FormStep } from "../utils/interfaces";
 
-interface ProductIdeaFormProps {
-  currentStep: string;
+type ProductIdeaFormProps = Readonly<{
   setCurrentStep: (step: FormStep) => void;
   productIdea: string;
   setProductIdea: (value: string) => void;
-}
+}>;
 
 const validations = [
   {
@@ -44,7 +43,6 @@ const validations = [
 ];
 
 export function ProductIdeaForm({
-  currentStep,
   setCurrentStep,
   productIdea,
   setProductIdea,

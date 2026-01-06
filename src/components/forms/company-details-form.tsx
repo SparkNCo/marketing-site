@@ -1,15 +1,15 @@
 import { Button } from "../../components/ui/button";
 import { Slider } from "../ui/slider2";
-import { ChevronRight } from "lucide-react";
+import type { FormStep } from "../utils/interfaces";
 
-export interface CompanyDetailsFormProps {
-  budgetRange: [number, number];
-  setBudgetRange: (v: [number, number]) => void;
-  timelineRange: [number, number];
-  setTimelineRange: (v: [number, number]) => void;
-  onNext: () => void;
-  onPrev?: () => void;
-}
+export type CompanyDetailsFormProps = Readonly<{
+  currentStep: string;
+  setCurrentStep: (step: FormStep) => void;
+  budgetRange: readonly [number, number];
+  setBudgetRange: (v: readonly [number, number]) => void;
+  timelineRange: readonly [number, number];
+  setTimelineRange: (v: readonly [number, number]) => void;
+}>;
 
 export function CompanyDetailsForm({
   currentStep,
@@ -18,8 +18,6 @@ export function CompanyDetailsForm({
   setBudgetRange,
   timelineRange,
   setTimelineRange,
-  onNext,
-  onPrev,
 }: CompanyDetailsFormProps) {
   return (
     <form className="animate-fade-in flex flex-col h-full font-body">

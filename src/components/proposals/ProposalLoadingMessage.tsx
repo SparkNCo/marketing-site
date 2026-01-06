@@ -3,13 +3,15 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useApp } from "../../lib/AppProvider";
 
+type ProposalLoadingMessageProps = Readonly<{
+  pageMode: string;
+  setPageMode: Dispatch<SetStateAction<string>>;
+}>;
+
 export function ProposalLoadingMessage({
   pageMode,
   setPageMode,
-}: {
-  pageMode: string;
-  setPageMode: Dispatch<SetStateAction<string>>;
-}) {
+}: ProposalLoadingMessageProps) {
   const [isReady, setIsReady] = useState(false);
   const { user } = useApp();
 
@@ -27,19 +29,18 @@ export function ProposalLoadingMessage({
 
   return (
     <div className="animate-fade-in space-y-8 text-center font-body  min-h-[90vh] mt-28">
-
       {/* Titles */}
       <div className="space-y-3 text-card">
         <h2 className="text-4xl font-bold font-title">
-          {!isReady
-            ? "Please wait a moment"
-            : "Your proposal is ready to be seen"}
+          {isReady
+            ? "Your proposal is ready to be seen"
+            : "Please wait a moment"}
         </h2>
 
         <p className="text-xl text-card max-w-md mx-auto font-title">
-          {!isReady
-            ? "We're putting together a proposal"
-            : "Everything is ready. You can review it now."}
+          {isReady
+            ? "Everything is ready. You can review it now."
+            : "We're putting together a proposal"}
         </p>
       </div>
 
@@ -66,44 +67,3 @@ export function ProposalLoadingMessage({
   );
 }
 
-/* -------------------------------- */
-/* Loading dots component            */
-/* -------------------------------- */
-
-function LoadingDots() {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="dot" />
-      <span className="dot" />
-      <span className="dot" />
-
-      <style jsx>{`
-        .dot {
-          width: 24px;
-          height: 24px;
-          background-color: #f25c54;
-          border-radius: 9999px;
-          animation: bounce 1.4s infinite ease-in-out both;
-        }
-
-        .dot:nth-child(1) {
-          animation-delay: -0.32s;
-        }
-        .dot:nth-child(2) {
-          animation-delay: -0.16s;
-        }
-
-        @keyframes bounce {
-          0%,
-          80%,
-          100% {
-            transform: scale(0);
-          }
-          40% {
-            transform: scale(1);
-          }
-        }
-      `}</style>
-    </div>
-  );
-}

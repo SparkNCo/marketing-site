@@ -11,8 +11,6 @@ export type ContactFormProps = Readonly<{
   setEmail: (v: string) => void;
   setCompany: (v: string) => void;
   setIndustry: (v: string) => void;
-  onNext: () => void;
-  onPrev?: () => void;
 }>;
 
 export type CompanyDetailsFormProps = Readonly<{

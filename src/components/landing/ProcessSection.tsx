@@ -16,24 +16,19 @@ export default function ProcessSection() {
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
 
-    // Function to check all steps and find the one closest to center
     const updateActiveStep = () => {
       const viewportCenter = window.innerHeight / 2;
       let closestStep = 0;
       let closestDistance = Infinity;
 
-      // Check ALL steps to find which is closest to center
       stepRefs.current.forEach((stepElement, index) => {
-        
         if (!stepElement) return;
 
         const rect = stepElement.getBoundingClientRect();
         const stepCenter = rect.top + rect.height / 2;
         const distance = Math.abs(stepCenter - viewportCenter);
 
-        // Only consider steps that are at least partially visible
-        const isVisible =
-          rect.top < window.innerHeight && rect.bottom > 0;
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
 
         if (isVisible && distance < closestDistance) {
           closestDistance = distance;
@@ -42,7 +37,7 @@ export default function ProcessSection() {
       });
 
       setActiveStep((prev) => {
-        return closestStep !== prev ? closestStep : prev;
+        return closestStep === prev ? prev : closestStep;
       });
     };
 
@@ -63,18 +58,8 @@ export default function ProcessSection() {
       observers.push(observer);
     });
 
-    // Initial check
     updateActiveStep();
-
-    // // Update on scroll for smoother tracking
-    // window.addEventListener("scroll", updateActiveStep, { passive: true });
-    // // Update on resize
-    // window.addEventListener("resize", updateActiveStep, { passive: true });
-
-    // Cleanup observers on unmount
     return () => {
-      // window.removeEventListener("scroll", updateActiveStep);
-      // window.removeEventListener("resize", updateActiveStep);
       observers.forEach((observer) => observer.disconnect());
     };
   }, []);
@@ -124,15 +109,14 @@ export default function ProcessSection() {
           {/* RIGHT - Sticky on desktop, normal scroll on mobile */}
           {activeStep > 0 && activeStep < 4 && (
             <div className="lg:col-span-3 fixed top-[192px] right-0 w-1/2">
-            <h3 className="text-2xl font-bold text-foreground mb-4">
-              {steps[activeStep]?.title || "Step " + steps[activeStep]?.id}
-            </h3>
-            <p className="text-foreground min-h-[12rem]">
-              Content for step {steps[activeStep]?.id}
-            </p>
-          </div>
+              <h3 className="text-2xl font-bold text-foreground mb-4">
+                {steps[activeStep]?.title || "Step " + steps[activeStep]?.id}
+              </h3>
+              <p className="text-foreground min-h-[12rem]">
+                Content for step {steps[activeStep]?.id}
+              </p>
+            </div>
           )}
-
         </div>
       </div>
     </section>

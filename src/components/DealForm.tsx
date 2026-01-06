@@ -9,7 +9,7 @@ import { CompanyDetailsForm } from "./forms/company-details-form";
 import { ProductIdeaForm } from "./forms/product-idea-form";
 import { SuccessMessage } from "./utils/success-message";
 import AnimatedStepper from "./utils/animated-stepper";
-import CalendlyBooking from "./utils/CalendlyBooking";
+import CalendlyBooking, { type Slot } from "./utils/CalendlyBooking";
 
 type AvailabilityResponse = {
   timezone: string;
@@ -22,7 +22,6 @@ export default function DealForm() {
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(
     null
   );
-  const [error, setError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -96,16 +95,12 @@ export default function DealForm() {
               end: end.toISOString(),
             })
         );
-
         if (!res.ok) throw new Error("Failed to load availability");
-
         const data = await res.json();
-        console.log("data", data);
 
         setAvailability(data);
       } catch (err) {
         console.error(err);
-        setError("Failed to load availability");
       }
     };
 
@@ -160,7 +155,6 @@ export default function DealForm() {
 
         {currentStep === "product" && (
           <ProductIdeaForm
-            currentStep={currentStep}
             setCurrentStep={setCurrentStep}
             productIdea={formData.productIdea}
             setProductIdea={(value) =>
@@ -171,6 +165,8 @@ export default function DealForm() {
 
         {currentStep === "company" && (
           <CompanyDetailsForm
+            currentStep={currentStep}
+            setCurrentStep={setCurrentStep}
             budgetRange={[
               formData.monthlybudget.min,
               formData.monthlybudget.max,
@@ -191,26 +187,16 @@ export default function DealForm() {
                 estimateTimeline: { min: value[0], max: value[1] },
               }))
             }
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
           />
         )}
 
         {currentStep === "calendar" &&
           (() => {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, "0");
-            console.log(
-              "Calendly URL:",
-              `https://calendly.com/${import.meta.env.PUBLIC_CALENDLY_USERNAME}/interview?back=1&month=${year}-${month}`
-            );
             return (
               <CalendlyBooking
                 onSubmit={handleCalendarSubmit}
                 submitting={submitting}
-                setAvailability={setAvailability}
-                availability={availability?.days}
+                availability={availability?.days ?? {}}
               />
             );
           })()}

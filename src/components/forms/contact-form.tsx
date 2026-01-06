@@ -2,13 +2,11 @@
 
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Label } from "../ui/label";
 import type { ContactFormProps } from "../utils/types";
 
 export function ContactForm({
-  currentStep,
   setCurrentStep,
   name,
   email,
@@ -18,8 +16,6 @@ export function ContactForm({
   setEmail,
   setCompany,
   setIndustry,
-  onNext,
-  onPrev,
 }: ContactFormProps) {
   const [touchedNext, setTouchedNext] = useState(false);
 
@@ -160,7 +156,6 @@ export function ContactForm({
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="mt-12 flex flex-col gap-6 font-body lg:flex-row lg:justify-center lg:gap-0 w-full">
         <Button
           variant="nav"
@@ -170,7 +165,6 @@ export function ContactForm({
           disabled={touchedNext && !canProceed}
         >
           Next
-          {/*  <ChevronRight className="ml-3 h-6 w-6 lg:h-4 lg:w-4" /> */}
         </Button>
       </div>
     </div>

@@ -7,7 +7,6 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
-import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import { Plus, GripVertical, Trash2, Loader2 } from "lucide-react";
 import {
@@ -27,9 +26,8 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useApp } from "../../lib/AppProvider";
 
-type Feature = {
+type Feature = Readonly<{
   id: string;
   title: string;
   purpose: string;
@@ -37,17 +35,19 @@ type Feature = {
   integrations: string;
   tech_constraints: string;
   sort_order: number;
-};
+}>;
+
+type SortableFeatureCardProps = Readonly<{
+  feature: Feature;
+  onUpdate: (id: string, field: keyof Feature, value: string) => void;
+  onDelete: (id: string) => void;
+}>;
 
 function SortableFeatureCard({
   feature,
   onUpdate,
   onDelete,
-}: {
-  feature: Feature;
-  onUpdate: (id: string, field: keyof Feature, value: string) => void;
-  onDelete: (id: string) => void;
-}) {
+}: SortableFeatureCardProps) {
   const {
     attributes,
     listeners,
@@ -142,15 +142,16 @@ function SortableFeatureCard({
   );
 }
 
-export function FeaturesCollection({
-  submissionId,
-  pageMode,
-  setPageMode,
-}: {
+type FeaturesCollectionProps = Readonly<{
   submissionId: string;
   pageMode: string;
   setPageMode: Dispatch<SetStateAction<string>>;
-}) {
+}>;
+
+export function FeaturesCollection({
+  submissionId,
+  setPageMode,
+}: FeaturesCollectionProps) {
   const [features, setFeatures] = useState<Feature[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -307,9 +308,9 @@ export function FeaturesCollection({
           onClick={saveFeatures}
           disabled={isSaving || !hasCompletedFeature}
           title={
-            !hasCompletedFeature
-              ? "Complete at least one feature before saving"
-              : undefined
+            hasCompletedFeature
+              ? undefined
+              : "Complete at least one feature before saving"
           }
           className="flex-1 py-6 font-bold"
         >

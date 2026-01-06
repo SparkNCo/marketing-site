@@ -1,11 +1,6 @@
-import React, { lazy } from "react";
+import React from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
 import BuildScaleToggle from "./components/BuildScaleComponent";
-
-/* ───────────────── Types ───────────────── */
-
-/* ───────────────── Lazy steps ───────────────── */
-const StepOne = lazy(() => import("../DealForm"));
 
 /* ───────────────── Component ───────────────── */
 
@@ -25,7 +20,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           <h1 className="text-4xl font-bold tracking-tight text-background mb-6 text-balance leading-tight">
             Hands-free Software Delivery
           </h1>
-          <p className="text-4xl mb-12  max-w-2xl" style={{ color: 'var(--background)' }}>
+          <p
+            className="text-4xl mb-12  max-w-2xl"
+            style={{ color: "var(--background)" }}
+          >
             Take the first step towards enterprise grade software, at next
             generation speeds
           </p>

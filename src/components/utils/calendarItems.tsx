@@ -8,7 +8,7 @@ type Slot = {
   scheduling_url: string;
 };
 
-interface CalendarBookingItemsProps {
+type CalendarBookingItemsProps = Readonly<{
   days: Record<string, Slot[]>;
   selectedDate: string | null;
   selectedTime: string | null;
@@ -16,13 +16,12 @@ interface CalendarBookingItemsProps {
   onSelectDate: (date: string) => void;
   onSelectTime: (time: string) => void;
   onSelectLink: (link: string) => void;
-}
+}>;
 
 export function CalendarBookingItems({
   days,
   selectedDate,
   selectedTime,
-  selectedLink,
   onSelectDate,
   onSelectTime,
   onSelectLink,
@@ -73,13 +72,7 @@ export function CalendarBookingItems({
       <div>
         <Label className="text-card-foreground mb-3 block">Select Time</Label>
 
-        {!selectedDate ? (
-          <div className="text-center py-20 border-2 border-dashed border-border rounded-xl bg-card/40">
-            <p className="text-lg text-muted-foreground">
-              Please select a date to view available times
-            </p>
-          </div>
-        ) : (
+        {selectedDate ? (
           <div className="grid grid-cols-3 gap-3">
             {days[selectedDate]?.map((slot) => {
               const timeLabel = new Date(slot.time).toLocaleTimeString(
@@ -111,6 +104,12 @@ export function CalendarBookingItems({
                 </button>
               );
             })}
+          </div>
+        ) : (
+          <div className="text-center py-20 border-2 border-dashed border-border rounded-xl bg-card/40">
+            <p className="text-lg text-muted-foreground">
+              Please select a date to view available times
+            </p>
           </div>
         )}
       </div>
