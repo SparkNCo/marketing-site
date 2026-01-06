@@ -3,9 +3,6 @@ import { randomUUID } from "node:crypto";
 import { supabase } from "./server";
 import { sendWelcomeMail } from "../emails/emails";
 
-const CAL_BASE = "https://api.cal.com/v2";
-const CAL_USERNAME = "kabir-malkani-glnivq";
-
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
@@ -48,7 +45,6 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     const bookingData = await bookingRes.json();
-    console.log(bookingData?.data?.meetingUrl);
 
     const schedulingUrl = bookingData?.schedulingUrl || body.scheduling_url;
 
@@ -78,8 +74,6 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (leadError) throw leadError;
 
-    console.log("schedulingUrl", schedulingUrl);
-
     /* -------------------------------------------------
      * 3. Send confirmation email
      * ------------------------------------------------- */
@@ -87,7 +81,7 @@ export const POST: APIRoute = async ({ request }) => {
       await sendWelcomeMail({
         email: body.email,
         name: body.name,
-        leadId: leadData.id,
+        leadId: leadData.lead_id,
         schedulingUrl: bookingData?.data?.meetingUrl,
       });
 
@@ -97,7 +91,7 @@ export const POST: APIRoute = async ({ request }) => {
           email_sent: true,
           email_sent_at: new Date().toISOString(),
         })
-        .eq("id", leadData.id);
+        .eq("lead_id", leadData.lead_id);
     } catch (emailErr) {
       console.error("Failed to send welcome email:", emailErr);
     }

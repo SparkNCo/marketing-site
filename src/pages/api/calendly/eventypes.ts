@@ -27,7 +27,7 @@ export const GET: APIRoute = async () => {
       slug: event.slug,
       title: event.title,
       length: event.length,
-      scheduling_url: event.link, // booking link
+      scheduling_url: event.link, 
     }));
 
     console.log(events);
