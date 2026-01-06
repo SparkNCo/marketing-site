@@ -209,6 +209,7 @@ export default function DealForm() {
               <CalendlyBooking
                 onSubmit={handleCalendarSubmit}
                 submitting={submitting}
+                setAvailability={setAvailability}
                 availability={availability?.days}
               />
             );
