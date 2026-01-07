@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FeaturesCollection } from "../forms/features-collection";
 import type { ProposalIslandProps } from "../utils/interfaces";
 import CtaProposal from "./ctaProposal";
@@ -12,8 +12,31 @@ import ProposalHeader from "./proposalHeader";
 import { ProposalLoadingMessage } from "./ProposalLoadingMessage";
 import TechStackArchitecture from "./TechStackArchitecture";
 import { AnimatePresence, motion } from "framer-motion";
+import TestCreateProposal from "./TestCreateProposal";
 
-type PageMode = "features" | "loading" | "view";
+type PageMode = "features" | "loading" | "view" | "draft";
+type Proposal = {
+  id: string;
+  passcode: string;
+  summary_items: any[];
+  scopes: any[];
+  sections: any[];
+  deliverables: any[];
+  dependencies: any[];
+  milestones: any[];
+  cost_breakdown: any[];
+  payment_milestones: any[];
+  assumptions: any[];
+  team: any[];
+  stack_section: any[];
+  initial_total_investment: {
+    amount: number;
+    note?: string;
+  };
+  why_this_stack: string;
+  total_duration: string;
+};
+type ProposalUpdate = Partial<Proposal>;
 
 const slideVariants = {
   initial: {
@@ -37,23 +60,79 @@ const slideVariants = {
     },
   },
 };
-
 const ProposalIsland: React.FC<ProposalIslandProps> = ({
   mode,
   submissionId,
 }) => {
-  if (mode === "features" && !submissionId) {
+  if ((mode === "features" || mode === "draft") && !submissionId) {
     return <div>Missing submissionId</div>;
   }
 
-  type PageMode = "features" | "loading" | "view";
-
   const initialMode: PageMode =
-    mode === "features" || mode === "loading" || mode === "view"
+    mode === "features" ||
+    mode === "draft" ||
+    mode === "loading" ||
+    mode === "view"
       ? mode
       : "view";
 
   const [pageMode, setPageMode] = useState<PageMode>(initialMode);
+  const [proposal, setProposal] = useState<Proposal | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const updateProposal = async (updates: ProposalUpdate) => {
+    if (!proposal || !submissionId) return;
+
+    // optimistic UI update
+    setProposal((prev) =>
+      prev
+        ? {
+            ...prev,
+            ...updates,
+          }
+        : prev
+    );
+  };
+
+  const updateProposalProp =
+    <K extends keyof Proposal>(prop: K) =>
+    async (value: Proposal[K]) => {
+      await updateProposal({
+        [prop]: value,
+      } as Pick<Proposal, K>);
+    };
+
+  useEffect(() => {
+    if (!submissionId) return;
+
+    const fetchProposal = async () => {
+      try {
+        setLoading(true);
+
+        const res = await fetch(
+          `/api/proposals/get-by-passcode?passcode=${submissionId}`
+        );
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch proposal");
+        }
+
+        const { data } = await res.json();
+        setProposal(data);
+      } catch (err) {
+        console.error(err);
+        setError("Unable to load proposal");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProposal();
+  }, [submissionId]);
+
+  if (loading) return <div>Loading proposal…</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
 
   return (
     <AnimatePresence mode="wait">
@@ -85,7 +164,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
         </motion.div>
       )}
 
-      {pageMode === "view" && (
+      {pageMode === "draft" && (
         <motion.div
           key="view"
           variants={slideVariants}
@@ -96,14 +175,46 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
           <>
             <ProposalHeader />
             <main className="min-h-screen flex flex-col items-center justify-start px-4 py-6 bg-background text-secondary">
-              <ExecutiveSummary />
-              <ProjectScope />
-              <Deliverables />
-              <PlanTimeline />
-              <PricingStructure />
-              <DedicatedTeam />
-              <TechStackArchitecture />
+              <div onClick={() => console.log("proposal", proposal)}>VER</div>
+              <ExecutiveSummary
+                summary_items={proposal?.summary_items}
+                setProposal={updateProposalProp("summary_items")}
+              />
+              <ProjectScope
+                initialScopes={proposal?.scopes}
+                intialSections={proposal?.sections}
+                updateScopes={updateProposalProp("scopes")}
+                updateSections={updateProposalProp("sections")}
+              />
+              <Deliverables
+                initialDeliverables={proposal?.deliverables}
+                setProposal={updateProposalProp("deliverables")}
+              />
+              <PlanTimeline
+                initialDependencies={proposal?.dependencies}
+                initialMilestones={proposal?.milestones}
+                initialTotalDuration={proposal?.total_duration}
+                setDependenciesState={updateProposalProp("dependencies")}
+                setMilestonesState={updateProposalProp("milestones")}
+                setTotalDurationState={updateProposalProp("total_duration")}
+              />
+              {/*  <PricingStructure />*/}
+              <DedicatedTeam
+                initialTeam={proposal?.team}
+                setProposal={updateProposalProp("team")}
+              />
+              <TechStackArchitecture
+                initialStack={proposal?.stack_section}
+                initialWhyThisStack={proposal?.why_this_stack}
+                setStack={updateProposalProp("stack_section")}
+                setWhyThisStackState={updateProposalProp("why_this_stack")}
+              />
               <CtaProposal />
+              <TestCreateProposal
+                submissionId={submissionId}
+                proposal={proposal}
+              />{" "}
+              {/* JUST 4 TESTING  */}
             </main>
           </>
         </motion.div>

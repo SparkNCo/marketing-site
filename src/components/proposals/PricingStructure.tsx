@@ -46,7 +46,7 @@ const initialCostBreakdown = [
   },
 ];
 
-const initialPaymentMilestones = [
+/* const initialPaymentMilestones = [
   {
     milestone: "Contract Signing",
     percentage: "30%",
@@ -77,9 +77,9 @@ const initialPaymentMilestones = [
     amount: "$18,500",
     trigger: "Week 16 - live deployment",
   },
-];
+]; */
 
-const initialAssumptions = [
+/* const initialAssumptions = [
   {
     title: "Included",
     description:
@@ -95,9 +95,12 @@ const initialAssumptions = [
     description:
       "Client delays beyond 5 business days may result in schedule adjustment and potential additional PM costs",
   },
-];
+]; */
 
-export default function PricingStructure() {
+export default function PricingStructure({
+  initialAssumptions,
+  initialPaymentMilestones,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => setIsEditing((v) => !v);
 

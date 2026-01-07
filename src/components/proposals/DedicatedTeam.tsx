@@ -11,7 +11,7 @@ export type TeamMember = {
   description: string;
   commitment: string;
 };
-
+/* 
 const initialTeam = [
   {
     name: "Sarah Chen",
@@ -55,9 +55,9 @@ const initialTeam = [
       "Automated testing specialist. Security and performance auditing experience.",
     commitment: "30 hrs/week",
   },
-];
+]; */
 
-export default function DedicatedTeam() {
+export default function DedicatedTeam({ initialTeam, setProposal }) {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeam);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -88,6 +88,9 @@ export default function DedicatedTeam() {
   };
 
   const toggleEditMode = () => {
+    if (isEditing) {
+      setProposal(teamMembers);
+    }
     setIsEditing((prev) => !prev);
   };
   return (
@@ -97,9 +100,7 @@ export default function DedicatedTeam() {
       <div className="mb-6 mt-10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Users className="h-6 w-6 text-primary" />
-          <h2 className="text-3xl font-bold text-card">
-            Your Dedicated Team
-          </h2>
+          <h2 className="text-3xl font-bold text-card">Your Dedicated Team</h2>
         </div>
 
         <Button
@@ -129,7 +130,7 @@ export default function DedicatedTeam() {
         />
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
-          {teamMembers.map((member) => (
+          {teamMembers?.map((member) => (
             <Card
               key={member.name}
               className="border-border bg-background p-6 transition-colors hover:border-primary border-card"

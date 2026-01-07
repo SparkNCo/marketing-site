@@ -21,7 +21,7 @@ export interface Dependency {
   description: string;
 }
 
-const initialDependencies = [
+/* const initialDependencies = [
   {
     week: "Week 1",
     description: "Client must provide SAP API credentials and documentation",
@@ -34,9 +34,9 @@ const initialDependencies = [
     week: "Week 12",
     description: "UAT participants identified and scheduled",
   },
-];
+]; */
 
-const initialRisk = [
+/* const initialRisk = [
   {
     title: "SAP Integration Complexity",
     mitigation:
@@ -50,9 +50,9 @@ const initialRisk = [
     title: "Scope Creep",
     mitigation: "Formal change request process with impact analysis",
   },
-];
+]; */
 
-const initialMileStones = [
+/* const initialMileStones = [
   {
     phase: "Discovery & Design",
     duration: "Weeks 1-3",
@@ -113,18 +113,29 @@ const initialMileStones = [
       "Performance optimization",
     ],
   },
-];
+]; */
 
-export default function PlanTimeline() {
-  const [totalDuration, setTotalDuration] = useState("16 weeks");
-  const [mileStones, setMileStones] = useState<Milestones[]>(initialMileStones);
+export default function PlanTimeline({
+  initialDependencies,
+  initialMilestones,
+  initialTotalDuration,
+  setDependenciesState,
+  setMilestonesState,
+  setTotalDurationState,
+}) {
+  const [totalDuration, setTotalDuration] = useState(initialTotalDuration);
+  const [mileStones, setMileStones] = useState<Milestones[]>(initialMilestones);
   const [dependencies, setDependencies] =
     useState<Dependency[]>(initialDependencies);
   const [isEditing, setIsEditing] = useState(false);
   const toggleEditMode = () => {
+    if (isEditing) {
+      setDependenciesState(dependencies);
+      setMilestonesState(mileStones);
+      setTotalDurationState(totalDuration);
+    }
     setIsEditing((prev) => !prev);
   };
-
   return (
     <section className="mb-16 w-[80vw]">
       <div className="mb-6 mt-10 flex items-center justify-between">
@@ -170,7 +181,7 @@ export default function PlanTimeline() {
             from contract signing
           </p>
           <div className="space-y-6">
-            {mileStones.map((milestone, idx) => (
+            {mileStones?.map((milestone, idx) => (
               <div
                 key={idx}
                 className="border-l-2 border-primary pl-6 relative"
@@ -178,14 +189,14 @@ export default function PlanTimeline() {
                 <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary" />
                 <div className="flex items-start justify-between flex-wrap gap-2 mb-2">
                   <h3 className="text-lg font-semibold text-foreground">
-                    {milestone.phase}
+                    {milestone?.phase}
                   </h3>
                   <Badge variant="outline" className="text-xs">
-                    {milestone.duration}
+                    {milestone?.duration}
                   </Badge>
                 </div>
                 <ul className="space-y-1 text-sm text-muted-foreground">
-                  {milestone.tasks.map((task, i) => (
+                  {milestone?.tasks?.map((task, i) => (
                     <li key={i}>• {task}</li>
                   ))}
                 </ul>
@@ -199,7 +210,7 @@ export default function PlanTimeline() {
             </h3>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ">
-              {dependencies.map((item) => (
+              {dependencies?.map((item) => (
                 <div
                   key={item.week}
                   className="rounded-md border border-border bg-background p-4 border-primary"

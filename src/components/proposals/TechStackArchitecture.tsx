@@ -13,7 +13,7 @@ export type StackSection = {
   title: string;
   items: StackItem[];
 };
-
+/* 
 const initialStackSections = [
   {
     title: "Platform & Frameworks",
@@ -61,14 +61,25 @@ const initialStackSections = [
 
 const initialWhyThisStack =
   "We've chosen battle-tested, enterprise-grade technologies that balance performance, scalability, and maintainability. This stack is used by companies like Airbnb, Netflix, and Uber. React/Next.js provides fast, SEO-friendly interfaces. PostgreSQL offers robust ACID compliance for financial data. AWS ensures 99.99% uptime with easy scaling as you grow.";
-
-export default function TechStackArchitecture() {
+ */
+export default function TechStackArchitecture({
+  initialStack,
+  initialWhyThisStack,
+  setStack,
+  setWhyThisStackState,
+}) {
   const [stackSections, setStackSections] =
-    useState<StackSection[]>(initialStackSections);
+    useState<StackSection[]>(initialStack);
   const [whyThisStack, setWhyThisStack] = useState(initialWhyThisStack);
   const [isEditing, setIsEditing] = useState(false);
 
-  const toggleEdit = () => setIsEditing((v) => !v);
+  const toggleEditMode = () => {
+    if (isEditing) {
+      setStack(stackSections);
+      setWhyThisStackState(whyThisStack);
+    }
+    setIsEditing((prev) => !prev);
+  };
 
   const updateStackValue = (
     sectionIndex: number,
@@ -76,11 +87,11 @@ export default function TechStackArchitecture() {
     value: string
   ) => {
     setStackSections((prev) =>
-      prev.map((section, sIdx) =>
+      prev?.map((section, sIdx) =>
         sIdx === sectionIndex
           ? {
               ...section,
-              items: section.items.map((item, iIdx) =>
+              items: section?.items?.map((item, iIdx) =>
                 iIdx === itemIndex ? { ...item, value } : item
               ),
             }
@@ -100,11 +111,11 @@ export default function TechStackArchitecture() {
     value: string
   ) => {
     setStackSections((prev) =>
-      prev.map((section, sIdx) =>
+      prev?.map((section, sIdx) =>
         sIdx === sectionIndex
           ? {
               ...section,
-              items: section.items.map((item, iIdx) =>
+              items: section.items?.map((item, iIdx) =>
                 iIdx === itemIndex ? { ...item, [field]: value } : item
               ),
             }
@@ -115,7 +126,7 @@ export default function TechStackArchitecture() {
 
   const addStackItem = (sectionIndex: number) => {
     setStackSections((prev) =>
-      prev.map((section, idx) =>
+      prev?.map((section, idx) =>
         idx === sectionIndex
           ? {
               ...section,
@@ -128,7 +139,7 @@ export default function TechStackArchitecture() {
 
   const removeStackItem = (sectionIndex: number, itemIndex: number) => {
     setStackSections((prev) =>
-      prev.map((section, idx) =>
+      prev?.map((section, idx) =>
         idx === sectionIndex
           ? {
               ...section,
@@ -153,7 +164,7 @@ export default function TechStackArchitecture() {
         <Button
           variant="outline"
           size="sm"
-          onClick={toggleEdit}
+          onClick={toggleEditMode}
           className="flex items-center gap-2 bg-background"
         >
           {isEditing ? (
@@ -171,14 +182,14 @@ export default function TechStackArchitecture() {
       {!isEditing ? (
         <Card className="border-border bg-background p-8 border-card">
           <div className="grid gap-8 md:grid-cols-2">
-            {stackSections.map((section) => (
+            {stackSections?.map((section) => (
               <div key={section.title}>
                 <h3 className="mb-4 text-lg font-semibold text-primary">
                   {section.title}
                 </h3>
 
                 <ul className="space-y-2 text-sm text-foreground">
-                  {section.items.map((item) => (
+                  {section?.items?.map((item) => (
                     <li key={item.label} className="flex items-start gap-2">
                       <span className="mb-1 text-primary">
                         <ArrowRight />

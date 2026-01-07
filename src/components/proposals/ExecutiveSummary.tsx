@@ -6,32 +6,28 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import ExecutiveSummaryEditor from "./ExecutiveSummaryEditor";
 
-export interface SummaryItem {
+type SummaryItem = {
   title: string;
   content: string;
+};
+interface ExecutiveSummaryProps {
+  summary_items?: SummaryItem[];
+  setProposal: (data: SummaryItem[]) => void;
 }
 
-export default function ExecutiveSummary({  }) {
+export default function ExecutiveSummary({
+  summary_items = [],
+  setProposal,
+}: ExecutiveSummaryProps) {
+  const [isDirty, setIsDirty] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [summaryItems, setSummaryItems] = useState<SummaryItem[]>([
-    {
-      title: "Client Objectives",
-      content:
-        "Acme Corp seeks to modernize their legacy inventory management system to improve operational efficiency, reduce manual errors, and provide real-time visibility across 15 warehouse locations.",
-    },
-    {
-      title: "Opportunity & Value Statement",
-      content:
-        "Our proposed cloud-based solution will reduce inventory processing time by 60%, eliminate duplicate data entry, and provide actionable insights through advanced analytics—translating to estimated annual savings of $450,000 and improved customer satisfaction.",
-    },
-    {
-      title: "High-Level Solution Methodology",
-      content:
-        "We will deliver a full-stack web application with mobile-responsive design, built using modern frameworks, integrated with existing ERP systems, and deployed on scalable cloud infrastructure with 99.9% uptime SLA.",
-    },
-  ]);
+  const [summaryItems, setSummaryItems] =
+    useState<SummaryItem[]>(summary_items);
 
   const toggleEditMode = () => {
+    if (isEditing) {
+      setProposal(summaryItems);
+    }
     setIsEditing((prev) => !prev);
   };
 
@@ -43,17 +39,17 @@ export default function ExecutiveSummary({  }) {
     setSummaryItems((prev) =>
       prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
     );
+    if (isEditing && isDirty) {
+      setProposal(summaryItems);
+    }
   };
-
   return (
     <section className="mb-16 w-[80vw]">
       {/* Header */}
       <div className="mb-6 mt-10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <FileText className="h-6 w-6 text-primary" />
-          <h2 className="text-3xl font-bold text-card">
-            Executive Summary
-          </h2>
+          <h2 className="text-3xl font-bold text-card">Executive Summary</h2>
         </div>
 
         <Button

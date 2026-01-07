@@ -16,78 +16,24 @@ export interface ScopeList {
   items: string[];
 }
 
-export default function ProjectScope() {
+export default function ProjectScope({
+  initialScopes,
+  intialSections,
+  updateScopes,
+  updateSections,
+}) {
   const [isEditing, setIsEditing] = useState(false);
+  const [sections, setSections] = useState<ScopeSection[]>(intialSections);
+  const [scopeComparison, setScopeComparison] =
+    useState<ScopeList[]>(initialScopes);
 
-  const initialSections: ScopeSection[] = [
-    {
-      title: "Features & Modules",
-      bullets: [
-        "Real-time inventory tracking dashboard",
-        "Automated purchase order generation",
-        "Barcode / QR scanning capabilities",
-        "Multi-warehouse management",
-        "Advanced reporting and analytics",
-        "Role-based access control",
-      ],
-    },
-    {
-      title: "User Types & Roles",
-      bullets: [
-        "System Administrator (full access)",
-        "Warehouse Manager (location-specific)",
-        "Inventory Specialist (data entry & updates)",
-        "Purchasing Agent (PO management)",
-        "Executive (read-only analytics)",
-      ],
-    },
-    {
-      title: "Integrations",
-      bullets: [
-        "SAP ERP system (bi-directional sync)",
-        "QuickBooks for financial data",
-        "Shipping carrier APIs (FedEx, UPS, USPS)",
-        "Email notifications (SendGrid)",
-      ],
-    },
-    {
-      title: "Platforms",
-      bullets: [
-        "Web application (Chrome, Firefox, Safari)",
-        "Mobile-responsive design (iOS & Android)",
-        "Cloud infrastructure (AWS)",
-        "RESTful API backend",
-      ],
-    },
-  ];
-
-  const [sections, setSections] = useState<ScopeSection[]>(initialSections);
-
-  const [scopeComparison, setScopeComparison] = useState<ScopeList[]>([
-    {
-      title: "In-Scope",
-      items: [
-        "Custom application development",
-        "Database design and setup",
-        "Third-party integrations",
-        "User training (3 sessions)",
-        "90 days post-launch support",
-        "Security auditing",
-      ],
-    },
-    {
-      title: "Out-of-Scope",
-      items: [
-        "Hardware procurement",
-        "Legacy data migration (available as add-on)",
-        "Native mobile apps",
-        "On-premise deployment",
-        "24/7 phone support",
-      ],
-    },
-  ]);
-
-  const toggleEdit = () => setIsEditing((v) => !v);
+  const toggleEditMode = () => {
+    if (isEditing) {
+      updateScopes(scopeComparison);
+      updateSections(sections);
+    }
+    setIsEditing((prev) => !prev);
+  };
 
   const updateScopeComparison = (
     groupIndex: number,
@@ -95,11 +41,11 @@ export default function ProjectScope() {
     value: string
   ) => {
     setScopeComparison((prev) =>
-      prev.map((group, gi) =>
+      prev?.map((group, gi) =>
         gi === groupIndex
           ? {
               ...group,
-              items: group.items.map((item, ii) =>
+              items: group?.items?.map((item, ii) =>
                 ii === itemIndex ? value : item
               ),
             }
@@ -114,12 +60,12 @@ export default function ProjectScope() {
     value: string
   ) => {
     setSections((prev) =>
-      prev.map((section, sIdx) =>
+      prev?.map((section, sIdx) =>
         sIdx !== sectionIndex
           ? section
           : {
               ...section,
-              bullets: section.bullets.map((b, bIdx) =>
+              bullets: section.bullets?.map((b, bIdx) =>
                 bIdx === bulletIndex ? value : b
               ),
             }
@@ -129,7 +75,7 @@ export default function ProjectScope() {
 
   const addBullet = (sectionIndex: number) => {
     setSections((prev) =>
-      prev.map((section, idx) =>
+      prev?.map((section, idx) =>
         idx !== sectionIndex
           ? section
           : {
@@ -142,7 +88,7 @@ export default function ProjectScope() {
 
   const removeBullet = (sectionIndex: number, bulletIndex: number) => {
     setSections((prev) =>
-      prev.map((section, sIdx) =>
+      prev?.map((section, sIdx) =>
         sIdx !== sectionIndex
           ? section
           : {
@@ -160,11 +106,11 @@ export default function ProjectScope() {
     value: string
   ) => {
     setScopeComparison((prev) =>
-      prev.map((group, gIdx) =>
+      prev?.map((group, gIdx) =>
         gIdx === groupIndex
           ? {
               ...group,
-              items: group.items.map((item, iIdx) =>
+              items: group.items?.map((item, iIdx) =>
                 iIdx === itemIndex ? value : item
               ),
             }
@@ -175,7 +121,7 @@ export default function ProjectScope() {
 
   const addScopeItem = (groupIndex: number) => {
     setScopeComparison((prev) =>
-      prev.map((group, gIdx) =>
+      prev?.map((group, gIdx) =>
         gIdx === groupIndex ? { ...group, items: [...group.items, ""] } : group
       )
     );
@@ -183,7 +129,7 @@ export default function ProjectScope() {
 
   const removeScopeItem = (groupIndex: number, itemIndex: number) => {
     setScopeComparison((prev) =>
-      prev.map((group, gIdx) =>
+      prev?.map((group, gIdx) =>
         gIdx === groupIndex
           ? {
               ...group,
@@ -206,7 +152,7 @@ export default function ProjectScope() {
         <Button
           variant="outline"
           size="sm"
-          onClick={toggleEdit}
+          onClick={toggleEditMode}
           className="flex items-center gap-2 bg-background"
         >
           {isEditing ? (
@@ -236,7 +182,7 @@ export default function ProjectScope() {
       ) : (
         <>
           <div className="grid gap-6 md:grid-cols-2">
-            {sections.map((section) => (
+            {sections?.map((section) => (
               <Card
                 key={section.title}
                 className="border-border bg-background p-6 border-card"
@@ -246,7 +192,7 @@ export default function ProjectScope() {
                 </h3>
 
                 <ul className="list-disc space-y-2 pl-6 text-foreground">
-                  {section.bullets.map((bullet) => (
+                  {section?.bullets?.map((bullet) => (
                     <li key={bullet}>{bullet}</li>
                   ))}
                 </ul>
@@ -260,7 +206,7 @@ export default function ProjectScope() {
             </h3>
 
             <div className="grid gap-8 md:grid-cols-2">
-              {scopeComparison.map((group) => (
+              {scopeComparison?.map((group) => (
                 <div key={group.title}>
                   <h4 className={`mb-3 font-bold text-secondary`}>
                     {group.title}
@@ -269,7 +215,7 @@ export default function ProjectScope() {
                   <ul
                     className={`list-disc space-y-1 pl-6 text-sm text-foreground`}
                   >
-                    {group.items.map((item) => (
+                    {group?.items?.map((item) => (
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
