@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 
 const CAL_BASE = "https://api.cal.com/v1";
-const CAL_USERNAME = "kabir-malkani-glnivq"; // replace with your username
+const CAL_USERNAME = "kabir-malkani-glnivq";
 
 export const GET: APIRoute = async () => {
   try {

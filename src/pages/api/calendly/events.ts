@@ -27,6 +27,7 @@ export const GET: APIRoute = async () => {
     }
 
     const data = await res.json();
+    console.log("data", data);
 
     // Only expose what frontend needs
     const events = (data.event_types || [])

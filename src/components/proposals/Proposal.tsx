@@ -13,9 +13,12 @@ import TechStackArchitecture from "./TechStackArchitecture";
 import { AnimatePresence, motion } from "framer-motion";
 import TestCreateProposal from "./TestCreateProposal";
 import { useApp } from "../../lib/AppProvider";
-import { Lock } from "lucide-react";
-import { LoginRequire } from "./LoginRequire";
 import { DraftPlate } from "./DraftPlate";
+import {
+  InvalidPasscode,
+  MissingPasscode,
+  ProposalInProgress,
+} from "./MissingPasscode";
 
 type PageMode = "features" | "loading" | "view" | "draft";
 type Proposal = {
@@ -68,9 +71,9 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
   submissionId,
 }) => {
   if ((mode === "features" || mode === "draft") && !submissionId) {
-    return <div>Missing submissionId</div>;
+    return <MissingPasscode />;
   }
-  const { user, logout } = useApp();
+  const { dbUser } = useApp();
 
   const initialMode: PageMode =
     mode === "features" ||
@@ -136,7 +139,6 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
   }, [submissionId]);
 
   if (loading) return <div>Loading proposal…</div>;
-  if (error) return <div className="text-red-500">{error}</div>;
 
   return (
     <AnimatePresence mode="wait">
@@ -176,56 +178,76 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
           animate="animate"
           exit="exit"
         >
-          <>
-            <ProposalHeader />
-            <main className="min-h-screen flex flex-col items-center justify-start px-4 py-6 bg-background text-secondary">
-              {pageMode === "draft" && <DraftPlate />}
-              <ExecutiveSummary
-                summary_items={proposal?.summary_items}
-                setProposal={updateProposalProp("summary_items")}
-              />
+          {proposal?.stage !== "for-review" && dbUser?.role !== "admin" ? (
+            <div className="min-h-[90vh] pt-20">
+              <ProposalInProgress />
+            </div>
+          ) : (
+            <>
+              <ProposalHeader />
+              <main className="min-h-screen flex flex-col items-center justify-start px-4 py-6 bg-background text-secondary">
+                {dbUser && dbUser.role === "admin" && (
+                  <DraftPlate proposal={proposal} setProposal={setProposal} />
+                )}
+                <ExecutiveSummary
+                  summary_items={proposal?.summary_items}
+                  setProposal={updateProposalProp("summary_items")}
+                />
+                <ProjectScope
+                  initialScopes={proposal?.scopes}
+                  intialSections={proposal?.sections}
+                  updateScopes={updateProposalProp("scopes")}
+                  updateSections={updateProposalProp("sections")}
+                />
 
-              <ProjectScope
-                initialScopes={proposal?.scopes}
-                intialSections={proposal?.sections}
-                updateScopes={updateProposalProp("scopes")}
-                updateSections={updateProposalProp("sections")}
-              />
+                <Deliverables
+                  initialDeliverables={proposal?.deliverables}
+                  setProposal={updateProposalProp("deliverables")}
+                />
 
-              <Deliverables
-                initialDeliverables={proposal?.deliverables}
-                setProposal={updateProposalProp("deliverables")}
-              />
+                <PlanTimeline
+                  initialDependencies={proposal?.dependencies}
+                  initialMilestones={proposal?.milestones}
+                  initialTotalDuration={proposal?.total_duration}
+                  setDependenciesState={updateProposalProp("dependencies")}
+                  setMilestonesState={updateProposalProp("milestones")}
+                  setTotalDurationState={updateProposalProp("total_duration")}
+                />
 
-              <PlanTimeline
-                initialDependencies={proposal?.dependencies}
-                initialMilestones={proposal?.milestones}
-                initialTotalDuration={proposal?.total_duration}
-                setDependenciesState={updateProposalProp("dependencies")}
-                setMilestonesState={updateProposalProp("milestones")}
-                setTotalDurationState={updateProposalProp("total_duration")}
-              />
+                <DedicatedTeam
+                  initialTeam={proposal?.team}
+                  setProposal={updateProposalProp("team")}
+                />
 
-              <DedicatedTeam
-                initialTeam={proposal?.team}
-                setProposal={updateProposalProp("team")}
-              />
+                <TechStackArchitecture
+                  initialStack={proposal?.stack_section}
+                  initialWhyThisStack={proposal?.why_this_stack}
+                  setStack={updateProposalProp("stack_section")}
+                  setWhyThisStackState={updateProposalProp("why_this_stack")}
+                />
 
-              <TechStackArchitecture
-                initialStack={proposal?.stack_section}
-                initialWhyThisStack={proposal?.why_this_stack}
-                setStack={updateProposalProp("stack_section")}
-                setWhyThisStackState={updateProposalProp("why_this_stack")}
-              />
+                <CtaProposal />
+                {dbUser && dbUser.role === "admin" && (
+                  <TestCreateProposal
+                    submissionId={submissionId}
+                    proposal={proposal}
+                  />
+                )}
+              </main>
+            </>
+          )}
+        </motion.div>
+      )}
 
-              <CtaProposal />
-
-              <TestCreateProposal
-                submissionId={submissionId}
-                proposal={proposal}
-              />
-            </main>
-          </>
+      {pageMode === "draft" && error === "Unable to load proposal" && (
+        <motion.div
+          key="view"
+          variants={slideVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+        >
+          <InvalidPasscode />
         </motion.div>
       )}
     </AnimatePresence>

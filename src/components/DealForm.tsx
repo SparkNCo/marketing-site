@@ -90,7 +90,8 @@ export default function DealForm() {
         const res = await fetch(
           `/api/calendly/availability?` +
             new URLSearchParams({
-              eventSlug: "15min",
+              //eventSlug: "15min",
+              eventSlug: "discovery",
               start: start.toISOString(),
               end: end.toISOString(),
             })

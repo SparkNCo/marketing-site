@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
-import { randomUUID } from "node:crypto";
+import { randomUUID, randomBytes } from "node:crypto";
+
 import { supabase } from "../submissions/server";
 import {
   DEFAULT_ASSUMPTIONS,
@@ -22,12 +23,13 @@ export const POST: APIRoute = async ({ request }) => {
     const body = await request.json();
 
     const { lead_id } = body;
+    const passCodeCreated = randomBytes(3).toString("hex").toUpperCase();
 
     const { data, error } = await supabase
       .from("proposals")
       .insert({
         proposal_id: randomUUID(),
-        passcode: randomUUID(),
+        passcode: passCodeCreated,
         stage: "draft",
         summary_items: DEFAULT_SUMMARY_ITEMS ?? [],
         sections: DEFAULT_SECTIONS ?? [],
@@ -71,7 +73,7 @@ export const createProposal = async ({
   lead_id: string;
   creator_email: string;
 }) => {
-  const passCodeCreated = randomUUID();
+  const passCodeCreated = randomBytes(3).toString("hex").toUpperCase();
 
   try {
     const { data, error } = await supabase

@@ -54,7 +54,7 @@ export const GET: APIRoute = async ({ request }) => {
       let slotStart = new Date(rangeStart);
 
       while (slotStart < rangeEnd) {
-        const slotEnd = new Date(slotStart.getTime() + 15 * 60 * 1000);
+        const slotEnd = new Date(slotStart.getTime() + 30 * 60 * 1000);
         if (slotEnd > rangeEnd) break;
 
         const dayKey = slotStart.toISOString().split("T")[0];

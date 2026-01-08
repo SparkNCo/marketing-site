@@ -148,7 +148,7 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
             </button>
 
             {/* TOGGLE */}
-            <p className="text-xs text-center text-muted-foreground">
+            {/* <p className="text-xs text-center text-muted-foreground">
               {isSignup
                 ? "Already have an account?"
                 : "I don’t have an account"}{" "}
@@ -162,7 +162,7 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
               >
                 {isSignup ? "Sign in" : "Sign up"}
               </button>
-            </p>
+            </p> */}
           </div>
         </div>
       )}
