@@ -21,7 +21,7 @@ export default function CreateProposalCta({ submissionId, proposal }) {
     console.log("response", res);
   };
 
-  const createBlankProposal = async () => {
+  /*   const createBlankProposal = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -62,32 +62,14 @@ export default function CreateProposalCta({ submissionId, proposal }) {
     } finally {
       setLoading(false);
     }
-  };
+  }; */
 
   return (
     <section className="mb-16 w-[80vw] mx-auto">
       <Card className="p-8 bg-background border-primary border-2 text-center">
         <h2 className="text-2xl font-bold text-foreground mb-4">
-          TEST COMPONENT to Create or Save a Proposal
+          Save a Proposal Changes
         </h2>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button
-            size="lg"
-            disabled={loading}
-            onClick={createBlankProposal}
-            className="flex items-center gap-2"
-          >
-            {loading ? (
-              <>
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                Creating…
-              </>
-            ) : (
-              "Create Blank Proposal on supabase"
-            )}
-          </Button>
-        </div>
 
         {/* TO SAVE BUTTON */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -95,11 +77,11 @@ export default function CreateProposalCta({ submissionId, proposal }) {
             size="lg"
             disabled={loading}
             onClick={updateProposal}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 text-background font-semibold"
           >
             {loading ? (
               <>
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent text-background font-semibold " />
                 Creating…
               </>
             ) : (

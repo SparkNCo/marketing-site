@@ -6,13 +6,16 @@ import DedicatedTeam from "./DedicatedTeam";
 import Deliverables from "./Deliverables";
 import ExecutiveSummary from "./ExecutiveSummary";
 import PlanTimeline from "./PlanTimeline";
-import PricingStructure from "./PricingStructure";
 import ProjectScope from "./ProjectScope";
 import ProposalHeader from "./proposalHeader";
 import { ProposalLoadingMessage } from "./ProposalLoadingMessage";
 import TechStackArchitecture from "./TechStackArchitecture";
 import { AnimatePresence, motion } from "framer-motion";
 import TestCreateProposal from "./TestCreateProposal";
+import { useApp } from "../../lib/AppProvider";
+import { Lock } from "lucide-react";
+import { LoginRequire } from "./LoginRequire";
+import { DraftPlate } from "./DraftPlate";
 
 type PageMode = "features" | "loading" | "view" | "draft";
 type Proposal = {
@@ -67,6 +70,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
   if ((mode === "features" || mode === "draft") && !submissionId) {
     return <div>Missing submissionId</div>;
   }
+  const { user, logout } = useApp();
 
   const initialMode: PageMode =
     mode === "features" ||
@@ -175,21 +179,24 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
           <>
             <ProposalHeader />
             <main className="min-h-screen flex flex-col items-center justify-start px-4 py-6 bg-background text-secondary">
-              <div onClick={() => console.log("proposal", proposal)}>VER</div>
+              {pageMode === "draft" && <DraftPlate />}
               <ExecutiveSummary
                 summary_items={proposal?.summary_items}
                 setProposal={updateProposalProp("summary_items")}
               />
+
               <ProjectScope
                 initialScopes={proposal?.scopes}
                 intialSections={proposal?.sections}
                 updateScopes={updateProposalProp("scopes")}
                 updateSections={updateProposalProp("sections")}
               />
+
               <Deliverables
                 initialDeliverables={proposal?.deliverables}
                 setProposal={updateProposalProp("deliverables")}
               />
+
               <PlanTimeline
                 initialDependencies={proposal?.dependencies}
                 initialMilestones={proposal?.milestones}
@@ -198,23 +205,25 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
                 setMilestonesState={updateProposalProp("milestones")}
                 setTotalDurationState={updateProposalProp("total_duration")}
               />
-              {/*  <PricingStructure />*/}
+
               <DedicatedTeam
                 initialTeam={proposal?.team}
                 setProposal={updateProposalProp("team")}
               />
+
               <TechStackArchitecture
                 initialStack={proposal?.stack_section}
                 initialWhyThisStack={proposal?.why_this_stack}
                 setStack={updateProposalProp("stack_section")}
                 setWhyThisStackState={updateProposalProp("why_this_stack")}
               />
+
               <CtaProposal />
+
               <TestCreateProposal
                 submissionId={submissionId}
                 proposal={proposal}
-              />{" "}
-              {/* JUST 4 TESTING  */}
+              />
             </main>
           </>
         </motion.div>
@@ -224,3 +233,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
 };
 
 export default ProposalIsland;
+
+{
+  /* <LoginRequire /> */
+}

@@ -80,7 +80,7 @@ function SortableFeatureCard({
           <GripVertical className="h-5 w-5" />
         </button>
 
-        <CardTitle className="flex-1 text-lg font-semibold">
+        <CardTitle className="flex-1 text-lg font-semibold text-foreground">
           Feature #{feature.sort_order + 1}
         </CardTitle>
 

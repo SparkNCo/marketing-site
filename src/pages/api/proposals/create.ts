@@ -64,7 +64,13 @@ export const POST: APIRoute = async ({ request }) => {
   }
 };
 
-export const createProposal = async ({ lead_id }: { lead_id: string }) => {
+export const createProposal = async ({
+  lead_id,
+  creator_email,
+}: {
+  lead_id: string;
+  creator_email: string;
+}) => {
   const passCodeCreated = randomUUID();
 
   try {
@@ -89,6 +95,7 @@ export const createProposal = async ({ lead_id }: { lead_id: string }) => {
         why_this_stack: DEFAULT_WHY_THIS_STACK,
         total_duration: "16 weeks",
         lead_id: lead_id,
+        creator_email: creator_email,
       })
       .select()
       .single();

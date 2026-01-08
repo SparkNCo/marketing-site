@@ -17,6 +17,7 @@ export default function ProposalShell({ user, mode, submissionId }: Props) {
     <AppProvider initialUser={user}>
       <Header headerMode={"form"} />
       <ProposalIsland mode={mode} submissionId={submissionId} />
+
       <Footer />
     </AppProvider>
   );

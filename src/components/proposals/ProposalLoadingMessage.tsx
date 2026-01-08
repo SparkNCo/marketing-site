@@ -16,7 +16,7 @@ export function ProposalLoadingMessage({
   const { user } = useApp();
 
   const onViewProposal = () => {
-    setPageMode("view");
+    setPageMode("draft");
   };
 
   useEffect(() => {
@@ -66,4 +66,3 @@ export function ProposalLoadingMessage({
     </div>
   );
 }
-

@@ -73,7 +73,10 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (leadError) throw leadError;
 
-    const proposalData = await createProposal({ lead_id: leadData.lead_id });
+    const proposalData = await createProposal({
+      lead_id: leadData.lead_id,
+      creator_email: body.email,
+    });
 
     /* -------------------------------------------------
      * 3. Send confirmation email
@@ -85,7 +88,7 @@ export const POST: APIRoute = async ({ request }) => {
         name: body.name,
         leadId: leadData.lead_id,
         schedulingUrl: bookingData?.data?.meetingUrl,
-        proposalLink: `http://localhost:4321/proposal?mode=draft&passcode=${proposalData.passcode}`,
+        proposalLink: `http://localhost:4321/proposal?mode=features&passcode=${proposalData.passcode}`,
       });
 
       await supabase
