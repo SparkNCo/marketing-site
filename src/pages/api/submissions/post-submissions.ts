@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { randomUUID } from "node:crypto";
 import { supabase } from "./server";
 import { sendWelcomeMail } from "../emails/emails";
+import { createProposal } from "../proposals/create";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -29,8 +30,6 @@ export const POST: APIRoute = async ({ request }) => {
         timeZone: "America/Toronto",
         language: "en",
       },
-
-      // 🧾 metadata SIEMPRE como objeto
       metadata: {},
     };
 
@@ -74,15 +73,19 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (leadError) throw leadError;
 
+    const proposalData = await createProposal({ lead_id: leadData.lead_id });
+
     /* -------------------------------------------------
      * 3. Send confirmation email
      * ------------------------------------------------- */
+
     try {
       await sendWelcomeMail({
         email: body.email,
         name: body.name,
         leadId: leadData.lead_id,
         schedulingUrl: bookingData?.data?.meetingUrl,
+        proposalLink: `http://localhost:4321/proposal?mode=draft&passcode=${proposalData.passcode}`,
       });
 
       await supabase
@@ -91,7 +94,7 @@ export const POST: APIRoute = async ({ request }) => {
           email_sent: true,
           email_sent_at: new Date().toISOString(),
         })
-        .eq("lead_id", leadData.lead_id);
+        .eq("lead_id", leadData?.lead_id);
     } catch (emailErr) {
       console.error("Failed to send welcome email:", emailErr);
     }

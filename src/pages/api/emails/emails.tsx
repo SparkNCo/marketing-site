@@ -7,6 +7,7 @@ type SendWelcomeMailParams = {
   name: string;
   leadId: string;
   schedulingUrl: string;
+  proposalLink: string;
 };
 
 export async function sendWelcomeMail({
@@ -14,6 +15,7 @@ export async function sendWelcomeMail({
   name,
   leadId,
   schedulingUrl,
+  proposalLink,
 }: SendWelcomeMailParams) {
   console.log("Sending welcome email to:", email, leadId, name);
 
@@ -22,6 +24,7 @@ export async function sendWelcomeMail({
       name={name}
       leadId={leadId}
       schedulingUrl={schedulingUrl}
+      proposalLink={proposalLink}
     />
   );
 
@@ -32,7 +35,6 @@ export async function sendWelcomeMail({
     html,
   });
 
-  console.log("Welcome email sent response:", response);
 
   return response;
 }

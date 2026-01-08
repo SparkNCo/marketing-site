@@ -16,14 +16,15 @@ interface WelcomeProposalTemplateProps {
   name: string;
   leadId: string;
   schedulingUrl: string;
+  proposalLink: string;
 }
 
 const WelcomeProposalTemplate = ({
   name,
   leadId,
   schedulingUrl,
+  proposalLink,
 }: WelcomeProposalTemplateProps) => {
-  const proposalUrl = `http://localhost:4321/proposal?mode=features&id=${leadId}`;
   const previewText =
     "Your proposal is ready — confirm your meeting to continue.";
 
@@ -50,7 +51,7 @@ const WelcomeProposalTemplate = ({
 
             <Section className="text-center my-[24px]">
               <Link
-                href={proposalUrl}
+                href={proposalLink}
                 className="bg-black text-white px-4 py-2 rounded no-underline text-[14px]"
               >
                 View your proposal
