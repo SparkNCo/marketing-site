@@ -37,9 +37,6 @@ export const GET: APIRoute = async ({ request }) => {
 
     const data = await res.json();
 
-    /* --------------------------------------------
-     * Convert dateRanges to 15-min slots
-     * -------------------------------------------- */
     const days: Record<
       string,
       { start: string; end: string; available: boolean }[]

@@ -40,7 +40,10 @@ export default function AnimatedStepper({
         }
 
         const handleClick = () => {
-          setCurrentStep(STEP_ORDER[index]);
+          const targetStep = STEP_ORDER[index];
+          if (targetStep === "success") return;
+          if (index === currentStep) return;
+          setCurrentStep(targetStep);
         };
 
         return (

@@ -32,7 +32,8 @@ export function ContactForm({
   const handleNext = () => {
     setTouchedNext(true);
     if (canProceed) {
-      setCurrentStep("product");
+      //  setCurrentStep("product");
+      setCurrentStep("calendar");
     }
   };
 

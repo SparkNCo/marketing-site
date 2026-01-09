@@ -22,7 +22,7 @@ import {
 } from "./MissingPasscode";
 
 type PageMode = "features" | "loading" | "view" | "draft";
-type Proposal = {
+export type Proposal = {
   id: string;
   passcode: string;
   summary_items: any[];
@@ -42,6 +42,8 @@ type Proposal = {
   };
   why_this_stack: string;
   total_duration: string;
+  signature_url: string;
+  signed_at: string;
 };
 type ProposalUpdate = Partial<Proposal>;
 
@@ -179,7 +181,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
           animate="animate"
           exit="exit"
         >
-          {proposal?.stage !== "for-review" && dbUser?.role !== "admin" ? (
+          {proposal?.stage === "draft" && dbUser?.role !== "admin" ? (
             <div className="min-h-[90vh] pt-20">
               <ProposalInProgress />
             </div>
@@ -233,7 +235,10 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
                   dbUser={dbUser}
                 />
 
-                <CtaProposal />
+                <CtaProposal
+                  proposalId={submissionId}
+                  signature_url={proposal?.signature_url}
+                />
                 {dbUser && dbUser.role === "admin" && (
                   <TestCreateProposal
                     submissionId={submissionId}
