@@ -5,6 +5,7 @@ import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import ExecutiveSummaryEditor from "./ExecutiveSummaryEditor";
+import { useApp } from "../../lib/AppProvider";
 
 type SummaryItem = {
   title: string;
@@ -18,6 +19,7 @@ interface ExecutiveSummaryProps {
 export default function ExecutiveSummary({
   summary_items = [],
   setProposal,
+  dbUser,
 }: ExecutiveSummaryProps) {
   const [isDirty, setIsDirty] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -52,22 +54,24 @@ export default function ExecutiveSummary({
           <h2 className="text-3xl font-bold text-card">Executive Summary</h2>
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => toggleEditMode()}
-          className="flex items-center gap-2 bg-background"
-        >
-          {isEditing ? (
-            <>
-              <Save className="h-4 w-4" /> Save
-            </>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4" /> Edit
-            </>
-          )}
-        </Button>
+        {dbUser?.role === "admin" && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => toggleEditMode()}
+            className="flex items-center gap-2 bg-background"
+          >
+            {isEditing ? (
+              <>
+                <Save className="h-4 w-4" /> Save
+              </>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4" /> Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
 
       {/* Conditional Render */}

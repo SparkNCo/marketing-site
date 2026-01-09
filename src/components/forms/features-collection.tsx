@@ -26,6 +26,7 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { LoadingProposal } from "../proposals/MissingPasscode";
 
 type Feature = Readonly<{
   id: string;
@@ -170,11 +171,13 @@ export function FeaturesCollection({
   const loadFeatures = async () => {
     try {
       const response = await fetch(
-        `/api/features?submission_id=${submissionId}`
+        `/api/features/fetch-features?submission_id=${submissionId}`
       );
       if (response.ok) {
         const data = await response.json();
-        setFeatures(data);
+        if (data?.length > 0) {
+          setPageMode("draft");
+        }
       }
     } catch (error) {
       console.error("[v0] Error loading features:", error);
@@ -224,7 +227,6 @@ export function FeaturesCollection({
   const saveFeatures = async () => {
     setIsSaving(true);
     try {
-      console.log("features", features);
       const response = await fetch("/api/features/post-features", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -233,9 +235,8 @@ export function FeaturesCollection({
           features: features,
         }),
       });
-      console.log("response", response);
       if (response) {
-        setPageMode("loading");
+        setPageMode("draft");
       }
     } catch (error) {
       console.error("[v0] Error saving features:", error);
@@ -257,14 +258,10 @@ export function FeaturesCollection({
   const hasCompletedFeature = features.some(isFeatureComplete);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12  ">
-        <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
-      </div>
-    );
+    return <LoadingProposal />;
   }
   return (
-    <div className="mx-auto max-w-4xl space-y-6 w-full min-h-[80vh] font-body py-8 mt-20">
+    <div className="mx-auto max-w-4xl space-y-6 w-full min-h-[95vh] font-body py-8 mt-20 ">
       <div className="mb-8 text-center">
         <h1 className="mb-3 text-4xl md:text-5xl font-bold  tracking-tight text-foreground ">
           Tell us about your Project
@@ -273,7 +270,6 @@ export function FeaturesCollection({
           Add All features you are interested to implement in your Project
         </p>
       </div>
-
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

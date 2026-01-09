@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 
-export default function CreateProposalCta({ submissionId, proposal }) {
+export default function CreateProposalCta({ submissionId, proposal, dbUser }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

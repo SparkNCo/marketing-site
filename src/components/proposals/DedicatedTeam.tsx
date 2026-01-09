@@ -57,7 +57,7 @@ const initialTeam = [
   },
 ]; */
 
-export default function DedicatedTeam({ initialTeam, setProposal }) {
+export default function DedicatedTeam({ initialTeam, setProposal, dbUser }) {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeam);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -103,22 +103,24 @@ export default function DedicatedTeam({ initialTeam, setProposal }) {
           <h2 className="text-3xl font-bold text-card">Your Dedicated Team</h2>
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => toggleEditMode()}
-          className="flex items-center gap-2 bg-background"
-        >
-          {isEditing ? (
-            <>
-              <Save className="h-4 w-4" /> Save
-            </>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4" /> Edit
-            </>
-          )}
-        </Button>
+        {dbUser?.role === "admin" && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => toggleEditMode()}
+            className="flex items-center gap-2 bg-background"
+          >
+            {isEditing ? (
+              <>
+                <Save className="h-4 w-4" /> Save
+              </>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4" /> Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
 
       {isEditing ? (

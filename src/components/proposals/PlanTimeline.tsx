@@ -122,6 +122,7 @@ export default function PlanTimeline({
   setDependenciesState,
   setMilestonesState,
   setTotalDurationState,
+  dbUser,
 }) {
   const [totalDuration, setTotalDuration] = useState(initialTotalDuration);
   const [mileStones, setMileStones] = useState<Milestones[]>(initialMilestones);
@@ -145,23 +146,24 @@ export default function PlanTimeline({
             Project Plan & Timeline
           </h2>
         </div>
-
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => toggleEditMode()}
-          className="flex items-center gap-2 bg-background"
-        >
-          {isEditing ? (
-            <>
-              <Save className="h-4 w-4" /> Save
-            </>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4" /> Edit
-            </>
-          )}
-        </Button>
+        {dbUser?.role === "admin" && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => toggleEditMode()}
+            className="flex items-center gap-2 bg-background"
+          >
+            {isEditing ? (
+              <>
+                <Save className="h-4 w-4" /> Save
+              </>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4" /> Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
 
       {isEditing ? (

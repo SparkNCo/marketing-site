@@ -21,6 +21,7 @@ export default function ProjectScope({
   intialSections,
   updateScopes,
   updateSections,
+  dbUser,
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [sections, setSections] = useState<ScopeSection[]>(intialSections);
@@ -149,22 +150,24 @@ export default function ProjectScope({
           <h2 className="text-3xl font-bold text-card">Project Scope</h2>
         </div>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={toggleEditMode}
-          className="flex items-center gap-2 bg-background"
-        >
-          {isEditing ? (
-            <>
-              <Save className="h-4 w-4" /> Save
-            </>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4" /> Edit
-            </>
-          )}
-        </Button>
+        {dbUser?.role === "admin" && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleEditMode}
+            className="flex items-center gap-2 bg-background"
+          >
+            {isEditing ? (
+              <>
+                <Save className="h-4 w-4" /> Save
+              </>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4" /> Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
 
       {isEditing ? (

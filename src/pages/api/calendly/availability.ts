@@ -19,8 +19,6 @@ export const GET: APIRoute = async ({ request }) => {
       );
     }
 
-    const USERNAME = "kabir-malkani-glnivq";
-
     /* --------------------------------------------
      * Fetch availability from Cal.com
      * -------------------------------------------- */
@@ -28,7 +26,7 @@ export const GET: APIRoute = async ({ request }) => {
       `${CAL_BASE}/availability?` +
       new URLSearchParams({
         apiKey: import.meta.env.CAL_KEY,
-        username: USERNAME,
+        username: import.meta.env.CAL_USERNAME,
         eventTypeSlug: eventSlug,
         dateFrom: start,
         dateTo: end,

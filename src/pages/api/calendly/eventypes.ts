@@ -20,6 +20,7 @@ export const GET: APIRoute = async () => {
     }
 
     const data = await res.json();
+    console.log("data", data);
 
     // Map to a simple format for frontend
     const events = data.event_types.map((event: any) => ({
@@ -27,7 +28,7 @@ export const GET: APIRoute = async () => {
       slug: event.slug,
       title: event.title,
       length: event.length,
-      scheduling_url: event.link, 
+      scheduling_url: event.link,
     }));
 
     console.log(events);

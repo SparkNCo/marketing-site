@@ -16,6 +16,7 @@ import { useApp } from "../../lib/AppProvider";
 import { DraftPlate } from "./DraftPlate";
 import {
   InvalidPasscode,
+  LoadingProposal,
   MissingPasscode,
   ProposalInProgress,
 } from "./MissingPasscode";
@@ -138,7 +139,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
     fetchProposal();
   }, [submissionId]);
 
-  if (loading) return <div>Loading proposal…</div>;
+  if (loading) return <LoadingProposal />;
 
   return (
     <AnimatePresence mode="wait">
@@ -192,17 +193,20 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
                 <ExecutiveSummary
                   summary_items={proposal?.summary_items}
                   setProposal={updateProposalProp("summary_items")}
+                  dbUser={dbUser}
                 />
                 <ProjectScope
                   initialScopes={proposal?.scopes}
                   intialSections={proposal?.sections}
                   updateScopes={updateProposalProp("scopes")}
                   updateSections={updateProposalProp("sections")}
+                  dbUser={dbUser}
                 />
 
                 <Deliverables
                   initialDeliverables={proposal?.deliverables}
                   setProposal={updateProposalProp("deliverables")}
+                  dbUser={dbUser}
                 />
 
                 <PlanTimeline
@@ -212,11 +216,13 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
                   setDependenciesState={updateProposalProp("dependencies")}
                   setMilestonesState={updateProposalProp("milestones")}
                   setTotalDurationState={updateProposalProp("total_duration")}
+                  dbUser={dbUser}
                 />
 
                 <DedicatedTeam
                   initialTeam={proposal?.team}
                   setProposal={updateProposalProp("team")}
+                  dbUser={dbUser}
                 />
 
                 <TechStackArchitecture
@@ -224,6 +230,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
                   initialWhyThisStack={proposal?.why_this_stack}
                   setStack={updateProposalProp("stack_section")}
                   setWhyThisStackState={updateProposalProp("why_this_stack")}
+                  dbUser={dbUser}
                 />
 
                 <CtaProposal />
@@ -231,6 +238,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
                   <TestCreateProposal
                     submissionId={submissionId}
                     proposal={proposal}
+                    dbUser={dbUser}
                   />
                 )}
               </main>

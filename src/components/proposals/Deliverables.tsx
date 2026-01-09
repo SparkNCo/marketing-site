@@ -9,7 +9,11 @@ interface Deliverable {
   items: string[];
 }
 
-export default function Deliverables({ initialDeliverables, setProposal }) {
+export default function Deliverables({
+  initialDeliverables,
+  setProposal,
+  dbUser,
+}) {
   const [deliverables, setDeliverables] =
     useState<Deliverable[]>(initialDeliverables);
   const [isEditing, setIsEditing] = useState(false);
@@ -73,23 +77,24 @@ export default function Deliverables({ initialDeliverables, setProposal }) {
             Detailed Deliverables
           </h2>
         </div>
-
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => toggleEditMode()}
-          className="flex items-center gap-2 bg-background"
-        >
-          {isEditing ? (
-            <>
-              <Save className="h-4 w-4" /> Save
-            </>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4" /> Edit
-            </>
-          )}
-        </Button>
+        {dbUser?.role === "admin" && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => toggleEditMode()}
+            className="flex items-center gap-2 bg-background"
+          >
+            {isEditing ? (
+              <>
+                <Save className="h-4 w-4" /> Save
+              </>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4" /> Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
 
       <div className="grid gap-4">

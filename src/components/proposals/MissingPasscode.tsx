@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Settings, XCircle } from "lucide-react";
 
+type LoadingWrapperProps = {
+  children?: ReactNode;
+  label?: string;
+};
+
 export const MissingPasscode = () => {
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
@@ -123,6 +128,58 @@ export const ProposalInProgress = () => {
         <p className="text-sm text-muted-foreground">
           Please check back soon — we’ll notify you once it’s ready
         </p>
+      </div>
+    </div>
+  );
+};
+
+export const LoadingWrapper = ({
+  children,
+  label = "Loading",
+}: LoadingWrapperProps) => {
+  return (
+    <div className="w-full flex items-center justify-center py-24">
+      <div className="flex flex-col items-center gap-6">
+        {/* Loader */}
+        <div className="relative flex items-center justify-center">
+          {/* Outer ring (bigger, thinner) */}
+          <div className="absolute w-24 h-24 rounded-full border-2 border-primary/30 border-t-primary animate-spin [animation-duration:3.5s]" />
+
+          {/* Inner ring (smaller, thicker) */}
+          <div className="w-14 h-14 rounded-full border-4 border-primary/40 border-t-primary animate-spin [animation-duration:1.8s]" />
+        </div>
+
+        {/* Optional text */}
+        <div className="text-center space-y-1">
+          <p className="text-lg font-semibold text-primary">{label}</p>
+          {children && (
+            <p className="text-sm text-muted-foreground">{children}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const LoadingProposal = () => {
+  return (
+    <div className="w-full flex items-center justify-center py-24 animate-fade-in min-h-[90vh] ">
+      <div className="flex flex-col items-center gap-6 ">
+        <div className="relative flex items-center justify-center ">
+          {/* Outer ring (bigger, thinner) */}
+          <div className="absolute w-24 h-24 rounded-full border-2 border-primary/80 border-t-primary border-background border-r-primary animate-spin [animation-duration:1.2s]" />
+
+          {/* Inner ring (smaller, thicker) */}
+          <div className="w-14 h-14 rounded-full border-4 border-primary/60 border-background border-t-primary border-r-primary animate-spin [animation-duration:1.6s]" />
+        </div>
+
+        {/* Text */}
+        <div className="text-center space-y-1">
+          <p className="text-xl font-semibold text-primary">
+            Loading proposal…
+          </p>
+          <p className="text-sm text-foreground">Please wait a moment</p>
+        </div>
       </div>
     </div>
   );

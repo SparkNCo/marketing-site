@@ -67,6 +67,7 @@ export default function TechStackArchitecture({
   initialWhyThisStack,
   setStack,
   setWhyThisStackState,
+  dbUser,
 }) {
   const [stackSections, setStackSections] =
     useState<StackSection[]>(initialStack);
@@ -160,23 +161,24 @@ export default function TechStackArchitecture({
             Tech Stack & Architecture
           </h2>{" "}
         </div>
-
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={toggleEditMode}
-          className="flex items-center gap-2 bg-background"
-        >
-          {isEditing ? (
-            <>
-              <Save className="h-4 w-4" /> Save
-            </>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4" /> Edit
-            </>
-          )}
-        </Button>
+        {dbUser?.role === "admin" && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleEditMode}
+            className="flex items-center gap-2 bg-background"
+          >
+            {isEditing ? (
+              <>
+                <Save className="h-4 w-4" /> Save
+              </>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4" /> Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
 
       {!isEditing ? (
