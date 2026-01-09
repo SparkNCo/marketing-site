@@ -10,7 +10,7 @@ interface Props {
 
 export default function ExecutiveSummaryEditor({ items, onChange }: Props) {
   return (
-    <Card className="border-border bg-card p-8">
+    <Card className="border-border bg-background p-8">
       <div className="space-y-6">
         {items.map((item, index) => (
           <div key={index} className="space-y-2">

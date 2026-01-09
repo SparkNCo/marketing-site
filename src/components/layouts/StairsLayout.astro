@@ -1,35 +1,52 @@
 ---
 import Stairs from "../animation/StairsAstro";
+import Posthog from "../posthog.astro";
+
+const location = Astro.url.pathname;
 ---
 
 <html lang="en">
   <head>
+    <Posthog />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=AR+One+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
 
-  <body class="bg-secondary overflow-y-auto">
-    <Stairs client:load>
+  <body class="bg-background overflow-y-auto">
+    <Stairs location={location} client:load>
       <slot />
     </Stairs>
-  </body>
-  <!-- foreground -->
-  <style>
+  </body><!-- foreground -->
+  <style is:global>
     :root {
       --font-title: "ADLaM Display";
       --font-body: "AR One Sans";
-      --background: #1a1a1a;
+      --background: #111111;
       --foreground: #f8f8f8;
-      --primary: #f25c54;
-      --secondary: #faf6ef;
-      --card: #333333;
-      overflow-y: auto;
+      --primary: #f78035;
+      --secondary: #f8f8f8;
+      --card: #f7f4f0;
+
+      .hide-scrollbar {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE/Edge */
+      }
+
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+      }
     }
 
     body {
       margin: 0;
       font-family: var(--font-body);
-      background-color: var(--secondary);
+      background-color: var(--background);
       overflow-y: auto;
     }
 
@@ -39,6 +56,71 @@ import Stairs from "../animation/StairsAstro";
 
     .font-body {
       font-family: var(--font-body);
+    }
+
+    /* ✅ KEYFRAMES MUST BE TOP LEVEL */
+    @keyframes scroll-right {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes scroll-left {
+      from {
+        transform: translateX(-50%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    /* ✅ SHARED STYLES */
+    .animate-scroll-right,
+    .animate-scroll-left {
+      display: flex;
+      gap: 2rem;
+      width: max-content;
+    }
+
+    /* ✅ INDIVIDUAL ANIMATIONS */
+    .animate-scroll-right {
+      animation: scroll-right 90s linear infinite;
+    }
+
+    .animate-scroll-left {
+      animation: scroll-left 90s linear infinite;
+    }
+
+    @keyframes loading-dot {
+      0% {
+        transform: translateX(120%) scale(0.9);
+        opacity: 0;
+      }
+
+      20% {
+        opacity: 1;
+      }
+
+      50% {
+        transform: translateX(0%) scale(1.05);
+        opacity: 1;
+      }
+
+      80% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateX(-120%) scale(0.9);
+        opacity: 0;
+      }
+    }
+
+    .animate-loading-dot {
+      animation: loading-dot 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
   </style>
 </html>

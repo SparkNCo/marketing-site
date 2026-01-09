@@ -3,8 +3,8 @@
 import type { FormStep } from "./interfaces";
 
 const STEP_ORDER: FormStep[] = [
-  "product",
   "contact",
+  "product",
   "company",
   "calendar",
   "success",
@@ -28,19 +28,22 @@ export default function AnimatedStepper({
         const isActive = stepNumber === currentStep + 1;
         const isCompleted = stepNumber < currentStep + 1;
 
-        let stepClasses = "bg-card text-foreground";
+        let stepClasses = "bg-card text-text font-bold text-2xl";
 
         if (isCompleted) {
-          stepClasses = "bg-primary text-accent-foreground";
+          stepClasses = "bg-primary text-accent-foreground text-2xl";
         }
 
         if (isActive) {
           stepClasses =
-            "bg-primary text-primary-foreground scale-110 rotate-12 translate-y-[-4px] text-card";
+            "bg-primary text-primary-foreground scale-110 rotate-12 translate-y-[-4px] text-2xl";
         }
 
         const handleClick = () => {
-          setCurrentStep(STEP_ORDER[index]);
+          const targetStep = STEP_ORDER[index];
+          if (targetStep === "success") return;
+          if (index === currentStep) return;
+          setCurrentStep(targetStep);
         };
 
         return (

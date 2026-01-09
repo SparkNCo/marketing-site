@@ -9,59 +9,21 @@ interface Deliverable {
   items: string[];
 }
 
-export default function Deliverables() {
-  const initialDeliverables: Deliverable[] = [
-    {
-      title: "Working Application",
-      items: [
-        "Production v1.0 deployed to AWS",
-        "Staging environment for testing",
-        "Browser support: Chrome 90+, Firefox 88+, Safari 14+",
-        "Mobile responsive (viewport 320px+)",
-      ],
-    },
-    {
-      title: "Documentation",
-      items: [
-        "System architecture diagrams",
-        "API documentation (OpenAPI 3.0)",
-        "User onboarding guides (PDF & video)",
-        "Database schema documentation",
-        "DevOps runbooks",
-      ],
-    },
-    {
-      title: "Design Assets",
-      items: [
-        "Figma design files (all screens)",
-        "Component library",
-        "Brand style guide",
-        "Exported assets (PNG, SVG)",
-      ],
-    },
-    {
-      title: "Testing Artifacts",
-      items: [
-        "QA test plans and reports",
-        "Automated test suite (Jest, Cypress)",
-        "Performance testing results",
-        "Security penetration test report",
-      ],
-    },
-    {
-      title: "Deployment & Training",
-      items: [
-        "Production deployment",
-        "CI/CD pipeline configuration",
-        "3 training sessions (2 hours each)",
-        "Training materials and videos",
-      ],
-    },
-  ];
+export default function Deliverables({
+  initialDeliverables,
+  setProposal,
+  dbUser,
+}) {
   const [deliverables, setDeliverables] =
     useState<Deliverable[]>(initialDeliverables);
-
   const [isEditing, setIsEditing] = useState(false);
+
+  const toggleEditMode = () => {
+    if (isEditing) {
+      setProposal(deliverables);
+    }
+    setIsEditing((prev) => !prev);
+  };
 
   const updateDeliverableItem = (
     deliverableIndex: number,
@@ -115,28 +77,32 @@ export default function Deliverables() {
             Detailed Deliverables
           </h2>
         </div>
-
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setIsEditing((v) => !v)}
-          className="flex items-center gap-2 bg-card"
-        >
-          {isEditing ? (
-            <>
-              <Save className="h-4 w-4" /> Save
-            </>
-          ) : (
-            <>
-              <Pencil className="h-4 w-4" /> Edit
-            </>
-          )}
-        </Button>
+        {dbUser?.role === "admin" && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => toggleEditMode()}
+            className="flex items-center gap-2 bg-background"
+          >
+            {isEditing ? (
+              <>
+                <Save className="h-4 w-4" /> Save
+              </>
+            ) : (
+              <>
+                <Pencil className="h-4 w-4" /> Edit
+              </>
+            )}
+          </Button>
+        )}
       </div>
 
       <div className="grid gap-4">
-        {deliverables.map((deliverable, dIdx) => (
-          <Card key={deliverable.title} className="border-border bg-card p-6">
+        {deliverables?.map((deliverable, dIdx) => (
+          <Card
+            key={deliverable.title}
+            className="border-border bg-background p-6"
+          >
             <h3 className="mb-3 text-lg font-semibold text-primary">
               {deliverable.title}
             </h3>

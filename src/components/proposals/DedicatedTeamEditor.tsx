@@ -30,7 +30,7 @@ export default function DedicatedTeamEditor({
         {teamMembers.map((member, index) => (
           <Card
             key={index}
-            className="border-border bg-card p-6"
+            className="border-border bg-background p-6"
           >
             <div className="space-y-3">
               {/* Name */}

@@ -2,15 +2,14 @@
 
 import { useMemo } from "react";
 import { Button } from "../../components/ui/button";
-import { ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { Check } from "lucide-react";
 import type { FormStep } from "../utils/interfaces";
 
-interface ProductIdeaFormProps {
-  currentStep: string;
+type ProductIdeaFormProps = Readonly<{
   setCurrentStep: (step: FormStep) => void;
   productIdea: string;
   setProductIdea: (value: string) => void;
-}
+}>;
 
 const validations = [
   {
@@ -44,7 +43,6 @@ const validations = [
 ];
 
 export function ProductIdeaForm({
-  currentStep,
   setCurrentStep,
   productIdea,
   setProductIdea,
@@ -72,14 +70,14 @@ export function ProductIdeaForm({
 
   const handleNext = () => {
     if (canProceed) {
-      setCurrentStep("contact");
+      setCurrentStep("company");
     }
   };
 
   return (
-    <div className="animate-fade-in space-y-8 font-body text-xl">
-      <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold text-secondary font-title">
+    <div className="animate-fade-in space-y-8 text-xl">
+      <div className="text-left space-y-2 ">
+        <h2 className="mb-4 text-3xl text-foreground font-bold">
           Describe your product idea
         </h2>
         <p className="text-foreground">
@@ -116,18 +114,13 @@ export function ProductIdeaForm({
         )}
 
         <div className="mt-8 flex justify-center w-full">
-          {/*           <Button
+          <Button
             variant="nav"
-            onClick={() => setCurrentStep("company")}
-            disabled={currentStep === "product"}
+            onClick={handleNext}
+            disabled={!canProceed}
+            className="w-full lg:w-auto text-lg font-bold py-6 bg-foreground text-background"
           >
-            <ChevronLeft className="mr-2 h-4 w-4" />
-            Previous
-          </Button> */}
-
-          <Button variant="nav" onClick={handleNext} disabled={!canProceed}>
             Next
-            <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </form>

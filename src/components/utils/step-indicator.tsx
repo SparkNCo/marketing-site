@@ -1,9 +1,9 @@
 "use client";
 
-interface StepIndicatorProps {
+type StepIndicatorProps = Readonly<{
   currentStep: number;
   totalSteps: number;
-}
+}>;
 
 export function StepIndicator({ currentStep, totalSteps }: StepIndicatorProps) {
   const progressPercentage = (currentStep / (totalSteps - 1)) * 100;
@@ -33,9 +33,7 @@ export function StepIndicator({ currentStep, totalSteps }: StepIndicatorProps) {
           <div
             key={i}
             className={`text-xs font-medium transition-colors ${
-              i <= currentStep
-                ? "text-primary"
-                : "text-foreground"
+              i <= currentStep ? "text-primary" : "text-foreground"
             }`}
           >
             Step {i + 1}

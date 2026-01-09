@@ -1,10 +1,11 @@
 ---
 import StairsLayout from "../components/layouts/StairsLayout.astro";
-import IndexShell from "./IndexShell";
+import LandingShell from "./landingShell";
 
 const user = Astro.locals.user;
+const location = Astro.url.pathname;
 ---
 
 <StairsLayout>
-  <IndexShell client:load user={user} />
+  <LandingShell location={location} client:load user={user} />
 </StairsLayout>

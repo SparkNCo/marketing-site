@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type {
   CalendarSubmitData,
   FormData,
@@ -7,33 +7,47 @@ import type {
 import { ContactForm } from "./forms/contact-form";
 import { CompanyDetailsForm } from "./forms/company-details-form";
 import { ProductIdeaForm } from "./forms/product-idea-form";
-import { CalendarBooking } from "./utils/calendar-booking";
 import { SuccessMessage } from "./utils/success-message";
 import AnimatedStepper from "./utils/animated-stepper";
+import CalendlyBooking, { type Slot } from "./utils/CalendlyBooking";
+
+type AvailabilityResponse = {
+  timezone: string;
+  days: Record<string, Slot[]>;
+};
 
 export default function DealForm() {
-  const [currentStep, setCurrentStep] = useState<FormStep>("product");
+  const [currentStep, setCurrentStep] = useState<FormStep>("contact");
   const [submitting, setSubmitting] = useState(false);
+  const [availability, setAvailability] = useState<AvailabilityResponse | null>(
+    null
+  );
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     companyName: "",
     industry: "",
-    budget: { min: 10000, max: 100000 },
+    monthlybudget: { min: 10000, max: 100000 },
+    estimateTimeline: { min: 1, max: 24 },
     productIdea: "",
     selectedDate: "",
-    selectedTime: "",
+    selectedTime: { start: "", end: "" },
+    scheduling_url: "",
   });
 
   const handleCalendarSubmit = async (data: CalendarSubmitData) => {
     const finalData: FormData = {
       ...formData,
       selectedDate: data.selectedDate,
-      selectedTime: data.selectedTime,
+      selectedTime: {
+        start: data.selectedStartTime,
+        end: data.selectedEndTime,
+      },
+      scheduling_url: data.scheduling_url,
     };
-
     try {
+      setSubmitting(true);
       const res = await fetch("/api/submissions/post-submissions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,50 +55,86 @@ export default function DealForm() {
       });
 
       if (!res.ok) throw new Error("Failed to submit");
+      setSubmitting(false);
+      setFormData(finalData);
       setCurrentStep("success");
     } catch (err) {
       console.error(err);
+      setSubmitting(false);
     }
   };
 
   const stepIndex = [
-    "product",
     "contact",
+    "product",
     "company",
     "calendar",
     "success",
   ].indexOf(currentStep);
 
+  useEffect(() => {
+    const fetchAvailability = async () => {
+      try {
+        const now = new Date();
+
+        // Tomorrow at 00:00
+        const start = new Date(now);
+        start.setDate(start.getDate() + 1);
+        start.setHours(0, 0, 0, 0);
+
+        // 5 days from today at 23:59
+        const end = new Date(now);
+        end.setDate(end.getDate() + 5);
+        end.setHours(23, 59, 59, 999);
+
+        const res = await fetch(
+          `/api/calendly/availability?` +
+            new URLSearchParams({
+              //eventSlug: "15min",
+              eventSlug: "discovery",
+              start: start.toISOString(),
+              end: end.toISOString(),
+            })
+        );
+        if (!res.ok) throw new Error("Failed to load availability");
+        const data = await res.json();
+
+        setAvailability(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchAvailability();
+  }, []);
+
   return (
     <main
+      data-header="light"
       className="
     min-h-[88vh]
-    sm:min-h-[40vh]
-    md:min-h-[80vh]
-    lg:min-h-[80vh]
-    xl:min-h-[80vh]
     flex flex-col items-center justify-center
-    px-4 py-6 bg-secondary
+    px-4 py-6 bg-background
   "
     >
-      {" "}
+      <div
+        className="
+    min-h-[10vh]     
+    sm:min-h-[15vh]
+    md:min-h-[15vh]
+    lg:min-h-[15vh]
+    xl:min-h-[15vh]"
+      ></div>{" "}
       <AnimatedStepper
         currentStep={stepIndex}
         totalSteps={5}
         setCurrentStep={setCurrentStep}
       />
-      <div className="w-full lg:max-w-2xl border-t-4 border-primary bg-card p-8 shadow-xl rounded-xl">
-        {currentStep === "product" && (
-          <ProductIdeaForm
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            productIdea={formData.productIdea}
-            setProductIdea={(value) =>
-              setFormData((prev) => ({ ...prev, productIdea: value }))
-            }
-          />
-        )}
-
+      <div
+        className={`w-full lg:max-w-2xl   p-8 shadow-xl rounded-xl ${
+          currentStep === "contact" ? "bg-card" : "bg-background"
+        }`}
+      >
         {currentStep === "contact" && (
           <ContactForm
             currentStep={currentStep}
@@ -104,29 +154,53 @@ export default function DealForm() {
           />
         )}
 
+        {currentStep === "product" && (
+          <ProductIdeaForm
+            setCurrentStep={setCurrentStep}
+            productIdea={formData.productIdea}
+            setProductIdea={(value) =>
+              setFormData((prev) => ({ ...prev, productIdea: value }))
+            }
+          />
+        )}
+
         {currentStep === "company" && (
           <CompanyDetailsForm
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
-            budgetRange={[formData.budget.min, formData.budget.max]}
+            budgetRange={[
+              formData.monthlybudget.min,
+              formData.monthlybudget.max,
+            ]}
             setBudgetRange={(value) =>
               setFormData((prev) => ({
                 ...prev,
-                budget: { min: value[0], max: value[1] },
+                monthlybudget: { min: value[0], max: value[1] },
+              }))
+            }
+            timelineRange={[
+              formData.estimateTimeline.min,
+              formData.estimateTimeline.max,
+            ]}
+            setTimelineRange={(value) =>
+              setFormData((prev) => ({
+                ...prev,
+                estimateTimeline: { min: value[0], max: value[1] },
               }))
             }
           />
         )}
 
-        {currentStep === "calendar" && (
-          <CalendarBooking
-            onSubmit={handleCalendarSubmit}
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-            submitting={submitting}
-            setSubmitting={setSubmitting}
-          />
-        )}
+        {currentStep === "calendar" &&
+          (() => {
+            return (
+              <CalendlyBooking
+                onSubmit={handleCalendarSubmit}
+                submitting={submitting}
+                availability={availability?.days ?? {}}
+              />
+            );
+          })()}
 
         {currentStep === "success" && <SuccessMessage />}
       </div>

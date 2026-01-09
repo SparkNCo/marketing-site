@@ -8,10 +8,21 @@ export interface FormData {
   email: string;
   companyName: string;
   industry: string;
-  budget: BudgetRange;
+  monthlybudget: {
+    min: number;
+    max: number;
+  };
+  estimateTimeline: {
+    min: number;
+    max: number;
+  };
   productIdea: string;
   selectedDate: string;
-  selectedTime: string;
+  selectedTime: {
+    start: string;
+    end: string;
+  };
+  scheduling_url: string;
 }
 
 export type FeaturesFormProps = Readonly<{
@@ -22,20 +33,27 @@ export type DealFormProps = Readonly<{
   onSubmit?: (data: FormData) => void;
 }>;
 
-export interface CalendarSubmitData {
+export type CalendarSubmitData = {
   selectedDate: string;
   selectedTime: string;
-}
+  selectedStartTime: string;
+  selectedEndTime: string;
+  scheduling_url: string;
+};
 
 export interface FormIslandProps {
   initialStep: FormStage;
   submissionId: string;
 }
+export interface HeroSectionProps {
+  initialStep: FormStage;
+  submissionId: string;
+  setMode: (mode: "index" | "form") => void;
+}
 
 export interface ProposalIslandProps {
   mode: string;
   submissionId?: string;
-
 }
 
 export type FormStage = "initial" | "features";

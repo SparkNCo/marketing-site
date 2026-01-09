@@ -17,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
     const rows = features.map((item: any) => ({
       proposal_id: randomUUID(),
       submission_id,
-      integration: item.integrations,
+      integration_text: item.integrations,
       description: item.description,
       purpose: item.purpose,
       tech_contraints: item.tech_constraints,
@@ -25,11 +25,13 @@ export const POST: APIRoute = async ({ request }) => {
     }));
 
     const { data, error } = await supabase
-      .from("proposals")
+      .from("requirements")
       .insert(rows)
       .select();
 
     if (error) throw error;
+
+    console.log("data", data);
 
     return new Response(JSON.stringify({ inserted: data.length }), {
       status: 200,

@@ -6,7 +6,7 @@ import ProposalShell from "./ProposalShell";
 
 const searchParams = Astro.url.searchParams;
 const mode = searchParams.get("mode") ?? "view";
-const submissionId = searchParams.get("id") ?? undefined;
+const submissionId = searchParams.get("passcode") ?? undefined;
 const user = Astro.locals.user;
 ---
 

@@ -2,13 +2,11 @@
 
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Label } from "../ui/label";
 import type { ContactFormProps } from "../utils/types";
 
 export function ContactForm({
-  currentStep,
   setCurrentStep,
   name,
   email,
@@ -18,8 +16,6 @@ export function ContactForm({
   setEmail,
   setCompany,
   setIndustry,
-  onNext,
-  onPrev,
 }: ContactFormProps) {
   const [touchedNext, setTouchedNext] = useState(false);
 
@@ -36,25 +32,23 @@ export function ContactForm({
   const handleNext = () => {
     setTouchedNext(true);
     if (canProceed) {
-      setCurrentStep("company");
+    //  setCurrentStep("product");
+      setCurrentStep("product");
     }
   };
 
   return (
     <div className="animate-fade-in flex flex-col h-full">
-      <div className="space-y-8">
-        <h2 className="mb-6 text-3xl lg:text-2xl font-body font-semibold text-secondary">
-          Let's get to know you
+      <div className="">
+        <h2 className="mb-4 text-3xl text-title font-bold">
+          Tell us about yourself
         </h2>
 
-        <div className="space-y-8">
+        <div className="">
           {/* NAME */}
           <div className="text-surface font-body">
-            <Label
-              className="text-3xl lg:text-sm text-secondary"
-              htmlFor="name"
-            >
-              Name
+            <Label className="text-md text-title mt-3" htmlFor="name">
+              First Name
             </Label>
             <Input
               id="name"
@@ -81,10 +75,7 @@ export function ContactForm({
 
           {/* EMAIL */}
           <div className="text-surface font-body">
-            <Label
-              className="text-3xl lg:text-sm text-secondary"
-              htmlFor="email"
-            >
+            <Label className="text-md text-title mt-3" htmlFor="email">
               Email
             </Label>
             <Input
@@ -112,10 +103,7 @@ export function ContactForm({
 
           {/* COMPANY */}
           <div className="text-surface font-body">
-            <Label
-              className="text-3xl lg:text-sm text-secondary"
-              htmlFor="company"
-            >
+            <Label className="text-md text-title mt-3" htmlFor="company">
               Company
             </Label>
             <Input
@@ -142,10 +130,7 @@ export function ContactForm({
 
           {/* INDUSTRY */}
           <div className="text-surface font-body">
-            <Label
-              className="text-3xl lg:text-sm text-secondary"
-              htmlFor="industry"
-            >
+            <Label className="text-md text-title mt-3" htmlFor="industry">
               Industry
             </Label>
             <Input
@@ -172,28 +157,15 @@ export function ContactForm({
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="mt-12 flex flex-col gap-6 font-body lg:flex-row lg:justify-center lg:gap-0 w-full">
-        {/*         <Button
-          variant="nav"
-          size="lg"
-          className="w-full lg:w-auto text-2xl lg:text-sm py-6 lg:py-2"
-          onClick={() => onPrev()}
-          disabled={currentStep === "product"}
-        >
-          <ChevronLeft className="mr-3 h-6 w-6 lg:h-4 lg:w-4" />
-          Previous
-        </Button> */}
-
         <Button
           variant="nav"
           size="lg"
-          className="w-full lg:w-auto text-2xl lg:text-sm py-6 lg:py-2"
+          className="mx-auto text-lg font-bold py-6  bg-background"
           onClick={handleNext}
           disabled={touchedNext && !canProceed}
         >
           Next
-          <ChevronRight className="ml-3 h-6 w-6 lg:h-4 lg:w-4" />
         </Button>
       </div>
     </div>
