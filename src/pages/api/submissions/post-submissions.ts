@@ -33,7 +33,7 @@ export const POST: APIRoute = async ({ request }) => {
       metadata: {},
     };
 
-    /* const bookingRes = await fetch("https://api.cal.com/v2/bookings", {
+     const bookingRes = await fetch("https://api.cal.com/v2/bookings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,9 +45,9 @@ export const POST: APIRoute = async ({ request }) => {
 
     const bookingData = await bookingRes.json();
     const schedulingUrl =
-      bookingData?.data?.meetingUrl ?? body.scheduling_url; */
-    const schedulingUrl =
-      "https://calendly.com/d/ctp8-d9v-x4x/30-minute-meeting";
+      bookingData?.data?.meetingUrl ?? body.scheduling_url; 
+    /* const schedulingUrl =
+      "https://calendly.com/d/ctp8-d9v-x4x/30-minute-meeting"; */
 
     const leadId = randomUUID();
 
