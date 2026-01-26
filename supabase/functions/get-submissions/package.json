@@ -1,0 +1,7 @@
+{
+  "name": "get-submissions",
+  "type": "module",
+  "dependencies": {
+    "@prisma/client": "^5.0.0"
+  }
+}

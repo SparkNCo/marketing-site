@@ -1,0 +1,14 @@
+[functions]
+# get-submissions will run Node.js
+[functions.get-submissions]
+enabled = true
+entrypoint = "./supabase/functions/get-submissions/index.ts"
+runtime = "nodejs"
+verify_jwt = false
+
+# post-submissions will run Node.js
+[functions.post-submissions]
+enabled = true
+entrypoint = "./supabase/functions/post-submissions/index.ts"
+runtime = "nodejs"
+verify_jwt = false

@@ -15,25 +15,25 @@ export const GET: APIRoute = async ({ request }) => {
         JSON.stringify({
           error: "Missing eventSlug, start or end",
         }),
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    /* --------------------------------------------
-     * Fetch availability from Cal.com
-     * -------------------------------------------- */
     const url =
-      `${CAL_BASE}/availability?` +
+      `${CAL_BASE}/slots?` +
       new URLSearchParams({
         apiKey: import.meta.env.CAL_KEY,
         username: import.meta.env.CAL_USERNAME,
-        eventTypeSlug: eventSlug,
-        dateFrom: start,
-        dateTo: end,
+        eventTypeId: import.meta.env.EVENT_TYPE_ID,
+        startTime: start,
+        endTime: end,
       }).toString();
 
     const res = await fetch(url);
-    if (!res.ok) throw new Error(await res.text());
+
+    if (!res.ok) {
+      throw new Error(await res.text());
+    }
 
     const data = await res.json();
 
@@ -42,37 +42,28 @@ export const GET: APIRoute = async ({ request }) => {
       { start: string; end: string; available: boolean }[]
     > = {};
 
-    data.dateRanges.forEach((range: any) => {
-      const rangeStart = new Date(range.start);
-      const rangeEnd = new Date(range.end);
+    for (const [day, slots] of Object.entries(data.slots)) {
+      days[day] = (slots as { time: string }[]).map((slot) => {
+        const startTime = new Date(slot.time);
+        const endTime = new Date(startTime.getTime() + 30 * 60 * 1000);
 
-      let slotStart = new Date(rangeStart);
-
-      while (slotStart < rangeEnd) {
-        const slotEnd = new Date(slotStart.getTime() + 30 * 60 * 1000);
-        if (slotEnd > rangeEnd) break;
-
-        const dayKey = slotStart.toISOString().split("T")[0];
-        days[dayKey] ??= [];
-        days[dayKey].push({
-          start: slotStart.toISOString(),
-          end: slotEnd.toISOString(),
+        return {
+          start: startTime.toISOString(),
+          end: endTime.toISOString(),
           available: true,
-        });
-
-        slotStart = slotEnd;
-      }
-    });
+        };
+      });
+    }
 
     return new Response(
       JSON.stringify({
         eventSlug,
-        timezone: data.timeZone,
+        timezone: "America/Toronto",
         days,
       }),
       {
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   } catch (err: any) {
     console.error("🔥 Cal availability error:", err.message);

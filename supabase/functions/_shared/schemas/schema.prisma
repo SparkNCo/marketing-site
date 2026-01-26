@@ -1,0 +1,19 @@
+model Lead {
+  id               Int      @id @default(autoincrement())
+  lead_id          String   @unique
+  first_name       String
+  email            String
+  company          String?
+  industry         String?
+  budget_min       Int?
+  budget_max       Int?
+  estimateTime_min Int?
+  estimateTime_max Int?
+  description      String?
+  formatted_date   DateTime
+  scheduling_url   String?
+  booking_status   String
+  email_sent       Boolean
+  email_sent_at    DateTime?
+  created_at       DateTime @default(now())
+}

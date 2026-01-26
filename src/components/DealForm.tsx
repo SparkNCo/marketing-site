@@ -20,7 +20,7 @@ export default function DealForm() {
   const [currentStep, setCurrentStep] = useState<FormStep>("contact");
   const [submitting, setSubmitting] = useState(false);
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(
-    null
+    null,
   );
 
   const [formData, setFormData] = useState<FormData>({
@@ -94,8 +94,21 @@ export default function DealForm() {
               eventSlug: "discovery",
               start: start.toISOString(),
               end: end.toISOString(),
-            })
+            }),
         );
+        console.log("holaaaaaaaa");
+        
+        /*  */
+        const res2 = await fetch(
+          `api/submissions/get-submissions`,
+          {
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+
+        const data2 = await res2.json();
+        console.log(data2);
+        /*  */
         if (!res.ok) throw new Error("Failed to load availability");
         const data = await res.json();
 

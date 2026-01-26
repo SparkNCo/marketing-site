@@ -11,9 +11,11 @@ export const POST: APIRoute = async ({ request }) => {
     if (!body.selectedTime?.start || !body.selectedTime?.end) {
       return new Response(
         JSON.stringify({ error: "Missing selectedTime.start or end" }),
-        { status: 400 }
+        { status: 400 },
       );
     }
+
+    console.log("BODY", body);
 
     const startDate = new Date(body?.selectedTime.start);
 
@@ -110,7 +112,7 @@ export const POST: APIRoute = async ({ request }) => {
         id: leadData.id,
         scheduling_url: schedulingUrl,
       }),
-      { status: 200 }
+      { status: 200 },
     );
   } catch (err: any) {
     console.error("[astro] Error creating submission:", err.message);

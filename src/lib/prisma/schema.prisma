@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Lead {
+  id String @id @default(uuid())
+
+  lead_id     String?
+  email       String?
+  first_name  String?
+  description String?
+
+  budget_min Int?
+  budget_max Int?
+
+  company  String?
+  industry String?
+
+  selected_date String? // raw UI value (optional)
+  selected_time String? // raw UI value (optional)
+
+  formatted_date DateTime?
+
+  estimateTime_min Int? // FIXED (was num?)
+  estimateTime_max Int? // (assuming you meant max)
+
+  scheduling_url String?
+
+  email_sent     Boolean? // FIXED (was bool?)
+  booking_status String?
+
+  email_sent_at DateTime? // FIXED (was String)
+
+  created_at DateTime @default(now())
+
+  @@map("leads")
+}
