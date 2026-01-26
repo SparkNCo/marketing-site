@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
-import { supabase } from "../submissions/server";
+import { prisma } from "../../../lib/prisma/client";
+import { supabase } from "../submissions/server"; // keep storage for signature files
 
 function base64ToBuffer(base64: string) {
   const data = base64.replace(/^data:image\/\w+;base64,/, "");
@@ -16,14 +17,13 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    // 🔒 1. Fetch proposal (FIX: include stage)
-    const { data: proposal, error: proposalError } = await supabase
-      .from("proposals")
-      .select("passcode, stage")
-      .eq("passcode", proposalId)
-      .single();
+    // 🔒 1. Fetch proposal
+    const proposal = await prisma.proposals.findUnique({
+      where: { passcode: proposalId },
+      select: { passcode: true, stage: true },
+    });
 
-    if (proposalError || !proposal) {
+    if (!proposal) {
       return new Response(JSON.stringify({ error: "Proposal not found" }), {
         status: 404,
       });
@@ -36,13 +36,11 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // 📂 2. Check if signature already exists (NEW)
+    // 📂 2. Check if signature already exists
     const folderPath = `proposal-${proposalId}`;
-
-    const { data: existingFiles, error: listError } =
-      await supabase.storage
-        .from("signatures_bucket")
-        .list(folderPath);
+    const { data: existingFiles, error: listError } = await supabase.storage
+      .from("signatures_bucket")
+      .list(folderPath);
 
     if (listError) {
       console.error(listError);
@@ -55,7 +53,6 @@ export const POST: APIRoute = async ({ request }) => {
     const alreadySigned = existingFiles?.some(
       (file) => file.name === "signature.png"
     );
-
     if (alreadySigned) {
       return new Response(
         JSON.stringify({ error: "Signature already exists" }),
@@ -63,16 +60,13 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // 🖼 3. Upload signature (FIX: upsert false)
+    // 🖼 3. Upload signature
     const buffer = base64ToBuffer(signatureBase64);
     const filePath = `${folderPath}/signature.png`;
 
     const { error: uploadError } = await supabase.storage
       .from("signatures_bucket")
-      .upload(filePath, buffer, {
-        contentType: "image/png",
-        upsert: false,
-      });
+      .upload(filePath, buffer, { contentType: "image/png", upsert: false });
 
     if (uploadError) {
       console.error(uploadError);
@@ -82,28 +76,20 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // 🌍 4. Get public URL (FIX: correct bucket)
+    // 🌍 4. Get public URL
     const { data: publicUrlData } = supabase.storage
       .from("signatures_bucket")
       .getPublicUrl(filePath);
 
-    // 🗃 5. Update proposal
-    const { error: updateError } = await supabase
-      .from("proposals")
-      .update({
+    // 🗃 5. Update proposal using Prisma
+    await prisma.proposals.update({
+      where: { passcode: proposalId },
+      data: {
         signature_url: publicUrlData.publicUrl,
-        signed_at: new Date().toISOString(),
+        signed_at: new Date(),
         stage: "accepted",
-      })
-      .eq("passcode", proposalId);
-
-    if (updateError) {
-      console.error(updateError);
-      return new Response(
-        JSON.stringify({ error: "Failed to update proposal" }),
-        { status: 500 }
-      );
-    }
+      },
+    });
 
     return new Response(
       JSON.stringify({
@@ -113,7 +99,7 @@ export const POST: APIRoute = async ({ request }) => {
       { status: 200 }
     );
   } catch (err) {
-    console.error(err);
+    console.error("[POST /sign-proposal] Prisma error:", err);
     return new Response(JSON.stringify({ error: "Internal server error" }), {
       status: 500,
     });

@@ -6,7 +6,7 @@ import ProposalShell from "./ProposalShell";
 
 const searchParams = Astro.url.searchParams;
 const mode = searchParams.get("mode") ?? "view";
-const submissionId = searchParams.get("passcode") ?? undefined;
+const passcode = searchParams.get("passcode") ?? undefined;
 const user = Astro.locals.user;
 ---
 
@@ -15,6 +15,6 @@ const user = Astro.locals.user;
     client:load
     user={user}
     mode={mode}
-    submissionId={submissionId}
+    passcode={passcode}
   />
 </StairsLayout>

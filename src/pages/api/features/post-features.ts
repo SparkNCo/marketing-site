@@ -1,48 +1,48 @@
 import type { APIRoute } from "astro";
-import { randomUUID } from "node:crypto";
-import { supabase } from "../submissions/server";
+import { prisma } from "../../../lib/prisma/client";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
+    const { proposal_id, submission_id, features } = body;
 
-    const { submission_id, features } = body;
+    if (!proposal_id) {
+      return new Response(
+        JSON.stringify({ error: "proposal_id is required" }),
+        { status: 400 },
+      );
+    }
 
     if (!Array.isArray(features)) {
       return new Response(
         JSON.stringify({ error: "features must be an array" }),
-        { status: 400 }
+        { status: 400 },
       );
     }
-    const rows = features.map((item: any) => ({
-      proposal_id: randomUUID(),
-      submission_id,
-      integration_text: item.integrations,
-      description: item.description,
-      purpose: item.purpose,
-      tech_contraints: item.tech_constraints,
-      feature_name: item.title,
-    }));
 
-    const { data, error } = await supabase
-      .from("requirements")
-      .insert(rows)
-      .select();
+    const data = await prisma.requirements.createMany({
+      data: features.map((item: any) => ({
+        proposal_id,
+        submission_id,
 
-    if (error) throw error;
+        feature_name: item.title ?? null,
+        integration_text: item.integrations ?? null,
+        description: item.description ?? null,
+        purpose: item.purpose ?? null,
+        tech_constraints: item.tech_constraints ?? null,
+      })),
+      skipDuplicates: true,
+    });
 
-    console.log("data", data);
-
-    return new Response(JSON.stringify({ inserted: data.length }), {
+    return new Response(JSON.stringify({ inserted: data.count }), {
       status: 200,
-      headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("[astro] Error creating proposals:", error);
+    console.error("[createRequirements] Prisma error:", error);
 
     return new Response(
-      JSON.stringify({ error: "Failed to create proposals" }),
-      { status: 500 }
+      JSON.stringify({ error: "Failed to create requirements" }),
+      { status: 500 },
     );
   }
 };

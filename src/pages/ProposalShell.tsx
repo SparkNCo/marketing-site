@@ -10,13 +10,13 @@ type Props = {
     email: string;
   };
   mode: string;
-  submissionId?: string;
+  passcode?: string;
 };
-export default function ProposalShell({ user, mode, submissionId }: Props) {
+export default function ProposalShell({ user, mode, passcode }: Props) {
   return (
     <AppProvider initialUser={user}>
       <Header headerMode={"form"} />
-      <ProposalIsland mode={mode} submissionId={submissionId} />
+      <ProposalIsland mode={mode} passcode={passcode} />
       <Footer mode={mode} />
     </AppProvider>
   );

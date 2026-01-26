@@ -53,7 +53,7 @@ export interface HeroSectionProps {
 
 export interface ProposalIslandProps {
   mode: string;
-  submissionId?: string;
+  passcode?: string;
 }
 
 export type FormStage = "initial" | "features";

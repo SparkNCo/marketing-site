@@ -69,11 +69,8 @@ const slideVariants = {
     },
   },
 };
-const ProposalIsland: React.FC<ProposalIslandProps> = ({
-  mode,
-  submissionId,
-}) => {
-  if ((mode === "features" || mode === "draft") && !submissionId) {
+const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
+  if ((mode === "features" || mode === "draft") && !passcode) {
     return <MissingPasscode />;
   }
   const { dbUser } = useApp();
@@ -92,16 +89,14 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
   const [loading, setLoading] = useState(false);
 
   const updateProposal = async (updates: ProposalUpdate) => {
-    if (!proposal || !submissionId) return;
-
-    // optimistic UI update
+    if (!proposal || !passcode) return;
     setProposal((prev) =>
       prev
         ? {
             ...prev,
             ...updates,
           }
-        : prev
+        : prev,
     );
   };
 
@@ -114,21 +109,21 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
     };
 
   useEffect(() => {
-    if (!submissionId) return;
+    if (!passcode) return;
 
     const fetchProposal = async () => {
       try {
         setLoading(true);
 
         const res = await fetch(
-          `/api/proposals/get-by-passcode?passcode=${submissionId}`
+          `/api/proposals/get-by-passcode?passcode=${passcode}`,
         );
 
         if (!res.ok) {
           throw new Error("Failed to fetch proposal");
         }
-
         const { data } = await res.json();
+        console.log("response", data);
         setProposal(data);
       } catch (err) {
         console.error(err);
@@ -139,13 +134,13 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
     };
 
     fetchProposal();
-  }, [submissionId]);
+  }, [passcode]);
 
   if (loading) return <LoadingProposal />;
 
   return (
     <AnimatePresence mode="wait">
-      {pageMode === "features" && submissionId && (
+      {pageMode === "features" && passcode && (
         <motion.div
           key="features"
           variants={slideVariants}
@@ -154,7 +149,8 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
           exit="exit"
         >
           <FeaturesCollection
-            submissionId={submissionId}
+            proposal={proposal}
+            submissionId={passcode}
             pageMode={pageMode}
             setPageMode={setPageMode}
           />
@@ -236,12 +232,12 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({
                 />
 
                 <CtaProposal
-                  proposalId={submissionId}
+                  proposalId={passcode}
                   signature_url={proposal?.signature_url}
                 />
                 {dbUser && dbUser.role === "admin" && (
                   <TestCreateProposal
-                    submissionId={submissionId}
+                    submissionId={passcode}
                     proposal={proposal}
                     dbUser={dbUser}
                   />

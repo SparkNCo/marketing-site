@@ -150,9 +150,11 @@ type FeaturesCollectionProps = Readonly<{
 }>;
 
 export function FeaturesCollection({
+  proposal,
   submissionId,
   setPageMode,
 }: FeaturesCollectionProps) {
+  const [proposalId, setProposalId] = useState<Feature[]>([]);
   const [features, setFeatures] = useState<Feature[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
@@ -161,7 +163,7 @@ export function FeaturesCollection({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -171,8 +173,9 @@ export function FeaturesCollection({
   const loadFeatures = async () => {
     try {
       const response = await fetch(
-        `/api/features/fetch-features?submission_id=${submissionId}`
+        `/api/features/fetch-features?submission_id=${submissionId}`,
       );
+      console.log("Fetched submissionId", submissionId);
       if (response.ok) {
         const data = await response.json();
         if (data?.length > 0) {
@@ -201,7 +204,7 @@ export function FeaturesCollection({
 
   const updateFeature = (id: string, field: keyof Feature, value: string) => {
     setFeatures(
-      features.map((f) => (f.id === id ? { ...f, [field]: value } : f))
+      features.map((f) => (f.id === id ? { ...f, [field]: value } : f)),
     );
   };
 
@@ -233,8 +236,12 @@ export function FeaturesCollection({
         body: JSON.stringify({
           submission_id: submissionId,
           features: features,
+          proposalId: proposalId,
+          proposal_id: proposal?.proposal_id,
         }),
       });
+      console.log("response", response);
+
       if (response) {
         setPageMode("draft");
       }
