@@ -9,6 +9,7 @@ export const GET: APIRoute = async ({ request }) => {
     const eventSlug = searchParams.get("eventSlug");
     const start = searchParams.get("start");
     const end = searchParams.get("end");
+    console.log("hola");
 
     if (!eventSlug || !start || !end) {
       return new Response(
@@ -18,7 +19,6 @@ export const GET: APIRoute = async ({ request }) => {
         { status: 400 },
       );
     }
-
     const url =
       `${CAL_BASE}/slots?` +
       new URLSearchParams({
@@ -30,6 +30,7 @@ export const GET: APIRoute = async ({ request }) => {
       }).toString();
 
     const res = await fetch(url);
+    console.log(res);
 
     if (!res.ok) {
       throw new Error(await res.text());

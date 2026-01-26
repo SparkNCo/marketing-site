@@ -3,10 +3,10 @@
   "version": "0.1.2",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "start": "astro preview"
-  },
+  "dev": "pnpm exec astro dev",
+  "build": "pnpm exec astro build",
+  "start": "pnpm exec astro preview"
+},
   "dependencies": {
     "@astrojs/check": "^0.9.6",
     "@astrojs/node": "^9.5.1",

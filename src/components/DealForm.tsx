@@ -97,20 +97,20 @@ export default function DealForm() {
             }),
         );
         console.log("holaaaaaaaa");
-        
+
         /*  */
-        const res2 = await fetch(
+        /*  const res2 = await fetch(
           `api/submissions/get-submissions`,
           {
             headers: { "Content-Type": "application/json" },
           },
         );
 
-        const data2 = await res2.json();
-        console.log(data2);
+        const data2 = await res2.json(); */
         /*  */
         if (!res.ok) throw new Error("Failed to load availability");
         const data = await res.json();
+        console.log(data);
 
         setAvailability(data);
       } catch (err) {
