@@ -6,36 +6,47 @@ datasource db {
   provider = "postgresql"
 }
 
-model Lead {
-  id String @id @default(uuid())
+model leads {
+  lead_id         String   @unique @db.Uuid
 
-  lead_id     String?
-  email       String?
-  first_name  String?
-  description String?
+  first_name      String?
+  last_name       String?
+  email           String
+  company         String?
+  industry        String?
+  description     String?
 
-  budget_min Int?
-  budget_max Int?
+  budget_min      Decimal?
+  budget_max      Decimal?
+  estimateTime_min Int?
+  estimateTime_max Int?
 
-  company  String?
-  industry String?
+  formatted_date  DateTime?
+  scheduling_url  String?
+  booking_status  String?
+  email_sent      Boolean?
+  email_sent_at   String?
 
-  selected_date String? // raw UI value (optional)
-  selected_time String? // raw UI value (optional)
+  created_at      DateTime @default(now())
 
-  formatted_date DateTime?
-
-  estimateTime_min Int? // FIXED (was num?)
-  estimateTime_max Int? // (assuming you meant max)
-
-  scheduling_url String?
-
-  email_sent     Boolean? // FIXED (was bool?)
-  booking_status String?
-
-  email_sent_at DateTime? // FIXED (was String)
-
-  created_at DateTime @default(now())
-
-  @@map("leads")
+  proposals       proposals[]
 }
+
+model proposals {
+  proposal_id     String   @id @default(uuid()) @db.Uuid
+  lead_id         String   @db.Uuid
+
+  creator_email   String
+  passcode        String
+
+  stage           String?
+  total_duration  String?
+  why_this_stack  String?
+
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  signed_at       DateTime?
+
+  lead            leads     @relation(fields: [lead_id], references: [lead_id])
+}
+

@@ -17,8 +17,9 @@ import {
   DEFAULT_TOTAL_INVESTMENT,
   DEFAULT_WHY_THIS_STACK,
 } from "./DefaultValues";
+import { prisma } from "../../../lib/prisma/client";
 
-export const POST: APIRoute = async ({ request }) => {
+/* export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
 
@@ -64,7 +65,7 @@ export const POST: APIRoute = async ({ request }) => {
       status: 400,
     });
   }
-};
+}; */
 
 export const createProposal = async ({
   lead_id,
@@ -73,47 +74,24 @@ export const createProposal = async ({
   lead_id: string;
   creator_email: string;
 }) => {
-  const passCodeCreated = randomBytes(3).toString("hex").toUpperCase();
-
+  const passcode = randomBytes(3).toString("hex").toUpperCase();
+  const proposalId = randomUUID();
   try {
-    const { data, error } = await supabase
-      .from("proposals")
-      .insert({
-        proposal_id: randomUUID(),
-        passcode: passCodeCreated,
+    const proposal = await prisma.proposals.create({
+      data: {
+        proposal_id: proposalId,
+        lead_id,
+        creator_email,
+        passcode,
         stage: "draft",
-        summary_items: DEFAULT_SUMMARY_ITEMS ?? [],
-        sections: DEFAULT_SECTIONS ?? [],
-        scopes: DEFAULT_SCOPES ?? [],
-        deliverables: DEFAULT_DELIVERABLES ?? [],
-        dependencies: DEFAULT_DEPENDECIES ?? [],
-        milestones: DEFAULT_MILESTONES ?? [],
-        initial_total_investment: DEFAULT_TOTAL_INVESTMENT ?? null,
-        cost_breakdown: DEFAULT_COST_BREACKDOWN ?? [],
-        payment_milestones: DEFAULT_PAYMENT_MILESTONES ?? [],
-        assumptions: DEFAULT_ASSUMPTIONS ?? [],
-        team: DEFAULT_TEAM ?? [],
-        stack_section: DEFAULT_STACK ?? [],
-        why_this_stack: DEFAULT_WHY_THIS_STACK,
         total_duration: "16 weeks",
-        lead_id: lead_id,
-        creator_email: creator_email,
-      })
-      .select()
-      .single();
-
-    if (error) {
-      console.error("Supabase insert error:", error);
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 500,
-      });
-    }
-
-    return data;
-  } catch (err) {
-    console.error("API error:", err);
-    return new Response(JSON.stringify({ error: "Invalid request body" }), {
-      status: 400,
+        why_this_stack: "To be defined",
+      },
     });
+
+    return proposal;
+  } catch (err) {
+    console.error("[createProposal] Prisma error:", err);
+    throw err;
   }
 };

@@ -1,8 +1,8 @@
 import type { APIRoute } from "astro";
 import { randomUUID } from "node:crypto";
-import { supabase } from "./server";
 import { sendWelcomeMail } from "../emails/emails";
 import { createProposal } from "../proposals/create";
+import { prisma } from "../../../lib/prisma/client";
 
 export const POST: APIRoute = async ({ request }) => {
   try {
@@ -15,9 +15,7 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    console.log("BODY", body);
-
-    const startDate = new Date(body?.selectedTime.start);
+    const startDate = new Date(body.selectedTime.start);
 
     /* -------------------------------------------------
      * 1. Create booking on Cal.com
@@ -25,17 +23,17 @@ export const POST: APIRoute = async ({ request }) => {
 
     const bookingPayload = {
       eventTypeId: 4270041,
-      start: body?.selectedTime.start,
+      start: body.selectedTime.start,
       attendee: {
-        name: body?.name,
-        email: body?.email,
+        name: body.name,
+        email: body.email,
         timeZone: "America/Toronto",
         language: "en",
       },
       metadata: {},
     };
 
-    const bookingRes = await fetch("https://api.cal.com/v2/bookings", {
+    /* const bookingRes = await fetch("https://api.cal.com/v2/bookings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,70 +44,66 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     const bookingData = await bookingRes.json();
+    const schedulingUrl =
+      bookingData?.data?.meetingUrl ?? body.scheduling_url; */
+    const schedulingUrl =
+      "https://calendly.com/d/ctp8-d9v-x4x/30-minute-meeting";
 
-    const schedulingUrl = bookingData?.schedulingUrl || body.scheduling_url;
+    const leadId = randomUUID();
 
-    /* -------------------------------------------------
-     * 2. Save lead in Supabase
-     * ------------------------------------------------- */
-    const { data: leadData, error: leadError } = await supabase
-      .from("leads")
-      .insert({
-        lead_id: randomUUID(),
+    const lead = await prisma.leads.create({
+      data: {
+        lead_id: leadId,
         first_name: body.name,
         email: body.email,
         company: body.companyName,
         industry: body.industry,
-        budget_min: body.monthlybudget.min,
-        budget_max: body.monthlybudget.max,
-        estimateTime_min: body.estimateTimeline.min,
-        estimateTime_max: body.estimateTimeline.max,
+        budget_min: body.monthlybudget?.min,
+        budget_max: body.monthlybudget?.max,
+        estimateTime_min: body.estimateTimeline?.min,
+        estimateTime_max: body.estimateTimeline?.max,
         description: body.productIdea,
-        formatted_date: startDate.toISOString(),
-        scheduling_url: bookingData?.data?.meetingUrl,
+        formatted_date: startDate,
+        scheduling_url: schedulingUrl,
         booking_status: "confirmed",
         email_sent: false,
-      })
-      .select()
-      .single();
-
-    if (leadError) throw leadError;
-
-    const proposalData = await createProposal({
-      lead_id: leadData.lead_id,
-      creator_email: body.email,
+      },
     });
 
-    /* -------------------------------------------------
-     * 3. Send confirmation email
-     * ------------------------------------------------- */
+    console.log("lead", lead);
+
+    const proposalData = await createProposal({
+      lead_id: lead?.lead_id,
+      creator_email: lead.email,
+    });
 
     try {
       await sendWelcomeMail({
         email: body.email,
         name: body.name,
-        leadId: leadData.lead_id,
-        schedulingUrl: bookingData?.data?.meetingUrl,
+        leadId: lead.lead_id,
+        schedulingUrl,
         proposalLink: `http://localhost:4321/proposal?mode=features&passcode=${proposalData.passcode}`,
       });
 
-      await supabase
-        .from("leads")
-        .update({
+      await prisma.lead.update({
+        where: { lead_id: lead.lead_id },
+        data: {
           email_sent: true,
-          email_sent_at: new Date().toISOString(),
-        })
-        .eq("lead_id", leadData?.lead_id);
+          email_sent_at: new Date(),
+        },
+      });
     } catch (emailErr) {
       console.error("Failed to send welcome email:", emailErr);
     }
 
     /* -------------------------------------------------
-     * 4. Response
+     * 5. Response
      * ------------------------------------------------- */
+
     return new Response(
       JSON.stringify({
-        id: leadData.id,
+        id: lead?.lead_id,
         scheduling_url: schedulingUrl,
       }),
       { status: 200 },

@@ -2,6 +2,8 @@ import type { APIRoute } from "astro";
 import { prisma } from "../../../lib/prisma/client";
 
 export const GET: APIRoute = async () => {
+  console.log("HOLAAAAAAAAA");
+  
   try {
     const leads = await prisma.lead.findMany({
       orderBy: {
