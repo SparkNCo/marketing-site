@@ -20,6 +20,8 @@ import {
   MissingPasscode,
   ProposalInProgress,
 } from "./MissingPasscode";
+import DiscoveryForm from "../DiscoveryForm";
+import { Card } from "../ui/card";
 
 type PageMode = "features" | "loading" | "view" | "draft";
 export type Proposal = {
@@ -148,9 +150,19 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           animate="animate"
           exit="exit"
         >
-          <FeaturesCollection
+          <Card
+            onClick={() =>
+              console.log({
+                proposal: proposal,
+              })
+            }
+            className="border-border bg-background p-8 text-foreground mt-28 cursor-pointer mx-auto max-w-4xl text-center mb-8"
+          >
+            VER
+          </Card>
+          <DiscoveryForm
             proposal={proposal}
-            submissionId={passcode}
+            passcode={passcode}
             pageMode={pageMode}
             setPageMode={setPageMode}
           />

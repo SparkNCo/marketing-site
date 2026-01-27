@@ -28,6 +28,11 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { LoadingProposal } from "../proposals/MissingPasscode";
 
+
+  export const inputBaseClass =
+    "mt-3 h-16 lg:h-10 text-4xl lg:text-sm placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
+
+
 type Feature = Readonly<{
   id: string;
   title: string;
@@ -63,8 +68,6 @@ function SortableFeatureCard({
     transition,
     opacity: isDragging ? 0.5 : 1,
   };
-  const inputBaseClass =
-    "mt-3 h-16 lg:h-10 text-4xl lg:text-sm placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
 
   return (
     <Card
@@ -270,9 +273,9 @@ export function FeaturesCollection({
   return (
     <div className="mx-auto max-w-4xl space-y-6 w-full min-h-[95vh] font-body py-8 mt-20 ">
       <div className="mb-8 text-center">
-        <h1 className="mb-3 text-4xl md:text-5xl font-bold  tracking-tight text-foreground ">
+        {/* <h1 className="mb-3 text-4xl md:text-5xl font-bold  tracking-tight text-foreground ">
           Tell us about your Project
-        </h1>
+        </h1> */}
         <p className="text-2xl text-foreground font-title">
           Add All features you are interested to implement in your Project
         </p>

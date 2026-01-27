@@ -7,7 +7,7 @@ export type FormStep = "initial" | "features";
 
 /* ───────────────── Lazy steps ───────────────── */
 const StepOne = lazy(() => import("./DealForm"));
-const FeaturesForm = lazy(() => import("./FeaturesForm"));
+const FeaturesForm = lazy(() => import("./DiscoveryForm"));
 
 /* ───────────────── Component ───────────────── */
 
