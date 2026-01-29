@@ -13,14 +13,18 @@ export default function CreateProposalCta({ submissionId, proposal, dbUser }) {
       setLoading(true);
       setError(null);
 
-      const res = await fetch("/api/proposals/update-prop", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          passcode: submissionId,
-          updates: proposal,
-        }),
-      });
+      const res = await fetch(
+        // "/api/proposals/update-prop"
+        "http://127.0.0.1:54321/functions/v1/proposals",
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            passcode: submissionId,
+            updates: proposal,
+          }),
+        },
+      );
 
       if (!res.ok) {
         throw new Error("Failed to save proposal");
@@ -54,7 +58,7 @@ export default function CreateProposalCta({ submissionId, proposal, dbUser }) {
                 Saving…
               </>
             ) : (
-              "Save Proposal"
+              "Save Changes"
             )}
           </Button>
         </div>

@@ -19,16 +19,20 @@ export default function CtaProposal({
     try {
       setIsSigning(true);
       console.log("proposalId", proposalId);
-      const res = await fetch("/api/proposals/uploadSignature", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        //"/api/proposals/uploadSignature"
+        "http://127.0.0.1:54321/functions/v1/proposals",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            proposalId,
+            signatureBase64,
+          }),
         },
-        body: JSON.stringify({
-          proposalId,
-          signatureBase64,
-        }),
-      });
+      );
 
       if (!res.ok) {
         throw new Error("Failed to sign proposal");

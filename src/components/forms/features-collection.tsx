@@ -235,23 +235,27 @@ export function FeaturesCollection({
   const saveFeatures = async () => {
     setIsSaving(true);
     try {
-      const response = await fetch("/api/features/post-features", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          submission_id: submissionId,
-          features: features,
-          proposalId: proposalId,
-          proposal_id: proposal?.proposal_id,
-          discovery_state: discoveryState?.currentState,
-          estimateTime_min: Number(discoveryState?.timelineRange?.[0]),
-          estimateTime_max: Number(discoveryState?.timelineRange?.[1]),
-          budget_min: String(discoveryState?.budgetRange[0]),
-          budget_max: String(discoveryState?.budgetRange[1]),
-          description: discoveryState?.requirementOverview,
-          lead_id: proposal?.lead_id,
-        }),
-      });
+      const response = await fetch(
+        //  "/api/features/post-features"
+        "http://127.0.0.1:54321/functions/v1/features/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            submission_id: submissionId,
+            features: features,
+            proposalId: proposalId,
+            proposal_id: proposal?.proposal_id,
+            discovery_state: discoveryState?.currentState,
+            estimateTime_min: Number(discoveryState?.timelineRange?.[0]),
+            estimateTime_max: Number(discoveryState?.timelineRange?.[1]),
+            budget_min: String(discoveryState?.budgetRange[0]),
+            budget_max: String(discoveryState?.budgetRange[1]),
+            description: discoveryState?.requirementOverview,
+            lead_id: proposal?.lead_id,
+          }),
+        },
+      );
       if (response) {
         setPageMode("draft");
       }
