@@ -17,7 +17,7 @@ export default function ProposalShell({ user, mode, passcode }: Props) {
     <AppProvider initialUser={user}>
       <Header headerMode={"form"} />
       <ProposalIsland mode={mode} passcode={passcode} />
-      <Footer mode={mode} />
+      
     </AppProvider>
   );
 }

@@ -21,11 +21,12 @@ model leads {
   estimateTime_min Int?
   estimateTime_max Int?
 
-  formatted_date DateTime?
-  scheduling_url String?
-  booking_status String?
-  email_sent     Boolean?
-  email_sent_at  String?
+  formatted_date  DateTime?
+  scheduling_url  String?
+  booking_status  String?
+  email_sent      Boolean?
+  email_sent_at   String?
+  discovery_state String?
 
   created_at DateTime @default(now())
 
@@ -33,34 +34,29 @@ model leads {
 }
 
 model proposals {
-  proposal_id String @id @default(uuid()) @db.Uuid
-  lead_id     String @db.Uuid
-
-  creator_email String
-  passcode      String @unique
-
-  stage          String?
-  total_duration String?
-  why_this_stack String?
-  signature_url  String?
-
-  summary_items      Json? @default("[]")
-  scopes             Json? @default("[]")
-  deliverables       Json? @default("[]")
-  dependencies       Json? @default("[]")
-  payment_milestones Json? @default("[]")
-  cost_breakdown     Json? @default("[]")
-  assumptions        Json? @default("[]")
-  team               Json? @default("[]")
-  stack_section      Json? @default("[]")
-  milestones         Json? @default("[]")
-  sections           Json? @default("[]")
-
+  proposal_id              String    @id @default(uuid()) @db.Uuid
+  lead_id                  String    @db.Uuid
+  creator_email            String?
+  passcode                 String?   @unique
+  stage                    String?
+  total_duration           String?
+  why_this_stack           String?
+  signature_url            String?
+  summary_items            Json?     @default("[]")
+  scopes                   Json?     @default("[]")
+  deliverables             Json?     @default("[]")
+  dependencies             Json?     @default("[]")
+  payment_milestones       Json?     @default("[]")
+  cost_breakdown           Json?     @default("[]")
+  assumptions              Json?     @default("[]")
+  team                     Json?     @default("[]")
+  stack_section            Json?     @default("[]")
+  milestones               Json?     @default("[]")
+  sections                 Json?     @default("[]")
   initial_total_investment Json?
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  signed_at  DateTime?
+  created_at               DateTime  @default(now())
+  updated_at               DateTime  @updatedAt
+  signed_at                DateTime?
 
   lead         leads          @relation(fields: [lead_id], references: [lead_id])
   requirements requirements[]

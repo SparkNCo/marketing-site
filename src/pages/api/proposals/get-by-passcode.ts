@@ -36,6 +36,16 @@ export const GET: APIRoute = async ({ url }) => {
         milestones: true,
         sections: true,
         initial_total_investment: true,
+        lead: {
+          select: {
+            description: true,
+            formatted_date: true,
+            estimateTime_min: true,
+            estimateTime_max: true,
+            budget_min: true,
+            budget_max: true,
+          },
+        },
       },
     });
 

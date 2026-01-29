@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { FeaturesCollection } from "../forms/features-collection";
 import type { ProposalIslandProps } from "../utils/interfaces";
 import CtaProposal from "./ctaProposal";
 import DedicatedTeam from "./DedicatedTeam";
@@ -21,7 +20,15 @@ import {
   ProposalInProgress,
 } from "./MissingPasscode";
 import DiscoveryForm from "../DiscoveryForm";
-import { Card } from "../ui/card";
+import Footer from "../Footer";
+
+type DiscoveryFormState = {
+  lead_id: string;
+  requirementOverview: string;
+  timelineRange: [number, number];
+  budgetRange: [number, number];
+  currentState: string;
+};
 
 type PageMode = "features" | "loading" | "view" | "draft";
 export type Proposal = {
@@ -77,6 +84,9 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
   }
   const { dbUser } = useApp();
 
+  const [discoveryState, setDiscoveryState] =
+    useState<DiscoveryFormState | null>(null);
+
   const initialMode: PageMode =
     mode === "features" ||
     mode === "draft" ||
@@ -112,21 +122,32 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
 
   useEffect(() => {
     if (!passcode) return;
-
     const fetchProposal = async () => {
       try {
         setLoading(true);
-
         const res = await fetch(
-          `/api/proposals/get-by-passcode?passcode=${passcode}`,
+          // `/api/proposals/get-by-passcode?passcode=${passcode}`,
+          `http://127.0.0.1:54321/functions/v1/proposals/?passcode=${passcode}`,
         );
 
         if (!res.ok) {
           throw new Error("Failed to fetch proposal");
         }
         const { data } = await res.json();
-        console.log("response", data);
         setProposal(data);
+        setDiscoveryState({
+          lead_id: data?.lead?.id ?? "",
+          requirementOverview: data?.lead?.description ?? "",
+          timelineRange: [
+            data?.lead?.estimateTime_min ?? 1,
+            data?.lead?.estimateTime_max ?? 6,
+          ],
+          budgetRange: [
+            data?.lead?.budget_min ?? 5000,
+            data?.lead?.budget_max ?? 50000,
+          ],
+          currentState: "",
+        });
       } catch (err) {
         console.error(err);
         setError("Unable to load proposal");
@@ -150,22 +171,17 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           animate="animate"
           exit="exit"
         >
-          <Card
-            onClick={() =>
-              console.log({
-                proposal: proposal,
-              })
-            }
-            className="border-border bg-background p-8 text-foreground mt-28 cursor-pointer mx-auto max-w-4xl text-center mb-8"
-          >
-            VER
-          </Card>
-          <DiscoveryForm
-            proposal={proposal}
-            passcode={passcode}
-            pageMode={pageMode}
-            setPageMode={setPageMode}
-          />
+          {proposal?.lead_id && (
+            <DiscoveryForm
+              proposal={proposal}
+              passcode={passcode}
+              pageMode={pageMode}
+              setPageMode={setPageMode}
+              state={discoveryState}
+              setState={setDiscoveryState}
+              leadId={proposal?.lead_id}
+            />
+          )}
         </motion.div>
       )}
 
@@ -260,17 +276,20 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
         </motion.div>
       )}
 
-      {pageMode === "draft" && error === "Unable to load proposal" && (
-        <motion.div
-          key="view"
-          variants={slideVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-        >
-          <InvalidPasscode />
-        </motion.div>
-      )}
+      {(pageMode === "draft" || pageMode === "features") &&
+        error === "Unable to load proposal" && (
+          <motion.div
+            key="view"
+            variants={slideVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="min-h-[90vh]"
+          >
+            <InvalidPasscode />
+          </motion.div>
+        )}
+      <Footer mode={"mode"} />
     </AnimatePresence>
   );
 };

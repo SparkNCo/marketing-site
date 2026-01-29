@@ -27,11 +27,10 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { LoadingProposal } from "../proposals/MissingPasscode";
+import type { DiscoveryFormState } from "../DiscoveryForm";
 
-
-  export const inputBaseClass =
-    "mt-3 h-16 lg:h-10 text-4xl lg:text-sm placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
-
+export const inputBaseClass =
+  "mt-3 h-16 lg:h-10 text-4xl lg:text-sm placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
 
 type Feature = Readonly<{
   id: string;
@@ -150,12 +149,14 @@ type FeaturesCollectionProps = Readonly<{
   submissionId: string;
   pageMode: string;
   setPageMode: Dispatch<SetStateAction<string>>;
+  discoveryState: DiscoveryFormState;
 }>;
 
 export function FeaturesCollection({
   proposal,
   submissionId,
   setPageMode,
+  discoveryState,
 }: FeaturesCollectionProps) {
   const [proposalId, setProposalId] = useState<Feature[]>([]);
   const [features, setFeatures] = useState<Feature[]>([]);
@@ -176,7 +177,8 @@ export function FeaturesCollection({
   const loadFeatures = async () => {
     try {
       const response = await fetch(
-        `/api/features/fetch-features?submission_id=${submissionId}`,
+        //`/api/features/fetch-features?submission_id=${submissionId}`,
+        `http://127.0.0.1:54321/functions/v1/features/?submission_id=${submissionId}`,
       );
       console.log("Fetched submissionId", submissionId);
       if (response.ok) {
@@ -241,10 +243,15 @@ export function FeaturesCollection({
           features: features,
           proposalId: proposalId,
           proposal_id: proposal?.proposal_id,
+          discovery_state: discoveryState?.currentState,
+          estimateTime_min: Number(discoveryState?.timelineRange?.[0]),
+          estimateTime_max: Number(discoveryState?.timelineRange?.[1]),
+          budget_min: String(discoveryState?.budgetRange[0]),
+          budget_max: String(discoveryState?.budgetRange[1]),
+          description: discoveryState?.requirementOverview,
+          lead_id: proposal?.lead_id,
         }),
       });
-      console.log("response", response);
-
       if (response) {
         setPageMode("draft");
       }
@@ -271,7 +278,7 @@ export function FeaturesCollection({
     return <LoadingProposal />;
   }
   return (
-    <div className="mx-auto max-w-4xl space-y-6 w-full min-h-[95vh] font-body py-8 mt-20 ">
+    <div className="mx-auto max-w-4xl space-y-6 w-full  font-body py-8 mt-20 ">
       <div className="mb-8 text-center">
         {/* <h1 className="mb-3 text-4xl md:text-5xl font-bold  tracking-tight text-foreground ">
           Tell us about your Project

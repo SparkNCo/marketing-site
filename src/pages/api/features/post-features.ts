@@ -4,7 +4,18 @@ import { prisma } from "../../../lib/prisma/client";
 export const POST: APIRoute = async ({ request }) => {
   try {
     const body = await request.json();
-    const { proposal_id, submission_id, features } = body;
+    const {
+      proposal_id,
+      submission_id,
+      features,
+      discovery_state,
+      estimateTime_min,
+      estimateTime_max,
+      budget_min,
+      budget_max,
+      description,
+      lead_id,
+    } = body;
 
     if (!proposal_id) {
       return new Response(
@@ -24,7 +35,6 @@ export const POST: APIRoute = async ({ request }) => {
       data: features.map((item: any) => ({
         proposal_id,
         submission_id,
-
         feature_name: item.title ?? null,
         integration_text: item.integrations ?? null,
         description: item.description ?? null,
@@ -33,6 +43,19 @@ export const POST: APIRoute = async ({ request }) => {
       })),
       skipDuplicates: true,
     });
+    if (lead_id && discovery_state) {
+      await prisma.leads.update({
+        where: { lead_id },
+        data: {
+          discovery_state: discovery_state,
+          estimateTime_min: estimateTime_min,
+          estimateTime_max: estimateTime_max,
+          budget_min: budget_min,
+          budget_max: budget_max,
+          description: description,
+        },
+      });
+    }
 
     return new Response(JSON.stringify({ inserted: data.count }), {
       status: 200,

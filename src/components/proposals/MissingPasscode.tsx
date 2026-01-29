@@ -16,7 +16,7 @@ export const MissingPasscode = () => {
 
   useEffect(() => {
     if (passcode.length === 6 && !code.includes("")) {
-      window.location.href = `http://localhost:4321/proposal?mode=draft&passcode=${passcode}`;
+      window.location.href = `http://localhost:4321/proposal?mode=features&passcode=${passcode}`;
     }
   }, [passcode, code]);
 
@@ -34,7 +34,7 @@ export const MissingPasscode = () => {
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     if (e.key === "Backspace" && !code[index] && index > 0) {
       inputsRef.current[index - 1]?.focus();

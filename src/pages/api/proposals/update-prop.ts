@@ -11,7 +11,7 @@ export const PATCH: APIRoute = async ({ request }) => {
         JSON.stringify({
           error: "passcode and updates object are required",
         }),
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -24,10 +24,9 @@ export const PATCH: APIRoute = async ({ request }) => {
     });
 
     if (updatedProposal.count === 0) {
-      return new Response(
-        JSON.stringify({ error: "Proposal not found" }),
-        { status: 404 }
-      );
+      return new Response(JSON.stringify({ error: "Proposal not found" }), {
+        status: 404,
+      });
     }
 
     // Fetch the updated record to return
@@ -38,9 +37,8 @@ export const PATCH: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ data: proposal }), { status: 200 });
   } catch (err) {
     console.error("[PATCH /proposals] Prisma error:", err);
-    return new Response(
-      JSON.stringify({ error: "Unexpected server error" }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ error: "Unexpected server error" }), {
+      status: 500,
+    });
   }
 };
