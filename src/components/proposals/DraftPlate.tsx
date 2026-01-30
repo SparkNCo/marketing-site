@@ -1,11 +1,8 @@
-export const DraftPlate = ({ proposal, setProposal }) => {
+export const DraftPlate = ({ proposal, setStage }) => {
   const isDraft = proposal?.stage === "draft";
 
   const toggleStage = () => {
-    setProposal((prev) => ({
-      ...prev,
-      stage: prev.stage === "draft" ? "for-review" : "draft",
-    }));
+    setStage(isDraft ? "for-review" : "draft");
   };
 
   return (

@@ -36,9 +36,6 @@ export default function DiscoveryForm({
 
   const [state, setState] = useState<DiscoveryFormState | null>(null);
 
-  /**
-   * Initialize local state from proposal.lead
-   */
   useEffect(() => {
     if (!proposal?.lead) return;
 

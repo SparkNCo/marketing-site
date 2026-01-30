@@ -159,7 +159,7 @@ export function FeaturesCollection({
   setPageMode,
   discoveryState,
 }: FeaturesCollectionProps) {
-  const [proposalId, setProposalId] = useState<Feature[]>([]);
+  // const [proposalId, setProposalId] = useState<Feature[]>([]);
   const [features, setFeatures] = useState<Feature[]>([]);
 
   const sensors = useSensors(
@@ -186,12 +186,6 @@ export function FeaturesCollection({
 
       return response.json();
     },
-    onSuccess: (data) => {
-      if (data?.length > 0) {
-        setPageMode("draft");
-        setFeatures(data);
-      }
-    },
   });
 
   /* --------------------------------
@@ -207,7 +201,6 @@ export function FeaturesCollection({
           body: JSON.stringify({
             submission_id: submissionId,
             features,
-            proposalId,
             proposal_id: proposal?.proposal_id,
             discovery_state: discoveryState?.currentState,
             estimateTime_min: Number(discoveryState?.estimateTime_min),
@@ -223,12 +216,11 @@ export function FeaturesCollection({
       if (!response.ok) {
         throw new Error("Failed to save features");
       }
-
+      console.log("RESPONSE OK ");
+      setPageMode("waiting");
       return response.json();
     },
-    onSuccess: () => {
-      setPageMode("draft");
-    },
+    onSuccess: () => {},
     onError: (error) => {
       console.error("[v0] Error saving features:", error);
     },
@@ -285,18 +277,6 @@ export function FeaturesCollection({
   const isLoading = featuresQuery.isLoading;
   const isSaving = saveFeaturesMutation.isPending;
 
-  const isFeatureComplete = (feature: Feature) => {
-    return (
-      feature.title.trim() !== "" &&
-      feature.purpose.trim() !== "" &&
-      feature.description.trim() !== "" &&
-      feature.integrations.trim() !== "" &&
-      feature.tech_constraints.trim() !== ""
-    );
-  };
-
-  const hasCompletedFeature = features.some(isFeatureComplete);
-
   /* --------------------------------
    * Render
    * -------------------------------- */
@@ -346,12 +326,8 @@ export function FeaturesCollection({
 
         <Button
           onClick={saveFeatures}
-          disabled={isSaving || !hasCompletedFeature}
-          title={
-            hasCompletedFeature
-              ? undefined
-              : "Complete at least one feature before saving"
-          }
+          disabled={isSaving}
+          title={"Complete at least one feature before saving"}
           className="flex-1 py-6 font-bold"
         >
           {isSaving ? (

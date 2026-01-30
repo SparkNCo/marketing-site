@@ -106,7 +106,7 @@ export const InvalidPasscode = () => {
 
 export const ProposalInProgress = () => {
   return (
-    <div className="w-full flex items-center justify-center py-24 animate-fade-in ">
+    <div className="w-full flex items-center justify-center py-24 animate-fade-in h-min-[90vh] ">
       <div className="  rounded-xl bg-foreground text-center space-y-8 py-10 px-10 max-w-lg w-full shadow-xl">
         {/* Animated gears */}
         <div className="flex justify-center items-center gap-4 ">
