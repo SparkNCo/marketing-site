@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import type {
   CalendarSubmitData,
   FormData,
@@ -18,10 +19,6 @@ type AvailabilityResponse = {
 
 export default function DealForm() {
   const [currentStep, setCurrentStep] = useState<FormStep>("contact");
-  const [submitting, setSubmitting] = useState(false);
-  const [availability, setAvailability] = useState<AvailabilityResponse | null>(
-    null,
-  );
 
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -36,7 +33,70 @@ export default function DealForm() {
     scheduling_url: "",
   });
 
-  const handleCalendarSubmit = async (data: CalendarSubmitData) => {
+  /* -----------------------------
+   * Availability query
+   * ----------------------------- */
+  const availabilityQuery = useQuery({
+    queryKey: ["calendly-availability"],
+    queryFn: async (): Promise<AvailabilityResponse> => {
+      const now = new Date();
+
+      const start = new Date(now);
+      start.setDate(start.getDate() + 1);
+      start.setHours(0, 0, 0, 0);
+
+      const end = new Date(now);
+      end.setDate(end.getDate() + 5);
+      end.setHours(23, 59, 59, 999);
+
+      const res = await fetch(
+        `/api/calendly/availability?` +
+          new URLSearchParams({
+            eventSlug: "discovery",
+            start: start.toISOString(),
+            end: end.toISOString(),
+          }),
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to load availability");
+      }
+
+      return res.json();
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
+  /* -----------------------------
+   * Submission mutation
+   * ----------------------------- */
+  const submitMutation = useMutation({
+    mutationFn: async (finalData: FormData) => {
+      const res = await fetch(
+        "http://127.0.0.1:54321/functions/v1/create-lead",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(finalData),
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to submit");
+      }
+
+      return res.json();
+    },
+    onSuccess: (_data, finalData) => {
+      setFormData(finalData);
+      setCurrentStep("success");
+    },
+    onError: (err) => {
+      console.error(err);
+    },
+  });
+
+  const handleCalendarSubmit = (data: CalendarSubmitData) => {
     const finalData: FormData = {
       ...formData,
       selectedDate: data.selectedDate,
@@ -46,23 +106,8 @@ export default function DealForm() {
       },
       scheduling_url: data.scheduling_url,
     };
-    try {
-      setSubmitting(true);
-      const res = await fetch("http://127.0.0.1:54321/functions/v1/create-lead", {
-        // const res = await fetch("/api/submissions/post-submissions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(finalData),
-      });
 
-      if (!res.ok) throw new Error("Failed to submit");
-      setSubmitting(false);
-      setFormData(finalData);
-      setCurrentStep("success");
-    } catch (err) {
-      console.error(err);
-      setSubmitting(false);
-    }
+    submitMutation.mutate(finalData);
   };
 
   const stepIndex = [
@@ -73,67 +118,25 @@ export default function DealForm() {
     "success",
   ].indexOf(currentStep);
 
-  useEffect(() => {
-    const fetchAvailability = async () => {
-      try {
-        const now = new Date();
-
-        // Tomorrow at 00:00
-        const start = new Date(now);
-        start.setDate(start.getDate() + 1);
-        start.setHours(0, 0, 0, 0);
-
-        // 5 days from today at 23:59
-        const end = new Date(now);
-        end.setDate(end.getDate() + 5);
-        end.setHours(23, 59, 59, 999);
-
-        const res = await fetch(
-          `/api/calendly/availability?` +
-            new URLSearchParams({
-              //eventSlug: "15min",
-              eventSlug: "discovery",
-              start: start.toISOString(),
-              end: end.toISOString(),
-            }),
-        );
-
-        if (!res.ok) throw new Error("Failed to load availability");
-        const data = await res.json();
-
-        setAvailability(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchAvailability();
-  }, []);
-
   return (
     <main
       data-header="light"
       className="
-    min-h-[88vh]
-    flex flex-col items-center justify-center
-    px-4 py-6 bg-background
-  "
+        min-h-[88vh]
+        flex flex-col items-center justify-center
+        px-4 py-6 bg-background
+      "
     >
-      <div
-        className="
-    min-h-[10vh]     
-    sm:min-h-[15vh]
-    md:min-h-[15vh]
-    lg:min-h-[15vh]
-    xl:min-h-[15vh]"
-      ></div>{" "}
+      <div className="min-h-[10vh] sm:min-h-[15vh]" />
+
       <AnimatedStepper
         currentStep={stepIndex}
         totalSteps={5}
         setCurrentStep={setCurrentStep}
       />
+
       <div
-        className={`w-full lg:max-w-2xl   p-8 shadow-xl rounded-xl ${
+        className={`w-full lg:max-w-2xl p-8 shadow-xl rounded-xl ${
           currentStep === "contact" ? "bg-card" : "bg-background"
         }`}
       >
@@ -145,13 +148,13 @@ export default function DealForm() {
             email={formData.email}
             company={formData.companyName}
             industry={formData.industry}
-            setName={(v) => setFormData((prev) => ({ ...prev, name: v }))}
-            setEmail={(v) => setFormData((prev) => ({ ...prev, email: v }))}
+            setName={(v) => setFormData((p) => ({ ...p, name: v }))}
+            setEmail={(v) => setFormData((p) => ({ ...p, email: v }))}
             setCompany={(v) =>
-              setFormData((prev) => ({ ...prev, companyName: v }))
+              setFormData((p) => ({ ...p, companyName: v }))
             }
             setIndustry={(v) =>
-              setFormData((prev) => ({ ...prev, industry: v }))
+              setFormData((p) => ({ ...p, industry: v }))
             }
           />
         )}
@@ -161,7 +164,7 @@ export default function DealForm() {
             setCurrentStep={setCurrentStep}
             productIdea={formData.productIdea}
             setProductIdea={(value) =>
-              setFormData((prev) => ({ ...prev, productIdea: value }))
+              setFormData((p) => ({ ...p, productIdea: value }))
             }
           />
         )}
@@ -175,8 +178,8 @@ export default function DealForm() {
               formData.monthlybudget.max,
             ]}
             setBudgetRange={(value) =>
-              setFormData((prev) => ({
-                ...prev,
+              setFormData((p) => ({
+                ...p,
                 monthlybudget: { min: value[0], max: value[1] },
               }))
             }
@@ -185,24 +188,21 @@ export default function DealForm() {
               formData.estimateTimeline.max,
             ]}
             setTimelineRange={(value) =>
-              setFormData((prev) => ({
-                ...prev,
+              setFormData((p) => ({
+                ...p,
                 estimateTimeline: { min: value[0], max: value[1] },
               }))
             }
           />
         )}
 
-        {currentStep === "calendar" &&
-          (() => {
-            return (
-              <CalendlyBooking
-                onSubmit={handleCalendarSubmit}
-                submitting={submitting}
-                availability={availability?.days ?? {}}
-              />
-            );
-          })()}
+        {currentStep === "calendar" && (
+          <CalendlyBooking
+            onSubmit={handleCalendarSubmit}
+            submitting={submitMutation.isPending}
+            availability={availabilityQuery.data?.days ?? {}}
+          />
+        )}
 
         {currentStep === "success" && <SuccessMessage />}
       </div>

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useApp } from "../../lib/AppProvider";
-import { supabase } from "../../pages/api/submissions/server";
 
 type AuthPopoverProps = {
   mode: "light" | "dark";
@@ -12,18 +11,15 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
   const { login } = useApp();
 
   const [show, setShow] = useState(false);
-  const [isSignup, setIsSignup] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
 
   const resetState = () => {
     setEmail("");
     setPassword("");
     setError("");
-    setSuccess("");
   };
 
   const handleLogin = async () => {
@@ -40,43 +36,6 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
 
     resetState();
     setShow(false);
-    setLoading(false);
-  };
-
-  const handleSignup = async () => {
-    setLoading(true);
-    setError("");
-    setSuccess("");
-
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    console.log("data", data);
-
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-      return;
-    }
-
-    const user = data.user;
-    console.log("user", user);
-
-    if (user) {
-      await fetch("/api/users/post-user", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: user.id,
-          email: user.email,
-        }),
-      });
-    }
-
-    setSuccess("Account created. You can now sign in.");
-    setIsSignup(false);
-    setPassword("");
     setLoading(false);
   };
 
@@ -127,10 +86,9 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
             />
 
             {error && <p className="text-xs text-red-500">{error}</p>}
-            {success && <p className="text-xs text-green-500">{success}</p>}
 
             <button
-              onClick={isSignup ? handleSignup : handleLogin}
+              onClick={handleLogin}
               disabled={loading}
               className={`w-full rounded-full py-2 text-sm font-medium hover:opacity-90 transition ${
                 mode === "dark"
@@ -138,31 +96,8 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
                   : "bg-card text-background"
               }`}
             >
-              {loading
-                ? isSignup
-                  ? "Creating account…"
-                  : "Signing in…"
-                : isSignup
-                  ? "Create account"
-                  : "Sign in"}
+              {loading ? "Signing in…" : "Sign in"}
             </button>
-
-            {/* TOGGLE */}
-            {/* <p className="text-xs text-center text-muted-foreground">
-              {isSignup
-                ? "Already have an account?"
-                : "I don’t have an account"}{" "}
-              <button
-                onClick={() => {
-                  setIsSignup((v) => !v);
-                  setError("");
-                  setSuccess("");
-                }}
-                className="underline font-medium hover:opacity-80"
-              >
-                {isSignup ? "Sign in" : "Sign up"}
-              </button>
-            </p> */}
           </div>
         </div>
       )}

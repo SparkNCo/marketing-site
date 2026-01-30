@@ -28,6 +28,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { LoadingProposal } from "../proposals/MissingPasscode";
 import type { DiscoveryFormState } from "../DiscoveryForm";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const inputBaseClass =
   "mt-3 h-16 lg:h-10 text-4xl lg:text-sm placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
@@ -160,8 +161,6 @@ export function FeaturesCollection({
 }: FeaturesCollectionProps) {
   const [proposalId, setProposalId] = useState<Feature[]>([]);
   const [features, setFeatures] = useState<Feature[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -170,30 +169,74 @@ export function FeaturesCollection({
     }),
   );
 
-  useEffect(() => {
-    loadFeatures();
-  }, [submissionId]);
-
-  const loadFeatures = async () => {
-    try {
+  /* --------------------------------
+   * Load features
+   * -------------------------------- */
+  const featuresQuery = useQuery({
+    queryKey: ["features", submissionId],
+    enabled: !!submissionId,
+    queryFn: async () => {
       const response = await fetch(
-        //`/api/features/fetch-features?submission_id=${submissionId}`,
         `http://127.0.0.1:54321/functions/v1/features/?submission_id=${submissionId}`,
       );
-      console.log("Fetched submissionId", submissionId);
-      if (response.ok) {
-        const data = await response.json();
-        if (data?.length > 0) {
-          setPageMode("draft");
-        }
-      }
-    } catch (error) {
-      console.error("[v0] Error loading features:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
+      if (!response.ok) {
+        throw new Error("Failed to load features");
+      }
+
+      return response.json();
+    },
+    onSuccess: (data) => {
+      if (data?.length > 0) {
+        setPageMode("draft");
+        setFeatures(data);
+      }
+    },
+  });
+
+  /* --------------------------------
+   * Save features
+   * -------------------------------- */
+  const saveFeaturesMutation = useMutation({
+    mutationFn: async () => {
+      const response = await fetch(
+        "http://127.0.0.1:54321/functions/v1/features/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            submission_id: submissionId,
+            features,
+            proposalId,
+            proposal_id: proposal?.proposal_id,
+            discovery_state: discoveryState?.currentState,
+            estimateTime_min: Number(discoveryState?.estimateTime_min),
+            estimateTime_max: Number(discoveryState?.estimateTime_max),
+            budget_min: String(discoveryState?.budget_min),
+            budget_max: String(discoveryState?.budget_max),
+            description: discoveryState?.description,
+            lead_id: proposal?.lead_id,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to save features");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      setPageMode("draft");
+    },
+    onError: (error) => {
+      console.error("[v0] Error saving features:", error);
+    },
+  });
+
+  /* --------------------------------
+   * Feature helpers
+   * -------------------------------- */
   const addFeature = () => {
     const newFeature: Feature = {
       id: crypto.randomUUID(),
@@ -232,39 +275,15 @@ export function FeaturesCollection({
     }
   };
 
-  const saveFeatures = async () => {
-    setIsSaving(true);
-    try {
-      const response = await fetch(
-        //  "/api/features/post-features"
-        "http://127.0.0.1:54321/functions/v1/features/",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            submission_id: submissionId,
-            features: features,
-            proposalId: proposalId,
-            proposal_id: proposal?.proposal_id,
-            discovery_state: discoveryState?.currentState,
-            estimateTime_min: Number(discoveryState?.timelineRange?.[0]),
-            estimateTime_max: Number(discoveryState?.timelineRange?.[1]),
-            budget_min: String(discoveryState?.budgetRange[0]),
-            budget_max: String(discoveryState?.budgetRange[1]),
-            description: discoveryState?.requirementOverview,
-            lead_id: proposal?.lead_id,
-          }),
-        },
-      );
-      if (response) {
-        setPageMode("draft");
-      }
-    } catch (error) {
-      console.error("[v0] Error saving features:", error);
-    } finally {
-      setIsSaving(false);
-    }
+  const saveFeatures = () => {
+    saveFeaturesMutation.mutate();
   };
+
+  /* --------------------------------
+   * Derived state
+   * -------------------------------- */
+  const isLoading = featuresQuery.isLoading;
+  const isSaving = saveFeaturesMutation.isPending;
 
   const isFeatureComplete = (feature: Feature) => {
     return (
@@ -278,9 +297,13 @@ export function FeaturesCollection({
 
   const hasCompletedFeature = features.some(isFeatureComplete);
 
+  /* --------------------------------
+   * Render
+   * -------------------------------- */
   if (isLoading) {
     return <LoadingProposal />;
   }
+
   return (
     <div className="mx-auto max-w-4xl space-y-6 w-full  font-body py-8 mt-20 ">
       <div className="mb-8 text-center">

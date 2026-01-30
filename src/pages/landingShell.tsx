@@ -7,6 +7,8 @@ import LandingIsland from "../components/LandingIsland";
 import { AppProvider } from "../lib/AppProvider";
 import { AnimatePresence, motion } from "framer-motion";
 import IndexShell from "./IndexShell";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "../lib/tanStack";
 
 type Props = {
   user?: { email: string };
@@ -23,39 +25,41 @@ export default function LandingShell({ user, location }: Props) {
   };
 
   return (
-    <AppProvider initialUser={user}>
-      <div className="bg-background ">
-        <Header headerMode={mode} />
-        <AnimatePresence mode="wait">
-          {mode === "index" && (
-            <motion.div
-              key="landing"
-              variants={variants}
-              initial="hidden"
-              animate="enter"
-              exit="exit"
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            >
-              <LandingIsland setMode={setMode} />
-            </motion.div>
-          )}
+    <QueryClientProvider client={queryClient}>
+      <AppProvider initialUser={user}>
+        <div className="bg-background ">
+          <Header headerMode={mode} />
+          <AnimatePresence mode="wait">
+            {mode === "index" && (
+              <motion.div
+                key="landing"
+                variants={variants}
+                initial="hidden"
+                animate="enter"
+                exit="exit"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                <LandingIsland setMode={setMode} />
+              </motion.div>
+            )}
 
-          {mode === "form" && (
-            <motion.div
-              key="form"
-              variants={variants}
-              initial="hidden"
-              animate="enter"
-              exit="exit"
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            >
-              <IndexShell setMode={setMode} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+            {mode === "form" && (
+              <motion.div
+                key="form"
+                variants={variants}
+                initial="hidden"
+                animate="enter"
+                exit="exit"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                <IndexShell setMode={setMode} />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-        <Footer />
-      </div>
-    </AppProvider>
+          <Footer />
+        </div>
+      </AppProvider>
+    </QueryClientProvider>
   );
 }

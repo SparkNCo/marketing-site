@@ -1,24 +1,29 @@
 "use client";
 
-import { useState } from "react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
+import { useMutation } from "@tanstack/react-query";
 
-export default function CreateProposalCta({ submissionId, proposal, dbUser }) {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+type Props = {
+  submissionId: string;
+  proposal: any;
+  dbUser?: any;
+};
 
-  const updateProposal = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
+export default function CreateProposalCta({
+  submissionId,
+  proposal,
+  dbUser,
+}: Props) {
+  const mutation = useMutation({
+    mutationFn: async () => {
       const res = await fetch(
-        // "/api/proposals/update-prop"
         "http://127.0.0.1:54321/functions/v1/proposals",
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({
             passcode: submissionId,
             updates: proposal,
@@ -29,13 +34,10 @@ export default function CreateProposalCta({ submissionId, proposal, dbUser }) {
       if (!res.ok) {
         throw new Error("Failed to save proposal");
       }
-    } catch (err) {
-      console.error(err);
-      setError("Could not save proposal. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+
+      return res.json();
+    },
+  });
 
   return (
     <section className="mb-16 w-[80vw] mx-auto">
@@ -48,11 +50,11 @@ export default function CreateProposalCta({ submissionId, proposal, dbUser }) {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             size="lg"
-            disabled={loading}
-            onClick={updateProposal}
+            disabled={mutation.isPending}
+            onClick={() => mutation.mutate()}
             className="flex items-center gap-2 text-background font-semibold"
           >
-            {loading ? (
+            {mutation.isPending ? (
               <>
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                 Saving…
@@ -63,7 +65,18 @@ export default function CreateProposalCta({ submissionId, proposal, dbUser }) {
           </Button>
         </div>
 
-        {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
+        {mutation.isError && (
+          <p className="mt-4 text-sm text-red-500">
+            {(mutation.error as Error).message ||
+              "Could not save proposal. Please try again."}
+          </p>
+        )}
+
+        {mutation.isSuccess && (
+          <p className="mt-4 text-sm text-green-500">
+            Proposal saved successfully
+          </p>
+        )}
       </Card>
     </section>
   );

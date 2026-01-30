@@ -4,25 +4,26 @@ import { FileText } from "lucide-react";
 import { Card } from "./ui/card";
 import { FeaturesCollection } from "./forms/features-collection";
 import { Textarea } from "./ui/textarea";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Slider } from "./ui/slider2";
 import { cn } from "../../lib/utils";
+import type { Proposal } from "./proposals/Proposal";
 
 export type DiscoveryFormState = {
-  requirementOverview: string;
-  timelineRange: [number, number];
-  budgetRange: [number, number];
+  description: string;
+  estimateTime_min: number;
+  estimateTime_max: number;
+  budget_min: number;
+  budget_max: number;
+  formatted_date: string;
   currentState: string;
 };
 
 export type DiscoveryFormProps = {
   proposal: Proposal | null;
   passcode: string;
-  leadId: string;
   pageMode: PageMode;
   setPageMode: (mode: PageMode) => void;
-  state: DiscoveryFormState | null;
-  setState: React.Dispatch<React.SetStateAction<DiscoveryFormState | null>>;
 };
 
 export default function DiscoveryForm({
@@ -30,12 +31,40 @@ export default function DiscoveryForm({
   passcode,
   pageMode,
   setPageMode,
-  state,
-  setState,
 }: DiscoveryFormProps) {
   const isEditable = true;
-  const { requirementOverview, timelineRange, budgetRange, currentState } =
-    state;
+
+  const [state, setState] = useState<DiscoveryFormState | null>(null);
+
+  /**
+   * Initialize local state from proposal.lead
+   */
+  useEffect(() => {
+    if (!proposal?.lead) return;
+
+    setState({
+      description: proposal.lead.description ?? "",
+      estimateTime_min: proposal.lead.estimateTime_min ?? 1,
+      estimateTime_max: proposal.lead.estimateTime_max ?? 6,
+      budget_min: proposal.lead.budget_min ?? 5000,
+      budget_max: proposal.lead.budget_max ?? 50000,
+      formatted_date: proposal.lead.formatted_date ?? "",
+      currentState: "", // 👈 always empty by default
+    });
+  }, [proposal]);
+
+  if (!state) return null;
+
+  const {
+    description,
+    estimateTime_min,
+    estimateTime_max,
+    budget_min,
+    budget_max,
+    formatted_date,
+    currentState,
+  } = state;
+
   const formatReadableDate = (isoDate: string) => {
     const date = new Date(isoDate);
     const day = String(date.getDate()).padStart(2, "0");
@@ -66,7 +95,7 @@ export default function DiscoveryForm({
       <p className="text-2xl text-foreground font-title mb-8 mx-auto w-fit">
         Here's an outline of what we'll be discussing on our call at{" "}
         <span className="font-medium text-primary">
-          {formatReadableDate(proposal?.lead?.formatted_date)}
+          {formatReadableDate(formatted_date)}
         </span>
         . Please add as much detail as you can before we meet. See you soon!
       </p>
@@ -74,18 +103,19 @@ export default function DiscoveryForm({
       {/* Content */}
       <Card className="border-border bg-background p-8">
         <div className="space-y-8 text-2xl font-title">
+          {/* Requirement Overview */}
           <div>
             <h3 className="mb-2 text-lg font-bold text-primary">
               Requirement Overview
             </h3>
             <Textarea
-              value={requirementOverview}
+              value={description}
               onChange={(e) =>
-                updateField("requirementOverview")(e.target.value)
+                updateField("description")(e.target.value)
               }
               disabled={!isEditable}
               className={cn(
-                "mt-3 min-h-48  rounded-lg bg-secondary p-4 pb-8 lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body",
+                "mt-3 min-h-48 rounded-lg bg-secondary p-4 pb-8 placeholder:text-body text-body focus:ring-2 focus:ring-primary",
                 !isEditable && "opacity-60 cursor-not-allowed",
               )}
               placeholder="Describe the main requirements..."
@@ -100,20 +130,21 @@ export default function DiscoveryForm({
               min={1}
               max={24}
               step={1}
-              value={timelineRange}
+              value={[estimateTime_min, estimateTime_max]}
               disabled={!isEditable}
-              onValueChange={(value) =>
-                updateField("timelineRange")(value as [number, number])
-              }
+              onValueChange={(value) => {
+                updateField("estimateTime_min")(value[0]);
+                updateField("estimateTime_max")(value[1]);
+              }}
             />
 
             <div className="mt-4 flex items-center justify-between">
               <span className="text-xl font-bold text-primary">
-                {timelineRange[0]} Months
+                {estimateTime_min} Months
               </span>
               <span className="text-foreground">to</span>
               <span className="text-xl font-bold text-primary">
-                {timelineRange[1]} Months
+                {estimateTime_max} Months
               </span>
             </div>
           </div>
@@ -126,19 +157,21 @@ export default function DiscoveryForm({
               min={5000}
               max={200000}
               step={5000}
-              value={budgetRange}
+              value={[budget_min, budget_max]}
               disabled={!isEditable}
-              onValueChange={(value) =>
-                updateField("budgetRange")(value as [number, number])
-              }
+              onValueChange={(value) => {
+                updateField("budget_min")(value[0]);
+                updateField("budget_max")(value[1]);
+              }}
             />
+
             <div className="mt-4 flex items-center justify-between">
               <span className="text-xl font-bold text-primary">
-                ${budgetRange[0].toLocaleString()}
+                ${budget_min.toLocaleString()}
               </span>
               <span className="text-foreground">to</span>
               <span className="text-xl font-bold text-primary">
-                ${budgetRange[1].toLocaleString()}
+                ${budget_max.toLocaleString()}
               </span>
             </div>
           </div>
@@ -150,12 +183,15 @@ export default function DiscoveryForm({
             </h3>
             <Textarea
               value={currentState}
-              onChange={(e) => updateField("currentState")(e.target.value)}
-              className="mt-3 min-h-48  rounded-lg bg-secondary p-4 pb-8 lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body"
+              onChange={(e) =>
+                updateField("currentState")(e.target.value)
+              }
+              className="mt-3 min-h-48 rounded-lg bg-secondary p-4 pb-8 placeholder:text-body text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body"
               placeholder="Current resources, tools, and any restrictions..."
             />
           </div>
 
+          {/* Features */}
           <FeaturesCollection
             proposal={proposal}
             submissionId={passcode}
