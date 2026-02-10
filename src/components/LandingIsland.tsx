@@ -1,5 +1,6 @@
 import React, { lazy } from "react";
 import type { FormIslandProps } from "./utils/interfaces";
+import PostsSection from "./landing/PostsSection";
 
 /* Lazy sections */
 const HeroSection = lazy(() => import("./landing/HeroSection"));
@@ -12,6 +13,7 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
     <div className="bg-background">
       <HeroSection setMode={setMode} />
       <FeaturesSection />
+      <PostsSection />
       <ProcessSection />
       <CaseStudiesSection />
     </div>

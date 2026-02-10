@@ -1,0 +1,60 @@
+---
+import StairsLayout from "../components/layouts/StairsLayout.astro";
+import { PostShell3 } from "../components/posts/PostShell";
+
+const user = Astro.locals.user;
+const location = Astro.url.pathname;
+
+const squaresConfig = [
+  {
+    // Bottom Left Bar
+    x: "0px",
+    y: "900px",
+    width: "450px",
+    height: "180px",
+    color: "#111111",
+  },
+  {
+    //2nd Line Bottom Left Bar
+    x: "90px",
+    y: "810px",
+    width: "180px",
+    height: "90px",
+    color: "#111111",
+  },
+  {
+    // Bottom Right Bar
+    x: "810px",
+    y: "900px",
+    width: "270px",
+    height: "180px",
+    color: "#111111",
+  },
+  {
+    //2nd Line Bottom Right Bar
+    x: "810px",
+    y: "810px",
+    width: "90px",
+    height: "90px",
+    color: "#111111",
+  },
+  /* {
+    x: "180px",
+    y: "900px",
+    width: "180px",
+    height: "90px",
+    color: "#111111",
+  }, */
+];
+---
+
+<div>
+  <StairsLayout>
+    <PostShell3
+      location={location}
+      user={user}
+      client:load
+      squaresConfig={squaresConfig}
+    />
+  </StairsLayout>
+</div>

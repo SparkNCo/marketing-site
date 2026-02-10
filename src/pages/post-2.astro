@@ -1,0 +1,87 @@
+---
+import StairsLayout from "../components/layouts/StairsLayout.astro";
+import { PostShell2 } from "../components/posts/PostShell.tsx";
+
+const user = Astro.locals.user;
+const location = Astro.url.pathname;
+
+const squaresConfig = [
+  {
+    // long bottom bar
+    x: "90px",
+    y: "990px",
+    width: "990px",
+    height: "90px",
+    color: "#f8f8f8",
+  },
+  {
+    // 2nd line bottom bar left
+    x: "180px",
+    y: "900px",
+    width: "180px",
+    height: "90px",
+    color: "#f8f8f8",
+  },
+  {
+    // 2nd line bottom bar middle
+    x: "450px",
+    y: "900px",
+    width: "720px",
+    height: "90px",
+    color: "#f8f8f8",
+  },
+
+  {
+    // 3rd line bottom bar middle
+    x: "540px",
+    y: "810px",
+    width: "180px",
+    height: "90px",
+    color: "#f8f8f8",
+  },
+  {
+    // 4rd line bottom bar middle
+    x: "540px",
+    y: "720px",
+    width: "90px",
+    height: "90px",
+    color: "#f8f8f8",
+  },
+
+  {
+    // Big Sqaure on the right
+    x: "900px",
+    y: "720px",
+    width: "180px",
+    height: "180px",
+    color: "#f8f8f8",
+  },
+  {
+    // Big Sqaure floating right
+    x: "720px",
+    y: "540px",
+    width: "180px",
+    height: "180px",
+    color: "#f8f8f8",
+  },
+  {
+    // Small Sqaure floating right
+    x: "810px",
+    y: "450px",
+    width: "90px",
+    height: "90px",
+    color: "#f8f8f8",
+  },
+];
+---
+
+<div>
+  <StairsLayout>
+    <PostShell2
+      location={location}
+      user={user}
+      client:load
+      squaresConfig={squaresConfig}
+    />
+  </StairsLayout>
+</div>
