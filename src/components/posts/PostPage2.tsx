@@ -1,10 +1,8 @@
 import StatusCirclesLayout from "../../components/posts/StatusPostLayout.tsx";
-import { posts } from "./mockPosts.ts";
 
 export default function PostPage2({ squaresConfig }) {
-
   return (
-    <article className="w-full min-h-screen bg-neutral-900 text-white flex flex-col">
+    <article className="w-full min-h-[1080px] bg-neutral-900 text-white flex flex-col">
       <div className="h-[1080px] w-full">
         <StatusCirclesLayout squaresConfig={squaresConfig}>
           <article className="w-full min-h-screen bg-neutral-900 text-white flex flex-col ">

@@ -33,7 +33,7 @@ export function PostShell2({ squaresConfig }) {
   const uniquePost = posts[0];
 
   return (
-    <div className="max-w-[1080px] mx-auto ">
+    <div className="mix-w-[1080px] mx-auto ">
       <SquaresPostLayout squares={squaresConfig}>
         <div className="layout title-foreground ">
           <PostPage2

@@ -11,7 +11,7 @@ export default function PostPage4() {
           {" "}
           Software that’s up to speed{" "}
         </h1>{" "}
-        <p className="w-[50%] text-lg font-light text-foreground max-w-2xl mx-auto">
+        <p className="w-[60%] text-lg font-light text-foreground max-w-2xl mx-auto">
           {" "}
           Sign up at buildwithspark.co and don’t leave your business
           behind.{" "}

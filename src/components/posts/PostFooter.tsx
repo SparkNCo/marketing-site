@@ -10,7 +10,7 @@ export default function PostFooter({
   return (
     <div className={`${height} ${bgColor}`}>
       {!hideComponets && (
-        <div className="w-[70%] h-full flex items-center justify-between mx-auto">
+        <div className="w-[90%] h-full flex items-center justify-between mx-auto">
           <img
             src={imgSrc}
             alt="footer-icon"
