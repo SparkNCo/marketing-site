@@ -1,18 +1,24 @@
 import React, { lazy } from "react";
 import type { FormIslandProps } from "./utils/interfaces";
 import PostsSection from "./landing/PostsSection";
+import SquaresPostLayout from "./posts/SquaresPostLayout";
+import { HeroSectionSquaresConfig } from "./SquareConfig";
 
 /* Lazy sections */
 const HeroSection = lazy(() => import("./landing/HeroSection"));
 const FeaturesSection = lazy(() => import("./landing/FeaturesSection"));
 const ProcessSection = lazy(() => import("./landing/ProcessSection"));
 const CaseStudiesSection = lazy(() => import("./landing/CaseStudies"));
+const FastTrackSection = lazy(() => import("./landing/FastTrackSection"));
 
 const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
   return (
     <div className="bg-background">
-      <HeroSection setMode={setMode} />
-      <FeaturesSection />
+      <SquaresPostLayout squares={HeroSectionSquaresConfig}>
+        <HeroSection setMode={setMode} />
+      </SquaresPostLayout>
+      {/* <FeaturesSection /> */}
+      <FastTrackSection />
       <PostsSection />
       <ProcessSection />
       <CaseStudiesSection />

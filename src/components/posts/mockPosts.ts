@@ -6,6 +6,7 @@ export const posts = [
     subtitle: "How generative UI is reshaping product workflows",
     postId: "123456",
     type: "post-1",
+    content: "hi im here",
   },
   {
     index: 2,
@@ -14,6 +15,7 @@ export const posts = [
     subtitle: "Lessons from high-volume cloud pipelines",
     postId: "12343789456123",
     type: "post-1",
+    content: "hi im here",
   },
   {
     index: 3,
@@ -22,6 +24,7 @@ export const posts = [
     subtitle: "Streaming, batching and orchestration",
     postId: "1593659",
     type: "post-1",
+    content: "hi im here",
   },
   {
     index: 4,
@@ -30,6 +33,7 @@ export const posts = [
     subtitle: "Tracing UX performance in real time",
     postId: "987564",
     type: "post-1",
+    content: "hi im here",
   },
   {
     index: 5,
@@ -38,6 +42,7 @@ export const posts = [
     subtitle: "Unifying brand across ecosystems",
     postId: "257412",
     type: "post-2",
+    content: "hi im here",
   },
   {
     index: 6,
@@ -46,6 +51,7 @@ export const posts = [
     subtitle: "Async workflows for global stores",
     postId: "369147",
     type: "post-2",
+    content: "hi im here",
   },
   {
     index: 7,
@@ -54,6 +60,7 @@ export const posts = [
     subtitle: "Latency wins and tradeoffs",
     postId: "456123",
     type: "post-2",
+    content: "hi im here",
   },
   {
     index: 8,
@@ -62,6 +69,7 @@ export const posts = [
     subtitle: "Headless CMS done right",
     postId: "758412",
     type: "post-3",
+    content: "hi im here programming",
   },
   {
     index: 9,
@@ -70,6 +78,7 @@ export const posts = [
     subtitle: "CRDTs and multiplayer editing",
     postId: "325698",
     type: "post-3",
+    content: "hi im here programming",
   },
   {
     index: 10,
@@ -78,5 +87,6 @@ export const posts = [
     subtitle: "Patterns from top marketplaces",
     postId: "856932",
     type: "post-3",
+    content: "hi im here programming",
   },
 ];

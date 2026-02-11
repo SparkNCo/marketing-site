@@ -1,35 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
 import BuildScaleToggle from "./components/BuildScaleComponent";
+import { ChevronRight } from "lucide-react";
 
 /* ───────────────── Component ───────────────── */
 
 const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
+  const [email, setEmail] = useState("");
+  const handleSubmit = () => {
+    console.log("email", email);
+  };
+
   return (
     <main
       className="
     flex flex-row items-start justify-center
  bg-background "
     >
-      <div className="absolute top-0 left-0 w-full h-[128px] bg-foreground"></div>
+      <div className="absolute top-0 left-0 w-full h-[128px] bg-foreground "></div>
       <section
         data-header="light"
-        className="container relative px-24 pt-10 mt-[128px] pb-20 bg-foreground w-1/2 h-[calc(100vh-256px)] min-h-[600px] min-w-[750px]"
+        className="
+    container relative px-24 pt-10 mt-[128px]
+    bg-foreground w-1/2 min-w-[750px]
+    min-h-[807.5px]
+  "
       >
-        <div className="max-w-4xl">
-          <h1 className="text-4xl font-bold tracking-tight text-background mb-6 text-balance leading-tight">
-            Hands-free Software Delivery
+        <div>
+          <h1 className="text-4xl font-bold tracking-tight text-background mb-6 leading-tight">
+            Software that’s up to speed
           </h1>
-          <p
-            className="text-4xl mb-12  max-w-2xl"
-            style={{ color: "var(--background)" }}
-          >
-            Take the first step towards enterprise grade software, at next
-            generation speeds
+          <p className="text-3xl mb-4 max-w-2xl text-background leading-snug">
+            Build <span className="font-bold">[unbreakable]</span> software with
+            <span className="font-bold text-primary">AI supercharged</span>
+            efficiency.
           </p>
-
           {/* Technology Icons */}
-          <div className="flex items-center gap-8 mb-16">
+          <div className="flex items-center gap-8 mb-12">
             {/* AWS */}
             <div className="w-12 h-12 flex items-center justify-center">
               <img
@@ -66,11 +73,32 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
               />
             </div>
           </div>
-
+          {/* ───── Get Started Block ───── */}
+          <div className="mb-8 max-w-xl ">
+            <h2 className="text-background font-bold mb-3 text-xl">
+              Get started with Build
+            </h2>
+            <div className="flex items-center bg-foreground rounded-lg  shadow-md w-[78px] ">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="flex-1 px-4 py-3 outline-none text-background  "
+              />
+              <button
+                onClick={handleSubmit}
+                className="px-4 h-full flex items-center justify-center text-background bg-foreground "
+              >
+                <ChevronRight className="w-7 h-7 text-background bg-foreground border-2 border-background rounded-md" />
+              </button>
+            </div>
+          </div>
+          {/* ──────────────────────────── */}
           <BuildScaleToggle setMode={setMode} />
         </div>
 
-        <div className="absolute bottom-0 right-0 ">
+        {/* <div className="absolute bottom-0 right-0 ">
           <div className="relative w-32 h-32 bg-background">
             <div className="relative w-32 h-32 bg-background">
               <div className="absolute -top-16 right-0 w-16 h-16 bg-orange-500 z-10" />
@@ -78,16 +106,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
               <div className="absolute bottom-0 -left-16 w-16 h-16 bg-orange-500" />
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
 
       <section className=" relative  w-1/2   ">
-        <div className="absolute top-0 left-0 pointer-events-none bg-foreground">
+        {/* <div className="absolute top-0 left-0 pointer-events-none bg-foreground">
           <div className="relative w-32 h-32">
             <div className="absolute -bottom-16 left-0 w-16 h-16 bg-orange-500 z-10" />
             <div className="absolute top-0 -right-16 w-16 h-16 bg-orange-500" />
           </div>
-        </div>
+        </div> */}
       </section>
     </main>
   );

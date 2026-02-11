@@ -1,34 +1,112 @@
 import StatusCirclesLayout from "../../components/posts/StatusPostLayout.tsx";
+import SquaresPostLayout from "./SquaresPostLayout.tsx";
+
+const squaresConfig = [
+  {
+    x: "46px",
+    y: "257px",
+    width: "229px",
+    height: "23px",
+    color: "#f8f8f8",
+  },
+  //2nd line
+  {
+    x: "69px",
+    y: "234px",
+    width: "46px",
+    height: "23px",
+    color: "#f8f8f8",
+  },
+  {
+    x: "138px",
+    y: "234px",
+    width: "138px",
+    height: "23px",
+    color: "#f8f8f8",
+  },
+  //3rd line
+  {
+    x: "138px",
+    y: "211px",
+    width: "46px",
+    height: "23px",
+    color: "#f8f8f8",
+  },
+  {
+    x: "230px",
+    y: "211px",
+    width: "46px",
+    height: "23px",
+    color: "#f8f8f8",
+  },
+  //4th line
+  {
+    x: "46px",
+    y: "188px",
+    width: "23px",
+    height: "23px",
+    color: "#f8f8f8",
+  },
+  {
+    x: "138px",
+    y: "188px",
+    width: "23px",
+    height: "23px",
+    color: "#f8f8f8",
+  },
+  {
+    x: "230px",
+    y: "165px",
+    width: "46px",
+    height: "46px",
+    color: "#f8f8f8",
+  },
+  //top box
+  {
+    x: "188px",
+    y: "119px",
+    width: "46px",
+    height: "46px",
+    color: "#f8f8f8",
+  },
+  {
+    x: "211px",
+    y: "96px",
+    width: "23px",
+    height: "23px",
+    color: "#f8f8f8",
+  },
+];
 
 export default function PostCard({ img, title, subtitle, postId }) {
   return (
-    <article className="w-full h-full rounded-2xl overflow-hidden shadow-lg bg-neutral-900 title-white flex flex-col">
-      {/* 80% Image */}
+    <article className="w-[275px] h-[387px] overflow-hidden shadow-lg bg-foreground title-white flex flex-col rounded-br-md ">
       <div className="h-[80%]">
-        <StatusCirclesLayout>
+        <SquaresPostLayout squares={squaresConfig}>
           <div
-            className="h-full w-full bg-cover bg-center"
+            className="h-[280px] w-full bg-cover bg-center"
             style={{ backgroundImage: `url(${img})` }}
           />
-        </StatusCirclesLayout>
+        </SquaresPostLayout>
       </div>
 
-      {/* 20% title */}
-      <div className="h-[20%] p-4 flex flex-col justify-center">
-        <h2 className="title-lg font-semibold leading-snug line-clamp-2">
-          {title}
-        </h2>
+      <div className="h-full p-4 flex flex-col  ">
+        {/* Redirect + meta */}
+        <div className=" flex flex-col text-right gap-2">
+          <a
+            href={`/post?postId=${postId}`}
+            className="
+              title-sm font-light title-neutral-400
+              hover:title-white transition-colors
+            "
+          >
+            Why this thing and that thing are important to other thing
+          </a>
 
-        {/* Redirect link */}
-        <a
-          href={`/post?postId=${postId}`}
-          className="
-            title-sm font-light title-neutral-400 mt-1
-            hover:title-white transition-colors
-          "
-        >
-          {subtitle}
-        </a>
+          <span className="title-sm font-light title-neutral-400">
+            5 min read &gt;
+          </span>
+        </div>
       </div>
     </article>
   );

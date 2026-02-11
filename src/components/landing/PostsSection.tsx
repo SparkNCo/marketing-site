@@ -1,87 +1,194 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import PostCard from "../posts/PostCard1";
 import { posts } from "../posts/mockPosts";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function PostsSection() {
-  const [search, setSearch] = useState("");
+  const [input, setInput] = useState("");
+  const [tags, setTags] = useState([]);
   const [page, setPage] = useState(1);
 
   const itemsPerPage = 3;
 
-  /* ---------------- FILTER ---------------- */
+  /* ----------------------------------------
+     Add tag on ENTER
+  ---------------------------------------- */
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
 
+      const newTag = input.trim().toLowerCase();
+      if (!newTag) return;
+
+      if (!tags.includes(newTag)) {
+        setTags((prev) => [...prev, newTag]);
+      }
+
+      setInput("");
+    }
+  };
+
+  /* ----------------------------------------
+     Remove tag
+  ---------------------------------------- */
+  const removeTag = (tagToRemove) => {
+    setTags((prev) => prev.filter((t) => t !== tagToRemove));
+  };
+
+  /* ----------------------------------------
+     Filter posts
+  ---------------------------------------- */
   const filteredPosts = useMemo(() => {
-    return posts.filter((p) =>
-      p.title.toLowerCase().includes(search.toLowerCase()),
-    );
-  }, [search]);
+    if (tags.length === 0) return posts;
 
-  /* ---------------- PAGINATION ---------------- */
+    return posts.filter((post) => {
+      const text = `
+        ${post.title || ""}
+        ${post.subtitle || ""}
+        ${post.content || ""}
+      `.toLowerCase();
 
-  const totalPages = Math.ceil(filteredPosts.length / itemsPerPage);
+      return tags.every((tag) => text.includes(tag));
+    });
+  }, [tags]);
 
-  const paginatedPosts = filteredPosts.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage,
-  );
+  /* ----------------------------------------
+     Pagination calculations
+  ---------------------------------------- */
+  const totalPosts = filteredPosts.length;
+  const totalPages = Math.ceil(totalPosts / itemsPerPage);
 
-  /* Reset page when searching */
-  useMemo(() => {
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, totalPosts);
+
+  const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+  /* Reset page when tags change */
+  useEffect(() => {
     setPage(1);
-  }, [search]);
+  }, [tags]);
 
-  /* ---------------- UI ---------------- */
+  /* ----------------------------------------
+     Navigation handlers
+  ---------------------------------------- */
+  const goPrev = () => {
+    setPage((p) => Math.max(p - 1, 1));
+  };
+
+  const goNext = () => {
+    setPage((p) => Math.min(p + 1, totalPages));
+  };
 
   return (
-    <section className="w-full px-8 py-12 space-y-8">
+    <section className=" w-[850px] mx-auto py-12 space-y-8">
       {/* Header */}
-      <div className="w-[80%] mx-auto flex items-center justify-between">
-        {/* Search */}
+      <div className="w-full mx-auto flex flex-row gap-4 justify-between bg-foreground items-center px-4 py-2">
+        {/* Input */}
         <input
-          type="title"
-          placeholder="Search posts..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          type="text"
+          placeholder="Type a word and press Enter..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
           className="
-            w-72 px-4 py-2 rounded-xl
-            bg-neutral-800 title-white
-            border border-neutral-700
+            w-80 px-4 py-2 rounded-xl
+            bg-foreground text-background
+            border border-foreground
             focus:outline-none focus:ring-2 focus:ring-white/20
           "
         />
 
-        {/* Pagination */}
-        <div className="flex gap-2">
-          {Array.from({ length: totalPages }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i + 1)}
-              className={`
-                w-9 h-9 rounded-lg title-sm
-                ${
-                  page === i + 1
-                    ? "bg-white title-black"
-                    : "bg-neutral-800 title-white"
-                }
-              `}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
-      </div>
+        {/* Saved Tags */}
 
-      {/* Posts grid */}
-      <div className="grid grid-cols-3 gap-8 w-[80%] mx-auto h-[30rem]">
-        {paginatedPosts.map((post) => (
-          <PostCard
-            key={post.index}
-            img={post.img}
-            title={post.title}
-            subtitle={post.subtitle}
-            postId={post.postId}
-          />
-        ))}
+        {/* Range Pagination */}
+        {totalPosts > 0 && (
+          <div className="flex items-center gap-4 mt-2 text-white mb-2">
+            {/* Prev */}
+            <button
+              onClick={goPrev}
+              disabled={page === 1}
+              className="
+        p-2 rounded-md
+        border border-black
+        bg-foreground text-background
+        disabled:opacity-40
+        flex items-center justify-center
+      "
+            >
+              <ChevronLeft size={18} strokeWidth={3} />
+            </button>
+
+            {/* Range Text */}
+            <span className="text-sm text-background">
+              {startIndex + 1}-{endIndex} of {totalPosts}
+            </span>
+
+            {/* Next */}
+            <button
+              onClick={goNext}
+              disabled={page === totalPages}
+              className="
+        p-2 rounded-lg
+        border-2 border-black
+        bg-foreground text-background
+        disabled:opacity-40
+        flex items-center justify-center
+      "
+            >
+              <ChevronRight size={18} strokeWidth={3} />
+            </button>
+          </div>
+        )}
+      </div>
+      <div className="w-full mx-auto flex flex-row  px-4 py-2">
+        {tags.length > 0 && (
+          <div
+            className="
+      grid gap-2
+      [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))]
+      w-full
+    "
+          >
+            {tags.map((tag, i) => (
+              <div
+                key={i}
+                className="
+          flex items-center justify-between
+          px-3 py-1 rounded-full
+          bg-white text-black text-sm font-medium
+          w-full
+        "
+              >
+                <span className="truncate">#{tag}</span>
+
+                <button
+                  onClick={() => removeTag(tag)}
+                  className="ml-2 text-black/60 hover:text-black"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      {/* Posts Grid */}
+      <div className="grid grid-cols-3 gap-4 w-full mx-auto h-[30rem] ">
+        {paginatedPosts.length > 0 ? (
+          paginatedPosts.map((post) => (
+            <PostCard
+              key={post.index}
+              img={post.img}
+              title={post.title}
+              subtitle={post.subtitle}
+              postId={post.postId}
+            />
+          ))
+        ) : (
+          <p className="col-span-3 text-center text-neutral-400">
+            No posts match these tags.
+          </p>
+        )}
       </div>
     </section>
   );

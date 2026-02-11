@@ -1,123 +1,108 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const textVariants = {
-  initial: { opacity: 0, y: -16 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: "easeOut", delay: 0.2 },
-  },
-  exit: {
-    opacity: 0,
-    y: -12,
-    transition: { duration: 0.25, ease: "easeIn" },
-  },
-};
-
-export default function BuildScaleToggle({ setMode }: { setMode: (mode: "index" | "form") => void }) {
-
+export default function BuildScaleToggle({
+  setMode,
+  centerExpanded,
+}: {
+  setMode: (mode: "index" | "form") => void;
+}) {
   const [selected, setSelected] = useState<"build" | "scale" | "none">("none");
 
-  const cardClasses = (type: "build" | "scale") => {
-    const isSelected = selected === type;
-    return `
-      bg-background rounded-lg shadow-md cursor-pointer overflow-hidden
-      transition-all duration-700 ease-out
-      ${isSelected ? "w-3/5 p-8 scale-100" : "w-max px-6 py-3 scale-95"}
-    `;
+  /* ───────── Click handler ───────── */
+  const handleClick = (type: "build" | "scale") => {
+    if (selected === type) {
+      setMode("form");
+    } else {
+      setSelected(type);
+    }
+  };
+
+  /* ───────── Animation configs ───────── */
+  const spring = {
+    type: "spring",
+    stiffness: 260,
+    damping: 22,
   };
 
   const textVariants = {
-    initial: { opacity: 0, y: -16 },
+    initial: { opacity: 0, y: -12, filter: "blur(4px)" },
     animate: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, ease: "easeOut", delay: 0.2 },
+      filter: "blur(0px)",
+      transition: { duration: 0.35, ease: "easeOut" },
+    },
+    exit: {
+      opacity: 0,
+      y: -8,
+      filter: "blur(4px)",
+      transition: { duration: 0.2, ease: "easeIn" },
     },
   };
 
-  return (
-    <div className="flex flex-row gap-6 items-start">
-      {/* BUILD */}
-      <div
-        className={cardClasses("build")}
-        onMouseOver={() => setSelected("build")}
-        onMouseLeave={() => setSelected("none")}
-        onClick={() => setMode("form")}
+  /* ───────── Card renderer ───────── */
+  const Card = ({
+    type,
+    icon,
+    title,
+    centerExpanded,
+  }: {
+    type: "build" | "scale";
+    icon: string;
+    title: string;
+  }) => {
+    const isSelected = selected === type;
+
+    return (
+      <motion.div
+        layout
+        transition={spring}
+        onClick={() => handleClick(type)}
+        className={`
+          bg-background rounded-xl shadow-md cursor-pointer overflow-hidden
+          transition-colors duration-300  
+          ${
+            isSelected
+              ? "w-3/5 p-8"
+              : "w-max px-6 py-3 opacity-90 hover:opacity-100"
+          }
+          ${centerExpanded ? "mx-auto" : ""}
+        `}
+        whileTap={{ scale: 0.97 }}
       >
+        {/* Header */}
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <img src="/BuildIcon.png" className="w-8 h-8" />
-            <h2 className="text-xl font-bold text-foreground">Build</h2>
+          <div className="flex items-center gap-3">
+            <motion.img
+              src={icon}
+              className="w-8 h-8"
+              layout
+              transition={spring}
+            />
+            <h2 className="text-xl font-bold text-foreground">{title}</h2>
           </div>
 
           <AnimatePresence>
-            {selected === "build" && (
+            {isSelected && (
               <motion.img
-                key="scale-go"
+                key={`${type}-go`}
                 src="/GoIcon.png"
-                className="w-8 h-8 cursor-pointer"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                className="w-8 h-8"
+                initial={{ opacity: 0, x: 12, rotate: -20 }}
+                animate={{ opacity: 1, x: 0, rotate: 0 }}
+                exit={{ opacity: 0, x: 12, rotate: 20 }}
                 transition={{ duration: 0.3 }}
-                onClick={() => setMode("form")}
-              />
-            )}
-          </AnimatePresence>
-
-        </div>
-
-        <AnimatePresence mode="wait">
-          {selected === "build" && (
-            <motion.p
-              key="build-text"
-              variants={textVariants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="text-foreground leading-relaxed mt-4 "
-            >
-              Launch your new business or product line with Spark & Co's fully
-              managed software delivery system.
-            </motion.p>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* SCALE */}
-      <div
-        className={cardClasses("scale")}
-        onMouseOver={() => setSelected("scale")}
-        onMouseLeave={() => setSelected("none")}
-      >
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <img src="/ScaleIcon.png" className="w-8 h-8" />
-            <h2 className="text-xl font-bold text-foreground">Scale</h2>
-          </div>
-
-          <AnimatePresence>
-            {selected === "scale" && (
-              <motion.img
-                key="scale-go"
-                src="/GoIcon.png"
-                className="w-8 h-8 cursor-pointer"
-                initial={{ opacity: 0, x: 8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 8 }}
-                transition={{ duration: 0.3 }}
-                onClick={() => setMode("form")}
               />
             )}
           </AnimatePresence>
         </div>
 
+        {/* Text */}
         <AnimatePresence mode="wait">
-          {selected === "scale" && (
+          {isSelected && (
             <motion.p
-              key="scale-text"
+              key={`${type}-text`}
               variants={textVariants}
               initial="initial"
               animate="animate"
@@ -129,7 +114,24 @@ export default function BuildScaleToggle({ setMode }: { setMode: (mode: "index" 
             </motion.p>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
+    );
+  };
+
+  return (
+    <div className="flex flex-row gap-6 items-start">
+      <Card
+        type="build"
+        icon="/BuildIcon.png"
+        title="Build"
+        centerExpanded={centerExpanded}
+      />
+      <Card
+        type="scale"
+        icon="/ScaleIcon.png"
+        title="Scale"
+        centerExpanded={centerExpanded}
+      />
     </div>
   );
 }

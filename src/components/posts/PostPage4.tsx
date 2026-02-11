@@ -1,5 +1,3 @@
-import StatusCirclesLayout from "../../components/posts/StatusPostLayout.tsx";
-import { posts } from "./mockPosts.ts";
 
 export default function PostPage4() {
   return (
@@ -24,13 +22,4 @@ export default function PostPage4() {
       </div>{" "}
     </article>
   );
-}
-{
-  /* <PostFooter
-        height="h-36"
-        bgColor="bg-white"
-        imgSrc="/nbarIcon2.png"
-        arrowColor="text-background"
-        hideComponets={true}
-      /> */
 }
