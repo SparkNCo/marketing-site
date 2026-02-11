@@ -25,7 +25,7 @@ export const HeroSectionSquaresConfig = [
     y: "190.5px",
     width: "62.5px",
     height: "62.5px",
-    color: "#0d0d0e",
+    color: "#111111",
     zIndex: 3,
   },
   {
@@ -50,7 +50,7 @@ export const HeroSectionSquaresConfig = [
     y: "440.5px",
     width: "125px",
     height: "125px",
-    color: "#0d0d0e",
+    color: "#111111",
     zIndex: 2,
   },
   {
@@ -75,7 +75,7 @@ export const HeroSectionSquaresConfig = [
     y: "565px",
     width: "250px",
     height: "250px",
-    color: "#0d0d0e",
+    color: "#111111",
     zIndex: 2,
   },
   {
@@ -83,7 +83,7 @@ export const HeroSectionSquaresConfig = [
     y: "815px",
     width: "955px",
     height: "125px",
-    color: "#0d0d0e",
+    color: "#111111",
     zIndex: 1,
   },
   {

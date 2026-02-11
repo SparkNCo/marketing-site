@@ -9,6 +9,11 @@ export default function BuildScaleToggle({
 }) {
   const [selected, setSelected] = useState<"build" | "scale" | "none">("none");
 
+  const cardsOrder: ("build" | "scale")[] =
+    !centerExpanded && selected !== "none"
+      ? [selected, selected === "build" ? "scale" : "build"]
+      : ["build", "scale"];
+
   /* ───────── Click handler ───────── */
   const handleClick = (type: "build" | "scale") => {
     if (selected === type) {
@@ -60,11 +65,11 @@ export default function BuildScaleToggle({
         transition={spring}
         onClick={() => handleClick(type)}
         className={`
-          bg-background rounded-xl shadow-md cursor-pointer overflow-hidden
+          bg-background rounded-md  shadow-md cursor-pointer overflow-hidden
           transition-colors duration-300  
           ${
             isSelected
-              ? "w-3/5 p-8"
+              ? "w-5/12 p-4"
               : "w-max px-6 py-3 opacity-90 hover:opacity-100"
           }
           ${centerExpanded ? "mx-auto" : ""}
@@ -107,7 +112,7 @@ export default function BuildScaleToggle({
               initial="initial"
               animate="animate"
               exit="exit"
-              className="text-foreground leading-relaxed mt-4"
+              className="text-foreground leading-relaxed mt-2"
             >
               Launch your new business or product line with Spark & Co's fully
               managed software delivery system.
@@ -119,19 +124,20 @@ export default function BuildScaleToggle({
   };
 
   return (
-    <div className="flex flex-row gap-6 items-start">
-      <Card
-        type="build"
-        icon="/BuildIcon.png"
-        title="Build"
-        centerExpanded={centerExpanded}
-      />
-      <Card
-        type="scale"
-        icon="/ScaleIcon.png"
-        title="Scale"
-        centerExpanded={centerExpanded}
-      />
+    <div
+      className={`flex flex-row gap-6 items-start ${
+        centerExpanded ? "justify-center" : "justify-start"
+      }`}
+    >
+      {cardsOrder.map((type) => (
+        <Card
+          key={type}
+          type={type}
+          icon={type === "build" ? "/BuildIcon.png" : "/ScaleIcon.png"}
+          title={type === "build" ? "Build" : "Scale"}
+          centerExpanded={centerExpanded}
+        />
+      ))}
     </div>
   );
 }

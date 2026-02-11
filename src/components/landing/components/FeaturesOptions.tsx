@@ -3,12 +3,20 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const featuresConfig = {
   mvp: [
-      "Battle tested systems that are ready to scale",
-      "Flexible Partnership Models",
-      "Consulting on go-to-market and growth strategy",
-    ],
-  supercharged: ["Option 1", "Option 2", "Option 3"],
-  control: ["Option 1", "Option 2", "Option 3"],
+    "Battle tested systems that are ready to scale",
+    "Flexible Partnership Models",
+    "Consulting on go-to-market and growth strategy",
+  ],
+  supercharged: [
+    "Battle tested systems that are ready to scale",
+    "Flexible Partnership Models",
+    "Consulting on go-to-market and growth strategy",
+  ],
+  control: [
+    "Battle tested systems that are ready to scale",
+    "Flexible Partnership Models",
+    "Consulting on go-to-market and growth strategy",
+  ],
 };
 
 function FeaturesOptions({ mode = "mvp", title, subtitle }) {
@@ -21,7 +29,7 @@ function FeaturesOptions({ mode = "mvp", title, subtitle }) {
   };
 
   return (
-    <div className="bg-card border p-6 flex flex-col justify-between text-title h-[408px] w-full">
+    <div className="bg-card border p-6 flex flex-col justify-between text-title h-full w-full">
       <AnimatePresence mode="wait">
         <motion.div
           key={mode} // triggers animation when mode changes
@@ -30,21 +38,21 @@ function FeaturesOptions({ mode = "mvp", title, subtitle }) {
           animate="visible"
           exit="exit"
         >
-          <div className="flex items-around justify-between w-full">
-            <h3 className="text-3xl font-bold mb-4">{title}</h3>
-            <div className="w-16 h-16 flex items-center justify-center z-10">
+          <div className="flex items-around justify-left w-full gap-2">
+            <div className="w-10 h-10 flex items-center justify-center z-10">
               <img
                 src={"/Frame.png"}
                 alt="spark/co"
                 className="w-full h-full object-contain"
               />
             </div>
+            <h3 className="text-xl font-bold ">{title}</h3>
           </div>
-          <div className="w-3/4">
-            <p className="mb-6 text-xl ">{subtitle}</p>
-            <ul className="space-y-4 text-muted-foreground leading-relaxed">
+          <div className="w-3/4 font-semibold text-lg flex flex-col gap-4 ">
+            <p className="  ">{subtitle}</p>
+            <ul className="space-y-4 leading-relaxed">
               {content.map((feat) => (
-                <li key={feat} className="flex items-start gap-3 text-xl">
+                <li key={feat} className="flex items-start gap-1 ">
                   <ArrowRight className="w-5 h-5 mt-1 text-accent flex-shrink-0" />
                   <span>{feat}</span>
                 </li>

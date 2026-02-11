@@ -15,13 +15,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
     <main
       className="
     flex flex-row items-start justify-center
- bg-background "
+ bg-background  "
     >
-      <div className="absolute top-0 left-0 w-full h-[128px] bg-foreground "></div>
+      <div className="absolute top-0 left-0 w-full h-[128px] bg-foreground  "></div>
       <section
         data-header="light"
         className="
-    container relative px-24 pt-10 mt-[128px]
+    container relative px-12 pt-10 mt-[128px]
     bg-foreground w-1/2 min-w-[750px]
     min-h-[807.5px]
   "
@@ -74,11 +74,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
             </div>
           </div>
           {/* ───── Get Started Block ───── */}
-          <div className="mb-8 max-w-xl ">
+          <div className="mb-8 w-[450px]  ">
             <h2 className="text-background font-bold mb-3 text-xl">
               Get started with Build
             </h2>
-            <div className="flex items-center bg-foreground rounded-lg  shadow-md w-[78px] ">
+            <div className="flex items-center bg-foreground rounded-lg  shadow-md w-full ">
               <input
                 type="email"
                 placeholder="Enter your email"

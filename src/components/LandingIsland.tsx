@@ -17,7 +17,7 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
       <SquaresPostLayout squares={HeroSectionSquaresConfig}>
         <HeroSection setMode={setMode} />
       </SquaresPostLayout>
-      {/* <FeaturesSection /> */}
+      <FeaturesSection />
       <FastTrackSection />
       <PostsSection />
       <ProcessSection />
