@@ -1,8 +1,8 @@
 export default function StatusPostLayout({ children, squares = [] }) {
   return (
-    <div className="relative w-full h-full">
+    <div className="relative ">
       {/* Content */}
-      <div className="relative z-0 h-full">{children}</div>
+      <div className="relative">{children}</div>
 
       {/* Squares overlay */}
       <div className="pointer-events-none absolute inset-0 z-10">

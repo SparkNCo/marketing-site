@@ -65,15 +65,15 @@ export default function ProcessSection() {
   }, []);
 
   return (
-    <section className="bg-background py-10">
-      <div className="container mx-auto px-6 py-10">
-        <h2 className="text-5xl font-bold text-foreground mb-16 text-center">
+    <section className="bg-background py-10 ">
+      <div className=" mx-auto  py-10 ">
+        <h2 className="text-5xl font-bold text-foreground mb-16 text-center ">
           The Spark & Co Process
         </h2>
 
-        <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-12 gap-16 max-w-7xl mx-auto border-4 border-red-800 ">
           {/* LEFT - Scrolls naturally */}
-          <div className="lg:col-span-2 pr-4">
+          <div className="lg:col-span-3 pr-4 mx-auto z-10">
             {steps.map((step, index) => {
               const isFocused = index === activeStep;
 
@@ -106,16 +106,13 @@ export default function ProcessSection() {
             })}
           </div>
 
-          {/* RIGHT - Sticky on desktop, normal scroll on mobile */}
-          {activeStep > 0 && activeStep < 4 && (
-            <div
-              className="lg:col-span-9 fixed  top-[192px] right-0 w-9/12  bg-center bg-contain bg-no-repeat mx-auto z-0"
-              style={{
-                backgroundImage: "url('/dashboard.png')",
-                minHeight: "400px",
-              }}
-            ></div>
-          )}
+          <div
+            className="lg:col-span-9 fixed  top-[192px] right-0 w-9/12  bg-center bg-contain bg-no-repeat mx-auto z-0"
+            style={{
+              backgroundImage: "url('/dashboard.png')",
+              minHeight: "400px",
+            }}
+          ></div>
         </div>
       </div>
     </section>

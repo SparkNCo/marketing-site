@@ -73,7 +73,7 @@ export default function PostsSection() {
   };
 
   return (
-    <section className=" w-[850px] mx-auto space-y-6 ">
+    <section className=" w-[850px]  mx-auto space-y-6  mb-12 ">
       {/* Header */}
 
       <div className="w-full mx-auto flex flex-row gap-6 justify-between bg-foreground items-center px-4 py-2 ">
@@ -93,7 +93,7 @@ export default function PostsSection() {
         />
         {/* Range Pagination */}
         {totalPosts > 0 && (
-          <div className="flex items-center gap-6  text-white my-2 ">
+          <div className="flex items-center gap-6  text-white  ">
             {/* Prev */}
             <button
               onClick={goPrev}
@@ -131,41 +131,44 @@ export default function PostsSection() {
           </div>
         )}
       </div>
-      <div className="w-full mx-auto flex flex-row ">
-        {tags.length > 0 && (
-          <div
-            className="
+
+      {tags.length > 0 && (
+        <div className="w-full mx-auto flex flex-row ">
+          {tags.length > 0 && (
+            <div
+              className="
       grid gap-2
       [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))]
       w-full
     "
-          >
-            {tags.map((tag, i) => (
-              <div
-                key={i}
-                className="
+            >
+              {tags.map((tag, i) => (
+                <div
+                  key={i}
+                  className="
           flex items-center justify-between
           px-3 py-1 rounded-full
           bg-white text-black text-sm font-medium
           w-full
         "
-              >
-                <span className="truncate">#{tag}</span>
-
-                <button
-                  onClick={() => removeTag(tag)}
-                  className="ml-2 text-black/60 hover:text-black"
                 >
-                  ✕
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+                  <span className="truncate">#{tag}</span>
+
+                  <button
+                    onClick={() => removeTag(tag)}
+                    className="ml-2 text-black/60 hover:text-black"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Posts Grid */}
-      <div className="grid grid-cols-3 gap-4 w-full mx-auto h-[30rem] ">
+      <div className="grid grid-cols-3 gap-4 w-full mx-auto ">
         {paginatedPosts.length > 0 ? (
           paginatedPosts.map((post) => (
             <PostCard

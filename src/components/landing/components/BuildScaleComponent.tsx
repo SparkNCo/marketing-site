@@ -65,7 +65,7 @@ export default function BuildScaleToggle({
         onClick={() => handleClick(type)}
         className={`
           rounded-md shadow-md cursor-pointer overflow-hidden
-          transition-colors duration-300
+          transition-colors duration-300 max-w-[480px] p-6
 
           /* Base colors per position */
           ${
@@ -76,7 +76,7 @@ export default function BuildScaleToggle({
 
           ${
             isSelected
-              ? "w-6/12 p-4"
+              ? "w-6/12 "
               : "w-max px-6 py-3 opacity-90 hover:opacity-100"
           }
 
@@ -86,7 +86,7 @@ export default function BuildScaleToggle({
       >
         {/* Header */}
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 ">
             <motion.img src={icon} className="w-8 h-8" transition={spring} />
             <h2 className="text-xl font-bold">{title}</h2>
           </div>
