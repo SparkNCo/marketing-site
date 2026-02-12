@@ -35,9 +35,6 @@ export default function PostsSection() {
     setTags((prev) => prev.filter((t) => t !== tagToRemove));
   };
 
-  /* ----------------------------------------
-     Filter posts
-  ---------------------------------------- */
   const filteredPosts = useMemo(() => {
     if (tags.length === 0) return posts;
 
@@ -63,14 +60,10 @@ export default function PostsSection() {
 
   const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
 
-  /* Reset page when tags change */
   useEffect(() => {
     setPage(1);
   }, [tags]);
 
-  /* ----------------------------------------
-     Navigation handlers
-  ---------------------------------------- */
   const goPrev = () => {
     setPage((p) => Math.max(p - 1, 1));
   };
@@ -80,9 +73,10 @@ export default function PostsSection() {
   };
 
   return (
-    <section className=" w-[850px] mx-auto py-12 space-y-8">
+    <section className=" w-[850px] mx-auto space-y-6 ">
       {/* Header */}
-      <div className="w-full mx-auto flex flex-row gap-4 justify-between bg-foreground items-center px-4 py-2">
+
+      <div className="w-full mx-auto flex flex-row gap-6 justify-between bg-foreground items-center px-4 py-2 ">
         {/* Input */}
         <input
           type="text"
@@ -97,12 +91,9 @@ export default function PostsSection() {
             focus:outline-none focus:ring-2 focus:ring-white/20
           "
         />
-
-        {/* Saved Tags */}
-
         {/* Range Pagination */}
         {totalPosts > 0 && (
-          <div className="flex items-center gap-4 mt-2 text-white mb-2">
+          <div className="flex items-center gap-6  text-white my-2 ">
             {/* Prev */}
             <button
               onClick={goPrev}
@@ -140,7 +131,7 @@ export default function PostsSection() {
           </div>
         )}
       </div>
-      <div className="w-full mx-auto flex flex-row  px-4 py-2">
+      <div className="w-full mx-auto flex flex-row ">
         {tags.length > 0 && (
           <div
             className="
@@ -172,6 +163,7 @@ export default function PostsSection() {
           </div>
         )}
       </div>
+
       {/* Posts Grid */}
       <div className="grid grid-cols-3 gap-4 w-full mx-auto h-[30rem] ">
         {paginatedPosts.length > 0 ? (

@@ -1,10 +1,26 @@
-export default function SquaresPostLayout({ children, squares = [] }) {
+export default function SquaresPostLayout({
+  children,
+  squares = [],
+  indexLayout = 10,
+  indexComponent = 5,
+}: {
+  children: React.ReactNode;
+  squares?: any[];
+  indexLayout?: string;
+  indexComponent?: string;
+}) {
   return (
     <div className="relative w-full h-full">
       {" "}
-      {/* Content */} <div className="relative z-0 h-full"> {children} </div>{" "}
+      {/* Content */}
+      <div className="relative h-full" style={{ zIndex: indexComponent }}>
+        {children}
+      </div>{" "}
       {/* Squares overlay */}{" "}
-      <div className="pointer-events-none absolute inset-0 z-10">
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{ zIndex: indexLayout }}
+      >
         {" "}
         {squares.map((sq, i) => {
           const colorAnim = `squareColorAnim_${i}`;

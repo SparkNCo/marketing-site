@@ -14,12 +14,12 @@ const FastTrackSection = lazy(() => import("./landing/FastTrackSection"));
 const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
   return (
     <div className="bg-background">
-      <SquaresPostLayout squares={HeroSectionSquaresConfig}>
+      <SquaresPostLayout squares={HeroSectionSquaresConfig} indexLayout={"0"} indexComponent={"1"} >
         <HeroSection setMode={setMode} />
       </SquaresPostLayout>
       <FeaturesSection />
-      <FastTrackSection />
       <PostsSection />
+      <FastTrackSection />
       <ProcessSection />
       <CaseStudiesSection />
     </div>

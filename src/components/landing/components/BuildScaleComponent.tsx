@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
 
 export default function BuildScaleToggle({
   setMode,
   centerExpanded,
 }: {
   setMode: (mode: "index" | "form") => void;
+  centerExpanded?: boolean;
 }) {
   const [selected, setSelected] = useState<"build" | "scale" | "none">("none");
 
-  const cardsOrder: ("build" | "scale")[] =
-    !centerExpanded && selected !== "none"
-      ? [selected, selected === "build" ? "scale" : "build"]
-      : ["build", "scale"];
+  /* ───────── FIXED ORDER ───────── */
+  const cardsOrder: ("build" | "scale")[] = ["build", "scale"];
 
   /* ───────── Click handler ───────── */
   const handleClick = (type: "build" | "scale") => {
@@ -23,7 +23,7 @@ export default function BuildScaleToggle({
     }
   };
 
-  /* ───────── Animation configs ───────── */
+  /* ───────── Animations ───────── */
   const spring = {
     type: "spring",
     stiffness: 260,
@@ -46,32 +46,40 @@ export default function BuildScaleToggle({
     },
   };
 
-  /* ───────── Card renderer ───────── */
+  /* ───────── Card ───────── */
   const Card = ({
     type,
     icon,
     title,
-    centerExpanded,
   }: {
     type: "build" | "scale";
     icon: string;
     title: string;
   }) => {
     const isSelected = selected === type;
+    const isSecond = type === "scale";
 
     return (
       <motion.div
-        layout
         transition={spring}
         onClick={() => handleClick(type)}
         className={`
-          bg-background rounded-md  shadow-md cursor-pointer overflow-hidden
-          transition-colors duration-300  
+          rounded-md shadow-md cursor-pointer overflow-hidden
+          transition-colors duration-300
+
+          /* Base colors per position */
+          ${
+            isSecond
+              ? "bg-foreground text-background"
+              : "bg-background text-foreground"
+          }
+
           ${
             isSelected
-              ? "w-5/12 p-4"
+              ? "w-6/12 p-4"
               : "w-max px-6 py-3 opacity-90 hover:opacity-100"
           }
+
           ${centerExpanded ? "mx-auto" : ""}
         `}
         whileTap={{ scale: 0.97 }}
@@ -79,26 +87,36 @@ export default function BuildScaleToggle({
         {/* Header */}
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <motion.img
-              src={icon}
-              className="w-8 h-8"
-              layout
-              transition={spring}
-            />
-            <h2 className="text-xl font-bold text-foreground">{title}</h2>
+            <motion.img src={icon} className="w-8 h-8" transition={spring} />
+            <h2 className="text-xl font-bold">{title}</h2>
           </div>
 
           <AnimatePresence>
             {isSelected && (
-              <motion.img
+              <motion.div
                 key={`${type}-go`}
-                src="/GoIcon.png"
-                className="w-8 h-8"
                 initial={{ opacity: 0, x: 12, rotate: -20 }}
                 animate={{ opacity: 1, x: 0, rotate: 0 }}
                 exit={{ opacity: 0, x: 12, rotate: 20 }}
                 transition={{ duration: 0.3 }}
-              />
+                className={
+                  type === "scale"
+                    ? `
+            border-2 border-background
+            rounded-lg
+            p-0.5
+            flex items-center justify-center
+          `
+                    : `
+            border-2 border-foreground
+            rounded-lg
+            p-0.5
+            flex items-center justify-center
+          `
+                }
+              >
+                <ChevronRight className="w-6 h-6" strokeWidth={3} />
+              </motion.div>
             )}
           </AnimatePresence>
         </div>
@@ -112,7 +130,7 @@ export default function BuildScaleToggle({
               initial="initial"
               animate="animate"
               exit="exit"
-              className="text-foreground leading-relaxed mt-2"
+              className="leading-relaxed mt-2"
             >
               Launch your new business or product line with Spark & Co's fully
               managed software delivery system.
@@ -135,7 +153,6 @@ export default function BuildScaleToggle({
           type={type}
           icon={type === "build" ? "/BuildIcon.png" : "/ScaleIcon.png"}
           title={type === "build" ? "Build" : "Scale"}
-          centerExpanded={centerExpanded}
         />
       ))}
     </div>

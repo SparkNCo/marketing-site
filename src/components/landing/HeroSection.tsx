@@ -15,15 +15,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
     <main
       className="
     flex flex-row items-start justify-center
- bg-background  "
+  z-80 "
     >
       <div className="absolute top-0 left-0 w-full h-[128px] bg-foreground  "></div>
       <section
         data-header="light"
         className="
     container relative px-12 pt-10 mt-[128px]
-    bg-foreground w-1/2 min-w-[750px]
-    min-h-[807.5px]
+    bg-transparent w-1/2 min-w-[750px]
+    min-h-[807.5px] 
   "
       >
         <div>
@@ -97,26 +97,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           {/* ──────────────────────────── */}
           <BuildScaleToggle setMode={setMode} />
         </div>
-
-        {/* <div className="absolute bottom-0 right-0 ">
-          <div className="relative w-32 h-32 bg-background">
-            <div className="relative w-32 h-32 bg-background">
-              <div className="absolute -top-16 right-0 w-16 h-16 bg-orange-500 z-10" />
-              <div className="absolute -top-16 right-16 w-16 h-16 bg-foreground" />
-              <div className="absolute bottom-0 -left-16 w-16 h-16 bg-orange-500" />
-            </div>
-          </div>
-        </div> */}
       </section>
 
-      <section className=" relative  w-1/2   ">
-        {/* <div className="absolute top-0 left-0 pointer-events-none bg-foreground">
-          <div className="relative w-32 h-32">
-            <div className="absolute -bottom-16 left-0 w-16 h-16 bg-orange-500 z-10" />
-            <div className="absolute top-0 -right-16 w-16 h-16 bg-orange-500" />
-          </div>
-        </div> */}
-      </section>
+      <section className=" relative  w-1/2   "></section>
     </main>
   );
 };
