@@ -57,7 +57,6 @@ export default function LandingShell({ user, location }: Props) {
             )}
           </AnimatePresence>
 
-          <Footer />
         </div>
       </AppProvider>
     </QueryClientProvider>

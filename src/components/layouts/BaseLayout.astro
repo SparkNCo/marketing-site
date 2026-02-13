@@ -53,14 +53,19 @@ import { ClientRouter } from "astro:transitions";
       :root {
         --font-title: "ADLaM Display";
         --font-body: "AR One Sans";
-        --color-title: #111111;
-        --color-body: #111111;
-        --background: #faf6ef;
+        --background: #111111;
         --foreground: #f8f8f8;
-        --primary: #f25c54;
-        --accent2: #B65F28;
-        --secondary: #ebe7e0;
-        --card: #111111; /* 404044 */
+        --primary: #f78035;
+        --secondary: #f8f8f8;
+        --card: #f7f4f0;
+
+        .hide-scrollbar {
+          scrollbar-width: none; /* Firefox */
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none; /* Chrome/Safari */
+        }
       }
 
       body {
@@ -77,8 +82,6 @@ import { ClientRouter } from "astro:transitions";
         font-family: var(--font-body);
         color: #0d0d0e;
       }
-
-
     </style>
   </head>
 
@@ -86,4 +89,3 @@ import { ClientRouter } from "astro:transitions";
     <slot />
   </body>
 </html>
-

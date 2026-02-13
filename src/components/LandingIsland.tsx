@@ -2,7 +2,13 @@ import React, { lazy } from "react";
 import type { FormIslandProps } from "./utils/interfaces";
 import PostsSection from "./landing/PostsSection";
 import SquaresPostLayout from "./posts/SquaresPostLayout";
-import { FastTrackSquaresConfig, HeroSectionSquaresConfig } from "./SquareConfig";
+import {
+  FastTrackSquaresConfig,
+  FooterSectionSquaresConfig,
+  HeroSectionSquaresConfig,
+} from "./SquareConfig";
+import FooterSqareSection from "./landing/FooterSqareSection";
+import Footer from "./Footer";
 
 /* Lazy sections */
 const HeroSection = lazy(() => import("./landing/HeroSection"));
@@ -30,9 +36,16 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
       >
         <FastTrackSection />{" "}
       </SquaresPostLayout>
-
       <ProcessSection />
       <CaseStudiesSection />
+      <SquaresPostLayout
+        squares={FooterSectionSquaresConfig}
+        indexLayout={"0"}
+        indexComponent={"1"}
+      >
+        <FooterSqareSection />
+      </SquaresPostLayout>{" "}
+      <Footer />
     </div>
   );
 };

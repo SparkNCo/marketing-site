@@ -14,16 +14,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   return (
     <main
       className="
-    flex flex-row items-start justify-center
-  z-80 "
+    flex flex-row items-start justify-center w-[1512px] 
+  z-80 mx-20"
     >
       <div className="absolute top-0 left-0 w-full h-[128px] bg-foreground  "></div>
       <section
         data-header="light"
         className="
     container relative px-12 pt-10 mt-[128px]
-    bg-transparent w-1/2 min-w-[750px]
-    min-h-[807.5px] 
+    bg-transparent w-1/2 
+    min-h-[807.5px]  b
   "
       >
         <div>
