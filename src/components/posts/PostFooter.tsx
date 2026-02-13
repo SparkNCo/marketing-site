@@ -27,7 +27,7 @@ export function PostFooter1() {
   return (
     <div className="h-[270px] flex items-center  ">
       <div className="w-[70%] mx-auto space-y-2 text-right">
-        <div className="flex gap-3 justify-start mb-10"></div>
+        <div className="flex gap-3 justify-start "></div>
         <h2 className=" text-[52px] font-semibold leading-tight line-clamp-2 text-foreground ">
           Why this thing and that thing are important to other thing{" "}
         </h2>

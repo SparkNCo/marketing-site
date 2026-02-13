@@ -1,7 +1,7 @@
 export default function PostPage2({ squaresConfig }) {
   return (
     <article className="w-full h-[1350px]  text-white flex flex-col">
-      <article className="w-full text-white flex flex-col ">
+      <article className="w-full text-white flex flex-col mt-20">
         <div className="w-[70%] mx-auto py-12 space-y-4 flex flex-col gap-8 ">
           {/* Mock section 2 */}
           <p className="text-[38px] max-w-[900px] font-light text-foreground">

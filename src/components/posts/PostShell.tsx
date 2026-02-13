@@ -8,19 +8,17 @@ import PostPage2 from "./PostPage2.tsx";
 export function PostShell1({ squaresConfig }) {
   const uniquePost = posts[0];
   const tags = [
-    { labels: ["AI Innovation","Founder Story"], x: "0px", y: "1020px" },
+    { labels: ["AI Innovation","Founder Story"], x: "40px", y: "1020px" },
   ];
   return (
     <div className="max-w-[1080px] mx-auto ">
       <SquaresPostLayout squares={squaresConfig} tags={tags}>
         <div className="layout title-foreground">
           <article>
-            {/* HERO IMAGE WRAPPER */}
             <div
               className="h-[1080px] bg-cover bg-center relative"
               style={{ backgroundImage: `url(${uniquePost.img})` }}
             >
-              {/* TAGS — ABSOLUTE */}
             </div>
           </article>
         </div>
