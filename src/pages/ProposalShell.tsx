@@ -1,11 +1,11 @@
 "use client";
 
 import { QueryClientProvider } from "@tanstack/react-query";
-import Footer from "../components/Footer";
 import Header from "../components/Header";
 import ProposalIsland from "../components/proposals/Proposal";
 import { AppProvider } from "../lib/AppProvider";
 import { queryClient } from "../lib/tanStack";
+import Footer from "../components/Footer";
 
 type Props = {
   user?: {
@@ -20,6 +20,7 @@ export default function ProposalShell({ user, mode, passcode }: Props) {
       <AppProvider initialUser={user}>
         <Header headerMode={"form"} />
         <ProposalIsland mode={mode} passcode={passcode} />
+        <Footer mode={"fixxed"} />
       </AppProvider>
     </QueryClientProvider>
   );

@@ -13,6 +13,7 @@ import {
 import DiscoveryForm from "../DiscoveryForm";
 import Footer from "../Footer";
 import ProposalEditIsland from "./ProposalEditIsland";
+import ProposalPage from "./1-ProposalPage";
 
 type DiscoveryFormState = {
   lead_id: string;
@@ -22,7 +23,7 @@ type DiscoveryFormState = {
   currentState: string;
 };
 
-type PageMode = "features" | "loading" | "view" | "draft";
+type PageMode = "features" | "loading" | "view" | "draft" | "waiting";
 
 export type Proposal = {
   id: string;
@@ -109,7 +110,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
     enabled: !!passcode,
   });
 
-  const updateProposal = async (updates: ProposalUpdate) => {
+  /*   const updateProposal = async (updates: ProposalUpdate) => {
     queryClient.setQueryData<Proposal>(["proposal", passcode], (prev) =>
       prev ? { ...prev, ...updates } : prev,
     );
@@ -119,19 +120,8 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
     <K extends keyof Proposal>(prop: K) =>
     (value: Proposal[K]) => {
       updateProposal({ [prop]: value } as Pick<Proposal, K>);
-    };
+    }; */
   if (isLoading) return <LoadingProposal />;
-
-  <div
-    className="min-h-[90vh] pt-20 text-foreground"
-    onClick={() =>
-      console.log({
-        proposal,
-      })
-    }
-  >
-    VER
-  </div>;
 
   return (
     <AnimatePresence mode="wait">
@@ -157,7 +147,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           </motion.div>
         )}
 
-      {pageMode === "waiting" && (
+      {pageMode === "waiting" && dbUser?.role !== "admin" && (
         <motion.div
           key="loading"
           variants={slideVariants}
@@ -165,41 +155,50 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           animate="animate"
           exit="exit"
         >
-          <ProposalInProgress />
+          <div className="min-h-[90vh] pt-20">
+            <ProposalInProgress />
+          </div>
         </motion.div>
       )}
-
-      {dbUser?.role === "admin" && (
-        <ProposalEditIsland
+      {/* <ProposalEditIsland
           proposal={proposal}
           passcode={passcode}
           dbUser={dbUser}
           updateProposalProp={updateProposalProp}
+        /> */}
+      {dbUser?.role === "admin" && (
+        <ProposalPage
+          dbUser={{
+            userName: "santi",
+            role: "admin",
+          }}
         />
       )}
 
-      {dbUser?.role !== "admin" && pageMode !== "waiting" && (
-        <motion.div
-          key="draft"
-          variants={slideVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-        >
-          {proposal.stage === "for-review" ? (
-            <ProposalEditIsland
-              proposal={proposal}
-              passcode={passcode}
-              dbUser={dbUser}
-              updateProposalProp={updateProposalProp}
-            />
-          ) : (
-            <div className="min-h-[90vh] pt-20">
-              <ProposalInProgress />
-            </div>
-          )}
-        </motion.div>
-      )}
+      {dbUser?.role !== "admin" &&
+        pageMode !== "waiting" &&
+        proposal.stage !== "justCreated" && (
+          <motion.div
+            key="draft"
+            variants={slideVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            {proposal.stage === "for-review" ? (
+              <ProposalPage
+                dbUser={{
+                  userName: "santi",
+                  role: "admin",
+                }}
+              />
+            ) : (
+              <div className="min-h-[90vh] pt-20">
+                <ProposalInProgress />
+              </div>
+            )}
+          </motion.div>
+        )}
 
       {(pageMode === "draft" || pageMode === "features") && isError && (
         <motion.div
@@ -213,8 +212,6 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           <InvalidPasscode />
         </motion.div>
       )}
-
-      <Footer mode={"mode"} />
     </AnimatePresence>
   );
 };

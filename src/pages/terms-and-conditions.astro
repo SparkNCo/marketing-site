@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../components/layouts/BaseLayout.astro";
+import TermsShell from "./Shell/TermsShell";
+
+const user = Astro.locals.user;
+const location = Astro.url.pathname;
+---
+
+<BaseLayout>
+  <main>
+    <TermsShell  location={location} client:load user={user}  />
+  </main>
+</BaseLayout>

@@ -216,11 +216,12 @@ export function FeaturesCollection({
       if (!response.ok) {
         throw new Error("Failed to save features");
       }
-      console.log("RESPONSE OK ");
       setPageMode("waiting");
       return response.json();
     },
-    onSuccess: () => {},
+    onSuccess: () => {
+      setPageMode("waiting");
+    },
     onError: (error) => {
       console.error("[v0] Error saving features:", error);
     },

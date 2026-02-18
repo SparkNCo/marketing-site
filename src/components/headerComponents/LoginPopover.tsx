@@ -46,7 +46,7 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
       <div
         onClick={() => setShow((v) => !v)}
         className={`cursor-pointer transition hover:opacity-80 ${
-          mode === "dark" ? "text-card" : "text-foreground"
+          mode === "dark" ? "text-background" : "text-foreground"
         }`}
       >
         <Menu size={28} strokeWidth={2} />
@@ -81,7 +81,7 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
                 w-full rounded-xl px-4 py-2.5 text-sm
                 outline-none transition
                 border
-                focus:ring-2
+                focus:ring-2 text-background
                 ${
                   mode === "dark"
                     ? "bg-background/60 border-white/10 focus:ring-white/20"
@@ -100,7 +100,7 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
                 w-full rounded-xl px-4 py-2.5 text-sm
                 outline-none transition
                 border
-                focus:ring-2
+                focus:ring-2 text-background
                 ${
                   mode === "dark"
                     ? "bg-background/60 border-white/10 focus:ring-white/20"

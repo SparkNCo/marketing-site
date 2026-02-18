@@ -1,7 +1,6 @@
 "use client";
 
 import FormIsland from "../components/FormIsland";
-import Header from "../components/Header";
 import { AppProvider } from "../lib/AppProvider";
 
 type Props = {
