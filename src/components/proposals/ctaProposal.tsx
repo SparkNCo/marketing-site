@@ -18,9 +18,7 @@ export default function CtaProposal({
   const handleConfirmSignature = async (signatureBase64: string) => {
     try {
       setIsSigning(true);
-      console.log("proposalId", proposalId);
       const res = await fetch(
-        //"/api/proposals/uploadSignature"
         "http://127.0.0.1:54321/functions/v1/proposals",
         {
           method: "POST",
@@ -58,7 +56,7 @@ export default function CtaProposal({
             Ready to Transform Your Inventory Management?
           </h2>
 
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+          <p className="text-foreground mb-6 max-w-2xl mx-auto">
             Let's schedule a call to discuss next steps, answer any questions,
             and kick off this project.
           </p>

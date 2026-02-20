@@ -1,4 +1,5 @@
 ---
+import Footer from "../components/Footer";
 import BaseLayout from "../components/layouts/BaseLayout.astro";
 import PolicyShell from "./Shell/PolicyShell";
 
@@ -8,6 +9,7 @@ const location = Astro.url.pathname;
 
 <BaseLayout>
   <main>
-    <PolicyShell  location={location} client:load user={user}  />
+    <PolicyShell location={location} client:load user={user} />
+    <Footer />
   </main>
 </BaseLayout>

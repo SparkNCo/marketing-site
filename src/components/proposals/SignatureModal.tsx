@@ -17,7 +17,6 @@ export function SignatureModal({
 }: SignatureModalProps) {
   const sigRef = useRef<SignatureCanvas | null>(null);
 
-
   if (!open) return null;
 
   const handleClear = () => {
@@ -58,7 +57,7 @@ export function SignatureModal({
         <div className="flex justify-between gap-4">
           <button
             onClick={handleClear}
-            className="px-4 py-2 border rounded-md hover:bg-muted"
+            className="px-4 py-2  text-foreground  rounded-md hover:bg-muted"
           >
             Clear
           </button>

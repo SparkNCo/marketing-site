@@ -434,7 +434,7 @@ export const FastTrackSquaresConfig = [
     y: "504px",
     width: "62px",
     height: "62px",
-    color: "black",
+    color: "white",
     colorDelay: 20,
     duration: 15,
     zIndex: 1,
@@ -708,5 +708,63 @@ export const FooterSectionSquaresConfig = [
     colorDelay: 20,
     duration: 15,
     zIndex: 3,
+  },
+];
+
+export const demoLeftSquares = [
+  {
+    x: "0px",
+    y: "0px",
+    width: "125px",
+    height: "125px",
+    color: "#f8f8f8",
+  },
+  {
+    x: "125px",
+    y: "62.5px",
+    width: "62.5px",
+    height: "62.5px",
+    color: "#f78035",
+  },
+  {
+    x: "0px",
+    y: "187.5px",
+    width: "187.5px",
+    height: "62.5px",
+    color: "#B65F28",
+
+    /* movimiento demo */
+    moveToX: "200px",
+    moveToY: "220px",
+    moveDuration: 4,
+  },
+];
+
+export const demoRightSquares = [
+  {
+    x: "0px",
+    y: "0px",
+    width: "125px",
+    height: "125px",
+    color: "#111111",
+  },
+  {
+    x: "125px",
+    y: "125px",
+    width: "62.5px",
+    height: "62.5px",
+    color: "#f78035",
+  },
+  {
+    x: "62.5px",
+    y: "250px",
+    width: "187.5px",
+    height: "62.5px",
+    color: "#f8f8f8",
+
+    /* movimiento demo */
+    moveToX: "20px",
+    moveToY: "300px",
+    moveDuration: 5,
   },
 ];

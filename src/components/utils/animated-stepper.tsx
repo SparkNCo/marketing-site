@@ -41,17 +41,30 @@ export default function AnimatedStepper({
 
         const handleClick = () => {
           const targetStep = STEP_ORDER[index];
-          if (targetStep === "success") return;
-          if (index === currentStep) return;
+
+          // Disable all clicks if current step is "success"
+          if (STEP_ORDER[currentStep] === "success") return;
+
+          // Only allow backward navigation
+          if (index >= currentStep) return;
+
           setCurrentStep(targetStep);
         };
+
+        // Determine if this step is clickable
+        const isDisabled =
+          STEP_ORDER[currentStep] === "success" || index >= currentStep;
 
         return (
           <div key={stepNumber} className="flex items-center mb-8">
             <button
               type="button"
               onClick={handleClick}
-              className={`w-12 h-12 rounded-lg flex items-center justify-center font-semibold transition-all duration-500 cursor-pointer ${stepClasses}`}
+              disabled={isDisabled}
+              className={`
+                w-12 h-12 rounded-lg flex items-center justify-center font-semibold transition-all duration-500
+                ${stepClasses} 
+              `}
               style={{
                 transitionProperty: "transform, background-color, color",
               }}

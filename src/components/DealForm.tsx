@@ -33,9 +33,6 @@ export default function DealForm() {
     scheduling_url: "",
   });
 
-  /* -----------------------------
-   * Availability query
-   * ----------------------------- */
   const availabilityQuery = useQuery({
     queryKey: ["calendly-availability"],
     queryFn: async (): Promise<AvailabilityResponse> => {
@@ -67,9 +64,7 @@ export default function DealForm() {
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
-  /* -----------------------------
-   * Submission mutation
-   * ----------------------------- */
+
   const submitMutation = useMutation({
     mutationFn: async (finalData: FormData) => {
       const res = await fetch(

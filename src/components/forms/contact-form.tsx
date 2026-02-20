@@ -32,7 +32,7 @@ export function ContactForm({
   const handleNext = () => {
     setTouchedNext(true);
     if (canProceed) {
-    //  setCurrentStep("product");
+      //  setCurrentStep("product");
       setCurrentStep("product");
     }
   };
@@ -63,7 +63,8 @@ export function ContactForm({
                 placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
                 placeholder:opacity-60
                 bg-secondary
-                text-body
+                text-body focus:ring-primary 
+    selection:bg-primary selection:text-black selection:font-bold
               "
             />
             {touchedNext && !isValidName && (
@@ -91,7 +92,8 @@ export function ContactForm({
                 placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
                 placeholder:opacity-60
                 bg-secondary
-                text-body
+                text-body focus:ring-primary 
+    selection:bg-primary selection:text-black selection:font-bold
               "
             />
             {touchedNext && !isValidEmail && (
@@ -118,7 +120,8 @@ export function ContactForm({
                 placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
                 placeholder:opacity-60
                 bg-secondary
-                text-body
+                text-body focus:ring-primary 
+    selection:bg-primary selection:text-black selection:font-bold
               "
             />
             {touchedNext && !isValidCompany && (
@@ -145,7 +148,8 @@ export function ContactForm({
                 placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
                 placeholder:opacity-60
                 bg-secondary
-                text-body
+                text-body focus:ring-primary 
+    selection:bg-primary selection:text-black selection:font-bold
               "
             />
             {touchedNext && !isValidIndustry && (

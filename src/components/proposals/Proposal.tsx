@@ -160,22 +160,17 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           </div>
         </motion.div>
       )}
-      {/* <ProposalEditIsland
-          proposal={proposal}
-          passcode={passcode}
-          dbUser={dbUser}
-          updateProposalProp={updateProposalProp}
-        /> */}
-      {dbUser?.role === "admin" && (
+      {dbUser?.role === "admin" && proposal.stage !== "justCreated" && (
         <ProposalPage
+          proposal={proposal}
           dbUser={{
-            userName: "santi",
-            role: "admin",
+            userName: dbUser?.email,
+            role: dbUser?.role,
           }}
         />
       )}
 
-      {dbUser?.role !== "admin" &&
+      {(dbUser?.role === undefined || dbUser?.role !== "admin") &&
         pageMode !== "waiting" &&
         proposal.stage !== "justCreated" && (
           <motion.div
@@ -185,11 +180,12 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
             animate="animate"
             exit="exit"
           >
-            {proposal.stage === "for-review" ? (
+            {proposal.stage === "for-review" || proposal.stage === "accepted" ? (
               <ProposalPage
+                proposal={proposal}
                 dbUser={{
-                  userName: "santi",
-                  role: "admin",
+                  userName: dbUser?.email,
+                  role: dbUser?.role,
                 }}
               />
             ) : (

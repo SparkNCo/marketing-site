@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AppProvider } from "../../lib/AppProvider";
 import TermsIsland from "../Island/TermsIsland";
+import Footer from "../../components/Footer";
 
 type Props = {
   user?: {
@@ -11,12 +12,12 @@ type Props = {
   location: string;
 };
 
-
 export default function TermsShell({ user, location }: Props) {
   return (
     <AppProvider initialUser={user}>
       <div className="">
-        <TermsIsland  />
+        <TermsIsland />
+        <Footer />
       </div>
     </AppProvider>
   );

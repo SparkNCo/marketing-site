@@ -29,6 +29,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { LoadingProposal } from "../proposals/MissingPasscode";
 import type { DiscoveryFormState } from "../DiscoveryForm";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
 
 export const inputBaseClass =
   "mt-3 h-16 lg:h-10 text-4xl lg:text-sm placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
@@ -227,6 +228,16 @@ export function FeaturesCollection({
     },
   });
 
+  const handleSaveFeatures = () => {
+    console.log(features.length);
+    if (features.length === 0) {
+      toast.error("You must add at least one feature");
+      return;
+    }
+
+    saveFeaturesMutation.mutate();
+  };
+
   /* --------------------------------
    * Feature helpers
    * -------------------------------- */
@@ -268,19 +279,8 @@ export function FeaturesCollection({
     }
   };
 
-  const saveFeatures = () => {
-    saveFeaturesMutation.mutate();
-  };
-
-  /* --------------------------------
-   * Derived state
-   * -------------------------------- */
   const isLoading = featuresQuery.isLoading;
   const isSaving = saveFeaturesMutation.isPending;
-
-  /* --------------------------------
-   * Render
-   * -------------------------------- */
   if (isLoading) {
     return <LoadingProposal />;
   }
@@ -326,7 +326,7 @@ export function FeaturesCollection({
         </Button>
 
         <Button
-          onClick={saveFeatures}
+          onClick={handleSaveFeatures}
           disabled={isSaving}
           title={"Complete at least one feature before saving"}
           className="flex-1 py-6 font-bold"

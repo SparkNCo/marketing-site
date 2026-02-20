@@ -3,12 +3,12 @@
 import { FileText, Pencil, Save } from "lucide-react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ProposalSectionProps {
   title: string;
   data: any;
-  setProposal: (data: any) => void;
+  setProposal: (data: any) => void; // ← parent updater
   dbUser?: { role?: string };
 }
 
@@ -21,14 +21,22 @@ export default function ProposalSection({
   const [isEditing, setIsEditing] = useState(false);
   const [localData, setLocalData] = useState<any>(data);
 
+  /* ---------------- Sync when parent changes ---------------- */
+  useEffect(() => {
+    setLocalData(data);
+  }, [data]);
+
+  /* ---------------- Toggle edit ---------------- */
   const toggleEditMode = () => {
     if (isEditing) {
+      // 🔥 Push changes to parent
       setProposal(localData);
     }
+
     setIsEditing((prev) => !prev);
   };
 
-  /* ---------------- Helpers ---------------- */
+  /* ---------------- Update helpers ---------------- */
 
   const updateField = (key: string, value: any) => {
     setLocalData((prev: any) => ({
@@ -61,8 +69,8 @@ export default function ProposalSection({
   const renderString = () =>
     isEditing ? (
       <textarea
-        className="w-full rounded-lg border p-3 "
-        value={localData}
+        className="w-full rounded-lg border p-3"
+        value={localData || ""}
         onChange={(e) => setLocalData(e.target.value)}
       />
     ) : (
@@ -71,14 +79,14 @@ export default function ProposalSection({
 
   const renderObject = () => (
     <div className="space-y-4">
-      {Object.entries(localData).map(([key, value]) => (
+      {Object.entries(localData || {}).map(([key, value]) => (
         <div key={key}>
-          <h3 className="text-sm font-semibold text-primary ">{key}</h3>
+          <h3 className="text-sm font-semibold text-primary">{key}</h3>
 
           {isEditing ? (
             <input
               className="mt-1 w-full rounded-lg border p-2"
-              value={value as string}
+              value={(value as string) || ""}
               onChange={(e) => updateField(key, e.target.value)}
             />
           ) : (
@@ -91,12 +99,12 @@ export default function ProposalSection({
 
   const renderArrayOfStrings = () => (
     <ul className="list-disc space-y-2 pl-6 text-foreground">
-      {localData.map((item: string, i: number) => (
+      {(localData || []).map((item: string, i: number) => (
         <li key={i}>
           {isEditing ? (
             <input
               className="w-full rounded-lg border p-2"
-              value={item}
+              value={item || ""}
               onChange={(e) => {
                 const arr = [...localData];
                 arr[i] = e.target.value;
@@ -113,16 +121,16 @@ export default function ProposalSection({
 
   const renderArrayOfObjects = () => (
     <div className="space-y-6">
-      {localData.map((item: any, index: number) => (
+      {(localData || []).map((item: any, index: number) => (
         <div key={index} className="space-y-2">
           {Object.entries(item).map(([field, value]) => (
             <div key={field}>
-              <h4 className="text-sm font-semibold text-primary  ">{field}</h4>
+              <h4 className="text-sm font-semibold text-primary">{field}</h4>
 
               {isEditing ? (
                 <input
                   className="w-full rounded-lg border p-2"
-                  value={value as string}
+                  value={(value as string) || ""}
                   onChange={(e) =>
                     updateArrayItem(index, field, e.target.value)
                   }
@@ -136,12 +144,12 @@ export default function ProposalSection({
       ))}
     </div>
   );
-  // border-4 border-red-80
+
   const renderNestedObject = () => (
     <div className="space-y-6">
-      {Object.entries(localData).map(([key, value]) => (
+      {Object.entries(localData || {}).map(([key, value]) => (
         <div key={key}>
-          <h3 className="mb-2 text-lg font-bold text-primary 0 ">{key}</h3>
+          <h3 className="mb-2 text-lg font-bold text-primary">{key}</h3>
 
           {Array.isArray(value) ? (
             typeof value[0] === "string" ? (
@@ -153,12 +161,12 @@ export default function ProposalSection({
                 ))}
               </ul>
             ) : (
-              <div className="space-y-4 ">
+              <div className="space-y-4">
                 {value.map((obj: any, i: number) => (
                   <div className="text-primary" key={i}>
                     {Object.entries(obj).map(([f, val]) => (
                       <p key={f}>
-                        <span className="font-semibold text-foreground ">
+                        <span className="font-semibold text-foreground">
                           {f}:
                         </span>{" "}
                         {val as string}
@@ -176,24 +184,22 @@ export default function ProposalSection({
     </div>
   );
 
-  /* ---------------- Type Detection ---------------- */
+  /* ---------------- Type detection ---------------- */
 
   const renderContent = () => {
     if (typeof localData === "string") return renderString();
 
     if (Array.isArray(localData)) {
       if (typeof localData[0] === "string") return renderArrayOfStrings();
-
       return renderArrayOfObjects();
     }
 
-    if (typeof localData === "object") {
+    if (typeof localData === "object" && localData !== null) {
       const hasNestedArray = Object.values(localData).some((v) =>
         Array.isArray(v),
       );
 
       if (hasNestedArray) return renderNestedObject();
-
       return renderObject();
     }
 
@@ -204,7 +210,6 @@ export default function ProposalSection({
 
   return (
     <section className="mb-16 w-[80vw]">
-      {/* Header */}
       <div className="mb-6 mt-10 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <FileText className="h-6 w-6 text-primary" />
@@ -231,7 +236,6 @@ export default function ProposalSection({
         )}
       </div>
 
-      {/* Content */}
       <Card className="border-border bg-background p-8">{renderContent()}</Card>
     </section>
   );

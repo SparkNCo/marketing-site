@@ -6,17 +6,67 @@ import { useMutation } from "@tanstack/react-query";
 
 type Props = {
   submissionId: string;
-  proposal: any;
-  dbUser?: any;
+  sections: any;
+  localProposal: any;
 };
 
 export default function CreateProposalCta({
   submissionId,
-  proposal,
-  dbUser,
+  sections,
+  localProposal,
 }: Props) {
+  const buildSectionUpdates = () => {
+    return {
+      client_name: sections?.["Cover Page"]?.["Client Name"],
+      provider_name: sections?.["Cover Page"]?.["Provider Name"],
+      proposal_title: sections?.["Cover Page"]?.["Proposal Title"],
+      proposal_date: sections?.["Cover Page"]?.Date,
+      valid_until: sections?.["Cover Page"]?.["Proposal Valid Until"],
+
+      executive_summary: sections?.["Executive Summary"],
+      problem_context: sections?.["Problem & Context"],
+      solution_overview: sections?.["Solution Overview"],
+      acceptance_completion_criteria:
+        sections?.["Acceptance & Completion Criteria"],
+
+      objectives: sections?.["Objectives & Success Criteria"],
+      scope_of_work: sections?.["Scope of Work"],
+      deliverables: sections?.Deliverables,
+      assumptions_dependencies:
+        sections?.["Assumptions & Dependencies"],
+      client_responsibilities:
+        sections?.["Client Responsibilities"],
+
+      total_duration:
+        sections?.["Timeline & Milestones"]?.["Total Duration"],
+      timeline_milestones:
+        sections?.["Timeline & Milestones"]?.Milestones,
+
+      team_communication: sections?.["Team & Communication"],
+      technology_architecture:
+        sections?.["Technology & Architecture"],
+      change_management:
+        sections?.["Change Management Process"],
+      pricing_commercial_terms:
+        sections?.["Pricing & Commercial Terms"],
+      risk_responsibility_boundaries:
+        sections?.["Risk & Responsibility Boundaries"],
+      next_steps: sections?.["Next Steps"],
+      signatures: sections?.Signatures,
+    };
+  };
+
   const mutation = useMutation({
     mutationFn: async () => {
+      const sectionUpdates = buildSectionUpdates();
+
+      const updates = {
+        ...sectionUpdates,
+        stage: localProposal?.stage,
+        signature_url: localProposal?.signature_url,
+        signed_at: localProposal?.signed_at,
+      };
+
       const res = await fetch(
         "http://127.0.0.1:54321/functions/v1/proposals",
         {
@@ -26,7 +76,7 @@ export default function CreateProposalCta({
           },
           body: JSON.stringify({
             passcode: submissionId,
-            updates: proposal,
+            updates,
           }),
         },
       );
@@ -46,7 +96,6 @@ export default function CreateProposalCta({
           Save Proposal Changes
         </h2>
 
-        {/* SAVE BUTTON */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             size="lg"

@@ -18,10 +18,23 @@ export default function Footer({ mode }) {
           className="w-full h-full object-contain"
         />
       </div>
-      <p>Privacy Policy</p>
-      <p>Terms and Conditions</p>
-      <p>Cookie Policy</p>
-      <p>Contact</p>
+
+      <a href="/privacy-policy" className="hover:underline">
+        Privacy Policy
+      </a>
+
+      <a href="/terms-and-conditions" className="hover:underline">
+        Terms and Conditions
+      </a>
+
+      <a href="/cookie-policy" className="hover:underline">
+        Cookie Policy
+      </a>
+
+      <a href="/contact" className="hover:underline">
+        Contact
+      </a>
+
       <div className="flex flex-col text-end">
         <p>2025 Spark & Co Technologies Inc.</p>
         <p>Registered in Canada. All rights reserved</p>

@@ -16,12 +16,9 @@ export default function SquaresPostLayout({
 }) {
   return (
     <div className={`relative h-full w-${width} mx-${margin}   `}>
-      {" "}
-      {/* Content */}
       <div className="relative h-full" style={{ zIndex: indexComponent }}>
         {children}
       </div>{" "}
-      {/* TAGS OVERLAY */}
       {tags.length > 0 && (
         <div
           className="pointer-events-none absolute inset-0"
@@ -65,7 +62,6 @@ export default function SquaresPostLayout({
           })}
         </div>
       )}
-      {/* Squares overlay */}{" "}
       <div
         className="pointer-events-none absolute inset-0"
         style={{ zIndex: indexLayout }}

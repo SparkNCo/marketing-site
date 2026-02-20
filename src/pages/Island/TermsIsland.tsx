@@ -23,7 +23,7 @@ import {
 
 const TermsIsland = () => {
   return (
-    <div className="bg-foreground w-3/5  mx-auto mt-40">
+    <div className="bg-foreground w-3/5  mx-auto my-40">
       <TermsIntroduction />
       <AcceptanceOfTerms />
       <ServicesOffered />

@@ -6,6 +6,7 @@ import ProposalIsland from "../components/proposals/Proposal";
 import { AppProvider } from "../lib/AppProvider";
 import { queryClient } from "../lib/tanStack";
 import Footer from "../components/Footer";
+import ToastLayout from "../components/layouts/ToastLayout";
 
 type Props = {
   user?: {
@@ -18,9 +19,11 @@ export default function ProposalShell({ user, mode, passcode }: Props) {
   return (
     <QueryClientProvider client={queryClient}>
       <AppProvider initialUser={user}>
-        <Header headerMode={"form"} />
-        <ProposalIsland mode={mode} passcode={passcode} />
-        <Footer mode={"fixxed"} />
+        <ToastLayout>
+          <Header headerMode={"form"} />
+          <ProposalIsland mode={mode} passcode={passcode} />
+          <Footer mode={"fixxed"} />
+        </ToastLayout>
       </AppProvider>
     </QueryClientProvider>
   );

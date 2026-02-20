@@ -4,7 +4,7 @@ import { FileText } from "lucide-react";
 import { Card } from "./ui/card";
 import { FeaturesCollection } from "./forms/features-collection";
 import { Textarea } from "./ui/textarea";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Slider } from "./ui/slider2";
 import { cn } from "../../lib/utils";
 import type { Proposal } from "./proposals/Proposal";
@@ -46,7 +46,7 @@ export default function DiscoveryForm({
       budget_min: proposal.lead.budget_min ?? 5000,
       budget_max: proposal.lead.budget_max ?? 50000,
       formatted_date: proposal.lead.formatted_date ?? "",
-      currentState: "", // 👈 always empty by default
+      currentState: "", 
     });
   }, [proposal]);
 

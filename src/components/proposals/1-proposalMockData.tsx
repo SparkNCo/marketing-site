@@ -191,3 +191,11 @@ export const proposalMockData = {
     "Client Signature Date": "2026-02-18",
   },
 };
+
+
+/* 
+select jsonb_object_agg(column_name, data_type) as leads_schema
+from information_schema.columns
+where table_schema = 'public'
+  and table_name = 'proposals';
+ */
