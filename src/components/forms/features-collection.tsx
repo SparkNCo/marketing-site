@@ -178,7 +178,8 @@ export function FeaturesCollection({
     enabled: !!submissionId,
     queryFn: async () => {
       const response = await fetch(
-        `http://127.0.0.1:54321/functions/v1/features/?submission_id=${submissionId}`,
+        //`http://127.0.0.1:54321/functions/v1/features/?submission_id=${submissionId}`,
+        `${import.meta.env.PUBLIC_ENDPOINT}/features/?submission_id=${submissionId}`,
       );
 
       if (!response.ok) {
@@ -195,7 +196,8 @@ export function FeaturesCollection({
   const saveFeaturesMutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(
-        "http://127.0.0.1:54321/functions/v1/features/",
+        //  "http://127.0.0.1:54321/functions/v1/features/",
+        `${import.meta.env.PUBLIC_ENDPOINT}/features`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

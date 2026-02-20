@@ -64,11 +64,12 @@ export default function DealForm() {
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
-
   const submitMutation = useMutation({
     mutationFn: async (finalData: FormData) => {
       const res = await fetch(
-        "http://127.0.0.1:54321/functions/v1/create-lead",
+        // "http://127.0.0.1:54321/functions/v1/create-lead",
+        `${import.meta.env.PUBLIC_ENDPOINT}/create-lead`,
+
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -145,12 +146,8 @@ export default function DealForm() {
             industry={formData.industry}
             setName={(v) => setFormData((p) => ({ ...p, name: v }))}
             setEmail={(v) => setFormData((p) => ({ ...p, email: v }))}
-            setCompany={(v) =>
-              setFormData((p) => ({ ...p, companyName: v }))
-            }
-            setIndustry={(v) =>
-              setFormData((p) => ({ ...p, industry: v }))
-            }
+            setCompany={(v) => setFormData((p) => ({ ...p, companyName: v }))}
+            setIndustry={(v) => setFormData((p) => ({ ...p, industry: v }))}
           />
         )}
 

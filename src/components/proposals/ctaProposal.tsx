@@ -19,7 +19,9 @@ export default function CtaProposal({
     try {
       setIsSigning(true);
       const res = await fetch(
-        "http://127.0.0.1:54321/functions/v1/proposals",
+        // "http://127.0.0.1:54321/functions/v1/proposals",
+        `${import.meta.env.PUBLIC_ENDPOINT}/proposals`,
+
         {
           method: "POST",
           headers: {

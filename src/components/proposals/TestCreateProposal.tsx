@@ -32,23 +32,16 @@ export default function CreateProposalCta({
       objectives: sections?.["Objectives & Success Criteria"],
       scope_of_work: sections?.["Scope of Work"],
       deliverables: sections?.Deliverables,
-      assumptions_dependencies:
-        sections?.["Assumptions & Dependencies"],
-      client_responsibilities:
-        sections?.["Client Responsibilities"],
+      assumptions_dependencies: sections?.["Assumptions & Dependencies"],
+      client_responsibilities: sections?.["Client Responsibilities"],
 
-      total_duration:
-        sections?.["Timeline & Milestones"]?.["Total Duration"],
-      timeline_milestones:
-        sections?.["Timeline & Milestones"]?.Milestones,
+      total_duration: sections?.["Timeline & Milestones"]?.["Total Duration"],
+      timeline_milestones: sections?.["Timeline & Milestones"]?.Milestones,
 
       team_communication: sections?.["Team & Communication"],
-      technology_architecture:
-        sections?.["Technology & Architecture"],
-      change_management:
-        sections?.["Change Management Process"],
-      pricing_commercial_terms:
-        sections?.["Pricing & Commercial Terms"],
+      technology_architecture: sections?.["Technology & Architecture"],
+      change_management: sections?.["Change Management Process"],
+      pricing_commercial_terms: sections?.["Pricing & Commercial Terms"],
       risk_responsibility_boundaries:
         sections?.["Risk & Responsibility Boundaries"],
       next_steps: sections?.["Next Steps"],
@@ -68,7 +61,8 @@ export default function CreateProposalCta({
       };
 
       const res = await fetch(
-        "http://127.0.0.1:54321/functions/v1/proposals",
+        //  "http://127.0.0.1:54321/functions/v1/proposals",
+        `${import.meta.env.PUBLIC_ENDPOINT}/proposals`,
         {
           method: "PATCH",
           headers: {

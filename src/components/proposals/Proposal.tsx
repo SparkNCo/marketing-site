@@ -70,7 +70,8 @@ const slideVariants = {
 
 async function fetchProposal(passcode: string) {
   const res = await fetch(
-    `http://127.0.0.1:54321/functions/v1/proposals/?passcode=${passcode}`,
+    // `http://127.0.0.1:54321/functions/v1/proposals/?passcode=${passcode}`,
+    `${import.meta.env.PUBLIC_ENDPOINT}/proposals/?passcode=${passcode}`,
   );
 
   if (!res.ok) {
@@ -180,7 +181,8 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
             animate="animate"
             exit="exit"
           >
-            {proposal.stage === "for-review" || proposal.stage === "accepted" ? (
+            {proposal.stage === "for-review" ||
+            proposal.stage === "accepted" ? (
               <ProposalPage
                 proposal={proposal}
                 dbUser={{
