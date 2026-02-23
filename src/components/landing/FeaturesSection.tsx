@@ -34,7 +34,7 @@ function FeaturesSection() {
 
   const content = {
     supercharged: {
-      title: "AI Supercharged",
+      title: "AI Supercharged ",
       summary: "The perfect balance of human creativity, and AI efficiency",
     },
     control: {
