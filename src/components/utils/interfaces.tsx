@@ -23,6 +23,7 @@ export interface FormData {
     end: string;
   };
   scheduling_url: string;
+  redirect_url: string;
 }
 
 export type FeaturesFormProps = Readonly<{

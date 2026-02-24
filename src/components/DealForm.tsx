@@ -31,6 +31,7 @@ export default function DealForm() {
     selectedDate: "",
     selectedTime: { start: "", end: "" },
     scheduling_url: "",
+    redirect_url: "",
   });
 
   const availabilityQuery = useQuery({
@@ -67,7 +68,6 @@ export default function DealForm() {
   const submitMutation = useMutation({
     mutationFn: async (finalData: FormData) => {
       const res = await fetch(
-        // "http://127.0.0.1:54321/functions/v1/create-lead",
         `${import.meta.env.PUBLIC_ENDPOINT}/create-lead`,
 
         {
@@ -93,6 +93,11 @@ export default function DealForm() {
   });
 
   const handleCalendarSubmit = (data: CalendarSubmitData) => {
+    const redirectUrl =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://buildwithspark.co";
+
     const finalData: FormData = {
       ...formData,
       selectedDate: data.selectedDate,
@@ -101,6 +106,7 @@ export default function DealForm() {
         end: data.selectedEndTime,
       },
       scheduling_url: data.scheduling_url,
+      redirect_url: redirectUrl,
     };
 
     submitMutation.mutate(finalData);
