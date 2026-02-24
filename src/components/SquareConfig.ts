@@ -861,11 +861,9 @@ export const FooterLeftRightSquares = [
     zIndex: 0,
   },
 
-  // ----- RIGHT SIDE (UPDATED) -----
-
   {
     top: "62.5px",
-    right: "0px", 
+    right: "0px",
     width: "62.5px",
     height: "125px",
     color: "#f8f8f8",
@@ -875,7 +873,7 @@ export const FooterLeftRightSquares = [
   },
   {
     top: "125px",
-    right: "62.5px", 
+    right: "62.5px",
     width: "62.5px",
     height: "187.5px",
     color: "#f8f8f8",
@@ -895,7 +893,7 @@ export const FooterLeftRightSquares = [
   },
   {
     top: "250px",
-    right: "125px", 
+    right: "125px",
     width: "62.5px",
     height: "62.5px",
     color: "#f8f8f8",
@@ -905,7 +903,7 @@ export const FooterLeftRightSquares = [
   },
   {
     top: "187.5px",
-    right: "187.5px", 
+    right: "187.5px",
     width: "125px",
     height: "187.5px",
     color: "#f8f8f8",
@@ -915,7 +913,7 @@ export const FooterLeftRightSquares = [
   },
   {
     top: "312.5px",
-    right: "312.5px", 
+    right: "312.5px",
     width: "62.5px",
     height: "62.5px",
     color: "#f8f8f8",
@@ -935,7 +933,8 @@ export const FooterLeftRightSquares = [
   },
   {
     top: "250px",
-    right: "250px", 
+    right: "250px",
+    width: "62.5px",
     height: "62.5px",
     color: "#B65F28",
     colorDelay: 20,
@@ -944,7 +943,7 @@ export const FooterLeftRightSquares = [
   },
   {
     top: "187.5px",
-    right: "250px", 
+    right: "250px",
     width: "62.5px",
     height: "62.5px",
     color: "#111111",
@@ -970,6 +969,6 @@ export const FooterLeftRightSquares = [
     color: "#f8f8f8",
     colorDelay: 20,
     duration: 15,
-    zIndex: 8,
+    zIndex: 4,
   },
 ];

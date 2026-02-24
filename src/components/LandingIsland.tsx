@@ -5,7 +5,6 @@ import SquaresPostLayout from "./posts/SquaresPostLayout";
 import {
   FastTrackSquaresConfig,
   FooterLeftRightSquares,
-  FooterSectionSquaresConfig,
   HeroSectionSquaresConfig,
 } from "./SquareConfig";
 import FooterSqareSection from "./landing/FooterSqareSection";
