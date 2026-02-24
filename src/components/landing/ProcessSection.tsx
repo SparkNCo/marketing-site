@@ -15,7 +15,6 @@ export default function ProcessSection() {
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
-
     const updateActiveStep = () => {
       const viewportCenter = window.innerHeight / 2;
       let closestStep = 0;
@@ -41,7 +40,6 @@ export default function ProcessSection() {
       });
     };
 
-    // Create an IntersectionObserver for each step
     stepRefs.current.forEach((stepElement) => {
       if (!stepElement) return;
 
@@ -65,15 +63,16 @@ export default function ProcessSection() {
   }, []);
 
   return (
-    <section className="bg-background py-10">
-      <div className="container mx-auto px-6 py-10">
+    <section className="bg-background py-10 relative">
+      {" "}
+      <div className="container mx-auto px-6 py-10 ">
         <h2 className="text-5xl font-bold text-foreground mb-16 text-center">
           The Spark & Co Process
         </h2>
 
-        <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto">
-          {/* LEFT - Scrolls naturally */}
-          <div className="lg:col-span-2 pr-4">
+        <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto ">
+          {/* LEFT SIDE - Steps */}
+          <div className=" lg:col-span-2 pr-4">
             {steps.map((step, index) => {
               const isFocused = index === activeStep;
 
@@ -83,13 +82,13 @@ export default function ProcessSection() {
                   ref={(el) => {
                     stepRefs.current[index] = el;
                   }}
-                  className={`p-4 my-20 mx-auto text-center transition-all duration-300 min-h-[230px] flex items-center justify-center
-                    ${
-                      isFocused
-                        ? "opacity-100 blur-0 scale-100"
-                        : "opacity-20 blur-sm scale-[0.65]"
-                    }
-                  `}
+                  className={`p-4 my-20 mx-auto text-center transition-all duration-300 min-h-[100px] flex items-center justify-center
+            ${
+              isFocused
+                ? "opacity-100 blur-0 scale-100"
+                : "opacity-20 blur-sm scale-[0.65]"
+            }
+          `}
                 >
                   {step.title && (
                     <div className="inline-flex items-center gap-4 px-6 py-3">
@@ -106,16 +105,18 @@ export default function ProcessSection() {
             })}
           </div>
 
-          {/* RIGHT - Sticky on desktop, normal scroll on mobile */}
-          {activeStep > 0 && activeStep < 4 && (
-            <div
-              className="lg:col-span-9 fixed  top-[192px] right-0 w-9/12  bg-center bg-contain bg-no-repeat mx-auto z-0"
-              style={{
-                backgroundImage: "url('/dashboard.png')",
-                minHeight: "400px",
-              }}
-            ></div>
-          )}
+          {/* RIGHT SIDE - Sticky Image */}
+          <div className="lg:col-span-3 ">
+            {activeStep > -100 && activeStep < 104 && (
+              <div
+                className="sticky top-[192px] bg-center bg-contain bg-no-repeat"
+                style={{
+                  backgroundImage: "url('/dashboard.png')",
+                  minHeight: "400px",
+                }}
+              />
+            )}
+          </div>
         </div>
       </div>
     </section>
