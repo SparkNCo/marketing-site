@@ -37,7 +37,7 @@ const Stairs: React.FC<StairsProps> = ({ children, location }) => {
 
   return (
     <div
-      className={`${location === "/" ? "bg-secondary" : "bg-background"} overflow-hidden`}
+      className={`${location === "/" ? "bg-secondary" : "bg-background"} `}
     >
       {" "}
       {/* overflow-hidden */}

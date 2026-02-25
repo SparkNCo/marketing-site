@@ -23,17 +23,18 @@ export const POST: APIRoute = async ({ request }) => {
 
     const bookingPayload = {
       eventTypeId: 4270041,
-      start: body.selectedTime.start,
+      start: body?.selectedTime.start,
       attendee: {
-        name: body.name,
-        email: body.email,
+        name: body?.name,
+        email: body?.email,
         timeZone: "America/Toronto",
         language: "en",
       },
+
       metadata: {},
     };
 
-    /* const bookingRes = await fetch("https://api.cal.com/v2/bookings", {
+    const bookingRes = await fetch("https://api.cal.com/v2/bookings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,10 +45,8 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     const bookingData = await bookingRes.json();
-     const schedulingUrl =
-      bookingData?.data?.meetingUrl ?? body.scheduling_url;  */
-    const schedulingUrl =
-      "https://cal.com/kabir-malkani-glnivq/15min";
+    const schedulingUrl = bookingData?.data?.meetingUrl ?? body.scheduling_url;
+    //  const schedulingUrl = "https://cal.com/kabir-malkani-glnivq/15min";
 
     const leadId = randomUUID();
 

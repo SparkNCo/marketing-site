@@ -28,11 +28,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
       >
         <div>
           <h1 className="text-4xl font-bold tracking-tight text-background mb-6 leading-tight">
-            Software that’s up to speed
+            Software that&apos;s up to speed
           </h1>
           <p className="text-3xl mb-4 max-w-2xl text-background leading-snug">
             Build <span className="font-bold">[unbreakable]</span> software with
-            <span className="font-bold text-primary">AI supercharged</span>
+            <span className="font-bold text-primary">{" "}AI supercharged{" "}</span>
             efficiency.
           </p>
           {/* Technology Icons */}
