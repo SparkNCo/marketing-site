@@ -50,7 +50,7 @@ function FeaturesSection() {
   };
 
   return (
-    <div className="mx-auto w-[850px] relative container mb-6 overflow-hidden">
+    <div className="mx-auto w-[850px] relative container mb-6 overflow-hidden ">
       <h1 className="w-fit mx-auto text-5xl font-bold tracking-tight text-foreground my-12 leading-tight">
         Development Principles
       </h1>

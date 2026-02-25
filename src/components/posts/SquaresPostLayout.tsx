@@ -15,7 +15,7 @@ export default function SquaresPostLayout({
   indexComponent?: string;
 }) {
   return (
-    <div className={`relative h-full w-${width} mx-${margin}   `}>
+    <div className={`relative h-full w-${width} mx-${margin}  `}>
       <div className="relative h-full" style={{ zIndex: indexComponent }}>
         {children}
       </div>{" "}
@@ -36,7 +36,7 @@ export default function SquaresPostLayout({
             gap-3 
           "
                 style={{
-                  right: group.x, // anchor top-right
+                  right: group.x,
                   top: group.y,
                   width: "max-content",
                   direction: "rtl",

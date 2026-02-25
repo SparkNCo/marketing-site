@@ -28,7 +28,7 @@ export default function Header({
   }, [headerMode]);
 
   return (
-    <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl px-4">
+    <header className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-4xl px-4 ">
       <div
         className={`relative overflow-visible rounded px-6 py-2
         flex items-center justify-between
