@@ -10,11 +10,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   const handleSubmit = () => {
     console.log("email", email);
   };
-
   return (
     <main
       className="
-    flex flex-row items-start justify-center w-[1512px] 
+    flex flex-row items-start justify-center 
+
   z-80 mx-20"
     >
       <div className="absolute top-0 left-0 w-full h-[128px] bg-foreground  "></div>
@@ -32,7 +32,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           </h1>
           <p className="text-3xl mb-4 max-w-2xl text-background leading-snug">
             Build <span className="font-bold">[unbreakable]</span> software with
-            <span className="font-bold text-primary">{" "}AI supercharged{" "}</span>
+            <span className="font-bold text-primary"> AI supercharged </span>
             efficiency.
           </p>
           {/* Technology Icons */}

@@ -47,14 +47,6 @@ export const HeroSectionSquaresConfig = [
     zIndex: 2,
   },
   {
-    x: "1375px",
-    y: "190.5px",
-    width: "62.5px",
-    height: "62.5px",
-    color: "#faf6ef",
-    zIndex: 2,
-  },
-  {
     x: "1000px",
     y: "190.5px",
     width: "62.5px",
@@ -160,7 +152,7 @@ export const FastTrackSquaresConfig = [
   {
     x: "0px",
     y: "0px",
-    width: "2080px",
+    width: "1512px",
     height: "1000px",
     color: "#f8f8f8",
     colorDelay: 20,
@@ -322,7 +314,7 @@ export const FastTrackSquaresConfig = [
   {
     x: "210px",
     y: "938px",
-    width: "1302px",
+    width: "496px",
     height: "62px",
     color: "#111111",
     colorDelay: 20,
@@ -332,7 +324,7 @@ export const FastTrackSquaresConfig = [
   {
     x: "1016px",
     y: "752px",
-    width: "1096px", //  496px
+    width: "496px", //
     height: "248px",
     color: "#111111",
     colorDelay: 20,
@@ -404,7 +396,7 @@ export const FastTrackSquaresConfig = [
     y: "752px",
     width: "62px",
     height: "62px",
-    color: "black",
+    color: "#111111",
     colorDelay: 20,
     duration: 15,
     zIndex: 3,
@@ -412,9 +404,9 @@ export const FastTrackSquaresConfig = [
   {
     x: "1016px",
     y: "690px",
-    width: "1096px", // 496px
+    width: "496px", //
     height: "62px",
-    color: "black",
+    color: "#111111",
     colorDelay: 20,
     duration: 15,
     zIndex: 1,
@@ -422,9 +414,9 @@ export const FastTrackSquaresConfig = [
   {
     x: "1264px",
     y: "566px",
-    width: "848px", // 248px
+    width: "248px",
     height: "124px",
-    color: "black",
+    color: "#111111",
     colorDelay: 20,
     duration: 15,
     zIndex: 1,

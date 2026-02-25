@@ -62,6 +62,8 @@ export default function ProcessSection() {
     };
   }, []);
 
+  const visibleSteps = steps.filter((step) => step.title);
+
   return (
     <section className="bg-background py-10 relative">
       {" "}
@@ -70,10 +72,10 @@ export default function ProcessSection() {
           The Spark & Co Process
         </h2>
 
-        <div className="grid lg:grid-cols-5 gap-16 max-w-7xl mx-auto ">
+        <div className="grid lg:grid-cols-12 max-w-7xl mx-auto  mx-auto  ">
           {/* LEFT SIDE - Steps */}
-          <div className=" lg:col-span-2 pr-4">
-            {steps.map((step, index) => {
+          <div className=" lg:col-span-4 pr-4  ">
+            {visibleSteps.map((step, index) => {
               const isFocused = index === activeStep;
 
               return (
@@ -82,7 +84,7 @@ export default function ProcessSection() {
                   ref={(el) => {
                     stepRefs.current[index] = el;
                   }}
-                  className={`p-4 my-20 mx-auto text-center transition-all duration-300 min-h-[100px] flex items-center justify-center
+                  className={`p-4 my-20 mx-auto text-center transition-all duration-300 min-h-[300px] flex items-center justify-center  
             ${
               isFocused
                 ? "opacity-100 blur-0 scale-100"
@@ -95,7 +97,7 @@ export default function ProcessSection() {
                       <span className="text-foreground text-xl font-semibold">
                         {index}.
                       </span>
-                      <h3 className="text-2xl font-bold text-foreground whitespace-nowrap border-4 border-white rounded-lg p-4 w-[18rem]">
+                      <h3 className="text-2xl font-bold text-foreground whitespace-nowrap border-white rounded-lg p-4 w-[18rem]">
                         {step.title}
                       </h3>
                     </div>
@@ -106,13 +108,13 @@ export default function ProcessSection() {
           </div>
 
           {/* RIGHT SIDE - Sticky Image */}
-          <div className="lg:col-span-3 ">
+          <div className="lg:col-span-8 ">
             {activeStep > -100 && activeStep < 104 && (
               <div
-                className="sticky top-[192px] bg-center bg-contain bg-no-repeat"
+                className="sticky  top-[300px] bg-center bg-contain bg-no-repeat"
                 style={{
                   backgroundImage: "url('/dashboard.png')",
-                  minHeight: "400px",
+                  minHeight: "500px",
                 }}
               />
             )}
