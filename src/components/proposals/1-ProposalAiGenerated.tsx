@@ -81,7 +81,7 @@ export default function ProposalSection({
     <div className="space-y-4">
       {Object.entries(localData || {}).map(([key, value]) => (
         <div key={key}>
-          <h3 className="text-sm font-semibold text-primary">{key}</h3>
+          <h3 className=" text-sm font-semibold text-primary">{key}</h3>
 
           {isEditing ? (
             <input
@@ -98,12 +98,12 @@ export default function ProposalSection({
   );
 
   const renderArrayOfStrings = () => (
-    <ul className="list-disc space-y-2 pl-6 text-foreground">
+    <ul className=" list-disc space-y-2 pl-6 text-foreground">
       {(localData || []).map((item: string, i: number) => (
         <li key={i}>
           {isEditing ? (
             <input
-              className="w-full rounded-lg border p-2"
+              className="w-full rounded-lg border p-2 text-background "
               value={item || ""}
               onChange={(e) => {
                 const arr = [...localData];
@@ -146,7 +146,7 @@ export default function ProposalSection({
   );
 
   const renderNestedObject = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       {Object.entries(localData || {}).map(([key, value]) => (
         <div key={key}>
           <h3 className="mb-2 text-lg font-bold text-primary">{key}</h3>

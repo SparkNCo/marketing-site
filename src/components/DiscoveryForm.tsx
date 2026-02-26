@@ -43,7 +43,7 @@ export default function DiscoveryForm({
       description: proposal.lead.description ?? "",
       estimateTime_min: proposal.lead.estimateTime_min ?? 1,
       estimateTime_max: proposal.lead.estimateTime_max ?? 6,
-      budget_min: proposal.lead.budget_min ?? 5000,
+      budget_min: proposal.lead.budget_min ?? 1000,
       budget_max: proposal.lead.budget_max ?? 50000,
       formatted_date: proposal.lead.formatted_date ?? "",
       currentState: "", 
@@ -151,8 +151,8 @@ export default function DiscoveryForm({
             <h3 className="mb-2 text-lg font-bold text-primary">Budget</h3>
 
             <Slider
-              min={5000}
-              max={200000}
+              min={1000}
+              max={50000}
               step={5000}
               value={[budget_min, budget_max]}
               disabled={!isEditable}
@@ -173,7 +173,6 @@ export default function DiscoveryForm({
             </div>
           </div>
 
-          {/* Current State */}
           <div>
             <h3 className="mb-2 text-lg font-bold text-primary">
               Current State

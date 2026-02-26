@@ -60,6 +60,7 @@
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.561.0",
     "pg": "^8.17.2",
+    "posthog-js": "^1.355.0",
     "prop-types": "^15.8.1",
     "react": "^19.2.3",
     "react-calendly": "^4.4.0",

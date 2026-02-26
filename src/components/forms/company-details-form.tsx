@@ -34,9 +34,9 @@ export function CompanyDetailsForm({
 
             <div className="space-y-6 pt-4 mb-8">
               <Slider
-                min={5000}
-                max={200000}
-                step={5000}
+                min={1000}
+                max={50000}
+                step={1000}
                 value={budgetRange}
                 onValueChange={(value) =>
                   setBudgetRange(value as [number, number])
