@@ -42,7 +42,7 @@ export default function CalendlyBooking({
   useEffect(() => {
     if (!selectedDate && availableSlots) {
       const firstDayWithSlots = Object.keys(availableSlots).find(
-        (day) => availableSlots[day]?.length > 0
+        (day) => availableSlots[day]?.length > 0,
       );
 
       if (firstDayWithSlots) {
@@ -83,7 +83,7 @@ export default function CalendlyBooking({
             eventSlug: "discovery",
             start: startDate.toISOString(),
             end: endDate.toISOString(),
-          })
+          }),
       );
 
       if (!res.ok) throw new Error("Failed to load availability");
@@ -169,32 +169,28 @@ export default function CalendlyBooking({
           <h2 className="text-xl font-semibold mb-4">Available times</h2>
 
           {slots.length ? (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {columns.map((column, colIndex) => (
-                <div key={colIndex} className="flex flex-col gap-3 min-h-[1px]">
-                  {column.map((slot) => (
-                    <button
-                      key={slot.start}
-                      onClick={() => setSelectedSlot(slot)}
-                      className={`p-3 rounded-xl border-2 transition
-                  ${
-                    selectedSlot?.start === slot.start
-                      ? "bg-primary text-background border-primary"
-                      : "border-muted"
-                  }`}
-                    >
-                      {new Date(slot.start).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}{" "}
-                      -{" "}
-                      {new Date(slot.end).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </button>
-                  ))}
-                </div>
+            <div className="grid grid-cols-3 gap-3">
+              {slots.map((slot) => (
+                <button
+                  key={slot.start}
+                  onClick={() => setSelectedSlot(slot)}
+                  className={`p-3 rounded-xl border-2 transition
+          ${
+            selectedSlot?.start === slot.start
+              ? "bg-primary text-background border-primary"
+              : "border-muted"
+          }`}
+                >
+                  {new Date(slot.start).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}{" "}
+                  -{" "}
+                  {new Date(slot.end).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </button>
               ))}
             </div>
           ) : (
