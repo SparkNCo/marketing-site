@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText } from "lucide-react";
+import { Check, FileText } from "lucide-react";
 import { Card } from "./ui/card";
 import { FeaturesCollection } from "./forms/features-collection";
 import { Textarea } from "./ui/textarea";
@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { Slider } from "./ui/slider2";
 import { cn } from "../../lib/utils";
 import type { Proposal } from "./proposals/Proposal";
+import { AIAnalyzedTextarea } from "./forms/AIAnalyzedTextarea";
+import type { AIResponse } from "./forms/product-idea-form";
 
 export type DiscoveryFormState = {
   description: string;
@@ -35,6 +37,12 @@ export default function DiscoveryForm({
   const isEditable = true;
 
   const [state, setState] = useState<DiscoveryFormState | null>(null);
+  const [analysis, setAnalysis] = useState({
+    audience: false,
+    problem: false,
+    idea: false,
+    stage: false,
+  });
 
   useEffect(() => {
     if (!proposal?.lead) return;
@@ -46,7 +54,7 @@ export default function DiscoveryForm({
       budget_min: proposal.lead.budget_min ?? 1000,
       budget_max: proposal.lead.budget_max ?? 50000,
       formatted_date: proposal.lead.formatted_date ?? "",
-      currentState: "", 
+      currentState: "",
     });
   }, [proposal]);
 
@@ -78,6 +86,20 @@ export default function DiscoveryForm({
       setState((prev) => (prev ? { ...prev, [key]: value } : prev));
     };
 
+  const tips = [
+    { key: "audience", text: "Who is your target audience?" },
+    { key: "problem", text: "What problem are you solving?" },
+    { key: "idea", text: "Describe what your product does." },
+    { key: "stage", text: "What stage is your business in?" },
+  ];
+
+  const currentTip =
+    tips.find((tip) => !analysis[tip.key as keyof AIResponse]) ?? null;
+
+  const passedCount = Object.values(analysis).filter(Boolean).length;
+  const progress = Math.round((passedCount / 4) * 100);
+  const canProceed = passedCount >= 2;
+
   return (
     <section className="mt-28 mb-16 w-[80vw] mx-auto p-8">
       {/* Header */}
@@ -105,20 +127,39 @@ export default function DiscoveryForm({
             <h3 className="mb-2 text-lg font-bold text-primary">
               Requirement Overview
             </h3>
-            <Textarea
+
+            <AIAnalyzedTextarea
               value={description}
-              onChange={(e) =>
-                updateField("description")(e.target.value)
-              }
+              onChange={(value) => updateField("description")(value)}
+              endpoint="/debounce"
+              onAnalysis={setAnalysis}
+              placeholder="Describe the main requirements..."
+              wait={2000}
+            />
+            {/* Progress bar */}
+            <div className="pointer-events-none absolute left-2 right-2 bottom-2 h-1.5 rounded-full bg-muted overflow-hidden">
+              <div
+                className="h-full bg-primary transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            {currentTip && (
+              <div className="flex items-start gap-2 text-sm text-foreground">
+                <Check className="mt-0.5 h-4 w-4 text-gray-400" />
+                <span>{currentTip.text}</span>
+              </div>
+            )}
+          </div>
+          {/* <Textarea
+              value={description}
+              onChange={(e) => updateField("description")(e.target.value)}
               disabled={!isEditable}
               className={cn(
                 "mt-3 min-h-48 rounded-lg bg-secondary p-4 pb-8 placeholder:text-body text-body focus:ring-2 focus:ring-primary",
                 !isEditable && "opacity-60 cursor-not-allowed",
               )}
               placeholder="Describe the main requirements..."
-            />
-          </div>
-
+            /> */}
           {/* Timeline */}
           <div>
             <h3 className="mb-2 text-lg font-bold text-primary">Timeline</h3>
@@ -179,9 +220,7 @@ export default function DiscoveryForm({
             </h3>
             <Textarea
               value={currentState}
-              onChange={(e) =>
-                updateField("currentState")(e.target.value)
-              }
+              onChange={(e) => updateField("currentState")(e.target.value)}
               className="mt-3 min-h-48 rounded-lg bg-secondary p-4 pb-8 placeholder:text-body text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body"
               placeholder="Current resources, tools, and any restrictions..."
             />
