@@ -4,7 +4,7 @@ import { FileText, Pencil, Save } from "lucide-react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
-
+import { Trash2 } from "lucide-react";
 interface ProposalSectionProps {
   title: string;
   data: any;
@@ -20,6 +20,16 @@ export default function ProposalSection({
 }: ProposalSectionProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [localData, setLocalData] = useState<any>(data);
+
+  const createEmptyObject = (obj: any) => {
+    const empty: any = {};
+
+    Object.keys(obj || {}).forEach((key) => {
+      empty[key] = "";
+    });
+
+    return empty;
+  };
 
   /* ---------------- Sync when parent changes ---------------- */
   useEffect(() => {
@@ -63,13 +73,38 @@ export default function ProposalSection({
       return arr;
     });
   };
+  const updateNestedValue = (parentKey: string, value: any) => {
+    setLocalData((prev: any) => ({
+      ...prev,
+      [parentKey]: value,
+    }));
+  };
+  const updateNestedArrayItem = (
+    parentKey: string,
+    index: number,
+    field: string,
+    value: any,
+  ) => {
+    setLocalData((prev: any) => {
+      const arr = [...prev[parentKey]];
+      arr[index] = {
+        ...arr[index],
+        [field]: value,
+      };
+
+      return {
+        ...prev,
+        [parentKey]: arr,
+      };
+    });
+  };
 
   /* ---------------- Renderers ---------------- */
 
   const renderString = () =>
     isEditing ? (
       <textarea
-        className="w-full rounded-lg border p-3"
+        className="w-full rounded-lg p-3"
         value={localData || ""}
         onChange={(e) => setLocalData(e.target.value)}
       />
@@ -77,52 +112,154 @@ export default function ProposalSection({
       <p className="leading-relaxed text-foreground">{localData}</p>
     );
 
-  const renderObject = () => (
-    <div className="space-y-4">
-      {Object.entries(localData || {}).map(([key, value]) => (
-        <div key={key}>
-          <h3 className="text-sm font-semibold text-primary">{key}</h3>
+  const renderObject = () => {
+    const [newKey, setNewKey] = useState("");
+    const [newValue, setNewValue] = useState("");
 
-          {isEditing ? (
+    const deleteField = (key: string) => {
+      const obj = { ...localData };
+      delete obj[key];
+      setLocalData(obj);
+    };
+
+    const addField = () => {
+      if (!newKey) return;
+
+      setLocalData({
+        ...localData,
+        [newKey]: newValue,
+      });
+
+      setNewKey("");
+      setNewValue("");
+    };
+
+    return (
+      <div className="space-y-4">
+        {Object.entries(localData || {}).map(([key, value]) => (
+          <div key={key} className="relative">
+            <h3 className="text-sm font-semibold text-primary">{key}</h3>
+
+            {isEditing ? (
+              <div className="flex gap-2 items-center">
+                <input
+                  className="mt-1 w-full rounded-lg p-2"
+                  value={(value as string) || ""}
+                  onChange={(e) => updateField(key, e.target.value)}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => deleteField(key)}
+                  className="rounded-md p-2 text-destructive hover:bg-destructive/10 transition"
+                >
+                  <Trash2 className="h-4 w-4 text-foreground" />
+                </button>
+              </div>
+            ) : (
+              <p className="text-foreground">{value as string}</p>
+            )}
+          </div>
+        ))}
+
+        {isEditing && (
+          <div className="flex gap-2 pt-4 border-t">
             <input
-              className="mt-1 w-full rounded-lg border p-2"
-              value={(value as string) || ""}
-              onChange={(e) => updateField(key, e.target.value)}
+              placeholder="Field name"
+              className="rounded-lg border p-2 w-1/3"
+              value={newKey}
+              onChange={(e) => setNewKey(e.target.value)}
             />
-          ) : (
-            <p className="text-foreground">{value as string}</p>
-          )}
-        </div>
-      ))}
-    </div>
-  );
+
+            <input
+              placeholder="Value"
+              className="rounded-lg border p-2 w-full"
+              value={newValue}
+              onChange={(e) => setNewValue(e.target.value)}
+            />
+
+            <button
+              type="button"
+              onClick={addField}
+              className="rounded-md px-3 py-2 bg-primary text-primary-foreground"
+            >
+              Add
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const renderArrayOfStrings = () => (
-    <ul className="list-disc space-y-2 pl-6 text-foreground">
-      {(localData || []).map((item: string, i: number) => (
-        <li key={i}>
-          {isEditing ? (
-            <input
-              className="w-full rounded-lg border p-2"
-              value={item || ""}
-              onChange={(e) => {
-                const arr = [...localData];
-                arr[i] = e.target.value;
-                setLocalData(arr);
-              }}
-            />
-          ) : (
-            item
-          )}
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul className="list-disc space-y-2 pl-6 text-foreground">
+        {(localData || []).map((item: string, i: number) => (
+          <li key={i} className="flex items-center gap-2">
+            {isEditing ? (
+              <>
+                <input
+                  className="w-full rounded-lg p-2 text-background"
+                  value={item || ""}
+                  onChange={(e) => {
+                    const arr = [...localData];
+                    arr[i] = e.target.value;
+                    setLocalData(arr);
+                  }}
+                />
+
+                {/* ✅ DELETE */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    const arr = [...localData];
+                    arr.splice(i, 1);
+                    setLocalData(arr);
+                  }}
+                  className="rounded-md p-2 text-destructive hover:bg-destructive/10 transition"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </>
+            ) : (
+              item
+            )}
+          </li>
+        ))}
+      </ul>
+
+      {/* ✅ ADD STRING */}
+      {isEditing && (
+        <button
+          type="button"
+          onClick={() => setLocalData([...(localData || []), ""])}
+          className="mt-3 text-sm text-primary hover:underline"
+        >
+          + Add Item
+        </button>
+      )}
+    </div>
   );
 
   const renderArrayOfObjects = () => (
     <div className="space-y-6">
       {(localData || []).map((item: any, index: number) => (
-        <div key={index} className="space-y-2">
+        <div key={index} className="relative space-y-2 rounded-lg p-4">
+          {/* ✅ DELETE OBJECT */}
+          {isEditing && (
+            <button
+              type="button"
+              onClick={() => {
+                const arr = [...localData];
+                arr.splice(index, 1);
+                setLocalData(arr);
+              }}
+              className="absolute right-2 top-2 rounded-md p-2 text-destructive hover:bg-destructive/10 transition"
+            >
+              <Trash2 className="h-4 w-4 text-foreground" />
+            </button>
+          )}
+
           {Object.entries(item).map(([field, value]) => (
             <div key={field}>
               <h4 className="text-sm font-semibold text-primary">{field}</h4>
@@ -142,42 +279,153 @@ export default function ProposalSection({
           ))}
         </div>
       ))}
+
+      {/* ✅ ADD OBJECT */}
+      {isEditing && (
+        <button
+          type="button"
+          onClick={() => {
+            const template =
+              localData?.length > 0
+                ? Object.fromEntries(
+                    Object.keys(localData[0]).map((k) => [k, ""]),
+                  )
+                : {};
+
+            setLocalData([...(localData || []), template]);
+          }}
+          className="text-sm text-primary hover:underline"
+        >
+          + Add Item
+        </button>
+      )}
     </div>
   );
 
   const renderNestedObject = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 text-foreground">
       {Object.entries(localData || {}).map(([key, value]) => (
         <div key={key}>
           <h3 className="mb-2 text-lg font-bold text-primary">{key}</h3>
 
+          {/* ---------------- ARRAY ---------------- */}
           {Array.isArray(value) ? (
-            typeof value[0] === "string" ? (
-              <ul className="list-disc space-y-2 pl-6">
-                {value.map((v: string, i: number) => (
-                  <li className="text-foreground" key={i}>
-                    {v}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <div className="space-y-4">
-                {value.map((obj: any, i: number) => (
-                  <div className="text-primary" key={i}>
-                    {Object.entries(obj).map(([f, val]) => (
-                      <p key={f}>
-                        <span className="font-semibold text-foreground">
-                          {f}:
-                        </span>{" "}
-                        {val as string}
-                      </p>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            )
+            <>
+              {/* ========= ARRAY OF STRINGS ========= */}
+              {typeof value[0] === "string" ? (
+                <>
+                  {value.map((v: string, i: number) => (
+                    <div key={i} className="flex items-center gap-2 mb-2">
+                      {isEditing ? (
+                        <>
+                          <input
+                            className="w-full rounded-lg border p-2 text-background"
+                            value={v}
+                            onChange={(e) => {
+                              const arr = [...value];
+                              arr[i] = e.target.value;
+                              updateNestedValue(key, arr);
+                            }}
+                          />
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const arr = [...value];
+                              arr.splice(i, 1);
+                              updateNestedValue(key, arr);
+                            }}
+                            className="p-2 rounded-md text-destructive hover:bg-destructive/10"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </>
+                      ) : (
+                        <p>{v}</p>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* ✅ ADD STRING */}
+                  {isEditing && (
+                    <button
+                      type="button"
+                      onClick={() => updateNestedValue(key, [...value, ""])}
+                      className="text-sm text-primary hover:underline mt-2"
+                    >
+                      + Add Item
+                    </button>
+                  )}
+                </>
+              ) : (
+                <>
+                  {/* ========= ARRAY OF OBJECTS ========= */}
+                  {value.map((obj: any, i: number) => (
+                    <div key={i} className="relative space-y-2 rounded-lg p-4">
+                      {isEditing && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const arr = [...value];
+                            arr.splice(i, 1);
+                            updateNestedValue(key, arr);
+                          }}
+                          className="absolute right-2 top-2 p-2 text-destructive hover:bg-destructive/10 rounded-md"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      )}
+
+                      {Object.entries(obj).map(([f, val]) => (
+                        <div key={f}>
+                          <span className="font-semibold">{f}</span>
+
+                          {isEditing ? (
+                            <input
+                              className="w-full rounded-lg p-2 mt-1 text-background"
+                              value={(val as string) || ""}
+                              onChange={(e) =>
+                                updateNestedArrayItem(key, i, f, e.target.value)
+                              }
+                            />
+                          ) : (
+                            <p>{val as string}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+
+                  {/* ✅ ADD OBJECT */}
+                  {isEditing && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const template =
+                          value.length > 0
+                            ? Object.fromEntries(
+                                Object.keys(value[0]).map((k) => [k, ""]),
+                              )
+                            : {};
+
+                        updateNestedValue(key, [...value, template]);
+                      }}
+                      className="text-sm text-primary hover:underline mt-3"
+                    >
+                      + Add Item
+                    </button>
+                  )}
+                </>
+              )}
+            </>
+          ) : isEditing ? (
+            <input
+              className="w-full rounded-lg p-2 text-background"
+              value={(value as string) || ""}
+              onChange={(e) => updateNestedValue(key, e.target.value)}
+            />
           ) : (
-            <p className="text-foreground">{value as string}</p>
+            <p>{value as string}</p>
           )}
         </div>
       ))}

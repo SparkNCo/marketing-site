@@ -80,7 +80,6 @@ export default function ProposalPage({ proposal, dbUser }) {
     }
   }, [localProposal]);
 
-  /* ---------------- HANDLE UPDATE ---------------- */
   const handleUpdate = (sectionKey: string, value: any) => {
     console.log("Updated:", sectionKey, value);
     setSections((prev: any) => ({
@@ -88,7 +87,6 @@ export default function ProposalPage({ proposal, dbUser }) {
       [sectionKey]: value,
     }));
 
-    /* 2️⃣ Update LOCAL PROPOSAL using db key */
     const dbKey = keyMap[sectionKey];
     if (!dbKey) return;
 
@@ -98,7 +96,6 @@ export default function ProposalPage({ proposal, dbUser }) {
     }));
   };
 
-  /* ---------------- STAGE ---------------- */
   const setStage = (stage: string) => {
     setLocalProposal((prev: any) => ({
       ...prev,

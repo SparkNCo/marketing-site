@@ -25,7 +25,7 @@ export default function DealForm() {
     email: "",
     companyName: "",
     industry: "",
-    monthlybudget: { min: 10000, max: 100000 },
+    monthlybudget: { min: 10000, max: 40000 },
     estimateTimeline: { min: 1, max: 24 },
     productIdea: "",
     selectedDate: "",
@@ -62,7 +62,7 @@ export default function DealForm() {
 
       return res.json();
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5, 
   });
 
   const submitMutation = useMutation({
@@ -95,7 +95,7 @@ export default function DealForm() {
   const handleCalendarSubmit = (data: CalendarSubmitData) => {
     const redirectUrl =
       process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
+        ? "http://localhost:4321"
         : "https://buildwithspark.co";
 
     const finalData: FormData = {

@@ -30,6 +30,7 @@ import { LoadingProposal } from "../proposals/MissingPasscode";
 import type { DiscoveryFormState } from "../DiscoveryForm";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import type { Proposal } from "../proposals/Proposal";
 
 export const inputBaseClass =
   "mt-3 h-16 lg:h-10 text-4xl lg:text-sm placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
@@ -108,13 +109,13 @@ function SortableFeatureCard({
           className={inputBaseClass}
         />
 
-        <Input
+        {/* <Input
           id={`purpose-${feature.id}`}
           value={feature.purpose}
           onChange={(e) => onUpdate(feature.id, "purpose", e.target.value)}
           placeholder="What problem does this solve?"
           className={inputBaseClass}
-        />
+        /> */}
 
         <Textarea
           id={`description-${feature.id}`}
@@ -125,7 +126,7 @@ function SortableFeatureCard({
           className="mt-3 min-h-48 resize-none rounded-lg border-input bg-secondary p-4 pb-8 text-body focus:outline-none focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body"
         />
 
-        <Input
+        {/*  <Input
           id={`integrations-${feature.id}`}
           value={feature.integrations}
           onChange={(e) => onUpdate(feature.id, "integrations", e.target.value)}
@@ -141,13 +142,14 @@ function SortableFeatureCard({
           }
           placeholder="Technical requirements or limitations"
           className={inputBaseClass}
-        />
+        /> */}
       </CardContent>
     </Card>
   );
 }
 
 type FeaturesCollectionProps = Readonly<{
+  proposal: Proposal | null;
   submissionId: string;
   pageMode: string;
   setPageMode: Dispatch<SetStateAction<string>>;

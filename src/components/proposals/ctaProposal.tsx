@@ -50,6 +50,14 @@ export default function CtaProposal({
     }
   };
 
+  const onScheduleCall = () => {
+    window.open(
+      "https://cal.com/kabir-malkani-glnivq/consult",
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
+
   return (
     <>
       <section className="mb-16 w-[80vw]">
@@ -78,7 +86,10 @@ export default function CtaProposal({
                 : "Accept Proposal"}
             </button>
 
-            <button className="px-8 py-3 bg-background text-foreground border border-border font-semibold rounded-md hover:bg-muted">
+            <button
+              onClick={onScheduleCall}
+              className="px-8 py-3 bg-background text-foreground border border-border font-semibold rounded-md hover:bg-muted"
+            >
               Schedule a Call
             </button>
           </div>

@@ -1,9 +1,11 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "../../components/ui/button";
 import { Check } from "lucide-react";
+import { debounce } from "@tanstack/pacer";
 import type { FormStep } from "../utils/interfaces";
+import { AIAnalyzedTextarea } from "./AIAnalyzedTextarea";
 
 type ProductIdeaFormProps = Readonly<{
   setCurrentStep: (step: FormStep) => void;
@@ -11,68 +13,44 @@ type ProductIdeaFormProps = Readonly<{
   setProductIdea: (value: string) => void;
 }>;
 
-const validations = [
-  {
-    key: "problem",
-    text: "Describe what problem your software solves",
-    test: (value: string) => /problem|solve|issue|challenge/i.test(value),
-  },
-  {
-    key: "target",
-    text: "Who are your target users?",
-    test: (value: string) =>
-      /user|customer|target|audience|people/i.test(value),
-  },
-  {
-    key: "feature",
-    text: "What are the key features you need?",
-    test: (value: string) => /feature|function|capability|able to/i.test(value),
-  },
-  {
-    key: "benefit",
-    text: "How will users benefit from this?",
-    test: (value: string) =>
-      /benefit|help|improve|faster|easier|better/i.test(value),
-  },
-  {
-    key: "tech",
-    text: "Any specific technologies or integrations?",
-    test: (value: string) =>
-      /technology|integration|api|plugin|tool|framework/i.test(value),
-  },
-];
+export type AIResponse = {
+  audience: boolean;
+  problem: boolean;
+  idea: boolean;
+  stage: boolean;
+};
 
 export function ProductIdeaForm({
   setCurrentStep,
   productIdea,
   setProductIdea,
 }: ProductIdeaFormProps) {
-  const { passedCount, currentTip, progress } = useMemo(() => {
-    if (!productIdea.trim()) {
-      return {
-        passedCount: 0,
-        currentTip: validations[0],
-        progress: 0,
-      };
-    }
+  const [analysis, setAnalysis] = useState<AIResponse>({
+    audience: false,
+    problem: false,
+    idea: false,
+    stage: false,
+  });
 
-    const results = validations.map((v) => v.test(productIdea));
-    const passed = results.filter(Boolean).length;
-
-    return {
-      passedCount: passed,
-      currentTip: validations[passed] ?? null,
-      progress: Math.round((passed / validations.length) * 100),
-    };
-  }, [productIdea]);
-
-  const canProceed = passedCount >= 3;
+  const passedCount = Object.values(analysis).filter(Boolean).length;
+  const progress = Math.round((passedCount / 4) * 100);
+  const canProceed = passedCount >= 2;
 
   const handleNext = () => {
     if (canProceed) {
       setCurrentStep("company");
     }
   };
+
+  const tips = [
+    { key: "audience", text: "Who is your target audience?" },
+    { key: "problem", text: "What problem are you solving?" },
+    { key: "idea", text: "Describe what your product does." },
+    { key: "stage", text: "What stage is your business in?" },
+  ];
+
+  const currentTip =
+    tips.find((tip) => !analysis[tip.key as keyof AIResponse]) ?? null;
 
   return (
     <div className="animate-fade-in space-y-8 text-xl">
@@ -86,17 +64,17 @@ export function ProductIdeaForm({
       </div>
 
       <form className="space-y-4">
-        {/* Textarea wrapper (relative for progress bar) */}
         <div className="relative">
-          <textarea
-            id="idea"
-            placeholder="Describe your software product idea..."
+          <AIAnalyzedTextarea
             value={productIdea}
-            onChange={(e) => setProductIdea(e.target.value)}
-            className="w-full min-h-48 p-4 pb-8 rounded-lg border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            onChange={setProductIdea}
+            endpoint="/debounce?type=idea"
+            onAnalysis={setAnalysis}
+            placeholder="Describe your software product idea..."
+            wait={3000}
           />
 
-          {/* Progress bar INSIDE textarea */}
+          {/* Progress bar */}
           <div className="pointer-events-none absolute left-2 right-2 bottom-2 h-1.5 rounded-full bg-muted overflow-hidden">
             <div
               className="h-full bg-primary transition-all duration-300"
@@ -104,8 +82,6 @@ export function ProductIdeaForm({
             />
           </div>
         </div>
-
-        {/* Helper tip under textarea */}
         {currentTip && (
           <div className="flex items-start gap-2 text-sm text-foreground">
             <Check className="mt-0.5 h-4 w-4 text-gray-400" />

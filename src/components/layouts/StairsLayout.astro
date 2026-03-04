@@ -1,6 +1,7 @@
 ---
 import Stairs from "../animation/StairsAstro";
 import Posthog from "../posthog.astro";
+import CookieBanner from "../utils/CookieBanner";
 
 const location = Astro.url.pathname;
 ---
@@ -21,6 +22,7 @@ const location = Astro.url.pathname;
   <body class="bg-background">
     <Stairs location={location} client:load>
       <slot />
+      <CookieBanner client:load />
     </Stairs>
   </body><!-- foreground -->
   <style is:global>
@@ -153,6 +155,79 @@ const location = Astro.url.pathname;
 
     .content {
       min-height: 12rem;
+    }
+
+    .cookie-banner {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+
+      max-width: 420px;
+      padding: 18px 20px;
+
+      background: var(--background);
+      color: var(--foreground);
+      border: 3px solid var(--primary);
+      border-radius: 12px;
+
+      font-family: var(--font-body);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+
+      z-index: 99999;
+
+      opacity: 0;
+      transform: translateX(-40px);
+      visibility: hidden;
+
+      transition:
+        opacity 0.45s ease,
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0.45s;
+    }
+
+    .cookie-banner.show {
+      opacity: 1;
+      transform: translateX(0);
+      visibility: visible;
+    }
+
+    .cookie-banner p {
+      margin: 0 0 12px 0;
+      line-height: 1.4;
+    }
+
+    .cookie-banner .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .cookie-banner button {
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-weight: 500;
+      border: none;
+      transition: all 0.2s ease;
+    }
+
+    .cookie-banner button.reject {
+      background: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--secondary);
+    }
+
+    .cookie-banner button.reject:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .cookie-banner button.accept {
+      background: var(--primary);
+      color: #111;
+    }
+
+    .cookie-banner button.accept:hover {
+      filter: brightness(1.1);
     }
   </style>
 </html>
