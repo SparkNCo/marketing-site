@@ -95,7 +95,7 @@ export default function DealForm() {
   const handleCalendarSubmit = (data: CalendarSubmitData) => {
     const redirectUrl =
       process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
+        ? "http://localhost:4321"
         : "https://buildwithspark.co";
 
     const finalData: FormData = {

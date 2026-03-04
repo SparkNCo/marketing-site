@@ -43,7 +43,12 @@ export default function DiscoveryForm({
     idea: false,
     stage: false,
   });
-
+  const [currentStateAnalysis, setCurrentStateAnalysis] = useState({
+    user: false,
+    capability: false,
+    reason: false,
+    limitations: false,
+  });
   useEffect(() => {
     if (!proposal?.lead) return;
 
@@ -93,12 +98,33 @@ export default function DiscoveryForm({
     { key: "stage", text: "What stage is your business in?" },
   ];
 
+  const currentStateTips = [
+    { key: "user", text: "Who will use the system?" },
+    { key: "capability", text: "What capabilities already exist?" },
+    { key: "reason", text: "Why are you building this now?" },
+    {
+      key: "limitations",
+      text: "Are there technical or business limitations?",
+    },
+  ];
+
   const currentTip =
     tips.find((tip) => !analysis[tip.key as keyof AIResponse]) ?? null;
+
+  // description progress bar
 
   const passedCount = Object.values(analysis).filter(Boolean).length;
   const progress = Math.round((passedCount / 4) * 100);
   const canProceed = passedCount >= 2;
+  // current state progress bar
+  const currentStatePassed =
+    Object.values(currentStateAnalysis).filter(Boolean).length;
+  const currentStateProgress = Math.round((currentStatePassed / 4) * 100);
+  const currentStateTip =
+    currentStateTips.find(
+      (tip) =>
+        !currentStateAnalysis[tip.key as keyof typeof currentStateAnalysis],
+    ) ?? null;
 
   return (
     <section className="mt-28 mb-16 w-[80vw] mx-auto p-8">
@@ -131,7 +157,7 @@ export default function DiscoveryForm({
             <AIAnalyzedTextarea
               value={description}
               onChange={(value) => updateField("description")(value)}
-              endpoint="/debounce"
+              endpoint="/debounce?type=idea"
               onAnalysis={setAnalysis}
               placeholder="Describe the main requirements..."
               wait={2000}
@@ -218,12 +244,34 @@ export default function DiscoveryForm({
             <h3 className="mb-2 text-lg font-bold text-primary">
               Current State
             </h3>
-            <Textarea
-              value={currentState}
-              onChange={(e) => updateField("currentState")(e.target.value)}
-              className="mt-3 min-h-48 rounded-lg bg-secondary p-4 pb-8 placeholder:text-body text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body"
-              placeholder="Current resources, tools, and any restrictions..."
-            />
+
+            {/* Textarea wrapper */}
+            <div className="relative">
+              <AIAnalyzedTextarea
+                value={currentState}
+                onChange={(value) => updateField("currentState")(value)}
+                endpoint="/debounce?type=current-state"
+                onAnalysis={setCurrentStateAnalysis}
+                placeholder="Current resources, tools, and any restrictions..."
+                wait={2000}
+              />
+
+              {/* Progress bar now attached ONLY to textarea */}
+              <div className="pointer-events-none absolute left-2 right-2 bottom-2 h-1.5 rounded-full bg-muted overflow-hidden">
+                <div
+                  className="h-full bg-primary transition-all duration-300"
+                  style={{ width: `${currentStateProgress}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Tips now OUTSIDE that relative container */}
+            {currentStateTip && (
+              <div className="flex items-start gap-2 text-sm text-foreground mt-3">
+                <Check className="mt-0.5 h-4 w-4 text-gray-400" />
+                <span>{currentStateTip.text}</span>
+              </div>
+            )}
           </div>
 
           {/* Features */}

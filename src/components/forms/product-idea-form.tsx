@@ -68,7 +68,7 @@ export function ProductIdeaForm({
           <AIAnalyzedTextarea
             value={productIdea}
             onChange={setProductIdea}
-            endpoint="/debounce"
+            endpoint="/debounce?type=idea"
             onAnalysis={setAnalysis}
             placeholder="Describe your software product idea..."
             wait={3000}

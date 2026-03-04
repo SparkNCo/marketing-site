@@ -13,7 +13,7 @@ type AIResponse = {
 type Props = {
   value: string;
   onChange: (value: string) => void;
-  endpoint: string; // e.g. "/debounce"
+  endpoint: string;
   onAnalysis: (data: AIResponse) => void;
   placeholder?: string;
   minLength?: number;
@@ -56,7 +56,7 @@ export function AIAnalyzedTextarea({
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ message: text }),
-              }
+              },
             );
 
             if (!res.ok) throw new Error("AI request failed");
@@ -69,9 +69,9 @@ export function AIAnalyzedTextarea({
             setLoading(false);
           }
         },
-        { wait }
+        { wait },
       ),
-    [endpoint, minLength, wait, onAnalysis]
+    [endpoint, minLength, wait, onAnalysis],
   );
 
   useEffect(() => {
