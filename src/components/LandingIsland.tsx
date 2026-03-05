@@ -1,9 +1,10 @@
-import React, { lazy } from "react";
+import React, { lazy, useEffect, useState } from "react";
 import type { FormIslandProps } from "./utils/interfaces";
 import PostsSection from "./landing/PostsSection";
 import SquaresPostLayout from "./posts/SquaresPostLayout";
 import {
   FastTrackSquaresConfig,
+  FooterLeftRightSquaresMobile,
   FooterLeftRightSquares,
   HeroSectionSquaresConfig,
 } from "./SquareConfig";
@@ -19,6 +20,24 @@ const CaseStudiesSection = lazy(() => import("./landing/CaseStudies"));
 const FastTrackSection = lazy(() => import("./landing/FastTrackSection"));
 
 const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkScreen();
+
+    window.addEventListener("resize", checkScreen);
+
+    return () => window.removeEventListener("resize", checkScreen);
+  }, []);
+
+  const fastTrackSquares = isMobile
+    ? FooterLeftRightSquaresMobile
+    : FastTrackSquaresConfig;
+
   return (
     <div className="bg-background">
       <SquaresPostLayout
@@ -28,20 +47,21 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
       >
         <HeroSection setMode={setMode} />
       </SquaresPostLayout>
+
       <FeaturesSection />
       <PostsSection />
-      {/* WORKING HERE */}
+
       <div className="relative w-full overflow-hidden">
         <div
           className="relative"
           style={{
-            width: "1850px",
+            width: isMobile ? "100%" : "1850px",
             left: "50%",
             transform: "translateX(-50%)",
           }}
         >
           <SquaresPostLayoutEdges
-            squares={FastTrackSquaresConfig}
+            squares={fastTrackSquares}
             indexLayout={0}
             indexComponent={1}
           >
@@ -49,23 +69,18 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
           </SquaresPostLayoutEdges>
         </div>
       </div>
-      {/* UP TILL HERE */}
+
       <ProcessSection />
       <CaseStudiesSection />
+
       <SquaresPostLayoutEdges
-        squares={FooterLeftRightSquares}
+        squares={isMobile ? FooterLeftRightSquaresMobile : FooterLeftRightSquares}
         indexLayout={"0"}
         indexComponent={"1"}
       >
         <FooterSqareSection />
-      </SquaresPostLayoutEdges>{" "}
-      {/*       <SquaresPostLayout
-        squares={FooterSectionSquaresConfig}
-        indexLayout={"0"}
-        indexComponent={"1"}
-      >
-        <FooterSqareSection />
-      </SquaresPostLayout>{" "} */}
+      </SquaresPostLayoutEdges>
+
       <Footer />
     </div>
   );
