@@ -73,10 +73,11 @@ export default function PostsSection() {
   };
 
   return (
-    <section className=" w-[850px]  mx-auto space-y-6  mb-12 ">
+    <section className="w-full max-w-[850px] mx-auto space-y-6 mb-12 ">
+      {" "}
       {/* Header */}
-
-      <div className="w-full mx-auto flex flex-row gap-6 justify-between bg-foreground items-center px-4 py-2 ">
+      <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between bg-foreground items-stretch sm:items-center px-4 py-4 rounded-lg">
+        {" "}
         {/* Input */}
         <input
           type="text"
@@ -85,7 +86,7 @@ export default function PostsSection() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           className="
-            w-80 px-4 py-2 rounded-xl
+            w-full sm:w-80 px-4 py-2 rounded-xl
             bg-foreground text-background
             border border-foreground
             focus:outline-none focus:ring-2 focus:ring-white/20
@@ -131,7 +132,6 @@ export default function PostsSection() {
           </div>
         )}
       </div>
-
       {tags.length > 0 && (
         <div className="w-full mx-auto flex flex-row ">
           {tags.length > 0 && (
@@ -166,9 +166,8 @@ export default function PostsSection() {
           )}
         </div>
       )}
-
       {/* Posts Grid */}
-      <div className="grid grid-cols-3 gap-4 w-full mx-auto ">
+      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full  ">
         {paginatedPosts.length > 0 ? (
           paginatedPosts.map((post) => (
             <PostCard
@@ -180,7 +179,7 @@ export default function PostsSection() {
             />
           ))
         ) : (
-          <p className="col-span-3 text-center text-neutral-400">
+          <p className="col-span-full text-center text-neutral-400">
             No posts match these tags.
           </p>
         )}

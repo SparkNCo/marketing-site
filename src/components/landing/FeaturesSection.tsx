@@ -1,40 +1,46 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import FeaturesOptions from "./components/FeaturesOptions";
 import SquaresPostLayout from "../posts/SquaresPostLayout";
 import { SquaresConfigMVP } from "./components/SquaresConfigMVP";
+import { PrincipleBox } from "./components/PrincipleBox";
 
 const LeftBox = ({ title, summary, onClick }) => {
   return (
-    <div className="p-6 flex-1 flex flex-col justify-between bg-foreground text-background h-[160px] rounded-tl-lg ">
-      <div>
-        <div className="flex flex-row justify-between ">
-          <div className="flex flex-row items-center gap-4">
+    <div
+      onClick={() => onClick()}
+      className="p-2 sm:p-4 flex-1 flex flex-col justify-between bg-foreground text-background rounded-lg min-h-[140px] md:min-h-[160px]"
+    >
+      <div className="">
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-row items-center gap-3 sm:gap-4">
             <img
               src={"/Frame.png"}
               alt="spark/co"
-              className="w-8 h-8 object-contain"
-              onClick={() => onClick()}
-            />{" "}
-            <h3 className="text-2xl font-bold mb-3">{title}</h3>
+              className="w-6 h-6 sm:w-8 sm:h-8 object-contain cursor-pointer"
+            />
+            <h3 className="text-lg sm:text-xl md:text-lg  font-bold">
+              {title}
+            </h3>
           </div>
         </div>
 
-        <p className="leading-relaxed font-semibold w-3/4">{summary}</p>
+        <p className="leading-relaxed font-thin mt-2 text-sm sm:text-base md:w-3/4 ">
+          {summary}
+        </p>
       </div>
     </div>
   );
 };
 
 function FeaturesSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
   const [mode, setMode] = useState<"supercharged" | "control" | "mvp">("mvp");
-
+  const modes = ["supercharged", "control", "mvp"] as const;
+  const leftModes = modes.filter((m) => m !== mode);
   const content = {
     supercharged: {
-      title: "AI Supercharged ",
+      title: "AI Supercharged",
       summary: "The perfect balance of human creativity, and AI efficiency",
     },
     control: {
@@ -49,39 +55,70 @@ function FeaturesSection() {
     },
   };
 
+  const featuresConfig = {
+    mvp: [
+      "Battle tested systems that are ready to scale",
+      "Flexible Partnership Models",
+      "Consulting on go-to-market and growth strategy",
+    ],
+    supercharged: [
+      "Battle tested systems that are ready to scale",
+      "Flexible Partnership Models",
+      "Consulting on go-to-market and growth strategy",
+    ],
+    control: [
+      "Battle tested systems that are ready to scale",
+      "Flexible Partnership Models",
+      "Consulting on go-to-market and growth strategy",
+    ],
+  };
+
   return (
-    <div className="mx-auto w-[850px] relative container mb-6 overflow-hidden ">
-      <h1 className="w-fit mx-auto text-5xl font-bold tracking-tight text-foreground my-12 leading-tight">
+    <div className="mx-auto w-full max-w-[1530px] px-4 sm:px-6 md:px-8 lg:px-12 relative mb-12">
+      {" "}
+      <h1 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground my-10 leading-tight">
         Development Principles
       </h1>
-
-      <div className="flex flex-row gap-6 text-title items-stretch h-[400px]">
+      {/* MOBILE LAYOUT */}
+      <div className="flex flex-col gap-4 md:hidden">
+        {modes.map((item) => (
+          <PrincipleBox
+            key={item}
+            modeKey={item}
+            activeMode={mode}
+            setMode={setMode}
+            title={content[item].title}
+            summary={content[item].summary}
+            features={featuresConfig[item]}
+          />
+        ))}
+      </div>
+      {/* DESKTOP LAYOUT */}
+      <div className="hidden md:flex flex-row gap-6 items-stretch w-full max-w-[850px] mx-auto ">
+        {" "}
         {/* LEFT COLUMN */}
-        <div className="flex flex-col gap-6">
-          <LeftBox
-            title={content.supercharged.title}
-            summary={content.supercharged.summary}
-            onClick={() => setMode("supercharged")}
-          />
-
-          <LeftBox
-            title={content.control.title}
-            summary={content.control.summary}
-            onClick={() => setMode("control")}
-          />
-        </div>
-
-        {/* RIGHT COLUMN */}
-        <div className="w-full flex relative">
-          <div className="h-full w-full flex">
-            <SquaresPostLayout squares={SquaresConfigMVP}>
-              <FeaturesOptions
-                mode={mode}
-                title={content.mvp.title}
-                subtitle={content.mvp.summary}
+        <div className="flex flex-col gap-6 md:w-1/2 max-w-[275px] ">
+          {modes
+            .filter((m) => m !== mode)
+            .map((item) => (
+              <LeftBox
+                key={item}
+                title={content[item].title}
+                summary={content[item].summary}
+                onClick={() => setMode(item)}
               />
-            </SquaresPostLayout>
-          </div>
+            ))}
+        </div>
+        {/* RIGHT COLUMN */}
+        <div className="w-full md:w-1/2 flex relative min-h-[400px] w-full  border-red-800">
+          <SquaresPostLayout squares={SquaresConfigMVP}>
+            <FeaturesOptions
+              mode={mode}
+              title={content[mode].title}
+              subtitle={content[mode].summary}
+              featuresConfig={featuresConfig}
+            />
+          </SquaresPostLayout>
         </div>
       </div>
     </div>

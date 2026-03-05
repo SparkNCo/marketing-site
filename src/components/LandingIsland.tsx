@@ -18,8 +18,6 @@ const ProcessSection = lazy(() => import("./landing/ProcessSection"));
 const CaseStudiesSection = lazy(() => import("./landing/CaseStudies"));
 const FastTrackSection = lazy(() => import("./landing/FastTrackSection"));
 
-
-
 const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
   return (
     <div className="bg-background">

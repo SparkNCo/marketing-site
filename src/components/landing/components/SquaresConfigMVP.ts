@@ -1,6 +1,6 @@
 export const SquaresConfigMVP = [
   {
-    x: "287px",
+    x: "323px",
     y: "0px",
     width: "31px",
     height: "31px",
@@ -8,12 +8,9 @@ export const SquaresConfigMVP = [
     colorDelay: 20,
     duration: 15,
     zIndex: 3,
-    /* moveToX: "820px",
-    moveToY: "128px",
-    moveDuration: 6, */
   },
   {
-    x: "318px",
+    x: "354px",
     y: "0px",
     width: "31px",
     height: "31px",
@@ -21,12 +18,9 @@ export const SquaresConfigMVP = [
     colorDelay: 20,
     duration: 15,
     zIndex: 3,
-    /* moveToX: "820px",
-    moveToY: "128px",
-    moveDuration: 6, */
   },
   {
-    x: "318px",
+    x: "354px",
     y: "31px",
     width: "62px",
     height: "31px",
@@ -34,12 +28,9 @@ export const SquaresConfigMVP = [
     colorDelay: 20,
     duration: 15,
     zIndex: 3,
-    /* moveToX: "820px",
-    moveToY: "128px",
-    moveDuration: 6, */
   },
   {
-    x: "380px",
+    x: "416px",
     y: "93px",
     width: "31px",
     height: "31px",
@@ -47,12 +38,9 @@ export const SquaresConfigMVP = [
     colorDelay: 20,
     duration: 15,
     zIndex: 5,
-    /* moveToX: "820px",
-    moveToY: "128px",
-    moveDuration: 6, */
   },
   {
-    x: "442px",
+    x: "478px",
     y: "31px",
     width: "31px",
     height: "31px",
@@ -60,12 +48,9 @@ export const SquaresConfigMVP = [
     colorDelay: 20,
     duration: 15,
     zIndex: 5,
-    /* moveToX: "820px",
-    moveToY: "128px",
-    moveDuration: 6, */
   },
   {
-    x: "380px",
+    x: "416px",
     y: "0px",
     width: "124px",
     height: "124px",
@@ -73,12 +58,9 @@ export const SquaresConfigMVP = [
     colorDelay: 20,
     duration: 15,
     zIndex: 3,
-    /* moveToX: "820px",
-    moveToY: "128px",
-    moveDuration: 6, */
   },
   {
-    x: "444px",
+    x: "480px",
     y: "124px",
     width: "62px",
     height: "62px",
@@ -86,12 +68,9 @@ export const SquaresConfigMVP = [
     colorDelay: 20,
     duration: 15,
     zIndex: 5,
-    /* moveToX: "820px",
-    moveToY: "128px",
-    moveDuration: 6, */
   },
   {
-    x: "475px",
+    x: "509px",
     y: "186px",
     width: "31px",
     height: "62px",
@@ -99,8 +78,5 @@ export const SquaresConfigMVP = [
     colorDelay: 20,
     duration: 15,
     zIndex: 5,
-    /* moveToX: "820px",
-    moveToY: "128px",
-    moveDuration: 6, */
   },
 ];
