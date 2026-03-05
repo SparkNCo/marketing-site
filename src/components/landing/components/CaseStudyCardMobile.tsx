@@ -28,15 +28,15 @@ export function CaseStudyCardMobile({ study }: { study: CaseStudy }) {
       </div>
 
       {/* Images */}
-      <div className="flex w-full h-32">
-        {/* Orange image */}
-        <div className="w-1/2 h-full relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#B65F28] to-[#F78035]" />
+      <div className="relative w-full h-40 overflow-hidden">
+        {/* Small square (top layer) */}
+        <div className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#020202] to-[#000000]" />
         </div>
 
-        {/* Black image */}
-        <div className="w-1/2 h-full relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#020202] to-[#000000]" />
+        {/* Large background */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-[#B65F28] to-[#F78035]" />
         </div>
       </div>
     </div>
