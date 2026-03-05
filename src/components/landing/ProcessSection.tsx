@@ -87,7 +87,7 @@ export default function ProcessSection() {
                 >
                   {step.title && (
                     <div className="inline-flex items-center justify-center px-2 md:px-6 py-3">
-                      <h3 className=" text-sm md:text-2xl font-bold text-foreground whitespace-nowrap border-white rounded-xl p-2 md:p-4 min-w-[120px] w-full md:w-[18rem]">
+                      <h3 className=" text-sm md:text-2xl font-bold text-foreground whitespace-nowrap border-4 border-white rounded-xl p-2 md:p-4 min-w-[120px] w-full md:w-[18rem]">
                         {step.title}
                       </h3>
                     </div>
