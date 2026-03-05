@@ -30,13 +30,26 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
       </SquaresPostLayout>
       <FeaturesSection />
       <PostsSection />
-      <SquaresPostLayout
-        squares={FastTrackSquaresConfig}
-        indexLayout={"0"}
-        indexComponent={"1"}
-      >
-        <FastTrackSection />{" "}
-      </SquaresPostLayout>
+      {/* WORKING HERE */}
+      <div className="relative w-full overflow-hidden">
+        <div
+          className="relative"
+          style={{
+            width: "1850px",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          <SquaresPostLayoutEdges
+            squares={FastTrackSquaresConfig}
+            indexLayout={0}
+            indexComponent={1}
+          >
+            <FastTrackSection />
+          </SquaresPostLayoutEdges>
+        </div>
+      </div>
+      {/* UP TILL HERE */}
       <ProcessSection />
       <CaseStudiesSection />
       <SquaresPostLayoutEdges

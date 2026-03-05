@@ -39,15 +39,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-background mb-6 leading-tight">
             Software that&apos;s up to speed
           </h1>
-
           <p className="text-2xl lg:text-3xl mb-6 max-w-2xl text-background leading-snug">
             Build <span className="font-bold">[unbreakable]</span> software with
-            <span className="font-bold text-primary">
-              {" "}AI supercharged{" "}
-            </span>
+            <span className="font-bold text-primary"> AI supercharged </span>
             efficiency.
           </p>
-
           {/* TECHNOLOGY ICONS */}
           <div className="flex items-center gap-6 lg:gap-8 mb-10">
             {[
@@ -68,7 +64,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
               </div>
             ))}
           </div>
-
           {/* GET STARTED */}
           <div className="mb-8 w-full lg:w-[450px]">
             <h2 className="text-background font-bold mb-3 text-lg lg:text-xl">
@@ -92,8 +87,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
               </button>
             </div>
           </div>
-
-          <BuildScaleToggle setMode={setMode} />
+          <div className="lg:mx-0 w-[280px] md:w-[420px] lg:w-[600px]">
+            <BuildScaleToggle setMode={setMode} />
+          </div>{" "}
         </div>
       </section>
 
