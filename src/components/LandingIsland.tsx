@@ -35,7 +35,7 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
   }, []);
 
   const fastTrackSquares = isMobile
-    ? FooterLeftRightSquaresMobile
+    ? FastTrackSquaresConfig
     : FastTrackSquaresConfig;
 
   return (
@@ -55,7 +55,7 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
         <div
           className="relative"
           style={{
-            width: isMobile ? "100%" : "1850px",
+            width: "2550px",
             left: "50%",
             transform: "translateX(-50%)",
           }}
@@ -71,10 +71,12 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
       </div>
 
       <ProcessSection />
-      <CaseStudiesSection />
+      <CaseStudiesSection isMobile={isMobile} />
 
       <SquaresPostLayoutEdges
-        squares={isMobile ? FooterLeftRightSquaresMobile : FooterLeftRightSquares}
+        squares={
+          isMobile ? FooterLeftRightSquaresMobile : FooterLeftRightSquares
+        }
         indexLayout={"0"}
         indexComponent={"1"}
       >

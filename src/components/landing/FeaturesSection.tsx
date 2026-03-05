@@ -76,7 +76,7 @@ function FeaturesSection() {
   return (
     <div className="mx-auto w-full max-w-[1530px] px-4 sm:px-6 md:px-8 lg:px-12 relative mb-12">
       {" "}
-      <h1 className="text-center text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground my-10 leading-tight">
+      <h1 className="text-center text-4xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground my-10 leading-tight mt-28 lg:mt-4">
         Development Principles
       </h1>
       {/* MOBILE LAYOUT */}

@@ -31,22 +31,6 @@ export default function SquaresPostLayoutEdges({
   indexLayout?: number;
   indexComponent?: number;
 }) {
-  function halveSquaresForMobile(squares) {
-    const halfPx = (value) => {
-      if (!value) return value;
-      const num = parseFloat(value);
-      return `${num / 2}px`;
-    };
-
-    return squares.map((sq) => ({
-      ...sq,
-      left: sq.left ? halfPx(sq.left) : sq.left,
-      right: sq.right ? halfPx(sq.right) : sq.right,
-      width: halfPx(sq.width),
-      height: halfPx(sq.height),
-    }));
-  }
-
   return (
     <div className={`relative h-full w-${width} mx-${margin} `}>
       {/* Children layer */}
