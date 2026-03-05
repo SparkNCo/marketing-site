@@ -13,7 +13,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   return (
     <main
       className="
-      flex flex-col lg:flex-row
+      flex flex-col lg:flex-row overflow-hidden
       items-start justify-center
       z-80
       mx-6 lg:mx-20

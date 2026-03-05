@@ -74,7 +74,7 @@ function FeaturesSection() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-[1530px] px-4 sm:px-6 md:px-8 lg:px-12 relative mb-12">
+    <div className="mx-auto w-full max-w-[1530px] px-4 sm:px-6 md:px-8 lg:px-12 relative mb-12 border-4">
       {" "}
       <h1 className="text-center text-4xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground my-10 leading-tight mt-28 lg:mt-4">
         Development Principles
@@ -110,7 +110,7 @@ function FeaturesSection() {
             ))}
         </div>
         {/* RIGHT COLUMN */}
-        <div className="w-full md:w-1/2 flex relative min-h-[400px] w-full  border-red-800">
+        <div className="w-full lg:w-1/2 flex relative min-h-[400px] w-full  border-red-800">
           <SquaresPostLayout squares={SquaresConfigMVP}>
             <FeaturesOptions
               mode={mode}

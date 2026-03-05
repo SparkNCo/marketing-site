@@ -32,7 +32,7 @@ export default function SquaresPostLayoutEdges({
   indexComponent?: number;
 }) {
   return (
-    <div className={`relative h-full w-${width} mx-${margin} `}>
+    <div className={`relative h-full w-${width} mx-${margin} overflow-hidden `}>
       {/* Children layer */}
       <div className="relative h-full" style={{ zIndex: indexComponent }}>
         {children}

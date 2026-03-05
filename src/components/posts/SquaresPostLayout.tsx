@@ -15,7 +15,7 @@ export default function SquaresPostLayout({
   indexComponent?: string;
 }) {
   return (
-    <div className={`relative h-full w-${width} mx-${margin}  `}>
+    <div className={`relative h-full w-${width} mx-${margin} border-4 border-red-800 `}>
       <div className="relative h-full" style={{ zIndex: indexComponent }}>
         {children}
       </div>{" "}
