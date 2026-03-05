@@ -1,5 +1,5 @@
 ---
-import StairsLayout from "../components/layouts/StairsLayout.astro";
+import PostsLayout from "../components/layouts/PostsLayout.astro";
 import { PostShell2 } from "../components/posts/PostShell.tsx";
 
 const user = Astro.locals.user;
@@ -84,12 +84,12 @@ const squaresConfig = [
 ---
 
 <div>
-  <StairsLayout>
+  <PostsLayout>
     <PostShell2
       location={location}
       user={user}
       client:load
       squaresConfig={squaresConfig}
     />
-  </StairsLayout>
+  </PostsLayout>
 </div>
