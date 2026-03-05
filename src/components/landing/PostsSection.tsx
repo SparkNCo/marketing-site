@@ -73,7 +73,7 @@ export default function PostsSection() {
   };
 
   return (
-    <section className="w-full max-w-[850px] mx-auto space-y-6 mb-12 border-4 border-orange-800">
+    <section className="w-full max-w-[850px] mx-auto space-y-6 mb-12  ">
       {" "}
       {/* Header */}
       <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between bg-foreground items-stretch sm:items-center px-4 py-4 rounded-lg">

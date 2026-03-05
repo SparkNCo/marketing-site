@@ -51,7 +51,7 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
       <FeaturesSection />
       <PostsSection />
 
-      <div className="relative w-full overflow-hidden border-4">
+      <div className="relative w-full overflow-hidden">
         <div
           className="relative"
           style={{
