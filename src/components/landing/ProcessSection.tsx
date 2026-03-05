@@ -15,6 +15,7 @@ export default function ProcessSection() {
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
+
     const updateActiveStep = () => {
       const viewportCenter = window.innerHeight / 2;
       let closestStep = 0;
@@ -35,28 +36,22 @@ export default function ProcessSection() {
         }
       });
 
-      setActiveStep((prev) => {
-        return closestStep === prev ? prev : closestStep;
-      });
+      setActiveStep((prev) => (closestStep === prev ? prev : closestStep));
     };
 
     stepRefs.current.forEach((stepElement) => {
       if (!stepElement) return;
 
-      const observer = new IntersectionObserver(
-        () => {
-          updateActiveStep();
-        },
-        {
-          threshold: [0, 1],
-        },
-      );
+      const observer = new IntersectionObserver(updateActiveStep, {
+        threshold: [0, 1],
+      });
 
       observer.observe(stepElement);
       observers.push(observer);
     });
 
     updateActiveStep();
+
     return () => {
       observers.forEach((observer) => observer.disconnect());
     };
@@ -66,15 +61,14 @@ export default function ProcessSection() {
 
   return (
     <section className="bg-background py-10 relative">
-      {" "}
-      <div className="container mx-auto px-6 py-10 ">
-        <h2 className="text-5xl font-bold text-foreground mb-16 text-center">
+      <div className="container mx-auto px-4 md:px-6 py-10 max-w-[1530px]">
+        <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-12 md:mb-16 text-center">
           The Spark & Co Process
         </h2>
 
-        <div className="grid lg:grid-cols-12 max-w-7xl mx-auto  mx-auto  ">
+        <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 max-w-7xl mx-auto">
           {/* LEFT SIDE - Steps */}
-          <div className=" lg:col-span-4 pr-4  ">
+          <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10">
             {visibleSteps.map((step, index) => {
               const isFocused = index === activeStep;
 
@@ -84,20 +78,16 @@ export default function ProcessSection() {
                   ref={(el) => {
                     stepRefs.current[index] = el;
                   }}
-                  className={`p-4 my-20 mx-auto text-center transition-all duration-300 min-h-[300px] flex items-center justify-center  
-            ${
-              isFocused
-                ? "opacity-100 blur-0 scale-100"
-                : "opacity-20 blur-sm scale-[0.65]"
-            }
-          `}
+                  className={`p-2 md:p-4 my-10 md:my-20 mx-auto text-center transition-all duration-300 min-h-[200px] md:min-h-[300px] flex items-center justify-center
+                  ${
+                    isFocused
+                      ? "opacity-100 blur-0 scale-100"
+                      : "opacity-30 md:opacity-20 blur-sm scale-[0.8] md:scale-[0.65]"
+                  }`}
                 >
                   {step.title && (
-                    <div className="inline-flex items-center gap-4 px-6 py-3">
-                      <span className="text-foreground text-xl font-semibold">
-                        {index}.
-                      </span>
-                      <h3 className="text-2xl font-bold text-foreground whitespace-nowrap border-white rounded-lg p-4 w-[18rem]">
+                    <div className="inline-flex items-center justify-center px-2 md:px-6 py-3">
+                      <h3 className="border-4 text-sm md:text-2xl font-bold text-foreground whitespace-nowrap border-white rounded-xl p-2 md:p-4 min-w-[120px] w-full md:w-[18rem]">
                         {step.title}
                       </h3>
                     </div>
@@ -107,17 +97,28 @@ export default function ProcessSection() {
             })}
           </div>
 
-          {/* RIGHT SIDE - Sticky Image */}
-          <div className="lg:col-span-8 ">
-            {activeStep > -100 && activeStep < 104 && (
+          {/* RIGHT SIDE - Sticky Content */}
+          <div className="lg:col-span-8 text-foreground relative z-0">
+            <div className="sticky top-[200px] md:top-[300px] flex flex-col gap-6">
+              <div className="w-full md:w-3/4 font-semibold text-sm md:text-lg">
+                Project Discovery
+              </div>
+
+              <p className="text-sm md:text-xl">
+                The more we can solidify at the start of the project, the
+                smoother the project will be. We start with a discovery call to
+                go through the ins and outs of your industry, ICPSs and problem
+                statements
+              </p>
+
               <div
-                className="sticky  top-[300px] bg-center bg-contain bg-no-repeat"
+                className="bg-center bg-contain bg-no-repeat"
                 style={{
                   backgroundImage: "url('/dashboard.png')",
-                  minHeight: "500px",
+                  minHeight: "280px",
                 }}
               />
-            )}
+            </div>
           </div>
         </div>
       </div>

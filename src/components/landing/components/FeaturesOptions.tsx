@@ -1,25 +1,12 @@
 import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const featuresConfig = {
-  mvp: [
-    "Battle tested systems that are ready to scale",
-    "Flexible Partnership Models",
-    "Consulting on go-to-market and growth strategy",
-  ],
-  supercharged: [
-    "Battle tested systems that are ready to scale",
-    "Flexible Partnership Models",
-    "Consulting on go-to-market and growth strategy",
-  ],
-  control: [
-    "Battle tested systems that are ready to scale",
-    "Flexible Partnership Models",
-    "Consulting on go-to-market and growth strategy",
-  ],
-};
-
-function FeaturesOptions({ mode = "mvp", title, subtitle }) {
+export const FeaturesOptions = ({
+  mode = "mvp",
+  title,
+  subtitle,
+  featuresConfig,
+}) => {
   const content = featuresConfig[mode] || featuresConfig.mvp;
 
   const fadeVariant = {
@@ -29,7 +16,7 @@ function FeaturesOptions({ mode = "mvp", title, subtitle }) {
   };
 
   return (
-    <div className="bg-card border p-6 flex flex-col justify-between text-title h-full w-full">
+    <div className="bg-card border p-6 flex flex-col justify-between text-title h-full w-[540px]">
       <AnimatePresence mode="wait">
         <motion.div
           key={mode} // triggers animation when mode changes
@@ -63,6 +50,6 @@ function FeaturesOptions({ mode = "mvp", title, subtitle }) {
       </AnimatePresence>
     </div>
   );
-}
+};
 
 export default FeaturesOptions;
