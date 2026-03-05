@@ -58,7 +58,7 @@ function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
   const CardComponent = isMobile ? CaseStudyCardMobile : CaseStudyCard;
 
   return (
-    <section className="bg-background py-32 overflow-hidden">
+    <section className="bg-background py-32 overflow-hidden ">
       <div className="container mx-auto px-6 mb-20">
         <h2 className="text-4xl text-foreground md:text-5xl font-bold mb-12 text-center">
           Case Studies

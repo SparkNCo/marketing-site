@@ -40,13 +40,13 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
 
   return (
     <div className="bg-background">
-      <SquaresPostLayout
+      <SquaresPostLayoutEdges
         squares={HeroSectionSquaresConfig}
         indexLayout={"0"}
         indexComponent={"1"}
       >
         <HeroSection setMode={setMode} />
-      </SquaresPostLayout>
+      </SquaresPostLayoutEdges>
 
       <FeaturesSection />
       <PostsSection />
