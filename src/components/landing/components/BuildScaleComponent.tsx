@@ -182,25 +182,25 @@ export default function BuildScaleToggle({
         transition={spring}
         onClick={() => handleClick(type)}
         animate={{
-          width: isSelected ? "360px" : "260px",
+          width: isSelected ? "100%" : "100%",
         }}
         className={`
-    rounded-md shadow-md cursor-pointer overflow-hidden
-    transition-colors duration-300 p-6
+        w-full lg:w-auto
+        rounded-md shadow-md cursor-pointer overflow-hidden
+        transition-colors duration-300 p-6
 
-    ${
-      isSecond
-        ? "bg-foreground text-background"
-        : "bg-background text-foreground"
-    }
+        ${
+          isSecond
+            ? "bg-foreground text-background"
+            : "bg-background text-foreground"
+        }
 
-    ${!isSelected ? "opacity-90 hover:opacity-100" : ""}
-  `}
+        ${!isSelected ? "opacity-90 hover:opacity-100" : ""}
+      `}
         whileTap={{ scale: 0.97 }}
       >
-        {/* Header */}
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-3 ">
+          <div className="flex items-center gap-3">
             <motion.img src={icon} className="w-8 h-8" transition={spring} />
             <h2 className="text-xl font-bold">{title}</h2>
           </div>
@@ -235,7 +235,6 @@ export default function BuildScaleToggle({
           </AnimatePresence>
         </div>
 
-        {/* Text */}
         <AnimatePresence mode="wait">
           {isSelected && (
             <motion.p
@@ -257,12 +256,23 @@ export default function BuildScaleToggle({
 
   return (
     <div
-      className={`flex flex-row gap-6 items-start ${
-        centerExpanded ? "justify-center" : "justify-start"
-      }`}
+      className={`
+      flex flex-col lg:flex-row
+      gap-6
+      items-stretch lg:items-start
+      w-full
+      ${centerExpanded ? "justify-center" : "justify-start"}
+    `}
     >
       {cardsOrder.map((type) => (
-        <div key={type} className="w-[480px] flex justify-center">
+        <div
+          key={type}
+          className="
+          w-full
+          lg:w-[480px]
+          flex justify-center
+        "
+        >
           <Card
             type={type}
             icon={type === "build" ? "/BuildIcon.png" : "/ScaleIcon.png"}
