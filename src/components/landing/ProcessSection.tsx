@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import ProcessSectionMobile from "./ProcessSectionMobile";
 
 const steps = [
   { id: 0, title: "" },
@@ -9,7 +10,11 @@ const steps = [
   { id: 4, title: "" },
 ];
 
-export default function ProcessSection() {
+export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
+  if (isMobile) {
+    return <ProcessSectionMobile />;
+  }
+
   const [activeStep, setActiveStep] = useState(0);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -67,7 +72,6 @@ export default function ProcessSection() {
         </h2>
 
         <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 max-w-7xl mx-auto">
-          {/* LEFT SIDE - Steps */}
           <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10">
             {visibleSteps.map((step, index) => {
               const isFocused = index === activeStep;
@@ -85,19 +89,16 @@ export default function ProcessSection() {
                       : "opacity-30 md:opacity-20 blur-sm scale-[0.8] md:scale-[0.65]"
                   }`}
                 >
-                  {step.title && (
-                    <div className="inline-flex items-center justify-center px-2 md:px-6 py-3">
-                      <h3 className=" text-sm md:text-2xl font-bold text-foreground whitespace-nowrap border-4 border-white rounded-xl p-2 md:p-4 min-w-[120px] w-full md:w-[18rem]">
-                        {step.title}
-                      </h3>
-                    </div>
-                  )}
+                  <div className="inline-flex items-center justify-center px-2 md:px-6 py-3">
+                    <h3 className="text-sm md:text-2xl font-bold text-foreground whitespace-nowrap border-4 border-white rounded-xl p-2 md:p-4 min-w-[120px] w-full md:w-[18rem]">
+                      {step.title}
+                    </h3>
+                  </div>
                 </div>
               );
             })}
           </div>
 
-          {/* RIGHT SIDE - Sticky Content */}
           <div className="lg:col-span-8 text-foreground relative z-0">
             <div className="sticky top-[200px] md:top-[300px] flex flex-col gap-6">
               <div className="w-full md:w-3/4 font-semibold text-sm md:text-lg">

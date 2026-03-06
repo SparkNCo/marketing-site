@@ -486,8 +486,8 @@ export const FastTrackSquaresConfig = [
   },
   {
     top: "938px",
-    right: "1178px",
-    width: "124px",
+    right: "1177px",
+    width: "125px",
     height: "186px",
     color: "#111111",
     colorDelay: 20,
@@ -497,7 +497,7 @@ export const FastTrackSquaresConfig = [
   {
     top: "876px",
     right: "1116px",
-    width: "62px",
+    width: "63px",
     height: "62px",
     color: "#f8f8f8",
     colorDelay: 20,
@@ -517,7 +517,7 @@ export const FastTrackSquaresConfig = [
   {
     top: "938px",
     right: "744px",
-    width: "186px",
+    width: "187px",
     height: "186px",
     color: "#111111",
     colorDelay: 20,
