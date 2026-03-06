@@ -13,7 +13,12 @@ export const PrincipleBox = ({
       onClick={() => setMode(modeKey)}
       className="cursor-pointer bg-foreground text-background rounded-lg transition-all duration-300"
     >
-      <div className="p-5 flex justify-between items-center">
+      <div className="p-5 flex justify-left items-center gap-4">
+        <img
+          src={"/Frame.png"}
+          alt="spark/co"
+          className="w-6 h-6 sm:w-8 sm:h-8 object-contain cursor-pointer"
+        />{" "}
         <h3 className="text-lg sm:text-xl font-bold">{title}</h3>
       </div>
 

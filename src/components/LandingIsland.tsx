@@ -70,7 +70,7 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
         </div>
       </div>
 
-      <ProcessSection />
+      <ProcessSection isMobile={isMobile} />
       <CaseStudiesSection isMobile={isMobile} />
 
       <SquaresPostLayoutEdges
