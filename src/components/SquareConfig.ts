@@ -1336,7 +1336,7 @@ export const FooterLeftRightSquaresMobile = [
     zIndex: 0,
   },
   {
-    top: "250px",
+    top: "250.25px",
     left: "0px",
     width: "31.25px",
     height: "31.25px",
@@ -1388,7 +1388,7 @@ export const FooterLeftRightSquaresMobile = [
     zIndex: 0,
   },
   {
-    top: "250px",
+    top: "250.25px",
     right: "0px",
     width: "31.25px",
     height: "31.25px",
