@@ -15,6 +15,7 @@ export default {
         secondary: "var(--secondary)",
         card: "var(--card)"      },
     },
+    
   },
   plugins: [],
 };

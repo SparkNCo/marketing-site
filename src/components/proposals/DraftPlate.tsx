@@ -24,7 +24,7 @@ export const DraftPlate = ({ proposal, setStage }) => {
   };
 
   return (
-    <div className="w-full bg-primary text-background font-semibold text-lg flex items-center justify-between px-4">
+    <div className="w-full bg-primary text-background font-semibold text-lg flex items-center justify-between px-4 mb-10">
       <div className="py-2">
         {isDraft ? "Proposal in progress" : "Ready for review"}
       </div>

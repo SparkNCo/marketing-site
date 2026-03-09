@@ -1,0 +1,17 @@
+export default function StringRenderer({ data, setData, isEditing }: any) {
+  if (isEditing) {
+    return (
+      <textarea
+        className="w-full rounded-lg p-3 text-foreground border-none outline-none focus:outline-none"
+        value={data || ""}
+        onChange={(e) => setData(e.target.value)}
+      />
+    );
+  }
+
+  return (
+    <p className="leading-relaxed text-foreground">
+      {data}
+    </p>
+  );
+}

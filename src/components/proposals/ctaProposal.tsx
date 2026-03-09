@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Card } from "../ui/card";
 import { SignatureModal } from "./SignatureModal";
+import { CheckCircle, Phone } from "lucide-react";
+import ProposalButton from "../ui/ProposalButton";
 
 export default function CtaProposal({
   proposalId,
@@ -18,21 +20,17 @@ export default function CtaProposal({
   const handleConfirmSignature = async (signatureBase64: string) => {
     try {
       setIsSigning(true);
-      const res = await fetch(
-        // "http://127.0.0.1:54321/functions/v1/proposals",
-        `${import.meta.env.PUBLIC_ENDPOINT}/proposals`,
 
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            proposalId,
-            signatureBase64,
-          }),
+      const res = await fetch(`${import.meta.env.PUBLIC_ENDPOINT}/proposals`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          proposalId,
+          signatureBase64,
+        }),
+      });
 
       if (!res.ok) {
         throw new Error("Failed to sign proposal");
@@ -61,37 +59,43 @@ export default function CtaProposal({
   return (
     <>
       <section className="mb-16 w-[80vw]">
-        <Card className="p-8 bg-background border-primary border-2 text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-4">
-            Ready to Transform Your Inventory Management?
-          </h2>
+        <Card className="p-8 bg-background text-foreground border-none">
+          {/* Header */}
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-xl">☰</span>
+            <h2 className="text-2xl font-bold">Build</h2>
+          </div>
 
-          <p className="text-foreground mb-6 max-w-2xl mx-auto">
-            Let's schedule a call to discuss next steps, answer any questions,
-            and kick off this project.
+          {/* Description */}
+          <p className="mb-6 max-w-2xl">
+            Launch your new business or product line with Spark & Co's fully
+            managed software delivery system.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
+          {/* Buttons */}
+          <div className="flex gap-4 w-full">
+            <ProposalButton
+              icon={<CheckCircle className="w-5 h-5" />}
+              disabled={isSigning}
               onClick={() => {
                 if (!isSigned && !signature_url) {
                   setOpen(true);
                 }
               }}
-              disabled={isSigning}
-              className="px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-md hover:opacity-90 disabled:opacity-50"
+              variant="primary"
             >
               {isSigned || signature_url
                 ? "Proposal Accepted"
                 : "Accept Proposal"}
-            </button>
+            </ProposalButton>
 
-            <button
+            <ProposalButton
+              icon={<Phone className="w-5 h-5" />}
               onClick={onScheduleCall}
-              className="px-8 py-3 bg-background text-foreground border border-border font-semibold rounded-md hover:bg-muted"
+              variant="secondary"
             >
-              Schedule a Call
-            </button>
+              Request a Call
+            </ProposalButton>
           </div>
         </Card>
       </section>
