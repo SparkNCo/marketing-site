@@ -21,7 +21,7 @@ export default function SquaresPostLayout({
       </div>{" "}
       {tags.length > 0 && (
         <div
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 "
           style={{ zIndex: indexTags }}
         >
           {tags.map((group, i) => {

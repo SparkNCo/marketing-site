@@ -1,8 +1,9 @@
 "use client";
 
 import { Card } from "../ui/card";
-import { Button } from "../ui/button";
 import { useMutation } from "@tanstack/react-query";
+import { Menu, Save } from "lucide-react";
+import ProposalButton from "../ui/ProposalButton";
 
 type Props = {
   submissionId: string;
@@ -60,20 +61,16 @@ export default function CreateProposalCta({
         signed_at: localProposal?.signed_at,
       };
 
-      const res = await fetch(
-        //  "http://127.0.0.1:54321/functions/v1/proposals",
-        `${import.meta.env.PUBLIC_ENDPOINT}/proposals`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            passcode: submissionId,
-            updates,
-          }),
+      const res = await fetch(`${import.meta.env.PUBLIC_ENDPOINT}/proposals`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          passcode: submissionId,
+          updates,
+        }),
+      });
 
       if (!res.ok) {
         throw new Error("Failed to save proposal");
@@ -85,33 +82,42 @@ export default function CreateProposalCta({
 
   return (
     <section className="mb-16 w-[80vw] mx-auto">
-      <Card className="p-8 bg-background border-primary border-2 text-center">
-        <h2 className="text-2xl font-bold text-foreground mb-4">
-          Save Proposal Changes
-        </h2>
+      <Card className="p-8 bg-background text-foreground border-none">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-4">
+          <Menu className="w-5 h-5" />
+          <h2 className="text-2xl font-bold">Build</h2>
+        </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button
-            size="lg"
+        {/* Description */}
+        <p className="mb-6 max-w-2xl">
+          Save your latest proposal edits before sharing it with the client or
+          proceeding to the next step.
+        </p>
+
+        {/* Button */}
+        <div className="flex w-full">
+          <ProposalButton
+            icon={
+              mutation.isPending ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              ) : (
+                <Save className="w-5 h-5" />
+              )
+            }
             disabled={mutation.isPending}
             onClick={() => mutation.mutate()}
-            className="flex items-center gap-2 text-background font-semibold"
+            variant="primary"
           >
-            {mutation.isPending ? (
-              <>
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                Saving…
-              </>
-            ) : (
-              "Save Changes"
-            )}
-          </Button>
+            {mutation.isPending ? "Saving…" : "Save Changes"}
+          </ProposalButton>
         </div>
 
         {mutation.isError && (
           <p className="mt-4 text-sm text-red-500">
             {(mutation.error as Error).message ||
-              "Could not save proposal. Please try again."}
+              "Could not save proposal. Please try again."
+            }
           </p>
         )}
 

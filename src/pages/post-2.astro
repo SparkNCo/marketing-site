@@ -1,81 +1,78 @@
 ---
 import PostsLayout from "../components/layouts/PostsLayout.astro";
-import { PostShell2 } from "../components/posts/PostShell.tsx";
+import { PostShell5 } from "../components/posts/PostShell.tsx";
 
 const user = Astro.locals.user;
 const location = Astro.url.pathname;
+const blog = Astro.url.searchParams.get("blog");
 
 const squaresConfig = [
   {
-    // long bottom bar
     x: "0px",
-    y: "1260px",
+    y: "1080px",
     width: "1080px",
     height: "90px",
     color: "#f8f8f8",
   },
   {
-    // 2nd line bottom bar left
+    x: "90px",
+    y: "990px",
+    width: "990px",
+    height: "90px",
+    color: "#f8f8f8",
+  },
+  {
     x: "180px",
-    y: "1170px",
+    y: "900px",
     width: "180px",
     height: "90px",
     color: "#f8f8f8",
   },
   {
-    // 4th line left
     x: "90px",
-    y: "990px",
+    y: "720px",
     width: "90px",
     height: "90px",
     color: "#f8f8f8",
   },
   {
-    // 2nd line bottom bar middle
     x: "450px",
-    y: "1170px",
+    y: "900px",
     width: "630px",
     height: "90px",
     color: "#f8f8f8",
   },
-
   {
-    // 3rd line bottom bar middle
     x: "540px",
-    y: "1080px",
+    y: "810px",
     width: "180px",
     height: "90px",
     color: "#f8f8f8",
   },
   {
-    // 4rd line bottom bar middle
     x: "540px",
-    y: "990px",
+    y: "720px",
     width: "90px",
     height: "90px",
     color: "#f8f8f8",
   },
-
   {
-    // Big Sqaure on the right
     x: "900px",
-    y: "990px",
-    width: "180px",
-    height: "180px",
-    color: "#f8f8f8",
-  },
-  {
-    // Big Sqaure floating right
-    x: "720px",
-    y: "810px",
-    width: "180px",
-    height: "180px",
-    color: "#f8f8f8",
-  },
-  {
-    // Small Sqaure floating right
-    x: "810px",
     y: "720px",
+    width: "180px",
+    height: "180px",
+    color: "#f8f8f8",
+  },
+  {
+    x: "720px",
+    y: "540px",
+    width: "180px",
+    height: "180px",
+    color: "#f8f8f8",
+  },
+  {
+    x: "810px",
+    y: "450px",
     width: "90px",
     height: "90px",
     color: "#f8f8f8",
@@ -85,11 +82,13 @@ const squaresConfig = [
 
 <div>
   <PostsLayout>
-    <PostShell2
-      location={location}
-      user={user}
-      client:load
+    <PostShell5
       squaresConfig={squaresConfig}
+      blog={blog}
+      layoutType="page2"
+      for
+      PostPage2
+      layout
     />
   </PostsLayout>
 </div>

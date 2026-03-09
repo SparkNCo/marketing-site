@@ -11,8 +11,6 @@ import {
   ProposalInProgress,
 } from "./MissingPasscode";
 import DiscoveryForm from "../DiscoveryForm";
-import Footer from "../Footer";
-import ProposalEditIsland from "./ProposalEditIsland";
 import ProposalPage from "./1-ProposalPage";
 
 type DiscoveryFormState = {
@@ -111,17 +109,6 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
     enabled: !!passcode,
   });
 
-  /*   const updateProposal = async (updates: ProposalUpdate) => {
-    queryClient.setQueryData<Proposal>(["proposal", passcode], (prev) =>
-      prev ? { ...prev, ...updates } : prev,
-    );
-  };
-
-  const updateProposalProp =
-    <K extends keyof Proposal>(prop: K) =>
-    (value: Proposal[K]) => {
-      updateProposal({ [prop]: value } as Pick<Proposal, K>);
-    }; */
   if (isLoading) return <LoadingProposal />;
 
   return (
