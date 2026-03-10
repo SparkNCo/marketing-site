@@ -25,7 +25,7 @@ export default function NestedObjectRenderer({ data, setData, isEditing }: any) 
   };
 
   return (
-    <div className="space-y-6 text-foreground ">
+    <div className="space-y-6 text-background ">
 
       {Object.entries(data).map(([key, value]) => (
 

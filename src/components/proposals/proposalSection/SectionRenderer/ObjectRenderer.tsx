@@ -31,7 +31,7 @@ export default function ObjectRenderer({ data, setData, isEditing }: any) {
   };
 
   return (
-    <div className="space-y-4 text-foreground ">
+    <div className="space-y-4 text-background ">
       {Object.entries(data || {}).map(([key, value]) => (
         <div key={key}>
           <h3 className="text-sm font-semibold text-primary">{key}</h3>

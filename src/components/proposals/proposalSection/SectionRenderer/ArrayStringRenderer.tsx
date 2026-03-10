@@ -19,7 +19,7 @@ export default function ArrayStringRenderer({ data, setData, isEditing }: any) {
 
   return (
     <div className="">
-      <ul className="list-disc space-y-2 pl-6 text-foreground">
+      <ul className="list-disc space-y-2 pl-6 text-background">
         {data.map((item: string, i: number) => (
           <li key={i} className="flex gap-2 items-center">
             {isEditing ? (

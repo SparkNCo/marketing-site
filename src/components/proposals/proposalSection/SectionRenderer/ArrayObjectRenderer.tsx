@@ -26,7 +26,7 @@ export default function ArrayObjectRenderer({ data, setData, isEditing }: any) {
   };
 
   return (
-    <div className="space-y-6 text-foreground ">
+    <div className="space-y-6 text-background ">
       {data.map((item: any, index: number) => (
         <div key={index} className="relative space-y-2 rounded-lg p-4 ">
           {isEditing && (

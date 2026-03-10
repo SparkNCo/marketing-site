@@ -9,7 +9,7 @@ export default function SectionCard({
   isEditing,
 }: any) {
   return (
-    <Card className=" bg-background p-8">
+    <Card className=" bg-foreground p-8">
       <SectionRenderer
         sectionKey={key}
         data={localData}

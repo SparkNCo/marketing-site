@@ -1,233 +1,233 @@
-"use client";
+// "use client";
 
-import { Code, Pencil, Save } from "lucide-react";
-import { Card } from "../ui/card";
-import { Button } from "../ui/button";
-import { useState } from "react";
-import ProjectScopeEditor from "./ProjectScopeEditor";
+// import { Code, Pencil, Save } from "lucide-react";
+// import { Card } from "../ui/card";
+// import { Button } from "../ui/button";
+// import { useState } from "react";
+// import ProjectScopeEditor from "./ProjectScopeEditor";
 
-export interface ScopeSection {
-  title: string;
-  bullets: string[];
-}
+// export interface ScopeSection {
+//   title: string;
+//   bullets: string[];
+// }
 
-export interface ScopeList {
-  title: string;
-  items: string[];
-}
+// export interface ScopeList {
+//   title: string;
+//   items: string[];
+// }
 
-export default function ProjectScope({
-  initialScopes,
-  intialSections,
-  updateScopes,
-  updateSections,
-  dbUser,
-}) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [sections, setSections] = useState<ScopeSection[]>(intialSections);
-  const [scopeComparison, setScopeComparison] =
-    useState<ScopeList[]>(initialScopes);
+// export default function ProjectScope({
+//   initialScopes,
+//   intialSections,
+//   updateScopes,
+//   updateSections,
+//   dbUser,
+// }) {
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [sections, setSections] = useState<ScopeSection[]>(intialSections);
+//   const [scopeComparison, setScopeComparison] =
+//     useState<ScopeList[]>(initialScopes);
 
-  const toggleEditMode = () => {
-    if (isEditing) {
-      updateScopes(scopeComparison);
-      updateSections(sections);
-    }
-    setIsEditing((prev) => !prev);
-  };
+//   const toggleEditMode = () => {
+//     if (isEditing) {
+//       updateScopes(scopeComparison);
+//       updateSections(sections);
+//     }
+//     setIsEditing((prev) => !prev);
+//   };
 
-  const updateScopeComparison = (
-    groupIndex: number,
-    itemIndex: number,
-    value: string
-  ) => {
-    setScopeComparison((prev) =>
-      prev?.map((group, gi) =>
-        gi === groupIndex
-          ? {
-              ...group,
-              items: group?.items?.map((item, ii) =>
-                ii === itemIndex ? value : item
-              ),
-            }
-          : group
-      )
-    );
-  };
+//   const updateScopeComparison = (
+//     groupIndex: number,
+//     itemIndex: number,
+//     value: string
+//   ) => {
+//     setScopeComparison((prev) =>
+//       prev?.map((group, gi) =>
+//         gi === groupIndex
+//           ? {
+//               ...group,
+//               items: group?.items?.map((item, ii) =>
+//                 ii === itemIndex ? value : item
+//               ),
+//             }
+//           : group
+//       )
+//     );
+//   };
 
-  const updateBullet = (
-    sectionIndex: number,
-    bulletIndex: number,
-    value: string
-  ) => {
-    setSections((prev) =>
-      prev?.map((section, sIdx) =>
-        sIdx !== sectionIndex
-          ? section
-          : {
-              ...section,
-              bullets: section.bullets?.map((b, bIdx) =>
-                bIdx === bulletIndex ? value : b
-              ),
-            }
-      )
-    );
-  };
+//   const updateBullet = (
+//     sectionIndex: number,
+//     bulletIndex: number,
+//     value: string
+//   ) => {
+//     setSections((prev) =>
+//       prev?.map((section, sIdx) =>
+//         sIdx !== sectionIndex
+//           ? section
+//           : {
+//               ...section,
+//               bullets: section.bullets?.map((b, bIdx) =>
+//                 bIdx === bulletIndex ? value : b
+//               ),
+//             }
+//       )
+//     );
+//   };
 
-  const addBullet = (sectionIndex: number) => {
-    setSections((prev) =>
-      prev?.map((section, idx) =>
-        idx !== sectionIndex
-          ? section
-          : {
-              ...section,
-              bullets: [...section.bullets, ""],
-            }
-      )
-    );
-  };
+//   const addBullet = (sectionIndex: number) => {
+//     setSections((prev) =>
+//       prev?.map((section, idx) =>
+//         idx !== sectionIndex
+//           ? section
+//           : {
+//               ...section,
+//               bullets: [...section.bullets, ""],
+//             }
+//       )
+//     );
+//   };
 
-  const removeBullet = (sectionIndex: number, bulletIndex: number) => {
-    setSections((prev) =>
-      prev?.map((section, sIdx) =>
-        sIdx !== sectionIndex
-          ? section
-          : {
-              ...section,
-              bullets: section.bullets.filter(
-                (_, bIdx) => bIdx !== bulletIndex
-              ),
-            }
-      )
-    );
-  };
-  const updateScopeItem = (
-    groupIndex: number,
-    itemIndex: number,
-    value: string
-  ) => {
-    setScopeComparison((prev) =>
-      prev?.map((group, gIdx) =>
-        gIdx === groupIndex
-          ? {
-              ...group,
-              items: group.items?.map((item, iIdx) =>
-                iIdx === itemIndex ? value : item
-              ),
-            }
-          : group
-      )
-    );
-  };
+//   const removeBullet = (sectionIndex: number, bulletIndex: number) => {
+//     setSections((prev) =>
+//       prev?.map((section, sIdx) =>
+//         sIdx !== sectionIndex
+//           ? section
+//           : {
+//               ...section,
+//               bullets: section.bullets.filter(
+//                 (_, bIdx) => bIdx !== bulletIndex
+//               ),
+//             }
+//       )
+//     );
+//   };
+//   const updateScopeItem = (
+//     groupIndex: number,
+//     itemIndex: number,
+//     value: string
+//   ) => {
+//     setScopeComparison((prev) =>
+//       prev?.map((group, gIdx) =>
+//         gIdx === groupIndex
+//           ? {
+//               ...group,
+//               items: group.items?.map((item, iIdx) =>
+//                 iIdx === itemIndex ? value : item
+//               ),
+//             }
+//           : group
+//       )
+//     );
+//   };
 
-  const addScopeItem = (groupIndex: number) => {
-    setScopeComparison((prev) =>
-      prev?.map((group, gIdx) =>
-        gIdx === groupIndex ? { ...group, items: [...group.items, ""] } : group
-      )
-    );
-  };
+//   const addScopeItem = (groupIndex: number) => {
+//     setScopeComparison((prev) =>
+//       prev?.map((group, gIdx) =>
+//         gIdx === groupIndex ? { ...group, items: [...group.items, ""] } : group
+//       )
+//     );
+//   };
 
-  const removeScopeItem = (groupIndex: number, itemIndex: number) => {
-    setScopeComparison((prev) =>
-      prev?.map((group, gIdx) =>
-        gIdx === groupIndex
-          ? {
-              ...group,
-              items: group.items.filter((_, i) => i !== itemIndex),
-            }
-          : group
-      )
-    );
-  };
+//   const removeScopeItem = (groupIndex: number, itemIndex: number) => {
+//     setScopeComparison((prev) =>
+//       prev?.map((group, gIdx) =>
+//         gIdx === groupIndex
+//           ? {
+//               ...group,
+//               items: group.items.filter((_, i) => i !== itemIndex),
+//             }
+//           : group
+//       )
+//     );
+//   };
 
-  return (
-    <section className="mb-16 w-[80vw]">
-      {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Code className="h-6 w-6 text-primary" />
-          <h2 className="text-3xl font-bold text-card">Project Scope</h2>
-        </div>
+//   return (
+//     <section className="mb-16 w-[80vw]">
+//       {/* Header */}
+//       <div className="mb-6 flex items-center justify-between">
+//         <div className="flex items-center gap-3">
+//           <Code className="h-6 w-6 text-primary" />
+//           <h2 className="text-3xl font-bold text-card">Project Scope</h2>
+//         </div>
 
-        {dbUser?.role === "admin" && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={toggleEditMode}
-            className="flex items-center gap-2 bg-background"
-          >
-            {isEditing ? (
-              <>
-                <Save className="h-4 w-4" /> Save
-              </>
-            ) : (
-              <>
-                <Pencil className="h-4 w-4" /> Edit
-              </>
-            )}
-          </Button>
-        )}
-      </div>
+//         {dbUser?.role === "admin" && (
+//           <Button
+//             variant="outline"
+//             size="sm"
+//             onClick={toggleEditMode}
+//             className="flex items-center gap-2 bg-background"
+//           >
+//             {isEditing ? (
+//               <>
+//                 <Save className="h-4 w-4" /> Save
+//               </>
+//             ) : (
+//               <>
+//                 <Pencil className="h-4 w-4" /> Edit
+//               </>
+//             )}
+//           </Button>
+//         )}
+//       </div>
 
-      {isEditing ? (
-        <ProjectScopeEditor
-          sections={sections}
-          scopeComparison={scopeComparison}
-          updateScopeComparison={updateScopeComparison}
-          onUpdateBullet={updateBullet}
-          onAddBullet={addBullet}
-          onRemoveBullet={removeBullet}
-          updateScopeItem={updateScopeItem}
-          addScopeItem={addScopeItem}
-          removeScopeItem={removeScopeItem}
-        />
-      ) : (
-        <>
-          <div className="grid gap-6 md:grid-cols-2">
-            {sections?.map((section) => (
-              <Card
-                key={section.title}
-                className="border-border bg-background p-6 border-card"
-              >
-                <h3 className="mb-4 text-xl font-bold text-primary">
-                  {section.title}
-                </h3>
+//       {isEditing ? (
+//         <ProjectScopeEditor
+//           sections={sections}
+//           scopeComparison={scopeComparison}
+//           updateScopeComparison={updateScopeComparison}
+//           onUpdateBullet={updateBullet}
+//           onAddBullet={addBullet}
+//           onRemoveBullet={removeBullet}
+//           updateScopeItem={updateScopeItem}
+//           addScopeItem={addScopeItem}
+//           removeScopeItem={removeScopeItem}
+//         />
+//       ) : (
+//         <>
+//           <div className="grid gap-6 md:grid-cols-2">
+//             {sections?.map((section) => (
+//               <Card
+//                 key={section.title}
+//                 className="border-border bg-background p-6 border-card"
+//               >
+//                 <h3 className="mb-4 text-xl font-bold text-primary">
+//                   {section.title}
+//                 </h3>
 
-                <ul className="list-disc space-y-2 pl-6 text-foreground">
-                  {section?.bullets?.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
-              </Card>
-            ))}
-          </div>
+//                 <ul className="list-disc space-y-2 pl-6 text-foreground">
+//                   {section?.bullets?.map((bullet) => (
+//                     <li key={bullet}>{bullet}</li>
+//                   ))}
+//                 </ul>
+//               </Card>
+//             ))}
+//           </div>
 
-          <Card className="mt-6 border-border bg-background p-6 border-card">
-            <h3 className="mb-4 text-xl font-bold text-primary">
-              In-Scope vs. Out-of-Scope
-            </h3>
+//           <Card className="mt-6 border-border bg-background p-6 border-card">
+//             <h3 className="mb-4 text-xl font-bold text-primary">
+//               In-Scope vs. Out-of-Scope
+//             </h3>
 
-            <div className="grid gap-8 md:grid-cols-2">
-              {scopeComparison?.map((group) => (
-                <div key={group.title}>
-                  <h4 className={`mb-3 font-bold text-secondary`}>
-                    {group.title}
-                  </h4>
+//             <div className="grid gap-8 md:grid-cols-2">
+//               {scopeComparison?.map((group) => (
+//                 <div key={group.title}>
+//                   <h4 className={`mb-3 font-bold text-secondary`}>
+//                     {group.title}
+//                   </h4>
 
-                  <ul
-                    className={`list-disc space-y-1 pl-6 text-sm text-foreground`}
-                  >
-                    {group?.items?.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </Card>
-        </>
-      )}
-    </section>
-  );
-}
+//                   <ul
+//                     className={`list-disc space-y-1 pl-6 text-sm text-foreground`}
+//                   >
+//                     {group?.items?.map((item) => (
+//                       <li key={item}>{item}</li>
+//                     ))}
+//                   </ul>
+//                 </div>
+//               ))}
+//             </div>
+//           </Card>
+//         </>
+//       )}
+//     </section>
+//   );
+// }

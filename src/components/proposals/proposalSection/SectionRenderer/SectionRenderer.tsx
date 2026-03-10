@@ -1,53 +1,82 @@
-import StringRenderer from "./StringRenderer";
-import ObjectRenderer from "./ObjectRenderer";
-import ArrayStringRenderer from "./ArrayStringRenderer";
-import ArrayObjectRenderer from "./ArrayObjectRenderer";
-import NestedObjectRenderer from "./NestedObjectRenderer";
+import TextBlock from "./TextBlock";
+import ListBlock from "./ListBlock";
+import TableBlock from "./TableBlock";
+import SubtitleBlock from "./SubtitleBlock";
+import CardBlock from "./CardBlock";
+import GridBlock from "./GridBlock";
 
 export default function SectionRenderer({ data, setData, isEditing }: any) {
-  if (typeof data === "string") {
-    return (
-      <StringRenderer data={data} setData={setData} isEditing={isEditing} />
-    );
-  }
+  if (!Array.isArray(data)) return null;
 
-  if (Array.isArray(data)) {
-    if (typeof data[0] === "string") {
-      return (
-        <ArrayStringRenderer
-          data={data}
-          setData={setData}
-          isEditing={isEditing}
-        />
-      );
-    }
+  return (
+    <div className="space-y-6">
+      {data.map((block: any, index: number) => {
+        switch (block.type) {
+          case "text":
+            return (
+              <TextBlock
+                key={index}
+                block={block}
+                index={index}
+                data={data}
+                setData={setData}
+                isEditing={isEditing}
+              />
+            );
 
-    return (
-      <ArrayObjectRenderer
-        data={data}
-        setData={setData}
-        isEditing={isEditing}
-      />
-    );
-  }
+          case "subtitle":
+            return (
+              <SubtitleBlock
+                key={index}
+                block={block}
+                index={index}
+                data={data}
+                setData={setData}
+                isEditing={isEditing}
+              />
+            );
+          case "card":
+            return (
+              <CardBlock
+                key={index}
+                block={block}
+                index={index}
+                data={data}
+                setData={setData}
+                isEditing={isEditing}
+              />
+            );
+          case "grid":
+            return <GridBlock key={index} block={block} />;
 
-  if (typeof data === "object") {
-    const hasNestedArray = Object.values(data).some((v) => Array.isArray(v));
+          case "list":
+            return (
+              <ListBlock
+                key={index}
+                block={block}
+                index={index}
+                data={data}
+                setData={setData}
+                isEditing={isEditing}
+              />
+            );
 
-    if (hasNestedArray) {
-      return (
-        <NestedObjectRenderer
-          data={data}
-          setData={setData}
-          isEditing={isEditing}
-        />
-      );
-    }
+          case "table":
+            return (
+              <TableBlock
+                key={index}
+                block={block}
+                index={index}
+                data={data}
+                setData={setData}
+                isEditing={isEditing}
+              />
+            );
 
-    return (
-      <ObjectRenderer data={data} setData={setData} isEditing={isEditing} />
-    );
-  }
-
-  return null;
+          default:
+            return null;
+        }
+      })}
+    </div>
+  );
 }
