@@ -39,6 +39,7 @@ export default function ProposalSection({
   }, [data]);
 
   const toggleEdit = () => {
+    console.log("Toggling edit mode for:", isEditing);
     if (isEditing) {
       setProposal(localData);
     }
