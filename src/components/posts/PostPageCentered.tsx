@@ -1,6 +1,5 @@
 export default function PostPageCentered({ uniquePost }) {
   const paragraphs = uniquePost?.slide_three?.split("\n\n") || [];
-  const widths = ["w-[75%]", "w-[75%]", "w-[75%]"];
 
   return (
     <article className="w-full h-[1160px] bg-white text-background flex flex-col text-center border-4">
@@ -14,10 +13,7 @@ export default function PostPageCentered({ uniquePost }) {
       {/* Content */}
       <div className="w-[60%] mx-auto flex flex-col gap-12 items-center">
         {paragraphs.map((p, i) => (
-          <p
-            key={i}
-            className={`${widths[i] || "w-[75%]"} text-[34px] font-light text-background`}
-          >
+          <p key={i} className="w-[75%] text-[34px] font-light text-background">
             {p}
           </p>
         ))}

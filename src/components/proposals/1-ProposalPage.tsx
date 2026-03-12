@@ -42,11 +42,10 @@ export default function ProposalPage({ proposal, dbUser }) {
 
     return {
       "Cover Page": {
-        "Client Name": p.client_name,
-        "Provider Name": p.provider_name,
-        "Proposal Title": p.proposal_title,
+        "Prepared By": p.provider_name,
         Date: p.proposal_date,
-        "Proposal Valid Until": p.valid_until,
+        Client: p.client_name,
+        "Valid Until": p.valid_until,
       },
 
       "Executive Summary": p.summary,
@@ -153,10 +152,10 @@ export default function ProposalPage({ proposal, dbUser }) {
   if (!localProposal) return null;
 
   return (
-    <div className="flex mt-32 w-full">
+    <div className="flex mt-32 w-full bg-background">
       {/* Table of contents */}
 
-      <div className="w-80 pr-6 hidden lg:block text-foreground">
+      <div className="w-60 pr-6 hidden lg:block text-foreground ">
         <div className="sticky top-32 space-y-4 text-sm">
           <div className="flex items-center gap-2 font-semibold">
             <span className="text-primary">☰</span>
@@ -179,33 +178,34 @@ export default function ProposalPage({ proposal, dbUser }) {
       </div>
 
       {/* Main content */}
+      <div className="bg-background w-full ">
+        <div className="flex-1 bg-card  w-[80%] mx-auto ">
+          {Object.entries(sections).map(([sectionKey, sectionData]) => (
+            <div
+              key={sectionKey}
+              ref={(el) => (sectionRefs.current[sectionKey] = el)}
+              className="scroll-mt-40"
+            >
+              <ProposalSection
+                title={sectionKey}
+                data={sectionData}
+                dbUser={dbUser}
+                openSections={openSections}
+                setOpenSections={setOpenSections}
+                setProposal={(val) => handleUpdate(sectionKey, val)}
+              />
+            </div>
+          ))}
 
-      <div className="flex-1 bg-foreground">
-        {Object.entries(sections).map(([sectionKey, sectionData]) => (
-          <div
-            key={sectionKey}
-            ref={(el) => (sectionRefs.current[sectionKey] = el)}
-            className="scroll-mt-40"
-          >
-            <ProposalSection
-              title={sectionKey}
-              data={sectionData}
-              dbUser={dbUser}
-              openSections={openSections}
-              setOpenSections={setOpenSections}
-              setProposal={(val) => handleUpdate(sectionKey, val)}
-            />
-          </div>
-        ))}
+          <CtaProposal
+            proposalId={proposal.passcode}
+            signature_url={proposal.signature_url}
+          />
 
-        <CtaProposal
-          proposalId={proposal.passcode}
-          signature_url={proposal.signature_url}
-        />
-
-        {dbUser?.role === "admin" && (
-          <DraftPlate proposal={localProposal} setStage={setStage} />
-        )}
+          {dbUser?.role === "admin" && (
+            <DraftPlate proposal={localProposal} setStage={setStage} />
+          )}
+        </div>
       </div>
     </div>
   );

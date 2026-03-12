@@ -3,10 +3,7 @@
 import { useState, useEffect } from "react";
 
 export const DraftPlate = ({ proposal, setStage }) => {
-  // ✅ Local stage state
   const [localStage, setLocalStage] = useState(proposal?.stage);
-
-  // ✅ Sync if parent proposal changes externally
   useEffect(() => {
     setLocalStage(proposal?.stage);
   }, [proposal?.stage]);
@@ -15,16 +12,12 @@ export const DraftPlate = ({ proposal, setStage }) => {
 
   const toggleStage = () => {
     const newStage = isDraft ? "for-review" : "draft";
-
-    // 1️⃣ Update local UI immediately
     setLocalStage(newStage);
-
-    // 2️⃣ Update parent state
     setStage(newStage);
   };
 
   return (
-    <div className="w-full bg-primary text-background font-semibold text-lg flex items-center justify-between px-4 mb-10">
+    <div className="w-full h-[4rem] bg-primary text-background font-semibold text-lg flex items-center justify-between px-4 mb-10 text-[16px]">
       <div className="py-2">
         {isDraft ? "Proposal in progress" : "Ready for review"}
       </div>

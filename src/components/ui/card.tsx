@@ -1,14 +1,18 @@
 import * as React from "react";
 
 import { cn } from "../../../lib/utils";
+interface CardProps extends React.ComponentProps<"div"> {
+  rounded?: boolean;
+}
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ className, rounded = true, ...props }: CardProps) {
   return (
     <div
       data-slot="card"
       className={cn(
-        "bg-background text-card-foreground flex flex-col gap-6 rounded-xl py-6 shadow-sm",
-        className,
+        "bg-background text-card-foreground flex flex-col gap-6 py-6 shadow-sm",
+        rounded && "rounded-xl",
+        className
       )}
       {...props}
     />

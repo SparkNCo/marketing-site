@@ -1,87 +1,26 @@
 import { posts } from "./mockPosts";
 import SquaresPostLayout from "./SquaresPostLayout.tsx";
-import PostFooter, { PostFooter1 } from "./PostFooter.tsx";
+import PostFooter from "./PostFooter.tsx";
 import PostPageCentered from "./PostPageCentered.tsx";
 import PostPage4 from "./PostPage4.tsx";
 import PostPage2 from "./PostPage2.tsx";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
+import { queryClient } from "../../lib/tanStack/index.ts";
+import { useEffect } from "react";
 
-export function PostShell1({ blog, squaresConfig }) {
-  const uniquePost = posts.find((post) => post.blog_id === blog) || posts[0];
-
-  const tags = [
-    {
-      labels: uniquePost.tags || [],
-      x: "20px",
-      y: "1020px",
-    },
-  ];
-  return (
-    <div className="max-w-[1080px] mx-auto ">
-      <SquaresPostLayout squares={squaresConfig} tags={tags}>
-        <div className="layout title-foreground">
-          <article>
-            <div
-              className="h-[1080px] bg-cover bg-center relative"
-              style={{ backgroundImage: `url(${uniquePost.img})` }}
-            ></div>
-          </article>
-        </div>
-      </SquaresPostLayout>
-
-      <PostFooter1 title={uniquePost?.title} author={uniquePost?.author} />
-    </div>
+export async function fetchPost(blogId: string) {
+  console.log("hola");
+  const res = await fetch(
+    `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
   );
+  console.log("hola", res);
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch post");
+  }
+
+  return res.json();
 }
-
-// export function PostShell2({ squaresConfig, blog }) {
-//   const uniquePost = posts.find((post) => post.blog_id === blog) || posts[0];
-
-//   return (
-//     <div className="max-w-[1080px] h-[1350px] mx-auto ">
-//       <SquaresPostLayout squares={squaresConfig} width={"[1080px]"}>
-//         <div className="layout title-foreground ">
-//           <PostPage2
-//             client:load
-//             key={uniquePost.index}
-//             uniquePost={uniquePost}
-//           />
-//         </div>
-//         <PostFooter
-//           height="h-[180px]"
-//           bgColor="bg-[#f8f8f8]"
-//           imgSrc="/nbarIcon2.png"
-//           arrowColor="text-background"
-//         />
-//       </SquaresPostLayout>
-//     </div>
-//   );
-// }
-
-// export function PostShell3({ squaresConfig, blog }) {
-//   const uniquePost = posts.find((post) => post.blog_id === blog) || posts[0];
-
-//   return (
-//     <div className="max-w-[1080px] h-[1260px] mx-auto ">
-//       <SquaresPostLayout squares={squaresConfig} width={"[1080px]"}>
-//         <div className="layout title-foreground ">
-//           <PostPageCentered
-//             client:load
-//             key={uniquePost.index}
-//             uniquePost={uniquePost}
-//           />
-//         </div>
-//       </SquaresPostLayout>
-//       <div>
-//         <PostFooter
-//           height="h-[180px]"
-//           bgColor="bg-[#111111]"
-//           imgSrc="/nbarIcon.png"
-//           arrowColor="text-foreground"
-//         />
-//       </div>
-//     </div>
-//   );
-// }
 
 export function PostShell4({ squaresConfig }) {
   const uniquePost = posts[0];
@@ -106,7 +45,7 @@ export function PostShell4({ squaresConfig }) {
 type PostShellProps = {
   squaresConfig: any[];
   blog: string;
-  layoutType: "page2" | "centered"; // determines which page component to render
+  layoutType: "page2" | "centered";
 };
 
 export function PostShell5({
@@ -114,30 +53,54 @@ export function PostShell5({
   blog,
   layoutType,
 }: PostShellProps) {
-  // Find the post by blog_id or fallback to first
-  const uniquePost = posts.find((post) => post.blog_id === blog) || posts[0];
+  return (
+    <QueryClientProvider client={queryClient}>
+      <PostContent
+        squaresConfig={squaresConfig}
+        blog={blog}
+        layoutType={layoutType}
+      />
+    </QueryClientProvider>
+  );
+}
 
-  // Layout-specific props
-  const isCentered = layoutType === "centered";
+function PostContent({ squaresConfig, blog, layoutType }: PostShellProps) {
+  const {
+    data: uniquePost,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["post", blog],
+    queryFn: () => fetchPost(blog),
+    enabled: !!blog,
+  });
+
+  const isCentered = layoutType === "page3";
+
+  useEffect(() => {
+    console.log("Fetched post data:", uniquePost);
+    fetchPost(blog);
+  }, [blog]);
+
+  if (isLoading) {
+    return <div className="w-[1080px] mx-auto h-[1170px]">Loading...</div>;
+  }
+
+  if (error || !uniquePost) {
+    return <div className="w-[1080px] mx-auto h-[1170px]">Post not found</div>;
+  }
 
   return (
-    <div
-      className={`w-[1080px] mx-auto h-[1170px] `}
-    >
+    <div className="w-[1080px] mx-auto h-[1170px]">
       <SquaresPostLayout squares={squaresConfig} width="[1080px]">
         <div className="layout title-foreground">
           {isCentered ? (
             <PostPageCentered
-              client:load
-              key={uniquePost.index}
+              key={uniquePost.blog_id}
               uniquePost={uniquePost}
             />
           ) : (
-            <PostPage2
-              client:load
-              key={uniquePost.index}
-              uniquePost={uniquePost}
-            />
+            <PostPage2 key={uniquePost.blog_id} uniquePost={uniquePost} />
           )}
         </div>
       </SquaresPostLayout>

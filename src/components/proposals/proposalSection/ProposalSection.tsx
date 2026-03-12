@@ -39,7 +39,6 @@ export default function ProposalSection({
   }, [data]);
 
   const toggleEdit = () => {
-    console.log("Toggling edit mode for:", isEditing);
     if (isEditing) {
       setProposal(localData);
     }
@@ -48,7 +47,7 @@ export default function ProposalSection({
 
   if (title === "Cover Page") {
     return (
-      <section className="mb-6 w-[80vw]">
+      <section className="mb-6  ">
         <CoverPageRenderer
           data={localData}
           setData={setLocalData}
@@ -59,7 +58,7 @@ export default function ProposalSection({
   }
 
   return (
-    <section className="mb-6 w-[80vw] bg-foreground">
+    <section className="mb-6  bg-card ">
       <SectionHeader
         title={title}
         isOpen={isOpen}

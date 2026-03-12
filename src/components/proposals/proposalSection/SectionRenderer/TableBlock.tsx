@@ -1,3 +1,5 @@
+import { Plus, Trash2 } from "lucide-react";
+
 export default function TableBlock({
   block,
   index,
@@ -7,14 +9,8 @@ export default function TableBlock({
 }: any) {
   const { headers, rows, footer } = block.content;
 
-  const updateCell = (rowIndex: number, colIndex: number, value: string) => {
+  const updateRows = (newRows: string[][]) => {
     const updated = [...data];
-
-    const newRows = rows.map((row: string[], r: number) =>
-      r === rowIndex
-        ? row.map((cell: string, c: number) => (c === colIndex ? value : cell))
-        : row,
-    );
 
     updated[index] = {
       ...block,
@@ -27,11 +23,21 @@ export default function TableBlock({
     setData(updated);
   };
 
+  const updateCell = (rowIndex: number, colIndex: number, value: string) => {
+    const newRows = rows.map((row: string[], r: number) =>
+      r === rowIndex
+        ? row.map((cell: string, c: number) => (c === colIndex ? value : cell))
+        : row
+    );
+
+    updateRows(newRows);
+  };
+
   const updateFooter = (colIndex: number, value: string) => {
     const updated = [...data];
 
     const newFooter = footer.map((cell: string, c: number) =>
-      c === colIndex ? value : cell,
+      c === colIndex ? value : cell
     );
 
     updated[index] = {
@@ -45,10 +51,22 @@ export default function TableBlock({
     setData(updated);
   };
 
+  /* ---------------- ADD / REMOVE ROWS ---------------- */
+
+  const addRow = () => {
+    const emptyRow = headers.map(() => "");
+    updateRows([...rows, emptyRow]);
+  };
+
+  const removeRow = (rowIndex: number) => {
+    updateRows(rows.filter((_: any, i: number) => i !== rowIndex));
+  };
+
   return (
-    <div className="overflow-x-auto">
+    <div className="space-y-3 overflow-x-auto">
       <table className="w-full border border-border text-sm">
         {/* HEADER */}
+
         <thead className="bg-muted">
           <tr>
             {headers.map((header: string, i: number) => (
@@ -59,10 +77,13 @@ export default function TableBlock({
                 {header}
               </th>
             ))}
+
+            {isEditing && <th className="w-10" />}
           </tr>
         </thead>
 
         {/* BODY */}
+
         <tbody>
           {rows.map((row: string[], rowIndex: number) => (
             <tr key={rowIndex}>
@@ -81,11 +102,23 @@ export default function TableBlock({
                   )}
                 </td>
               ))}
+
+              {isEditing && (
+                <td className="border border-border px-2 text-center">
+                  <button
+                    onClick={() => removeRow(rowIndex)}
+                    className="text-red-500"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
 
         {/* FOOTER */}
+
         {footer && (
           <tfoot className="bg-muted font-semibold">
             <tr>
@@ -96,16 +129,32 @@ export default function TableBlock({
                   ) : (
                     <input
                       value={cell}
-                      onChange={(e) => updateFooter(colIndex, e.target.value)}
+                      onChange={(e) =>
+                        updateFooter(colIndex, e.target.value)
+                      }
                       className="w-full bg-transparent outline-none"
                     />
                   )}
                 </td>
               ))}
+
+              {isEditing && <td />}
             </tr>
           </tfoot>
         )}
       </table>
+
+      {/* ADD ROW BUTTON */}
+
+      {isEditing && (
+        <button
+          onClick={addRow}
+          className="flex items-center gap-2 text-sm text-primary"
+        >
+          <Plus size={16} />
+          Add row
+        </button>
+      )}
     </div>
   );
 }
