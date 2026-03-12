@@ -1,7 +1,7 @@
 ---
 import { QueryClientProvider } from "@tanstack/react-query";
 import PostsLayout from "../components/layouts/PostsLayout.astro";
-import { PostShell3, PostShell4 } from "../components/posts/PostShell";
+import { PostShell4 } from "../components/posts/PostPage4";
 import { queryClient } from "../lib/tanStack";
 
 const user = Astro.locals.user;
@@ -77,15 +77,11 @@ const squaresConfig = [
 ];
 ---
 
-<div>
-  <PostsLayout>
-    <QueryClientProvider client={queryClient}>
-      <PostShell4
-        location={location}
-        user={user}
-        client:load
-        squaresConfig={squaresConfig}
-      /></QueryClientProvider
-    >
-  </PostsLayout>
-</div>
+<PostsLayout>
+  <PostShell4
+    location={location}
+    user={user}
+    client:load
+    squaresConfig={squaresConfig}
+  />
+</PostsLayout>

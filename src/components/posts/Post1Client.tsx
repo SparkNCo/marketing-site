@@ -2,6 +2,7 @@ import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../lib/tanStack/index.ts";
 import SquaresPostLayout from "./SquaresPostLayout.tsx";
 import { PostFooter1 } from "./PostFooter.tsx";
+import { LoadingWrapper } from "../proposals/MissingPasscode.tsx";
 
 export type Post1Props = {
   squaresConfig: any[];
@@ -41,7 +42,9 @@ export function PostShell1({ blog, squaresConfig, edit }) {
     enabled: !!blog,
   });
 
-  if (isLoading) return <div className="text-foreground">Loading...</div>;
+  if (isLoading) {
+    return <LoadingWrapper label="Loading post..." />;
+  }
   if (error) return <div>Error loading post</div>;
   if (!uniquePost) return null;
 
