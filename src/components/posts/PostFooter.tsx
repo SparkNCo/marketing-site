@@ -1,4 +1,7 @@
+import { useMutation } from "@tanstack/react-query";
 import { ArrowBigRight } from "lucide-react";
+import { useRef } from "react";
+import { useState, useEffect } from "react";
 
 export default function PostFooter({
   height = "h-28",
@@ -26,15 +29,88 @@ export default function PostFooter({
   );
 }
 
-export function PostFooter1({ title, author }) {
-  return (
-    <div className="h-[270px] flex items-center  ">
-      <div className="w-full mx-auto space-y-2 flex flex-col items-end text-right mr-[20px]">
-        <h2 className="text-[52px] font-semibold leading-tight line-clamp-2 text-foreground w-[850px]">
-          {title}
-        </h2>
+export function PostFooter1({ title, author, edit, blogId }) {
+  const [localTitle, setLocalTitle] = useState(title);
+  const [localAuthor, setLocalAuthor] = useState(author);
+  const debounceRef = useRef(null);
 
-        <p className="text-[36px] font-light text-neutral-400 py-6">{author}</p>
+  const mutation = useMutation({
+    mutationFn: async ({ title, author }) => {
+      const res = await fetch(
+        `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            author,
+          }),
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to update post");
+      }
+
+      return res.json();
+    },
+  });
+
+  useEffect(() => {
+    setLocalTitle(title);
+  }, [title]);
+
+  useEffect(() => {
+    setLocalAuthor(author);
+  }, [author]);
+
+  useEffect(() => {
+    if (!edit) return;
+
+    // do nothing if values didn't change
+    if (localTitle === title && localAuthor === author) return;
+
+    clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(() => {
+      mutation.mutate({
+        title: localTitle,
+        author: localAuthor,
+      });
+    }, 2000);
+
+    return () => clearTimeout(debounceRef.current);
+  }, [localTitle, localAuthor]);
+
+  return (
+    <div className="h-[270px] flex items-center">
+      <div className="w-full mx-auto space-y-2 flex flex-col items-end text-right mr-[20px]">
+        {edit ? (
+          <textarea
+            value={localTitle || ""}
+            rows={2}
+            className="text-[52px] font-semibold leading-tight text-foreground w-[850px] resize-none bg-transparent outline-none text-right overflow-hidden"
+            onChange={(e) => setLocalTitle(e.target.value)}
+          />
+        ) : (
+          <h2 className="text-[52px] font-semibold leading-tight line-clamp-2 text-foreground w-[850px]">
+            {title}
+          </h2>
+        )}
+
+        {edit ? (
+          <input
+            value={localAuthor || ""}
+            className="text-[36px] font-light text-neutral-400 py-6 bg-transparent outline-none text-right overflow-hidden"
+            onChange={(e) => setLocalAuthor(e.target.value)}
+          />
+        ) : (
+          <p className="text-[36px] font-light text-neutral-400 py-6">
+            {author}
+          </p>
+        )}
       </div>
     </div>
   );

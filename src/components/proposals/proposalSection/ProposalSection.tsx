@@ -8,6 +8,8 @@ import CoverPageRenderer from "./SectionRenderer/CoverPageRenderer";
 interface ProposalSectionProps {
   title: string;
   data: any;
+  openSections: string[];
+  setOpenSections: (sections: string[]) => void;
   setProposal: (data: any) => void;
   dbUser?: { role?: string };
 }
@@ -16,11 +18,21 @@ export default function ProposalSection({
   title,
   data,
   setProposal,
+  openSections,
+  setOpenSections,
   dbUser,
 }: ProposalSectionProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
   const [localData, setLocalData] = useState<any>(data);
+  const isOpen = openSections.includes(title);
+
+  const toggleOpen = () => {
+    if (openSections.includes(title)) {
+      setOpenSections(openSections.filter((s) => s !== title));
+    } else {
+      setOpenSections([...openSections, title]);
+    }
+  };
 
   useEffect(() => {
     setLocalData(data);
@@ -33,10 +45,9 @@ export default function ProposalSection({
     setIsEditing(!isEditing);
   };
 
-  // ✅ SPECIAL CASE
   if (title === "Cover Page") {
     return (
-      <section className="mb-6 w-[80vw]">
+      <section className="mb-6  ">
         <CoverPageRenderer
           data={localData}
           setData={setLocalData}
@@ -47,11 +58,11 @@ export default function ProposalSection({
   }
 
   return (
-    <section className="mb-6 w-[80vw]">
+    <section className="mb-6  bg-card ">
       <SectionHeader
         title={title}
         isOpen={isOpen}
-        toggleOpen={() => setIsOpen(!isOpen)}
+        toggleOpen={toggleOpen}
         isEditing={isEditing}
         toggleEdit={toggleEdit}
         dbUser={dbUser}

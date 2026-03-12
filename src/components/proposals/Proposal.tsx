@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 
 import type { ProposalIslandProps } from "../utils/interfaces";
@@ -86,7 +86,6 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
   }
 
   const { dbUser } = useApp();
-  const queryClient = useQueryClient();
 
   const initialMode: PageMode =
     mode === "features" ||

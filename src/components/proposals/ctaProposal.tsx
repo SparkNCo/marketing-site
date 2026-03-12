@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Card } from "../ui/card";
 import { SignatureModal } from "./SignatureModal";
-import { CheckCircle, Phone } from "lucide-react";
+import { CheckCircle, Phone, Menu } from "lucide-react";
 import ProposalButton from "../ui/ProposalButton";
 
 export default function CtaProposal({
@@ -57,12 +57,15 @@ export default function CtaProposal({
   };
 
   return (
-    <>
-      <section className="mb-16 w-[80vw]">
-        <Card className="p-8 bg-background text-foreground border-none">
+    <div className="py-8">
+      <section className="mb-16 ">
+        <Card
+          className="p-8 bg-background text-foreground border-none"
+          rounded={false}
+        >
           {/* Header */}
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-xl">☰</span>
+          <div className="flex items-center gap-3">
+            <Menu className="w-10 h-10" />{" "}
             <h2 className="text-2xl font-bold">Build</h2>
           </div>
 
@@ -105,6 +108,6 @@ export default function CtaProposal({
         onClose={() => setOpen(false)}
         onConfirm={handleConfirmSignature}
       />
-    </>
+    </div>
   );
 }

@@ -1,46 +1,44 @@
-import SquaresPostLayout from "./SquaresPostLayout.tsx";
-import PostFooter from "./PostFooter.tsx";
-import PostPageCentered from "./PostPageCentered.tsx";
-import PostPage2 from "./PostPage2.tsx";
-import { QueryClientProvider, useQuery } from "@tanstack/react-query";
-import { queryClient } from "../../lib/tanStack/index.ts";
 import { useEffect } from "react";
-
-export async function fetchPost(blogId: string) {
-  const res = await fetch(
-    `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch post");
-  }
-
-  return res.json();
-}
+import PostFooter from "./PostFooter";
+import PostPage2 from "./PostPage2";
+import PostPageCentered from "./PostPageCentered";
+import { fetchPost } from "./PostShell";
+import SquaresPostLayout from "./SquaresPostLayout";
+import { QueryClientProvider, useQuery } from "@tanstack/react-query";
+import { queryClient } from "../../lib/tanStack";
+import { LoadingWrapper } from "../proposals/MissingPasscode";
 
 type PostShellProps = {
   squaresConfig: any[];
   blog: string;
+  edit: string | null;
   layoutType: "page2" | "centered";
 };
 
 export function PostShell5({
   squaresConfig,
-  edit,
   blog,
   layoutType,
+  edit,
 }: PostShellProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <PostContent
         squaresConfig={squaresConfig}
         blog={blog}
+        edit={edit}
         layoutType={layoutType}
       />
     </QueryClientProvider>
   );
 }
 
-function PostContent({ squaresConfig, blog, layoutType }: PostShellProps) {
+function PostContent({
+  squaresConfig,
+  blog,
+  layoutType,
+  edit,
+}: PostShellProps) {
   const {
     data: uniquePost,
     isLoading,
@@ -58,7 +56,7 @@ function PostContent({ squaresConfig, blog, layoutType }: PostShellProps) {
   }, [blog]);
 
   if (isLoading) {
-    return <div className="w-[1080px] mx-auto h-[1170px]">Loading...</div>;
+    return <LoadingWrapper label="Loading post..." />;
   }
 
   if (error || !uniquePost) {
@@ -73,9 +71,16 @@ function PostContent({ squaresConfig, blog, layoutType }: PostShellProps) {
             <PostPageCentered
               key={uniquePost.blog_id}
               uniquePost={uniquePost}
+              edit={edit}
+              blogId={blog}
             />
           ) : (
-            <PostPage2 key={uniquePost.blog_id} uniquePost={uniquePost} />
+            <PostPage2
+              key={uniquePost.blog_id}
+              uniquePost={uniquePost}
+              edit={edit}
+              blogId={blog}
+            />
           )}
         </div>
       </SquaresPostLayout>

@@ -1,10 +1,9 @@
 ---
 import PostsLayout from "../components/layouts/PostsLayout.astro";
-import { PostShell1 } from "../components/posts/PostShell";
+import { Post1Client } from "../components/posts/Post1Client";
 
-const user = Astro.locals.user;
-const location = Astro.url.pathname;
 const blog = Astro.url.searchParams.get("blog");
+const edit = Astro.url.searchParams.get("edit");
 const squaresConfig = [
   {
     // long bottom bar
@@ -84,11 +83,10 @@ const squaresConfig = [
 ---
 
 <PostsLayout>
-  <PostShell1
-    location={location}
-    user={user}
-    blog={blog}
+  <Post1Client
     client:load
     squaresConfig={squaresConfig}
-  />
-</PostsLayout>
+    blog={blog}
+    edit={edit}
+  /></PostsLayout
+>

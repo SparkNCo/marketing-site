@@ -1,117 +1,117 @@
-import { useState } from "react";
-import { Pencil, Save, Users } from "lucide-react";
-import { Badge } from "../ui/badge";
-import { Card } from "../ui/card";
-import { Button } from "../ui/button";
-import DedicatedTeamEditor from "./DedicatedTeamEditor";
+// import { useState } from "react";
+// import { Pencil, Save, Users } from "lucide-react";
+// import { Badge } from "../ui/badge";
+// import { Card } from "../ui/card";
+// import { Button } from "../ui/button";
+// import DedicatedTeamEditor from "./DedicatedTeamEditor";
 
-export type TeamMember = {
-  name: string;
-  role: string;
-  description: string;
-  commitment: string;
-};
+// export type TeamMember = {
+//   name: string;
+//   role: string;
+//   description: string;
+//   commitment: string;
+// };
 
-export default function DedicatedTeam({ initialTeam, setProposal, dbUser }) {
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeam);
-  const [isEditing, setIsEditing] = useState(false);
+// export default function DedicatedTeam({ initialTeam, setProposal, dbUser }) {
+//   const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialTeam);
+//   const [isEditing, setIsEditing] = useState(false);
 
-  const updateTeamMember = (
-    index: number,
-    field: keyof TeamMember,
-    value: string,
-  ) => {
-    setTeamMembers((prev) =>
-      prev.map((member, i) =>
-        i === index ? { ...member, [field]: value } : member,
-      ),
-    );
-  };
-  const addTeamMember = () => {
-    setTeamMembers((prev) => [
-      ...prev,
-      {
-        name: "",
-        role: "",
-        description: "",
-        commitment: "",
-      },
-    ]);
-  };
-  const removeTeamMember = (index: number) => {
-    setTeamMembers((prev) => prev.filter((_, i) => i !== index));
-  };
+//   const updateTeamMember = (
+//     index: number,
+//     field: keyof TeamMember,
+//     value: string,
+//   ) => {
+//     setTeamMembers((prev) =>
+//       prev.map((member, i) =>
+//         i === index ? { ...member, [field]: value } : member,
+//       ),
+//     );
+//   };
+//   const addTeamMember = () => {
+//     setTeamMembers((prev) => [
+//       ...prev,
+//       {
+//         name: "",
+//         role: "",
+//         description: "",
+//         commitment: "",
+//       },
+//     ]);
+//   };
+//   const removeTeamMember = (index: number) => {
+//     setTeamMembers((prev) => prev.filter((_, i) => i !== index));
+//   };
 
-  const toggleEditMode = () => {
-    if (isEditing) {
-      setProposal(teamMembers);
-    }
-    setIsEditing((prev) => !prev);
-  };
-  return (
-    <section className="mb-16 w-[80vw]">
-      {/* Header stays hardcoded */}
+//   const toggleEditMode = () => {
+//     if (isEditing) {
+//       setProposal(teamMembers);
+//     }
+//     setIsEditing((prev) => !prev);
+//   };
+//   return (
+//     <section className="mb-16 w-[80vw]">
+//       {/* Header stays hardcoded */}
 
-      <div className="mb-6 mt-10 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Users className="h-6 w-6 text-primary" />
-          <h2 className="text-3xl font-bold text-card">Your Dedicated Team</h2>
-        </div>
+//       <div className="mb-6 mt-10 flex items-center justify-between">
+//         <div className="flex items-center gap-3">
+//           <Users className="h-6 w-6 text-primary" />
+//           <h2 className="text-3xl font-bold text-card">Your Dedicated Team</h2>
+//         </div>
 
-        {dbUser?.role === "admin" && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => toggleEditMode()}
-            className="flex items-center gap-2 bg-background"
-          >
-            {isEditing ? (
-              <>
-                <Save className="h-4 w-4" /> Save
-              </>
-            ) : (
-              <>
-                <Pencil className="h-4 w-4" /> Edit
-              </>
-            )}
-          </Button>
-        )}
-      </div>
+//         {dbUser?.role === "admin" && (
+//           <Button
+//             variant="outline"
+//             size="sm"
+//             onClick={() => toggleEditMode()}
+//             className="flex items-center gap-2 bg-background"
+//           >
+//             {isEditing ? (
+//               <>
+//                 <Save className="h-4 w-4" /> Save
+//               </>
+//             ) : (
+//               <>
+//                 <Pencil className="h-4 w-4" /> Edit
+//               </>
+//             )}
+//           </Button>
+//         )}
+//       </div>
 
-      {isEditing ? (
-        <DedicatedTeamEditor
-          teamMembers={teamMembers}
-          onUpdateMember={updateTeamMember}
-          onAddMember={addTeamMember}
-          onRemoveMember={removeTeamMember}
-        />
-      ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
-          {teamMembers?.map((member) => (
-            <Card
-              key={member.name}
-              className="border-border bg-background p-6 transition-colors hover:border-primary border-card"
-            >
-              <div className="mb-3">
-                <h3 className="text-lg font-semibold text-foreground">
-                  {member.name}
-                </h3>
-                <p className="text-sm font-medium text-primary">
-                  {member.role}
-                </p>
-              </div>
+//       {isEditing ? (
+//         <DedicatedTeamEditor
+//           teamMembers={teamMembers}
+//           onUpdateMember={updateTeamMember}
+//           onAddMember={addTeamMember}
+//           onRemoveMember={removeTeamMember}
+//         />
+//       ) : (
+//         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
+//           {teamMembers?.map((member) => (
+//             <Card
+//               key={member.name}
+//               className="border-border bg-background p-6 transition-colors hover:border-primary border-card"
+//             >
+//               <div className="mb-3">
+//                 <h3 className="text-lg font-semibold text-foreground">
+//                   {member.name}
+//                 </h3>
+//                 <p className="text-sm font-medium text-primary">
+//                   {member.role}
+//                 </p>
+//               </div>
 
-              <p className="mb-3 text-sm leading-relaxed text-foreground">
-                {member.description}
-              </p>
+//               <p className="mb-3 text-sm leading-relaxed text-foreground">
+//                 {member.description}
+//               </p>
 
-              <Badge variant="outline" className="text-xs">
-                {member.commitment}
-              </Badge>
-            </Card>
-          ))}
-        </div>
-      )}
-    </section>
-  );
-}
+//               <Badge variant="outline" className="text-xs">
+//                 {member.commitment}
+//               </Badge>
+//             </Card>
+//           ))}
+//         </div>
+//       )}
+//     </section>
+//   );
+// }

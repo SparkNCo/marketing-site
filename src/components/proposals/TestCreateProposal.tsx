@@ -23,28 +23,27 @@ export default function CreateProposalCta({
       proposal_title: sections?.["Cover Page"]?.["Proposal Title"],
       proposal_date: sections?.["Cover Page"]?.Date,
       valid_until: sections?.["Cover Page"]?.["Proposal Valid Until"],
-
-      executive_summary: sections?.["Executive Summary"],
-      problem_context: sections?.["Problem & Context"],
+      disclaimer: sections?.["Disclaimer"],
+      summary: sections?.["Executive Summary"],
+      problem_and_context: sections?.["Problem & Context"],
       solution_overview: sections?.["Solution Overview"],
       acceptance_completion_criteria:
         sections?.["Acceptance & Completion Criteria"],
-
-      objectives: sections?.["Objectives & Success Criteria"],
+      objectives_and_success_criteria:
+        sections?.["Objectives & Success Criteria"],
       scope_of_work: sections?.["Scope of Work"],
       deliverables: sections?.Deliverables,
-      assumptions_dependencies: sections?.["Assumptions & Dependencies"],
+      assumptions_and_dependencies: sections?.["Assumptions & Dependencies"],
       client_responsibilities: sections?.["Client Responsibilities"],
-
+      history_and_case_studies: sections?.["History & Case Studies"],
       total_duration: sections?.["Timeline & Milestones"]?.["Total Duration"],
-      timeline_milestones: sections?.["Timeline & Milestones"]?.Milestones,
-
-      team_communication: sections?.["Team & Communication"],
-      technology_architecture: sections?.["Technology & Architecture"],
-      change_management: sections?.["Change Management Process"],
-      pricing_commercial_terms: sections?.["Pricing & Commercial Terms"],
-      risk_responsibility_boundaries:
-        sections?.["Risk & Responsibility Boundaries"],
+      timeline_and_milestones: sections?.["Timeline & Milestones"]?.Milestones,
+      risk_and_responsabilities: sections?.["Risk & Responsibility Boundaries"],
+      assurance_and_quality: sections?.["Assurance & Quality"],
+      team_and_communication: sections?.["Team & Communication"],
+      technology_and_architecture: sections?.["Technology & Architecture"],
+      change_management_process: sections?.["Change Management Process"],
+      pricing_and_commercial: sections?.["Pricing & Commercial Terms"],
       next_steps: sections?.["Next Steps"],
       signatures: sections?.Signatures,
     };
@@ -116,8 +115,7 @@ export default function CreateProposalCta({
         {mutation.isError && (
           <p className="mt-4 text-sm text-red-500">
             {(mutation.error as Error).message ||
-              "Could not save proposal. Please try again."
-            }
+              "Could not save proposal. Please try again."}
           </p>
         )}
 
