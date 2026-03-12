@@ -58,10 +58,10 @@ export default function PostPage2({ uniquePost, edit, blogId }) {
               value={content}
               rows={6}
               onChange={(e) => setContent(e.target.value)}
-              className="w-[75%] text-[38px] font-light text-foreground whitespace-pre-line text-left bg-transparent outline-none h-[580px] "
+              className="w-[100%] text-[38px] font-light text-foreground whitespace-pre-line text-left bg-transparent outline-none h-[580px] "
             />
           ) : (
-            <p className="w-[75%] text-[38px] font-light text-foreground whitespace-pre-line text-left ">
+            <p className="w-[100%] text-[38px] font-light text-foreground whitespace-pre-line text-left ">
               {content}
             </p>
           )}
