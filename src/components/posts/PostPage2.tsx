@@ -38,7 +38,6 @@ export default function PostPage2({ uniquePost, edit, blogId }) {
 
     const original = uniquePost?.slide_two || "";
 
-    // prevent unnecessary saves
     if (content === original) return;
 
     clearTimeout(debounceRef.current);
@@ -50,33 +49,21 @@ export default function PostPage2({ uniquePost, edit, blogId }) {
     return () => clearTimeout(debounceRef.current);
   }, [content]);
 
-  const paragraphs = content.split("\n\n");
-
   return (
     <article className="w-[1080px] h-[1170px] text-white flex flex-col">
       <article className="w-[900px] mx-auto text-white flex flex-col mt-12">
         <div className="py-12 flex flex-col gap-12">
-          {paragraphs.map((p, i) =>
-            edit ? (
-              <textarea
-                key={i}
-                value={p}
-                rows={3}
-                onChange={(e) => {
-                  const updated = [...paragraphs];
-                  updated[i] = e.target.value;
-                  setContent(updated.join("\n\n"));
-                }}
-                className="w-[75%] text-[38px] font-light text-foreground whitespace-pre-line text-left bg-transparent outline-none resize-none"
-              />
-            ) : (
-              <p
-                key={i}
-                className="w-[75%] text-[38px] font-light text-foreground whitespace-pre-line text-left"
-              >
-                {p}
-              </p>
-            ),
+          {edit ? (
+            <textarea
+              value={content}
+              rows={6}
+              onChange={(e) => setContent(e.target.value)}
+              className="w-[75%] text-[38px] font-light text-foreground whitespace-pre-line text-left bg-transparent outline-none h-[580px] "
+            />
+          ) : (
+            <p className="w-[75%] text-[38px] font-light text-foreground whitespace-pre-line text-left ">
+              {content}
+            </p>
           )}
         </div>
       </article>
