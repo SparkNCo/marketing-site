@@ -95,24 +95,12 @@ export default function ProposalPage({ proposal, dbUser }) {
 
   /* ---------------- UPDATE SECTION ---------------- */
 
-  const handleUpdate = async (sectionKey: string, value: any) => {
-    const updatedSections = { ...sections, [sectionKey]: value };
-    setSections(updatedSections);
-
-    const dbKey = keyMap[sectionKey];
-
-    const updatedProposal = {
-      ...localProposal,
-      [dbKey]: value,
-    };
-
-    setLocalProposal(updatedProposal);
-
+  const updateProposal = async (updatedSections: any, stage?: string) => {
     const updates = {
       ...buildSectionUpdates(updatedSections),
-      stage: updatedProposal?.stage,
-      signature_url: updatedProposal?.signature_url,
-      signed_at: updatedProposal?.signed_at,
+      stage: stage ?? localProposal?.stage,
+      signature_url: localProposal?.signature_url,
+      signed_at: localProposal?.signed_at,
     };
 
     try {
@@ -127,6 +115,22 @@ export default function ProposalPage({ proposal, dbUser }) {
     } catch (err) {
       console.error("Failed to update proposal", err);
     }
+  };
+
+  const handleUpdate = async (sectionKey: string, value: any) => {
+    const updatedSections = { ...sections, [sectionKey]: value };
+    setSections(updatedSections);
+
+    const dbKey = keyMap[sectionKey];
+
+    const updatedProposal = {
+      ...localProposal,
+      [dbKey]: value,
+    };
+
+    setLocalProposal(updatedProposal);
+
+    await updateProposal(updatedSections);
   };
 
   /* ---------------- SCROLL ---------------- */
@@ -146,7 +150,10 @@ export default function ProposalPage({ proposal, dbUser }) {
   };
 
   const setStage = (stage: string) => {
-    setLocalProposal((prev: any) => ({ ...prev, stage }));
+    const updatedProposal = { ...localProposal, stage };
+    setLocalProposal(updatedProposal);
+
+    updateProposal(sections, stage);
   };
 
   if (!localProposal) return null;
