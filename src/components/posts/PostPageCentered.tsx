@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { patchIgPost } from "./patchPost";
 
 export default function PostPageCentered({ uniquePost, edit, blogId }) {
   const [title, setTitle] = useState(uniquePost?.slide_three_title || "");
@@ -11,34 +12,39 @@ export default function PostPageCentered({ uniquePost, edit, blogId }) {
     setContent(uniquePost?.slide_three || "");
   }, [uniquePost?.slide_three, uniquePost?.slide_three_title]);
 
+  // const mutation = useMutation({
+  //   mutationFn: async ({
+  //     slide_three,
+  //     slide_three_title,
+  //   }: {
+  //     slide_three: string;
+  //     slide_three_title: string;
+  //   }) => {
+  //     const res = await fetch(
+  //       `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
+  //       {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           slide_three,
+  //           slide_three_title,
+  //         }),
+  //       },
+  //     );
+
+  //     if (!res.ok) {
+  //       throw new Error("Failed to update post");
+  //     }
+
+  //     return res.json();
+  //   },
+  // });
+
   const mutation = useMutation({
-    mutationFn: async ({
-      slide_three,
-      slide_three_title,
-    }: {
-      slide_three: string;
-      slide_three_title: string;
-    }) => {
-      const res = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            slide_three,
-            slide_three_title,
-          }),
-        },
-      );
-
-      if (!res.ok) {
-        throw new Error("Failed to update post");
-      }
-
-      return res.json();
-    },
+    mutationFn: (updates: { slide_three: string; slide_three_title: string }) =>
+      patchIgPost(blogId!, updates),
   });
 
   useEffect(() => {

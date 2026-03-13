@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState, useEffect, useRef } from "react";
+import { patchIgPost } from "./patchPost";
 
 export default function PostPage2({ uniquePost, edit, blogId }) {
   const [content, setContent] = useState(uniquePost?.slide_two || "");
@@ -10,26 +11,7 @@ export default function PostPage2({ uniquePost, edit, blogId }) {
   }, [uniquePost?.slide_two]);
 
   const mutation = useMutation({
-    mutationFn: async (slide_two: string) => {
-      const res = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            slide_two,
-          }),
-        },
-      );
-
-      if (!res.ok) {
-        throw new Error("Failed to update post");
-      }
-
-      return res.json();
-    },
+    mutationFn: (slide_two: string) => patchIgPost(blogId!, { slide_two }),
   });
 
   useEffect(() => {

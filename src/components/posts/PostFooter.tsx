@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ArrowBigRight } from "lucide-react";
 import { useRef } from "react";
 import { useState, useEffect } from "react";
+import { patchIgPost } from "./patchPost";
 
 export default function PostFooter({
   height = "h-28",
@@ -35,29 +36,35 @@ export function PostFooter1({ title, author, edit, blogId }) {
   const [localAuthor, setLocalAuthor] = useState(author);
   const debounceRef = useRef(null);
 
-  const mutation = useMutation({
-    mutationFn: async ({ title, author }) => {
-      const res = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title,
-            author,
-          }),
-        },
-      );
+const mutation = useMutation({
+  mutationFn: (updates: { title: string; author: string }) =>
+    patchIgPost(blogId!, updates),
+});
 
-      if (!res.ok) {
-        throw new Error("Failed to update post");
-      }
 
-      return res.json();
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationFn: async ({ title, author }) => {
+  //     const res = await fetch(
+  //       `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
+  //       {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           title,
+  //           author,
+  //         }),
+  //       },
+  //     );
+
+  //     if (!res.ok) {
+  //       throw new Error("Failed to update post");
+  //     }
+
+  //     return res.json();
+  //   },
+  // });
 
   useEffect(() => {
     setLocalTitle(title);

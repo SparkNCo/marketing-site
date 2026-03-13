@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { PlusCircle, Save } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { patchIgPost } from "./patchPost";
 
 // @ts-nocheck
 
@@ -29,26 +30,30 @@ export default function SquaresPostLayout({
   const [tagGroups, setTagGroups] = useState(tags);
   const debounceRef = useRef(null);
 
-  const mutation = useMutation({
-    mutationFn: async (tags: string[]) => {
-      const res = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            tags,
-          }),
-        },
-      );
-      if (!res.ok) {
-        throw new Error("Failed to update tags");
-      }
+  // const mutation = useMutation({
+  //   mutationFn: async (tags: string[]) => {
+  //     const res = await fetch(
+  //       `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
+  //       {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           tags,
+  //         }),
+  //       },
+  //     );
+  //     if (!res.ok) {
+  //       throw new Error("Failed to update tags");
+  //     }
 
-      return res.json();
-    },
+  //     return res.json();
+  //   },
+  // });
+
+  const mutation = useMutation({
+    mutationFn: (tags: string[]) => patchIgPost(blogId!, { tags }),
   });
 
   useEffect(() => {
