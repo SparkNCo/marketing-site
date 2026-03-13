@@ -153,8 +153,6 @@ export default function ProposalPage({ proposal, dbUser }) {
 
   return (
     <div className="flex mt-32 w-full bg-background">
-      {/* Table of contents */}
-
       <div className="w-60 pr-6 hidden lg:block text-foreground ">
         <div className="sticky top-32 space-y-4 text-sm">
           <div className="flex items-center gap-2 font-semibold">

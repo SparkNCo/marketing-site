@@ -63,33 +63,31 @@ export default function PostPageCentered({ uniquePost, edit, blogId }) {
   }, [content, title]);
 
   return (
-    <article className="w-full h-[1160px] bg-white text-background flex flex-col text-center relative">
+    <article className="w-full h-[1160px] bg-white text-background flex flex-col text-center relative ">
       {/* Hero */}
-      <div className="w-[90%] mx-auto py-12 space-y-4 mt-40 ">
+      <div className="w-[90%] mx-auto py-12 space-y-4 mt-24  ">
         {edit ? (
           <input
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="text-4xl font-bold leading-tight max-w-3xl mx-auto bg-transparent outline-none text-center w-full "
+            className="text-4xl font-bold leading-tight  mx-auto bg-transparent outline-none text-center w-full "
           />
         ) : (
-          <h1 className="text-4xl font-bold leading-tight max-w-3xl mx-auto">
-            {title}
-          </h1>
+          <h1 className="text-4xl font-bold leading-tight  mx-auto">{title}</h1>
         )}
       </div>
 
       {/* Content */}
-      <div className="w-[60%] mx-auto flex flex-col items-center overflow-y-hidden">
+      <div className="w-[90%] mx-auto flex flex-col items-center overflow-y-hidden ">
         {edit ? (
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={6}
-            className="w-[90%] text-[34px] font-light text-background bg-transparent outline-none resize-none text-center whitespace-pre-line h-[550px] overflow-y-hidden"
+            className="w-[90%] text-[34px] font-light text-background bg-transparent outline-none resize-none text-center whitespace-pre-line h-[660px] overflow-y-hidden"
           />
         ) : (
-          <div className="w-[90%] text-[34px] font-light text-background whitespace-pre-line h-[550px] overflow-y-hidden">
+          <div className="w-[90%] text-[34px] font-light text-background whitespace-pre-line h-[660px] overflow-y-hidden">
             {content}
           </div>
         )}

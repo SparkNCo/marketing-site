@@ -7,7 +7,7 @@ export default function PostFooter({
   height = "h-28",
   bgColor = "bg-white",
   imgSrc = "/nbarIcon2.png",
-  arrowColor = "text-background",
+  arrowColor = "text-white",
   hideComponets = false,
 }) {
   return (
@@ -19,10 +19,11 @@ export default function PostFooter({
             alt="footer-icon"
             className="w-32 h-32 object-contain"
           />
-          <ArrowBigRight
-            className={`w-20 h-20 ${arrowColor}`}
-            fill={imgSrc === "/nbarIcon.png" ? "white" : "black"}
-          />{" "}
+          {arrowColor === "black" ? (
+            <img src="/Arrow 1.svg" alt="arrow" className={`w-20 h-20`} />
+          ) : (
+            <img src="/Arrow 2.svg" alt="arrow" className={`w-20 h-20`} />
+          )}
         </div>
       )}
     </div>

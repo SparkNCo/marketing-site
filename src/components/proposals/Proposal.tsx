@@ -50,7 +50,6 @@ export type Proposal = {
   signed_at: string;
 };
 
-type ProposalUpdate = Partial<Proposal>;
 
 const slideVariants = {
   initial: { opacity: 0, x: 80 },

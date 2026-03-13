@@ -1,4 +1,4 @@
-import { CircleCheck, Trash2, Plus } from "lucide-react";
+import { CircleCheck, Trash2, Plus, Dot } from "lucide-react";
 
 export default function ListBlock({
   block,
@@ -28,14 +28,14 @@ export default function ListBlock({
     if (subtype === "titled") {
       updateItems(
         items.map((item: any, i: number) =>
-          i === itemIndex ? { ...item, [key!]: value } : item
-        )
+          i === itemIndex ? { ...item, [key!]: value } : item,
+        ),
       );
     } else {
       updateItems(
         items.map((item: string, i: number) =>
-          i === itemIndex ? value : item
-        )
+          i === itemIndex ? value : item,
+        ),
       );
     }
   };
@@ -51,8 +51,6 @@ export default function ListBlock({
   const removeItem = (itemIndex: number) => {
     updateItems(items.filter((_: any, i: number) => i !== itemIndex));
   };
-
-  /* ---------------- TITLED (Pseudo Q&A) ---------------- */
 
   if (subtype === "titled") {
     return (
@@ -74,9 +72,7 @@ export default function ListBlock({
                   <div className="flex justify-between items-start gap-2">
                     <input
                       value={item.title}
-                      onChange={(e) =>
-                        handleChange(e.target.value, i, "title")
-                      }
+                      onChange={(e) => handleChange(e.target.value, i, "title")}
                       className="border rounded-md px-2 py-1 text-sm w-full"
                     />
 
@@ -90,9 +86,7 @@ export default function ListBlock({
 
                   <textarea
                     value={item.content}
-                    onChange={(e) =>
-                      handleChange(e.target.value, i, "content")
-                    }
+                    onChange={(e) => handleChange(e.target.value, i, "content")}
                     className="border rounded-md px-2 py-1 text-sm"
                   />
                 </div>
@@ -113,8 +107,6 @@ export default function ListBlock({
       </div>
     );
   }
-
-  /* ---------------- CHECKED LIST ---------------- */
 
   if (subtype === "checked") {
     return (
@@ -161,24 +153,23 @@ export default function ListBlock({
     );
   }
 
-  /* ---------------- BULLET / NUMBERED LIST ---------------- */
-
   const ListTag = subtype === "numbered" ? "ol" : "ul";
-  const listStyle = subtype === "numbered" ? "list-decimal" : "list-disc";
 
   return (
     <div className="space-y-4">
       {title && <h3 className="font-semibold text-lg">{title}</h3>}
 
-      <ListTag
-        className={`pl-6 space-y-2 list-inside ${listStyle} ${
-          subtype === "numbered"
-            ? "marker:text-primary marker:font-semibold marker:text-base"
-            : ""
-        }`}
-      >
+      <ListTag className="space-y-2">
         {items.map((item: string, i: number) => (
           <li key={i} className="flex gap-2 items-start">
+            {subtype === "numbered" ? (
+              <span className="text-primary font-semibold w-5 shrink-0">
+                {i + 1}.
+              </span>
+            ) : (
+              <Dot className="text-primary mt-1 w-5 h-5 shrink-0 scale-[1.9]" />
+            )}
+
             {!isEditing ? (
               <span>{item}</span>
             ) : (
@@ -189,10 +180,7 @@ export default function ListBlock({
                   className="w-full border rounded-md px-2 py-1 text-sm"
                 />
 
-                <button
-                  onClick={() => removeItem(i)}
-                  className="text-red-500"
-                >
+                <button onClick={() => removeItem(i)} className="text-red-500">
                   <Trash2 size={16} />
                 </button>
               </>

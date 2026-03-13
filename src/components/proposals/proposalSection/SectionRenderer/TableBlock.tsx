@@ -11,7 +11,6 @@ export default function TableBlock({
 
   const updateRows = (newRows: string[][]) => {
     const updated = [...data];
-
     updated[index] = {
       ...block,
       content: {
@@ -19,7 +18,6 @@ export default function TableBlock({
         rows: newRows,
       },
     };
-
     setData(updated);
   };
 
@@ -27,19 +25,31 @@ export default function TableBlock({
     const newRows = rows.map((row: string[], r: number) =>
       r === rowIndex
         ? row.map((cell: string, c: number) => (c === colIndex ? value : cell))
-        : row
+        : row,
     );
-
     updateRows(newRows);
+  };
+
+  const updateHeader = (colIndex: number, value: string) => {
+    const updated = [...data];
+    const newHeaders = headers.map((h: string, i: number) =>
+      i === colIndex ? value : h,
+    );
+    updated[index] = {
+      ...block,
+      content: {
+        ...block.content,
+        headers: newHeaders,
+      },
+    };
+    setData(updated);
   };
 
   const updateFooter = (colIndex: number, value: string) => {
     const updated = [...data];
-
     const newFooter = footer.map((cell: string, c: number) =>
-      c === colIndex ? value : cell
+      c === colIndex ? value : cell,
     );
-
     updated[index] = {
       ...block,
       content: {
@@ -47,14 +57,11 @@ export default function TableBlock({
         footer: newFooter,
       },
     };
-
     setData(updated);
   };
 
-  /* ---------------- ADD / REMOVE ROWS ---------------- */
-
   const addRow = () => {
-    const emptyRow = headers.map(() => "");
+    const emptyRow = headers.map(() => " ");
     updateRows([...rows, emptyRow]);
   };
 
@@ -65,8 +72,6 @@ export default function TableBlock({
   return (
     <div className="space-y-3 overflow-x-auto">
       <table className="w-full border border-border text-sm">
-        {/* HEADER */}
-
         <thead className="bg-muted">
           <tr>
             {headers.map((header: string, i: number) => (
@@ -74,15 +79,21 @@ export default function TableBlock({
                 key={i}
                 className="border border-border px-3 py-2 text-left font-semibold"
               >
-                {header}
+                {isEditing ? (
+                  <input
+                    value={header}
+                    onChange={(e) => updateHeader(i, e.target.value)}
+                    className="w-full bg-transparent outline-none text-sm font-semibold"
+                  />
+                ) : (
+                  header
+                )}
               </th>
             ))}
 
             {isEditing && <th className="w-10" />}
           </tr>
         </thead>
-
-        {/* BODY */}
 
         <tbody>
           {rows.map((row: string[], rowIndex: number) => (
@@ -97,7 +108,7 @@ export default function TableBlock({
                       onChange={(e) =>
                         updateCell(rowIndex, colIndex, e.target.value)
                       }
-                      className="w-full bg-transparent outline-none"
+                      className="w-full bg-transparent outline-none text-sm"
                     />
                   )}
                 </td>
@@ -117,8 +128,6 @@ export default function TableBlock({
           ))}
         </tbody>
 
-        {/* FOOTER */}
-
         {footer && (
           <tfoot className="bg-muted font-semibold">
             <tr>
@@ -129,22 +138,17 @@ export default function TableBlock({
                   ) : (
                     <input
                       value={cell}
-                      onChange={(e) =>
-                        updateFooter(colIndex, e.target.value)
-                      }
-                      className="w-full bg-transparent outline-none"
+                      onChange={(e) => updateFooter(colIndex, e.target.value)}
+                      className="w-full bg-transparent outline-none text-sm"
                     />
                   )}
                 </td>
               ))}
-
               {isEditing && <td />}
             </tr>
           </tfoot>
         )}
       </table>
-
-      {/* ADD ROW BUTTON */}
 
       {isEditing && (
         <button
