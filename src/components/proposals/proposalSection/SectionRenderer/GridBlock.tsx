@@ -1,4 +1,5 @@
 import { Plus, Trash2 } from "lucide-react";
+import { useState } from "react";
 import CardBlock from "./CardBlock";
 
 export default function GridBlock({
@@ -9,23 +10,21 @@ export default function GridBlock({
   isEditing,
 }: any) {
   const { columns = 2, content } = block;
+  const [newCardSubtype, setNewCardSubtype] = useState("Technology");
 
   const updateContent = (newContent: any[]) => {
-    console.log("Updating content with:", newContent);
-
     const updated = [...data];
     updated[index] = {
       ...block,
       content: newContent,
     };
-
     setData(updated);
   };
 
   const addCard = () => {
     const newCard = {
       type: "card",
-      subtype: "Technology",
+      subtype: newCardSubtype,
       title: "New Card",
       content: [
         {
@@ -34,16 +33,11 @@ export default function GridBlock({
         },
       ],
     };
-    console.log("block", block);
-    console.log("content", content);
-    console.log("newCard", newCard);
 
     updateContent([...content, newCard]);
   };
 
   const removeCard = (cardIndex: number) => {
-    console.log({ content: content, cardIndex });
-
     updateContent(content.filter((_: any, i: number) => i !== cardIndex));
   };
 
@@ -79,13 +73,26 @@ export default function GridBlock({
       </div>
 
       {isEditing && (
-        <button
-          onClick={addCard}
-          className="flex items-center gap-2 text-sm text-primary"
-        >
-          <Plus size={16} />
-          Add card
-        </button>
+        <div className="flex flex-col md:flex-row items-start gap-6 mx-4">
+          <button
+            onClick={addCard}
+            className="flex items-center gap-2 text-sm text-primary my-auto"
+          >
+            <Plus size={16} />
+            Add card
+          </button>
+
+          <select
+            value={newCardSubtype}
+            onChange={(e) => setNewCardSubtype(e.target.value)}
+            className="bg-card text-sm px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-sm appearance-none"
+          >
+            <option value="Technology">Technology</option>
+            <option value="Team">Team</option>
+            <option value="Cases">Cases</option>
+            <option value="Reference">Reference</option>
+          </select>
+        </div>
       )}
     </div>
   );

@@ -2,12 +2,13 @@ import { useMutation } from "@tanstack/react-query";
 import { ArrowBigRight } from "lucide-react";
 import { useRef } from "react";
 import { useState, useEffect } from "react";
+import { patchIgPost } from "./patchPost";
 
 export default function PostFooter({
   height = "h-28",
   bgColor = "bg-white",
   imgSrc = "/nbarIcon2.png",
-  arrowColor = "text-background",
+  arrowColor = "text-white",
   hideComponets = false,
 }) {
   return (
@@ -19,10 +20,11 @@ export default function PostFooter({
             alt="footer-icon"
             className="w-32 h-32 object-contain"
           />
-          <ArrowBigRight
-            className={`w-20 h-20 ${arrowColor}`}
-            fill={imgSrc === "/nbarIcon.png" ? "white" : "black"}
-          />{" "}
+          {arrowColor === "black" ? (
+            <img src="/Arrow 1.svg" alt="arrow" className={`w-20 h-20`} />
+          ) : (
+            <img src="/Arrow 2.svg" alt="arrow" className={`w-20 h-20`} />
+          )}
         </div>
       )}
     </div>
@@ -34,29 +36,35 @@ export function PostFooter1({ title, author, edit, blogId }) {
   const [localAuthor, setLocalAuthor] = useState(author);
   const debounceRef = useRef(null);
 
-  const mutation = useMutation({
-    mutationFn: async ({ title, author }) => {
-      const res = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title,
-            author,
-          }),
-        },
-      );
+const mutation = useMutation({
+  mutationFn: (updates: { title: string; author: string }) =>
+    patchIgPost(blogId!, updates),
+});
 
-      if (!res.ok) {
-        throw new Error("Failed to update post");
-      }
 
-      return res.json();
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationFn: async ({ title, author }) => {
+  //     const res = await fetch(
+  //       `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
+  //       {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           title,
+  //           author,
+  //         }),
+  //       },
+  //     );
+
+  //     if (!res.ok) {
+  //       throw new Error("Failed to update post");
+  //     }
+
+  //     return res.json();
+  //   },
+  // });
 
   useEffect(() => {
     setLocalTitle(title);

@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { PlusCircle, Save } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { patchIgPost } from "./patchPost";
 
 // @ts-nocheck
 
@@ -29,27 +30,30 @@ export default function SquaresPostLayout({
   const [tagGroups, setTagGroups] = useState(tags);
   const debounceRef = useRef(null);
 
-  const mutation = useMutation({
-    mutationFn: async (tags: string[]) => {
-      const res = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            tags,
-          }),
-        },
-      );
-      console.log("me activo !!!!!");
-      if (!res.ok) {
-        throw new Error("Failed to update tags");
-      }
+  // const mutation = useMutation({
+  //   mutationFn: async (tags: string[]) => {
+  //     const res = await fetch(
+  //       `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
+  //       {
+  //         method: "PATCH",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({
+  //           tags,
+  //         }),
+  //       },
+  //     );
+  //     if (!res.ok) {
+  //       throw new Error("Failed to update tags");
+  //     }
 
-      return res.json();
-    },
+  //     return res.json();
+  //   },
+  // });
+
+  const mutation = useMutation({
+    mutationFn: (tags: string[]) => patchIgPost(blogId!, { tags }),
   });
 
   useEffect(() => {
@@ -133,7 +137,7 @@ export default function SquaresPostLayout({
             return (
               <div
                 key={i}
-                className="absolute grid grid-cols-4 gap-3"
+                className="absolute"
                 style={{
                   right: group.x,
                   top: group.y,
@@ -141,54 +145,61 @@ export default function SquaresPostLayout({
                   direction: "rtl",
                 }}
               >
-                {reversed.map((label, j) => {
-                  const realIndex = group.labels.length - 1 - j;
+                {/* TAGS */}
+                <div className="flex flex-wrap gap-3 justify-end  max-w-[1350px] w-full ml-auto">
+                  {" "}
+                  {reversed.map((label, j) => {
+                    const realIndex = group.labels.length - 1 - j;
 
-                  return edit ? (
-                    <div key={j} className="relative flex items-center">
-                      <input
-                        value={label}
-                        onChange={(e) =>
-                          handleTagChange(i, realIndex, e.target.value)
-                        }
+                    return edit ? (
+                      <div key={j} className="relative flex items-center">
+                        <input
+                          value={label}
+                          onChange={(e) =>
+                            handleTagChange(i, realIndex, e.target.value)
+                          }
+                          className="
+              px-6 py-2 text-2xl
+              w-fit min-w-[120px]
+              text-background font-semibold
+              rounded-lg
+              bg-[#f8f8f8]
+              text-center
+              outline-none
+              border-none
+              focus:ring-0
+            "
+                        />
+
+                        <button
+                          onClick={() => deleteTag(i, realIndex)}
+                          className="absolute -right-6 text-red-500 text-xl"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ) : (
+                      <span
+                        key={j}
                         className="
-                          px-6 py-2 text-2xl w-[225px]
-                          text-background font-semibold
-                          rounded-lg
-                          bg-[#f8f8f8]
-                          text-center
-                          outline-none
-                          border-none
-                          focus:ring-0
-                        "
-                      />
-
-                      <button
-                        onClick={() => deleteTag(i, realIndex)}
-                        className="absolute -right-6 text-red-500 text-xl"
+            px-6 py-2 text-2xl
+            w-fit min-w-[120px]
+            text-background font-semibold
+            rounded-lg
+            bg-[#f8f8f8]
+            whitespace-nowrap
+            text-center
+          "
                       >
-                        ✕
-                      </button>
-                    </div>
-                  ) : (
-                    <span
-                      key={j}
-                      className="
-                        px-6 py-2 text-2xl w-[225px]
-                        text-background font-semibold
-                        rounded-lg
-                        bg-[#f8f8f8]
-                        whitespace-nowrap
-                        text-center
-                      "
-                    >
-                      {label}
-                    </span>
-                  );
-                })}
+                        {label}
+                      </span>
+                    );
+                  })}
+                </div>
 
+                {/* ADD BUTTON */}
                 {edit && (
-                  <div className="col-span-4 mt-2 flex justify-center gap-4 w-[158px]">
+                  <div className="mt-3 flex justify-end  w-[50px]">
                     <button onClick={() => addTag(i)}>
                       <PlusCircle
                         size={32}

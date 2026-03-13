@@ -8,8 +8,6 @@ import SubtitleBlock from "./SubtitleBlock";
 import CardBlock from "./CardBlock";
 import GridBlock from "./GridBlock";
 
-/* ---------------- BLOCK REGISTRY ---------------- */
-
 const blockRegistry: Record<string, any> = {
   text: TextBlock,
   subtitle: SubtitleBlock,
@@ -19,95 +17,76 @@ const blockRegistry: Record<string, any> = {
   card: CardBlock,
 };
 
-/* ---------------- BLOCK TEMPLATES ---------------- */
-
 const blockTemplates: Record<string, any> = {
-  text: {
-    type: "text",
-    content: "",
-  },
-
-  subtitle: {
-    type: "subtitle",
-    content: "New Subtitle",
-  },
-
+  text: { type: "text", content: "" },
+  subtitle: { type: "subtitle", content: "New Subtitle" },
   list: {
     type: "list",
-    content: {
-      subtype: "bulleted",
-      items: [
-        {
-          title: "",
-          content: "",
-        },
-      ],
-    },
+    content: { subtype: "bulleted", items: [{ title: "", content: "" }] },
   },
-
   table: {
     type: "table",
-    content: {
-      headers: ["Column 1", "Column 2"],
-      rows: [["", ""]],
-    },
-  },
-
-  grid: {
-    type: "grid",
+    content: { headers: ["Column 1", "Column 2"], rows: [["", ""]] },
     columns: 2,
-    content: [],
   },
-
-  card: {
+  grid: { type: "grid", columns: 2, content: [] },
+/*   card: {
     type: "card",
     subtype: "Technology",
     title: "New Card",
-    content: [
-      {
-        Purpose: "",
-        Motive: "",
-      },
-    ],
-  },
+    content: [{ Purpose: "", Motive: "" }],
+  }, */
 };
 
 export default function SectionRenderer({ data, setData, isEditing }: any) {
   const [showPicker, setShowPicker] = useState(false);
+  const [newListSubtype, setNewListSubtype] = useState("bulleted");
+  const [newTableColumns, setNewTableColumns] = useState(2);
+  const [newGridColumns, setNewGridColumns] = useState(2);
 
   if (!Array.isArray(data)) return null;
 
-  /* ---------------- ADD BLOCK ---------------- */
-
   const addBlock = (type: string) => {
-    const template = blockTemplates[type];
+    const template = structuredClone(blockTemplates[type]);
 
-    const newBlock = structuredClone(template);
+    if (type === "list") {
+      template.content.subtype = newListSubtype;
+    }
 
-    setData([...data, newBlock]);
+    if (type === "table") {
+      template.columns = newTableColumns;
+      template.content.headers = Array.from(
+        { length: newTableColumns },
+        (_, i) => `Column ${i + 1}`,
+      );
+      template.content.rows = [
+        Array.from(
+          { length: newTableColumns },
+          (_, i) => `Row 1, Col ${i + 1}`,
+        ),
+      ];
+    }
 
+    if (type === "grid") {
+      template.columns = newGridColumns;
+    }
+
+    setData([...data, template]);
     setShowPicker(false);
   };
 
-  /* ---------------- DELETE BLOCK ---------------- */
-
   const removeBlock = (blockIndex: number) => {
-    const updated = data.filter((_: any, i: number) => i !== blockIndex);
-    setData(updated);
+    setData(data.filter((_: any, i: number) => i !== blockIndex));
   };
 
   return (
     <div className="space-y-6">
-      {/* ---------------- RENDER BLOCKS ---------------- */}
-
       {data.map((block: any, index: number) => {
         const Component = blockRegistry[block.type];
         if (!Component) return null;
 
         return (
           <div key={index} className="relative group">
-            {/* DELETE BUTTON */}
-
             {isEditing && (
               <button
                 onClick={() => removeBlock(index)}
@@ -128,8 +107,6 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
         );
       })}
 
-      {/* ---------------- ADD BLOCK UI ---------------- */}
-
       {isEditing && (
         <div className="pt-6 border-t space-y-3">
           {!showPicker && (
@@ -142,16 +119,86 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
           )}
 
           {showPicker && (
-            <div className="flex flex-wrap gap-2">
-              {Object.keys(blockTemplates).map((type) => (
-                <button
-                  key={type}
-                  onClick={() => addBlock(type)}
-                  className="px-3 py-1 text-sm border rounded-lg hover:bg-muted"
-                >
-                  {type}
-                </button>
-              ))}
+            <div className="flex flex-wrap gap-2 items-center">
+              {Object.keys(blockTemplates).map((type) => {
+                if (type === "list") {
+                  return (
+                    <div key={type} className="flex items-center gap-2">
+                      <select
+                        value={newListSubtype}
+                        onChange={(e) => setNewListSubtype(e.target.value)}
+                        className="bg-card text-sm px-3 py-1 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+                      >
+                        <option value="bulleted">Bulleted</option>
+                        <option value="numbered">Numbered</option>
+                        <option value="checked">Checked</option>
+                        <option value="titled">Titled</option>
+                      </select>
+
+                      <button
+                        onClick={() => addBlock(type)}
+                        className="px-3 py-1 text-sm border rounded-lg hover:bg-muted"
+                      >
+                        {type}
+                      </button>
+                    </div>
+                  );
+                }
+
+                if (type === "table") {
+                  return (
+                    <div key={type} className="flex items-center">
+                      <button
+                        onClick={() => addBlock(type)}
+                        className="px-3 py-1 text-sm border rounded-lg hover:bg-muted"
+                      >
+                        {type}
+                      </button>
+                      <input
+                        type="number"
+                        min={1}
+                        value={newTableColumns}
+                        onChange={(e) =>
+                          setNewTableColumns(Number(e.target.value))
+                        }
+                        className="bg-card text-sm px-3 py-1 rounded-lg w-16 appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+                      />
+                    </div>
+                  );
+                }
+
+                if (type === "grid") {
+                  return (
+                    <div key={type} className="flex items-center ">
+                      <button
+                        onClick={() => addBlock(type)}
+                        className="px-3 py-1 text-sm border rounded-lg hover:bg-muted"
+                      >
+                        {type}
+                      </button>
+                      <input
+                        type="number"
+                        min={1}
+                        value={newGridColumns}
+                        onChange={(e) =>
+                          setNewGridColumns(Number(e.target.value))
+                        }
+                        className="bg-card text-sm px-3 py-1 rounded-lg w-16 appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+                      />
+                    </div>
+                  );
+                }
+
+                return (
+                  <button
+                    key={type}
+                    onClick={() => addBlock(type)}
+                    className="px-3 py-1 text-sm border rounded-lg hover:bg-muted"
+                  >
+                    {type}
+                  </button>
+                );
+              })}
 
               <button
                 onClick={() => setShowPicker(false)}

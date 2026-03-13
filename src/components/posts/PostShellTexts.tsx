@@ -89,7 +89,7 @@ function PostContent({
         height="h-[180px]"
         bgColor={isCentered ? "bg-[#111111]" : "bg-[#f8f8f8]"}
         imgSrc={isCentered ? "/nbarIcon.png" : "/nbarIcon2.png"}
-        arrowColor={isCentered ? "text-foreground" : "text-background"}
+        arrowColor={isCentered ? "white" : "black"}
       />
     </div>
   );
