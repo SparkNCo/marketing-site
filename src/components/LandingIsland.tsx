@@ -1,12 +1,10 @@
 import React, { lazy, useEffect, useState } from "react";
 import type { FormIslandProps } from "./utils/interfaces";
 import PostsSection from "./landing/PostsSection";
-import SquaresPostLayout from "./posts/SquaresPostLayout";
 import {
   FastTrackSquaresConfig,
-  FooterLeftRightSquaresMobile,
   FooterLeftRightSquares,
-  HeroSectionSquaresConfig,
+  HeroSectionSquaresConfig
 } from "./SquareConfig";
 import FooterSqareSection from "./landing/FooterSqareSection";
 import Footer from "./Footer";
@@ -34,16 +32,13 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
     return () => window.removeEventListener("resize", checkScreen);
   }, []);
 
-  const fastTrackSquares = isMobile
-    ? FastTrackSquaresConfig
-    : FastTrackSquaresConfig;
-
   return (
     <div className="bg-background">
       <SquaresPostLayoutEdges
         squares={HeroSectionSquaresConfig}
-        indexLayout={"0"}
-        indexComponent={"1"}
+        indexLayout={0}
+        indexComponent={1}
+        isMobile={isMobile}
       >
         <HeroSection setMode={setMode} />
       </SquaresPostLayoutEdges>
@@ -61,9 +56,10 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
           }}
         >
           <SquaresPostLayoutEdges
-            squares={fastTrackSquares}
+            squares={FastTrackSquaresConfig}
             indexLayout={0}
             indexComponent={1}
+            isMobile={isMobile}
           >
             <FastTrackSection />
           </SquaresPostLayoutEdges>
@@ -74,11 +70,10 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
       <CaseStudiesSection isMobile={isMobile} />
 
       <SquaresPostLayoutEdges
-        squares={
-          isMobile ? FooterLeftRightSquaresMobile : FooterLeftRightSquares
-        }
-        indexLayout={"0"}
-        indexComponent={"1"}
+        squares={FooterLeftRightSquares}
+        indexLayout={0}
+        indexComponent={1}
+        isMobile={isMobile}
       >
         <FooterSqareSection />
       </SquaresPostLayoutEdges>

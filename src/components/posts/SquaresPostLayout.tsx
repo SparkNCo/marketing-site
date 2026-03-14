@@ -56,9 +56,9 @@ export default function SquaresPostLayout({
     mutationFn: (tags: string[]) => patchIgPost(blogId!, { tags }),
   });
 
-  useEffect(() => {
-    setTagGroups(tags);
-  }, [tags]);
+  // useEffect(() => {
+  // setTagGroups(tags);
+  // }, [tags]);
 
   useEffect(() => {
     if (!edit) return;

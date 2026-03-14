@@ -8,6 +8,7 @@ export default function SquaresPostLayoutEdges({
   margin = "auto",
   tags = [],
   indexTags = 15,
+  isMobile = false,
 }: {
   children: React.ReactNode;
   squares?: Array<{
@@ -30,7 +31,11 @@ export default function SquaresPostLayoutEdges({
   }>;
   indexLayout?: number;
   indexComponent?: number;
+  isMobile?: boolean;
 }) {
+
+  const cellSize = isMobile ? 32 : 64;
+
   return (
     <div className={`relative h-full w-${width} mx-${margin} overflow-hidden `}>
       {/* Children layer */}
@@ -101,12 +106,12 @@ export default function SquaresPostLayoutEdges({
               <div
                 className="absolute"
                 style={{
-                  top: sq.top,
-                  bottom: sq.bottom,
-                  left: sq.left,
-                  right: sq.right,
-                  width: sq.width,
-                  height: sq.height,
+                  top: sq.top * cellSize,
+                  bottom: sq.bottom * cellSize,
+                  left: sq.left * cellSize,
+                  right: sq.right * cellSize,
+                  width: sq.width * cellSize,
+                  height: sq.height * cellSize,
                   backgroundColor: sq.color,
                   zIndex: sq.zIndex ?? 0,
                   "--color-1": sq.color,
@@ -117,10 +122,10 @@ export default function SquaresPostLayoutEdges({
                   "--move-right": sq.moveRight ?? "0px",
                   animation: [
                     sq.color2
-                      ? `square-color ${sq.duration ?? 3}s ease-in-out ${sq.colorDelay ?? 0}s infinite`
+                      ? `square-color ${sq.duration ?? 3}s ease-in-out ${sq.colorDelay ?? 0}s`
                       : null,
                     sq.moveTop || sq.moveBottom || sq.moveLeft || sq.moveRight
-                      ? `square-move ${sq.moveDuration ?? 6}s ease-in-out infinite`
+                      ? `square-move ${sq.moveDuration ?? 6}s ease-in-out`
                       : null,
                   ]
                     .filter(Boolean)
