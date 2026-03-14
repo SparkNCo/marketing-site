@@ -43,7 +43,7 @@ export function SignatureModal({
         </div>
 
         {/* Canvas */}
-        <div className="border rounded-lg bg-foreground">
+        <div className="border  bg-foreground">
           <SignatureCanvas
             ref={sigRef}
             penColor="black"

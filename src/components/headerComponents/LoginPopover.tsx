@@ -120,7 +120,7 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
                 />
 
                 {error && (
-                  <p className="text-xs text-red-500 bg-red-500/10 px-3 py-2 rounded-lg">
+                  <p className="text-xs text-red-500 bg-red-500/10 px-3 py-2 ">
                     {error}
                   </p>
                 )}

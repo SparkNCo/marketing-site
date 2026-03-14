@@ -62,7 +62,7 @@ export default function AnimatedStepper({
               onClick={handleClick}
               disabled={isDisabled}
               className={`
-                w-12 h-12 rounded-lg flex items-center justify-center font-semibold transition-all duration-500
+                w-12 h-12  flex items-center justify-center font-semibold transition-all duration-500
                 ${stepClasses} 
               `}
               style={{

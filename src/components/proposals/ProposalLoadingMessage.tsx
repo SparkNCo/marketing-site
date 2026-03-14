@@ -51,7 +51,7 @@ export function ProposalLoadingMessage({
             onClick={onViewProposal}
             disabled={!user}
             className="
-    px-8 py-3 rounded-lg bg-primary text-secondary font-semibold text-lg
+    px-8 py-3  bg-primary text-secondary font-semibold text-lg
     transition
     hover:bg-primary/90
     disabled:opacity-50

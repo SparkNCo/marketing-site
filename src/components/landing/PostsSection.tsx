@@ -120,7 +120,7 @@ export default function PostsSection() {
               onClick={goNext}
               disabled={page === totalPages}
               className="
-        p-2 rounded-lg
+        p-2 
         border-2 border-black
         bg-foreground text-background
         disabled:opacity-40

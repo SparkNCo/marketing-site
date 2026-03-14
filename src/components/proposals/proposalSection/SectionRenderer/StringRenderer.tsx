@@ -2,7 +2,7 @@ export default function StringRenderer({ data, setData, isEditing }: any) {
   if (isEditing) {
     return (
       <textarea
-        className="w-full rounded-lg p-3 text-background border-none outline-none focus:outline-none"
+        className="w-full  p-3 text-background border-none outline-none focus:outline-none"
         value={data || ""}
         onChange={(e) => setData(e.target.value)}
       />

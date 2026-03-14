@@ -123,7 +123,7 @@ function SortableFeatureCard({
           onChange={(e) => onUpdate(feature.id, "description", e.target.value)}
           placeholder="Detailed description of the feature"
           rows={3}
-          className="mt-3 min-h-48 resize-none rounded-lg border-input bg-secondary p-4 pb-8 text-body focus:outline-none focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body"
+          className="mt-3 min-h-48 resize-none  border-input bg-secondary p-4 pb-8 text-body focus:outline-none focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body"
         />
 
         {/*  <Input

@@ -64,7 +64,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
               Ready to build?
             </h2>
 
-            <div className="flex items-center bg-foreground rounded-lg shadow-md w-full">
+            <div className="flex items-center bg-foreground  shadow-md w-full">
               <input
                 type="email"
                 placeholder="Enter your email"

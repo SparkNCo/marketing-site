@@ -64,7 +64,7 @@ export const MissingPasscode = () => {
               autoFocus={index === 0}
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className="w-12 h-14 text-2xl text-center font-semibold rounded-lg bg-background text-foreground border border-border focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-12 h-14 text-2xl text-center font-semibold  bg-background text-foreground border border-border focus:outline-none focus:ring-2 focus:ring-primary"
             />
           ))}
         </div>

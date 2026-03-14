@@ -11,7 +11,7 @@ export const PrincipleBox = ({
   return (
     <div
       onClick={() => setMode(modeKey)}
-      className="cursor-pointer bg-foreground text-background rounded-lg transition-all duration-300"
+      className="cursor-pointer bg-foreground text-background  transition-all duration-300"
     >
       <div className="p-5 flex justify-left items-center gap-4">
         <img

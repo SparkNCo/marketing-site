@@ -84,7 +84,7 @@ export function AIAnalyzedTextarea({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full min-h-48 p-4 rounded-lg border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+        className="w-full min-h-48 p-4  border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none"
       />
 
       {loading && (

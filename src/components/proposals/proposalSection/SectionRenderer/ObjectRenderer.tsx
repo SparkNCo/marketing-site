@@ -39,7 +39,7 @@
 //           {isEditing ? (
 //             <div className="flex gap-2 items-center">
 //               <input
-//                 className="mt-1 w-full rounded-lg p-2"
+//                 className="mt-1 w-full  p-2"
 //                 value={(value as string) || ""}
 //                 onChange={(e) => updateField(key, e.target.value)}
 //               />
@@ -62,14 +62,14 @@
 //         <div className="flex gap-2 pt-4 border-t">
 //           <input
 //             placeholder="Field name"
-//             className="rounded-lg border p-2 w-1/3"
+//             className=" border p-2 w-1/3"
 //             value={newKey}
 //             onChange={(e) => setNewKey(e.target.value)}
 //           />
 
 //           <input
 //             placeholder="Value"
-//             className="rounded-lg border p-2 w-full"
+//             className=" border p-2 w-full"
 //             value={newValue}
 //             onChange={(e) => setNewValue(e.target.value)}
 //           />

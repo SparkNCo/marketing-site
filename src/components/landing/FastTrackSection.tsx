@@ -27,7 +27,7 @@ function FastTrackSection() {
 
       {/* Email input */}
       <div className="max-w-xl">
-        <div className="flex items-center bg-foreground rounded-lg shadow-md w-[260px] sm:w-[320px] md:w-[378px]">
+        <div className="flex items-center bg-foreground  shadow-md w-[260px] sm:w-[320px] md:w-[378px]">
           <input
             type="email"
             placeholder="Enter your email"

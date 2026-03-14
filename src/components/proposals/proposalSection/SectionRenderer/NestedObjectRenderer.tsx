@@ -42,7 +42,7 @@
 //                     {isEditing ? (
 //                       <>
 //                         <input
-//                           className="w-full rounded-lg border p-2"
+//                           className="w-full  border p-2"
 //                           value={v}
 //                           onChange={(e) => {
 //                             const arr = [...value];
@@ -72,7 +72,7 @@
 //               ) : (
 
 //                 value.map((obj: any, i: number) => (
-//                   <div key={i} className="relative space-y-2 rounded-lg p-4">
+//                   <div key={i} className="relative space-y-2  p-4">
 
 //                     {isEditing && (
 //                       <button
@@ -93,7 +93,7 @@
 
 //                         {isEditing ? (
 //                           <input
-//                             className="w-full rounded-lg border p-2 mt-1"
+//                             className="w-full  border p-2 mt-1"
 //                             value={(val as string) || ""}
 //                             onChange={(e) =>
 //                               updateArrayItem(key, i, field, e.target.value)
@@ -113,7 +113,7 @@
 //             </>
 //           ) : isEditing ? (
 //             <input
-//               className="w-full rounded-lg p-2"
+//               className="w-full  p-2"
 //               value={(value as string) || ""}
 //               onChange={(e) => updateValue(key, e.target.value)}
 //             />

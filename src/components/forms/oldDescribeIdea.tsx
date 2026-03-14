@@ -93,7 +93,7 @@
 //             placeholder="Describe your software product idea..."
 //             value={productIdea}
 //             onChange={(e) => setProductIdea(e.target.value)}
-//             className="w-full min-h-48 p-4 pb-8 rounded-lg border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+//             className="w-full min-h-48 p-4 pb-8  border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none"
 //           />
 
 //           {/* Progress bar INSIDE textarea */}

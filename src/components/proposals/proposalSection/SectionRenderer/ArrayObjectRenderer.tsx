@@ -28,7 +28,7 @@
 //   return (
 //     <div className="space-y-6 text-background ">
 //       {data.map((item: any, index: number) => (
-//         <div key={index} className="relative space-y-2 rounded-lg p-4 ">
+//         <div key={index} className="relative space-y-2  p-4 ">
 //           {isEditing && (
 //             <button
 //               type="button"
@@ -45,7 +45,7 @@
 
 //               {isEditing ? (
 //                 <input
-//                   className="w-full rounded-lg border p-2"
+//                   className="w-full  border p-2"
 //                   value={(value as string) || ""}
 //                   onChange={(e) => updateField(index, field, e.target.value)}
 //                 />

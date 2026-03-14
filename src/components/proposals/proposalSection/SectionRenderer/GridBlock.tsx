@@ -85,7 +85,7 @@ export default function GridBlock({
           <select
             value={newCardSubtype}
             onChange={(e) => setNewCardSubtype(e.target.value)}
-            className="bg-card text-sm px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-sm appearance-none"
+            className="bg-card text-sm px-4 py-2  focus:outline-none focus:ring-1 focus:ring-primary shadow-sm appearance-none"
           >
             <option value="Technology">Technology</option>
             <option value="Team">Team</option>

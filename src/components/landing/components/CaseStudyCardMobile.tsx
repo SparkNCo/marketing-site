@@ -8,7 +8,7 @@ type CaseStudy = {
 
 export function CaseStudyCardMobile({ study }: { study: CaseStudy }) {
   return (
-    <div className="w-[45vw] max-w-md bg-white rounded-lg overflow-hidden shadow-md flex-shrink-0">
+    <div className="w-[45vw] max-w-md bg-white  overflow-hidden shadow-md flex-shrink-0">
       {/* Content */}
       <div className="p-6 flex flex-col justify-between">
         <div>

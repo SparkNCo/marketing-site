@@ -71,7 +71,7 @@
 //           >
 //             <div
 //               className={`
-//                 border-2 rounded-lg p-0.5 flex items-center justify-center
+//                 border-2  p-0.5 flex items-center justify-center
 //                 ${type === "scale" ? "border-background" : "border-foreground"}
 //               `}
 //             >
@@ -213,13 +213,13 @@ export default function BuildScaleToggle({
                   type === "scale"
                     ? `
             border-2 border-background
-            rounded-lg
+            
             p-0.5
             flex items-center justify-center
           `
                     : `
             border-2 border-foreground
-            rounded-lg
+            
             p-0.5
             flex items-center justify-center
           `

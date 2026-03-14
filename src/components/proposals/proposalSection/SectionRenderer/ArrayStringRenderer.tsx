@@ -25,7 +25,7 @@
 //             {isEditing ? (
 //               <>
 //                 <input
-//                   className="w-full rounded-lg p-2"
+//                   className="w-full  p-2"
 //                   value={item}
 //                   onChange={(e) => updateItem(i, e.target.value)}
 //                 />

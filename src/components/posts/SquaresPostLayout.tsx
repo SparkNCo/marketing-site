@@ -162,7 +162,7 @@ export default function SquaresPostLayout({
               px-6 py-2 text-2xl
               w-fit min-w-[120px]
               text-background font-semibold
-              rounded-lg
+              
               bg-[#F7F4F0]
               text-center
               outline-none
@@ -185,7 +185,7 @@ export default function SquaresPostLayout({
             px-6 py-2 text-2xl
             w-fit min-w-[120px]
             text-background font-semibold
-            rounded-lg
+            
             bg-[#F7F4F0]
             whitespace-nowrap
             text-center

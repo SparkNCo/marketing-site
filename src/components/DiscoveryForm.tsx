@@ -181,7 +181,7 @@ export default function DiscoveryForm({
               onChange={(e) => updateField("description")(e.target.value)}
               disabled={!isEditable}
               className={cn(
-                "mt-3 min-h-48 rounded-lg bg-secondary p-4 pb-8 placeholder:text-body text-body focus:ring-2 focus:ring-primary",
+                "mt-3 min-h-48  bg-secondary p-4 pb-8 placeholder:text-body text-body focus:ring-2 focus:ring-primary",
                 !isEditable && "opacity-60 cursor-not-allowed",
               )}
               placeholder="Describe the main requirements..."
