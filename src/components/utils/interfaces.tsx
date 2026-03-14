@@ -16,6 +16,7 @@ export interface FormData {
     min: number;
     max: number;
   };
+  mode: string;
   productIdea: string;
   selectedDate: string;
   selectedTime: {
@@ -46,10 +47,16 @@ export interface FormIslandProps {
   initialStep: FormStage;
   submissionId: string;
 }
-export interface HeroSectionProps {
-  initialStep: FormStage;
-  submissionId: string;
+
+export interface LandingIslandProps {
+  mode: "index" | "form";
   setMode: (mode: "index" | "form") => void;
+}
+
+export interface HeroSectionProps {
+  setMode?: (mode: "index" | "form") => void;
+  initialStep?: FormStage;
+  submissionId?: string;
 }
 
 export interface ProposalIslandProps {

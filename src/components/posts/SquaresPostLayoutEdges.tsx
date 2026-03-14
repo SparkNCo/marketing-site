@@ -65,7 +65,7 @@ export default function SquaresPostLayoutEdges({
                 {reversed.map((label, j) => (
                   <span
                     key={j}
-                    className="px-6 py-2 text-2xl w-[225px] text-background font-semibold rounded-lg bg-[#f8f8f8] whitespace-nowrap text-center"
+                    className="px-6 py-2 text-2xl w-[225px] text-background font-semibold rounded-lg bg-[#F7F4F0] whitespace-nowrap text-center"
                   >
                     {label}
                   </span>

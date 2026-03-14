@@ -163,7 +163,7 @@ export default function SquaresPostLayout({
               w-fit min-w-[120px]
               text-background font-semibold
               rounded-lg
-              bg-[#f8f8f8]
+              bg-[#F7F4F0]
               text-center
               outline-none
               border-none
@@ -186,7 +186,7 @@ export default function SquaresPostLayout({
             w-fit min-w-[120px]
             text-background font-semibold
             rounded-lg
-            bg-[#f8f8f8]
+            bg-[#F7F4F0]
             whitespace-nowrap
             text-center
           "

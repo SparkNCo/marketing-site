@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
-import BuildScaleToggle from "./components/BuildScaleComponent";
-import { ChevronRight } from "lucide-react";
 
 const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   const [email, setEmail] = useState("");
-
-  const handleSubmit = () => {
-    console.log("email", email);
-  };
 
   return (
     <main
@@ -36,7 +30,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
       >
         <div>
           {/* TITLE */}
-          <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-background mb-6 leading-tight">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-background mb-6 leading-tight">
             Software that&apos;s up to speed
           </h1>
           <p className="text-2xl lg:text-3xl mb-6 max-w-2xl text-background leading-snug">
@@ -65,9 +59,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
             ))}
           </div>
           {/* GET STARTED */}
-          <div className="mb-8 w-full lg:w-[450px]">
+          <div className="mb-6 w-full lg:w-[450px]">
             <h2 className="text-background font-bold mb-3 text-lg lg:text-xl">
-              Get started with Build
+              Ready to build?
             </h2>
 
             <div className="flex items-center bg-foreground rounded-lg shadow-md w-full">
@@ -79,17 +73,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
                 className="flex-1 px-4 py-3 outline-none text-background"
               />
 
-              <button
-                onClick={handleSubmit}
-                className="px-4 h-full flex items-center justify-center"
-              >
-                <ChevronRight className="w-6 h-6 lg:w-7 lg:h-7 text-background border-2 border-background rounded-md" />
-              </button>
             </div>
           </div>
-          <div className="lg:mx-0 w-[280px] md:w-[420px] lg:w-[600px]">
-            <BuildScaleToggle setMode={setMode} />
-          </div>{" "}
+
+            <button
+              onClick={() => setMode?.("form")}
+              className="py-4 px-6 shadow-md text-foreground bg-background font-bold text-lg lg:text-xl"
+            >
+              Let's Go
+            </button>
+      
         </div>
       </section>
 

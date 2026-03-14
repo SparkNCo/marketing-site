@@ -131,7 +131,7 @@ export default function DiscoveryForm({
       {/* Header */}
       <div className="mb-8 mt-10 flex items-center gap-3 mx-auto w-fit">
         <FileText className="h-12 w-12 text-primary" />
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+        <h2 className="text-4xl md:text-4xl font-bold tracking-tight text-foreground">
           Discovery
         </h2>
       </div>

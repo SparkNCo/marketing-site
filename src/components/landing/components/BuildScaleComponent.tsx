@@ -124,10 +124,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 
 export default function BuildScaleToggle({
-  setMode,
   centerExpanded,
 }: {
-  setMode: (mode: "index" | "form") => void;
   centerExpanded?: boolean;
 }) {
   const [selected, setSelected] = useState<"build" | "scale" | "none">("build");
@@ -135,9 +133,7 @@ export default function BuildScaleToggle({
   const cardsOrder: ("build" | "scale")[] = ["build", "scale"];
 
   const handleClick = (type: "build" | "scale") => {
-    if (selected === type) {
-      setMode("form");
-    } else {
+    if (selected !== type) {
       setSelected(type);
     }
   };

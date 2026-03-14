@@ -1,11 +1,8 @@
 "use client";
-import { ChevronRight } from "lucide-react";
 import { useRef, useState } from "react";
-import BuildScaleToggle from "./components/BuildScaleComponent";
 
 function FastTrackSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [mode, setMode] = useState<"supercharged" | "control" | "mvp">("mvp");
   const [email, setEmail] = useState("");
 
   const handleSubmit = () => {
@@ -15,10 +12,10 @@ function FastTrackSection() {
   return (
     <main
       ref={sectionRef}
-      className="flex flex-col items-center justify-center bg-transparent text-center py-24 gap-6 h-[1186px] "
+      className="flex flex-col items-center justify-center bg-transparent text-center py-24 gap-6 h-[1186px]"
     >
       {/* Heading */}
-      <h1 className="font-bold tracking-tight text-background leading-tight text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+      <h1 className="font-bold tracking-tight text-background leading-tight text-3xl sm:text-4xl md:text-4xl">
         Fast Track Your Success
       </h1>
 
@@ -38,19 +35,19 @@ function FastTrackSection() {
             onChange={(e) => setEmail(e.target.value)}
             className="flex-1 px-4 py-3 outline-none text-background"
           />
-          <button
+          {/* <button
             onClick={handleSubmit}
             className="px-4 h-full flex items-center justify-center text-background bg-foreground"
           >
             <ChevronRight className="w-6 h-6 md:w-7 md:h-7 text-background bg-foreground border-2 border-background rounded-md" />
-          </button>
+          </button> */}
         </div>
       </div>
 
       {/* Toggle */}
-      <div className="mx-auto w-[280px] md:w-[420px] lg:w-[600px]">
+      {/* <div className="mx-auto w-[280px] md:w-[420px] lg:w-[600px]">
         <BuildScaleToggle setMode={setMode} centerExpanded={true} />
-      </div>
+      </div> */}
     </main>
   );
 }

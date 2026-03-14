@@ -292,7 +292,7 @@ export function FeaturesCollection({
   return (
     <div className="mx-auto max-w-4xl space-y-6 w-full  font-body py-8 mt-20 ">
       <div className="mb-8 text-center">
-        {/* <h1 className="mb-3 text-4xl md:text-5xl font-bold  tracking-tight text-foreground ">
+        {/* <h1 className="mb-3 text-4xl md:text-4xl font-bold  tracking-tight text-foreground ">
           Tell us about your Project
         </h1> */}
         <p className="text-2xl text-foreground font-title">

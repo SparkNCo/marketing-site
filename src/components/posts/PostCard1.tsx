@@ -7,7 +7,7 @@ const squaresConfig = [
     y: "257px",
     width: "229px",
     height: "23px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
   //2nd line
   {
@@ -15,14 +15,14 @@ const squaresConfig = [
     y: "234px",
     width: "46px",
     height: "23px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
   {
     x: "138px",
     y: "234px",
     width: "138px",
     height: "23px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
   //3rd line
   {
@@ -30,14 +30,14 @@ const squaresConfig = [
     y: "211px",
     width: "46px",
     height: "23px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
   {
     x: "230px",
     y: "211px",
     width: "46px",
     height: "23px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
   //4th line
   {
@@ -45,21 +45,21 @@ const squaresConfig = [
     y: "188px",
     width: "23px",
     height: "23px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
   {
     x: "138px",
     y: "188px",
     width: "23px",
     height: "23px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
   {
     x: "230px",
     y: "165px",
     width: "46px",
     height: "46px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
   //top box
   {
@@ -67,20 +67,20 @@ const squaresConfig = [
     y: "119px",
     width: "46px",
     height: "46px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
   {
     x: "211px",
     y: "96px",
     width: "23px",
     height: "23px",
-    color: "#f8f8f8",
+    color: "#F7F4F0",
   },
 ];
 
 export default function PostCard({ img, title, subtitle, postId }) {
   return (
-    <article className="w-[275px] h-[387px] overflow-hidden shadow-lg bg-foreground title-white flex flex-col rounded-br-md mx-auto ">
+    <article className="w-[275px] h-[387px] overflow-hidden shadow-lg bg-foreground title-white flex flex-col mx-auto ">
       <div className="h-[80%]">
         <SquaresPostLayout squares={squaresConfig}>
           <div

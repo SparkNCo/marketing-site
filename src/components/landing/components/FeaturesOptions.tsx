@@ -26,17 +26,15 @@ export const FeaturesOptions = ({
           exit="exit"
         >
           <div className="flex items-around justify-left w-full gap-2">
-            <div className="w-10 h-10 flex items-center justify-center z-10">
               <img
                 src={"/Frame.png"}
                 alt="spark/co"
-                className="w-full h-full object-contain"
+                className="w-6 h-6 sm:w-8 sm:h-8 object-contain cursor-pointer"
               />
-            </div>
-            <h3 className="text-xl font-bold ">{title}</h3>
+            <h3 className="sm:text-xl md:text-lg font-bold">{title}</h3>
           </div>
-          <div className="w-3/4 font-semibold text-lg flex flex-col gap-4 ">
-            <p className="  ">{subtitle}</p>
+          <div className="w-3/4 text-lg mt-4 flex flex-col gap-4 ">
+            <p>{subtitle}</p>
             <ul className="space-y-4 leading-relaxed">
               {content.map((feat) => (
                 <li key={feat} className="flex items-start gap-1 ">

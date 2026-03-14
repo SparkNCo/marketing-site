@@ -10,7 +10,7 @@ const LeftBox = ({ title, summary, onClick }) => {
   return (
     <div
       onClick={() => onClick()}
-      className="p-2 sm:p-4 flex-1 flex flex-col justify-between bg-foreground text-background rounded-lg min-h-[140px] md:min-h-[160px]"
+      className="p-2 sm:p-4 flex-1 flex flex-col justify-between bg-foreground text-background min-h-[140px] md:min-h-[160px]"
     >
       <div className="">
         <div className="flex flex-row justify-between">
@@ -20,13 +20,13 @@ const LeftBox = ({ title, summary, onClick }) => {
               alt="spark/co"
               className="w-6 h-6 sm:w-8 sm:h-8 object-contain cursor-pointer"
             />
-            <h3 className="text-lg sm:text-xl md:text-lg  font-bold">
+            <h3 className="sm:text-xl md:text-lg font-bold">
               {title}
             </h3>
           </div>
         </div>
 
-        <p className="leading-relaxed font-thin mt-2 text-sm sm:text-base md:w-3/4 ">
+        <p className="leading-relaxed mt-4 text-sm sm:text-base md:w-3/4 ">
           {summary}
         </p>
       </div>
@@ -76,7 +76,7 @@ function FeaturesSection() {
   return (
     <div className="mx-auto w-full max-w-[1530px] px-4 sm:px-6 md:px-8 lg:px-12 relative mb-12 ">
       {" "}
-      <h1 className="text-center text-4xl sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground my-10 leading-tight mt-28 lg:mt-4">
+      <h1 className="text-center text-4xl sm:text-4xl md:text-4xl font-bold tracking-tight text-foreground my-10 leading-tight mt-28 lg:mt-4">
         Development Principles
       </h1>
       {/* MOBILE LAYOUT */}

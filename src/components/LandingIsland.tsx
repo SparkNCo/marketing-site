@@ -1,5 +1,5 @@
 import React, { lazy, useEffect, useState } from "react";
-import type { FormIslandProps } from "./utils/interfaces";
+import type { LandingIslandProps } from "./utils/interfaces";
 import PostsSection from "./landing/PostsSection";
 import {
   FastTrackSquaresConfig,
@@ -17,9 +17,8 @@ const ProcessSection = lazy(() => import("./landing/ProcessSection"));
 const CaseStudiesSection = lazy(() => import("./landing/CaseStudies"));
 const FastTrackSection = lazy(() => import("./landing/FastTrackSection"));
 
-const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
+const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
     const checkScreen = () => {
       setIsMobile(window.innerWidth < 768);
@@ -40,7 +39,7 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
         indexComponent={1}
         isMobile={isMobile}
       >
-        <HeroSection setMode={setMode} />
+        <HeroSection setMode={typeof setMode === "function" ? setMode : () => {}} />
       </SquaresPostLayoutEdges>
 
       <FeaturesSection />
@@ -78,7 +77,7 @@ const LandingIsland: React.FC<FormIslandProps> = ({ setMode }) => {
         <FooterSqareSection />
       </SquaresPostLayoutEdges>
 
-      <Footer />
+      <Footer mode={mode} />
     </div>
   );
 };

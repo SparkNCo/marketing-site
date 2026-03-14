@@ -76,7 +76,7 @@ export default function PostsSection() {
     <section className="w-full max-w-[850px] mx-auto space-y-6 mb-12  ">
       {" "}
       {/* Header */}
-      <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between bg-foreground items-stretch sm:items-center px-4 py-4 rounded-lg">
+      <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between bg-foreground items-stretch sm:items-center px-4 py-4">
         {" "}
         {/* Input */}
         <input
@@ -86,7 +86,7 @@ export default function PostsSection() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           className="
-            w-full sm:w-80 px-4 py-2 rounded-xl
+            w-full sm:w-80 px-4 py-2 
             bg-foreground text-background
             border border-foreground
             focus:outline-none focus:ring-2 focus:ring-white/20

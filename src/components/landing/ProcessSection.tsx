@@ -5,9 +5,13 @@ import ProcessSectionMobile from "./ProcessSectionMobile";
 const steps = [
   { id: 0, title: "" },
   { id: 1, title: "Sign Up" },
-  { id: 2, title: "Project Discovery" },
+  { id: 2, title: "Discovery" },
   { id: 3, title: "MVP" },
-  { id: 4, title: "" },
+  { id: 4, title: "Beta" },
+  { id: 5, title: "Launch" },
+  { id: 6, title: "Scale" },
+  { id: 7, title: "Support" },
+  { id: 8, title: "" }
 ];
 
 export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
@@ -67,7 +71,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
   return (
     <section className="bg-background py-10 relative">
       <div className="container mx-auto px-4 md:px-6 py-10 max-w-[1530px]">
-        <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-12 md:mb-16 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 md:mb-16 text-center">
           The Spark & Co Process
         </h2>
 
@@ -83,11 +87,10 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
                     stepRefs.current[index] = el;
                   }}
                   className={`p-2 md:p-4 my-10 md:my-20 mx-auto text-center transition-all duration-300 min-h-[200px] md:min-h-[300px] flex items-center justify-center
-                  ${
-                    isFocused
+                  ${isFocused
                       ? "opacity-100 blur-0 scale-100"
                       : "opacity-30 md:opacity-20 blur-sm scale-[0.8] md:scale-[0.65]"
-                  }`}
+                    }`}
                 >
                   <div className="inline-flex items-center justify-center px-2 md:px-6 py-3">
                     <h3 className="text-sm md:text-2xl font-bold text-foreground whitespace-nowrap border-4 border-white rounded-xl p-2 md:p-4 min-w-[120px] w-full md:w-[18rem]">
@@ -113,10 +116,11 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
               </p>
 
               <div
-                className="bg-center bg-contain bg-no-repeat"
+                className="bg-center bg-contain bg-no-repeat relative bottom-0 right-[-10vw]"
                 style={{
                   backgroundImage: "url('/dashboard.png')",
                   minHeight: "280px",
+                  height: "50vh"
                 }}
               />
             </div>

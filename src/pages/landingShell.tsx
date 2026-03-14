@@ -39,7 +39,7 @@ export default function LandingShell({ user, location }: Props) {
                 exit="exit"
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
-                <LandingIsland setMode={setMode} />
+                <LandingIsland mode={mode} setMode={setMode} />
               </motion.div>
             )}
 
@@ -52,7 +52,7 @@ export default function LandingShell({ user, location }: Props) {
                 exit="exit"
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
-                <IndexShell setMode={setMode} />
+                <IndexShell />
               </motion.div>
             )}
           </AnimatePresence>

@@ -1,4 +1,5 @@
 import { Button } from "../../components/ui/button";
+import BuildScaleToggle from "../landing/components/BuildScaleComponent";
 import { Slider } from "../ui/slider2";
 import type { FormStep } from "../utils/interfaces";
 
@@ -26,6 +27,11 @@ export function CompanyDetailsForm({
         <h2 className="mb-6 text-3xl text-foreground font-title">
           Set Project Targets
         </h2>
+
+        <div className="mx-auto w-[280px] md:w-[420px] lg:w-[600px]">
+          <BuildScaleToggle centerExpanded={true} />
+        </div>
+        
         <div className="flex-1 space-y-8 ">
           <div>
             <p className=" text-foreground text-xl">
