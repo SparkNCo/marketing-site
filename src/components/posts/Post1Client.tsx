@@ -30,8 +30,6 @@ export function Post1Client({ squaresConfig, blog, edit }: Post1Props) {
 }
 
 export function PostShell1({ blog, squaresConfig, edit }) {
-  console.log(blog, squaresConfig, edit);
-
   const {
     data: uniquePost,
     isLoading,

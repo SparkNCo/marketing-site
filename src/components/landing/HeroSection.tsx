@@ -10,10 +10,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
       flex flex-col lg:flex-row overflow-hidden
       items-start justify-center
       z-80
-      mx-6 lg:mx-20
+      mx-6 lg:mx-20 
     "
     >
-      <div className="absolute top-0 left-0 w-full h-[128px] bg-foreground"></div>
+      <div className="absolute top-0 left-0 w-full h-[115px] bg-foreground "></div>
 
       {/* LEFT SIDE */}
       <section
@@ -33,7 +33,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-background mb-6 leading-tight">
             Software that&apos;s up to speed
           </h1>
-          <p className="text-2xl lg:text-3xl mb-6 max-w-2xl text-background leading-snug">
+          <p className="text-2xl lg:text-3xl mb-6 max-w-2xl text-background leading-snug  w-[380px] md:w-[500px] lg:w-[1200px]">
             Build <span className="font-bold">[unbreakable]</span> software with
             <span className="font-bold text-primary"> AI supercharged </span>
             efficiency.
@@ -64,7 +64,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
               Ready to build?
             </h2>
 
-            <div className="flex items-center bg-foreground  shadow-md w-full">
+            <div className="flex items-center bg-foreground  shadow-md w-[260px] sm:w-[320px] md:w-[378px] ">
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -72,17 +72,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 px-4 py-3 outline-none text-background"
               />
-
             </div>
           </div>
 
-            <button
-              onClick={() => setMode?.("form")}
-              className="py-4 px-6 shadow-md text-foreground bg-background font-bold text-lg lg:text-xl"
-            >
-              Let's Go
-            </button>
-      
+          <button
+            onClick={() => setMode?.("form")}
+            className="py-4 px-6 shadow-md text-foreground bg-background font-bold text-lg lg:text-xl"
+          >
+            Let's Go
+          </button>
         </div>
       </section>
 

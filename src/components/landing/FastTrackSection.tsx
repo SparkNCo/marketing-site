@@ -12,7 +12,7 @@ function FastTrackSection() {
   return (
     <main
       ref={sectionRef}
-      className="flex flex-col items-center justify-center bg-transparent text-center py-24 gap-6 h-[1186px]"
+      className="flex flex-col items-center justify-center bg-transparent text-center py-24 gap-6 h-[650px] sm:h-[580px] md:h-[1186px] lg:h-[1186px] "
     >
       {/* Heading */}
       <h1 className="font-bold tracking-tight text-background leading-tight text-3xl sm:text-4xl md:text-4xl">
@@ -27,7 +27,7 @@ function FastTrackSection() {
 
       {/* Email input */}
       <div className="max-w-xl">
-        <div className="flex items-center bg-foreground  shadow-md w-[260px] sm:w-[320px] md:w-[378px]">
+        <div className="flex items-center bg-foreground  shadow-md w-[260px] sm:w-[320px] md:w-[378px] ">
           <input
             type="email"
             placeholder="Enter your email"
