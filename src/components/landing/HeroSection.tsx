@@ -13,7 +13,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
       mx-6 lg:mx-20 
     "
     >
-      <div className="absolute top-0 left-0 w-full h-[115px] bg-foreground "></div>
+      <div className="absolute top-0 left-0 w-full h-[105px] bg-foreground "></div>
 
       {/* LEFT SIDE */}
       <section
