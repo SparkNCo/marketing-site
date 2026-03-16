@@ -1,13 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-
-const steps = [
-  { id: 1, title: "Sign Up" },
-  { id: 2, title: "Project Discovery" },
-  { id: 3, title: "MVP" },
-];
+import { steps } from "./ProcessSection";
+import { ProcessStepItem, TimelineLine } from "./ProcessItems";
 
 export default function ProcessSectionMobile() {
+  const visibleSteps = steps.filter((s) => s.title);
+
   const [activeStep, setActiveStep] = useState<number>(0);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -52,48 +50,55 @@ export default function ProcessSectionMobile() {
           The Spark & Co Process
         </h2>
 
-        <div className="flex flex-col gap-32">
-          {steps.map((step, index) => {
-            const isActive = activeStep === index;
+        <div className="relative">
+          {/* Shared timeline line */}
+          <TimelineLine className="left-[50px] top-0 bottom-[50px] w-[2px]" />
 
-            return (
-              <div
-                key={step.id}
-                ref={(el) => (stepRefs.current[index] = el)}
-                className="transition-all duration-500"
-              >
-                <h3
-                  className={`text-lg font-bold border-4 border-white rounded-xl p-4 text-center transition-all duration-300
-                  ${isActive ? "scale-100 opacity-100" : "scale-90 opacity-40"}`}
+          <div className="flex flex-col gap-28">
+            {visibleSteps.map((step, index) => {
+              const isActive = activeStep === index;
+
+              return (
+                <div
+                  key={step.id}
+                  ref={(el) => (stepRefs.current[index] = el)}
+                  className="grid grid-cols-[30px_30px_1fr] items-start gap-2 transition-all duration-500"
                 >
-                  {step.title}
-                </h3>
+                  <ProcessStepItem
+                    index={index}
+                    title={step.title}
+                    isActive={isActive}
+                  />
 
-                {isActive && (
-                  <div className="mt-8 flex flex-col gap-5 animate-fade-in">
-                    <div className="font-semibold text-sm">
-                      Project Discovery
-                    </div>
+                  {/* Step content */}
+                  <div className="col-start-3">
+                    {isActive && (
+                      <div className="mt-8 flex flex-col gap-5 animate-fade-in">
+                        <div className="font-semibold text-sm">
+                          Project Discovery
+                        </div>
 
-                    <p className="text-sm leading-relaxed">
-                      The more we can solidify at the start of the project,
-                      the smoother the project will be. We start with a
-                      discovery call to go through the ins and outs of your
-                      industry, ICPs and problem statements.
-                    </p>
+                        <p className="text-sm leading-relaxed">
+                          The more we can solidify at the start of the project,
+                          the smoother the project will be. We start with a
+                          discovery call to go through the ins and outs of your
+                          industry, ICPs and problem statements.
+                        </p>
 
-                    <div
-                      className="bg-center bg-contain bg-no-repeat"
-                      style={{
-                        backgroundImage: "url('/dashboard.png')",
-                        minHeight: "220px",
-                      }}
-                    />
+                        <div
+                          className="bg-center bg-contain bg-no-repeat"
+                          style={{
+                            backgroundImage: "url('/dashboard.png')",
+                            minHeight: "220px",
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            );
-          })}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

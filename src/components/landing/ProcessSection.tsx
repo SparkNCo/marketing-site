@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import ProcessSectionMobile from "./ProcessSectionMobile";
+import { ProcessStepItem, TimelineLine } from "./ProcessItems";
 
-const steps = [
+export const steps = [
   { id: 0, title: "" },
   { id: 1, title: "Sign Up" },
   { id: 2, title: "Discovery" },
@@ -11,7 +12,7 @@ const steps = [
   { id: 5, title: "Launch" },
   { id: 6, title: "Scale" },
   { id: 7, title: "Support" },
-  { id: 8, title: "" }
+  { id: 8, title: "" },
 ];
 
 export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
@@ -27,6 +28,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
 
     const updateActiveStep = () => {
       const viewportCenter = window.innerHeight / 2;
+
       let closestStep = 0;
       let closestDistance = Infinity;
 
@@ -76,7 +78,10 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
         </h2>
 
         <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 max-w-7xl mx-auto">
-          <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10">
+          {/* LEFT TIMELINE */}
+          <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-[350px]">
+            <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] top-[230px] bottom-[230px]" />
+
             {visibleSteps.map((step, index) => {
               const isFocused = index === activeStep;
 
@@ -86,22 +91,24 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
                   ref={(el) => {
                     stepRefs.current[index] = el;
                   }}
-                  className={`p-2 md:p-4 my-10 md:my-20 mx-auto text-center transition-all duration-300 min-h-[200px] md:min-h-[300px] flex items-center justify-center
-                  ${isFocused
-                      ? "opacity-100 blur-0 scale-100"
-                      : "opacity-30 md:opacity-20 blur-sm scale-[0.8] md:scale-[0.65]"
-                    }`}
+                  className={`grid grid-cols-[40px_40px_1fr] items-center my-10 md:my-20 min-h-[200px] md:min-h-[300px] transition-all duration-300
+                  ${
+                    isFocused
+                      ? "opacity-100 blur-0 scale-100 translate-x-0 md:-translate-x-[25px]"
+                      : "opacity-90 blur-[2px] scale-[0.8] md:scale-[0.65] -translate-x-[62px]"
+                  }`}
                 >
-                  <div className="inline-flex items-center justify-center px-2 md:px-6 py-3">
-                    <h3 className="text-sm md:text-2xl font-bold text-foreground whitespace-nowrap border-4 border-white rounded-xl p-2 md:p-4 min-w-[120px] w-full md:w-[18rem]">
-                      {step.title}
-                    </h3>
-                  </div>
+                  <ProcessStepItem
+                    index={index}
+                    title={step.title}
+                    isActive={isFocused}
+                  />
                 </div>
               );
             })}
           </div>
 
+          {/* RIGHT SIDE */}
           <div className="lg:col-span-8 text-foreground relative z-0">
             <div className="sticky top-[200px] md:top-[300px] flex flex-col gap-6">
               <div className="w-full md:w-3/4 font-semibold text-sm md:text-lg">
@@ -111,16 +118,16 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
               <p className="text-sm md:text-xl">
                 The more we can solidify at the start of the project, the
                 smoother the project will be. We start with a discovery call to
-                go through the ins and outs of your industry, ICPSs and problem
-                statements
+                go through the ins and outs of your industry, ICPs and problem
+                statements.
               </p>
 
               <div
-                className="bg-center bg-contain bg-no-repeat relative bottom-0 right-[-10vw]"
+                className="bg-center bg-contain bg-no-repeat"
                 style={{
                   backgroundImage: "url('/dashboard.png')",
                   minHeight: "280px",
-                  height: "50vh"
+                  height: "50vh",
                 }}
               />
             </div>
