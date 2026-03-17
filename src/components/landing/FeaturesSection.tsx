@@ -20,9 +20,7 @@ const LeftBox = ({ title, summary, onClick }) => {
               alt="spark/co"
               className="w-6 h-6 sm:w-8 sm:h-8 object-contain cursor-pointer"
             />
-            <h3 className="sm:text-xl md:text-lg font-bold">
-              {title}
-            </h3>
+            <h3 className="sm:text-xl md:text-lg font-bold">{title}</h3>
           </div>
         </div>
 
@@ -74,13 +72,13 @@ function FeaturesSection() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-[1530px] px-4 sm:px-6 md:px-8 lg:px-12 relative mb-12 ">
+    <div className="mx-auto w-full max-w-[1530px] px-4 sm:px-6 md:px-8 lg:px-12 relative mb-4 ">
       {" "}
       <h1 className="text-center text-4xl sm:text-4xl md:text-4xl font-bold tracking-tight text-foreground my-10 leading-tight mt-28 lg:mt-4">
         Development Principles
       </h1>
       {/* MOBILE LAYOUT */}
-      <div className="flex flex-col gap-4 md:hidden">
+      <div className="flex flex-col gap-4 md:hidden  ">
         {modes.map((item) => (
           <PrincipleBox
             key={item}
@@ -110,7 +108,7 @@ function FeaturesSection() {
             ))}
         </div>
         {/* RIGHT COLUMN */}
-        <div className="w-full lg:w-1/2 flex relative min-h-[400px] w-full  ">
+        <div className="w-full lg:w-1/2 flex relative min-h-[400px] w-full   ">
           <SquaresPostLayout squares={SquaresConfigMVP}>
             <FeaturesOptions
               mode={mode}

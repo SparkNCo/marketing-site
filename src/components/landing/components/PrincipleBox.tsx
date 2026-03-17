@@ -13,7 +13,7 @@ export const PrincipleBox = ({
       onClick={() => setMode(modeKey)}
       className="cursor-pointer bg-foreground text-background  transition-all duration-300"
     >
-      <div className="p-5 flex justify-left items-center gap-4">
+      <div className="p-5 flex justify-left items-center gap-4 ">
         <img
           src={"/Frame.png"}
           alt="spark/co"

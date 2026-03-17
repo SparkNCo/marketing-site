@@ -33,7 +33,6 @@ export default function SquaresPostLayoutEdges({
   indexComponent?: number;
   isMobile?: boolean;
 }) {
-
   const cellSize = isMobile ? 32 : 64;
 
   return (

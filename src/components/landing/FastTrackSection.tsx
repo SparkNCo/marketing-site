@@ -5,14 +5,10 @@ function FastTrackSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [email, setEmail] = useState("");
 
-  const handleSubmit = () => {
-    console.log("email", email);
-  };
-
   return (
     <main
       ref={sectionRef}
-      className="flex flex-col items-center justify-center bg-transparent text-center py-24 gap-6 h-[650px] sm:h-[580px] md:h-[1186px] lg:h-[1186px] "
+      className="flex flex-col items-center justify-center bg-transparent text-center py-24 gap-6 h-[680px]  md:h-[1186px] lg:h-[1186px]"
     >
       {/* Heading */}
       <h1 className="font-bold tracking-tight text-background leading-tight text-3xl sm:text-4xl md:text-4xl">

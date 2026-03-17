@@ -73,7 +73,8 @@ export default function PostsSection() {
   };
 
   return (
-    <section className="w-full max-w-[850px] mx-auto space-y-6 mb-12  ">
+    // sm:px-6 md:px-8
+    <section className="w-full max-w-[850px] mx-auto space-y-4 mb-12 px-4 sm:px-0 md:px-8 lg:px-0 ">
       {" "}
       {/* Header */}
       <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between bg-foreground items-stretch sm:items-center px-4 py-4">
@@ -81,7 +82,7 @@ export default function PostsSection() {
         {/* Input */}
         <input
           type="text"
-          placeholder="Type a word and press Enter..."
+          placeholder="Search Articles"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}

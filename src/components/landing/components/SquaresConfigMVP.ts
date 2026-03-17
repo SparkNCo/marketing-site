@@ -1,6 +1,6 @@
 export const SquaresConfigMVP = [
   {
-    x: "323px",
+    x: "333px", // 323 + 10
     y: "0px",
     width: "31px",
     height: "31px",
@@ -10,7 +10,7 @@ export const SquaresConfigMVP = [
     zIndex: 3,
   },
   {
-    x: "354px",
+    x: "364px", // 354 + 10
     y: "0px",
     width: "31px",
     height: "31px",
@@ -20,7 +20,7 @@ export const SquaresConfigMVP = [
     zIndex: 3,
   },
   {
-    x: "354px",
+    x: "364px", // 354 + 10
     y: "31px",
     width: "62px",
     height: "31px",
@@ -30,7 +30,7 @@ export const SquaresConfigMVP = [
     zIndex: 3,
   },
   {
-    x: "416px",
+    x: "426px", // 416 + 10
     y: "93px",
     width: "31px",
     height: "31px",
@@ -40,17 +40,17 @@ export const SquaresConfigMVP = [
     zIndex: 5,
   },
   {
-    x: "478px",
+    x: "488px", // 478 + 10
     y: "31px",
     width: "31px",
     height: "31px",
-    color: "#faf6ef",
+    color: "#F7F4F0",
     colorDelay: 20,
     duration: 15,
     zIndex: 5,
   },
   {
-    x: "416px",
+    x: "426px", // 416 + 10
     y: "0px",
     width: "124px",
     height: "124px",
@@ -60,7 +60,7 @@ export const SquaresConfigMVP = [
     zIndex: 3,
   },
   {
-    x: "480px",
+    x: "490px", // 480 + 10
     y: "124px",
     width: "62px",
     height: "62px",
@@ -70,7 +70,7 @@ export const SquaresConfigMVP = [
     zIndex: 5,
   },
   {
-    x: "509px",
+    x: "519px", // 509 + 10
     y: "186px",
     width: "31px",
     height: "62px",

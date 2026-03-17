@@ -8,7 +8,8 @@ import {
 } from "./SquareConfig";
 import FooterSqareSection from "./landing/FooterSqareSection";
 import Footer from "./Footer";
-import SquaresPostLayoutEdges from "./posts/SquaresPostLayoutEdges";
+import SquaresGridLayout from "./layouts/GridLayout";
+import { useResponsiveCellSize } from "./utils/useResponsiveCellSize";
 
 /* Lazy sections */
 const HeroSection = lazy(() => import("./landing/HeroSection"));
@@ -19,6 +20,8 @@ const FastTrackSection = lazy(() => import("./landing/FastTrackSection"));
 
 const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const cellSize = useResponsiveCellSize();
+
   useEffect(() => {
     const checkScreen = () => {
       setIsMobile(window.innerWidth < 768);
@@ -32,52 +35,68 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
   }, []);
 
   return (
-    <div className="bg-background ">
-      <SquaresPostLayoutEdges
+    <div className="bg-transparent ">
+      <SquaresGridLayout
         squares={HeroSectionSquaresConfig}
+        background="#F7F4F0"
+        width="100%"
+        cellSize={cellSize}
+        className="h-[650px] sm:h-[670px] md:h-[750px] lg:h-[auto] "
         indexLayout={0}
         indexComponent={1}
-        isMobile={isMobile}
       >
         <HeroSection
           setMode={typeof setMode === "function" ? setMode : () => {}}
         />
-      </SquaresPostLayoutEdges>
+      </SquaresGridLayout>
 
       <FeaturesSection />
       <PostsSection />
 
-      {/*       <div className="relative w-full overflow-hidden">
-        <div
-          className="relative"
-          style={{
-            width: "2550px",
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
-        > */}
-      <SquaresPostLayoutEdges
+      <SquaresGridLayout
+        squares={FastTrackSquaresConfig}
+        background="#F7F4F0"
+        width="100%"
+        cellSize={cellSize}
+        className="h-[650px] md:h-[1150px] lg:h-auto "
+        indexLayout={0}
+        indexComponent={1}
+      >
+        <FastTrackSection />
+      </SquaresGridLayout>
+
+      {/* <SquaresPostLayoutEdges
         squares={FastTrackSquaresConfig}
         indexLayout={0}
         indexComponent={1}
         isMobile={isMobile}
       >
         <FastTrackSection />
-      </SquaresPostLayoutEdges>
-      {/*   </div>
-      </div> */}
+      </SquaresPostLayoutEdges> */}
 
       <ProcessSection isMobile={isMobile} />
       <CaseStudiesSection isMobile={isMobile} />
 
-      <SquaresPostLayoutEdges
+      {/*     <SquaresPostLayoutEdges
         squares={FooterLeftRightSquares}
         indexLayout={0}
         indexComponent={1}
         isMobile={isMobile}
       >
         <FooterSqareSection />
-      </SquaresPostLayoutEdges>
+      </SquaresPostLayoutEdges> */}
+
+      <SquaresGridLayout
+        squares={FooterLeftRightSquares}
+        background="#111111"
+        width="100%"
+        cellSize={cellSize}
+        className="h-[350px] md:h-[350px] lg:h-auto "
+        indexLayout={0}
+        indexComponent={1}
+      >
+        <FooterSqareSection />
+      </SquaresGridLayout>
 
       <Footer mode={mode} />
     </div>

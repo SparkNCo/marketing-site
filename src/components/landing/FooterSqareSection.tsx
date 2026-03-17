@@ -1,6 +1,6 @@
 export default function FooterSqareSection() {
   return (
-    <div className="relative text-foreground h-[375px] w-full ">
+    <div className="relative text-foreground h-[275px] md:h-[300px] lg:h-[475px] w-full">
       <img
         src={"/nbarIcon.png"}
         alt="spark/co"

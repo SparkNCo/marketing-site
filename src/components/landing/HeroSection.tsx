@@ -10,7 +10,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
       flex flex-col lg:flex-row overflow-hidden
       items-start justify-center
       z-80
-      mx-6 lg:mx-20 
+      mx-6 lg:mx-20 mt-2
     "
     >
       <div className="absolute top-0 left-0 w-full h-[105px] bg-foreground "></div>
@@ -19,13 +19,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
       <section
         data-header="light"
         className="
-        container relative
+        container relative 
         px-6 lg:px-12
         pt-10
         mt-[128px]
         bg-transparent
         w-full lg:w-1/2
-        min-h-[auto] lg:min-h-[807.5px]
+        min-h-[535px]    lg:min-h-[807.5px]
       "
       >
         <div>

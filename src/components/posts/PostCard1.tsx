@@ -80,7 +80,7 @@ const squaresConfig = [
 
 export default function PostCard({ img, title, subtitle, postId }) {
   return (
-    <article className="w-[275px] h-[387px] overflow-hidden shadow-lg bg-foreground title-white flex flex-col mx-auto ">
+    <article className=" w-full m:w-[275px] h-[387px] overflow-hidden shadow-lg bg-foreground title-white flex flex-col mx-auto ">
       <div className="h-[80%]">
         <SquaresPostLayout squares={squaresConfig}>
           <div
