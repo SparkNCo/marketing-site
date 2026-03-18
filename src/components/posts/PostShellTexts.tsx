@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import PostFooter from "./PostFooter";
 import PostPage2 from "./PostPage2";
 import PostPageCentered from "./PostPageCentered";
-import { fetchPost } from "./PostShell";
 import SquaresPostLayout from "./SquaresPostLayout";
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../lib/tanStack";
 import { LoadingWrapper } from "../proposals/MissingPasscode";
+import { fetchPost } from "./Post1Client";
 
 type PostShellProps = {
   squaresConfig: any[];
@@ -69,14 +69,14 @@ function PostContent({
         <div className="layout title-foreground">
           {isCentered ? (
             <PostPageCentered
-              key={uniquePost.blog_id}
+              key={uniquePost.id}
               uniquePost={uniquePost}
               edit={edit}
               blogId={blog}
             />
           ) : (
             <PostPage2
-              key={uniquePost.blog_id}
+              key={uniquePost.id}
               uniquePost={uniquePost}
               edit={edit}
               blogId={blog}

@@ -3,47 +3,15 @@ import { useMutation } from "@tanstack/react-query";
 import { patchIgPost } from "./patchPost";
 
 export default function PostPageCentered({ uniquePost, edit, blogId }) {
-  const [title, setTitle] = useState(uniquePost?.slide_three_title || "");
-  const [content, setContent] = useState(uniquePost?.slide_three || "");
+  const [content, setContent] = useState(uniquePost?.takeaways || "");
   const debounceRef = useRef(null);
 
   useEffect(() => {
-    setTitle(uniquePost?.slide_three_title || "");
-    setContent(uniquePost?.slide_three || "");
-  }, [uniquePost?.slide_three, uniquePost?.slide_three_title]);
-
-  // const mutation = useMutation({
-  //   mutationFn: async ({
-  //     slide_three,
-  //     slide_three_title,
-  //   }: {
-  //     slide_three: string;
-  //     slide_three_title: string;
-  //   }) => {
-  //     const res = await fetch(
-  //       `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-  //       {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           slide_three,
-  //           slide_three_title,
-  //         }),
-  //       },
-  //     );
-
-  //     if (!res.ok) {
-  //       throw new Error("Failed to update post");
-  //     }
-
-  //     return res.json();
-  //   },
-  // });
+    setContent(uniquePost?.takeaways || "");
+  }, [uniquePost?.takeaways]);
 
   const mutation = useMutation({
-    mutationFn: (updates: { slide_three: string; slide_three_title: string }) =>
+    mutationFn: (updates: { takeaways: string }) =>
       patchIgPost(blogId!, updates),
   });
 
@@ -51,40 +19,23 @@ export default function PostPageCentered({ uniquePost, edit, blogId }) {
     if (!edit) return;
     if (!blogId) return;
 
-    const originalContent = uniquePost?.slide_three || "";
-    const originalTitle = uniquePost?.slide_three_title || "";
+    const originalContent = uniquePost?.takeaways || "";
 
-    if (content === originalContent && title === originalTitle) return;
+    if (content === originalContent) return;
 
     clearTimeout(debounceRef.current);
 
     debounceRef.current = setTimeout(() => {
-      mutation.mutate({
-        slide_three: content,
-        slide_three_title: title,
-      });
+      mutation.mutate({ takeaways: content });
     }, 2000);
 
     return () => clearTimeout(debounceRef.current);
-  }, [content, title]);
+  }, [content]);
 
   return (
-    <article className="w-full h-[1160px] bg-white text-background flex flex-col text-center relative ">
-      {/* Hero */}
-      <div className="w-[90%] mx-auto py-12 space-y-4 mt-24  ">
-        {edit ? (
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="text-4xl font-bold leading-tight  mx-auto bg-transparent outline-none text-center w-full "
-          />
-        ) : (
-          <h1 className="text-4xl font-bold leading-tight  mx-auto">{title}</h1>
-        )}
-      </div>
-
+    <article className="w-full h-[1160px] bg-white text-background flex flex-col text-center relative">
       {/* Content */}
-      <div className="w-[90%] mx-auto flex flex-col items-center overflow-y-hidden ">
+      <div className="w-[90%] mx-auto flex flex-col items-center overflow-y-hidden  mt-24">
         {edit ? (
           <textarea
             value={content}

@@ -91,19 +91,18 @@ export default function PostCard({ img, title, subtitle, postId }) {
       </div>
 
       <div className="h-full p-4 flex flex-col  ">
-        {/* Redirect + meta */}
-        <div className=" flex flex-col text-right gap-2">
+        <div className="flex flex-col text-right gap-2">
           <a
             href={`/post?postId=${postId}`}
             className="
-              title-sm font-light title-neutral-400
-              hover:title-white transition-colors
-            "
+    text-body font-light text-background
+    hover:text-background transition-colors font-medium
+  "
           >
-            Why this thing and that thing are important to other thing
+            {title}
           </a>
 
-          <span className="title-sm font-light title-neutral-400">
+          <span className="text-smalltext font-light text-background font-medium">
             5 min read &gt;
           </span>
         </div>

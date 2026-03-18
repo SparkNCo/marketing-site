@@ -9,10 +9,11 @@ export type Post1Props = {
   blog: string | null;
   edit: string | null;
 };
+export async function fetchPost(blog: string) {
+  console.log("blog calling", blog);
 
-async function fetchPost(blogId: string) {
   const res = await fetch(
-    `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
+    `${import.meta.env.PUBLIC_ENDPOINT}/contentfull?url=${blog}`,
   );
   if (!res.ok) {
     throw new Error("Failed to fetch post");
@@ -65,7 +66,7 @@ export function PostShell1({ blog, squaresConfig, edit }) {
           <article>
             <div
               className="h-[1080px] bg-cover bg-center relative"
-              style={{ backgroundImage: `url(${uniquePost.img})` }}
+              style={{ backgroundImage: `url(${uniquePost.coverImage})` }}
             ></div>
           </article>
         </div>

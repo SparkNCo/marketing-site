@@ -3,22 +3,22 @@ import { useState, useEffect, useRef } from "react";
 import { patchIgPost } from "./patchPost";
 
 export default function PostPage2({ uniquePost, edit, blogId }) {
-  const [content, setContent] = useState(uniquePost?.slide_two || "");
+  const [content, setContent] = useState(uniquePost?.summary || "");
   const debounceRef = useRef(null);
 
   useEffect(() => {
-    setContent(uniquePost?.slide_two || "");
-  }, [uniquePost?.slide_two]);
+    setContent(uniquePost?.summary || "");
+  }, [uniquePost?.summary]);
 
   const mutation = useMutation({
-    mutationFn: (slide_two: string) => patchIgPost(blogId!, { slide_two }),
+    mutationFn: (summary: string) => patchIgPost(blogId!, { summary }),
   });
 
   useEffect(() => {
     if (!edit) return;
     if (!blogId) return;
 
-    const original = uniquePost?.slide_two || "";
+    const original = uniquePost?.summary || "";
 
     if (content === original) return;
 

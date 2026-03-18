@@ -5,17 +5,7 @@ import PostPage2 from "./PostPage2.tsx";
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../lib/tanStack/index.ts";
 import { useEffect } from "react";
-
-export async function fetchPost(blogId: string) {
-  const res = await fetch(
-    `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch post");
-  }
-
-  return res.json();
-}
+import { fetchPost } from "./Post1Client.tsx";
 
 type PostShellProps = {
   squaresConfig: any[];
@@ -70,12 +60,13 @@ function PostContent({ squaresConfig, blog, layoutType }: PostShellProps) {
       <SquaresPostLayout squares={squaresConfig} width="[1080px]">
         <div className="layout title-foreground">
           {isCentered ? (
-            <PostPageCentered
-              key={uniquePost.blog_id}
-              uniquePost={uniquePost}
-            />
+            <PostPageCentered key={uniquePost.id} uniquePost={uniquePost} />
           ) : (
-            <PostPage2 key={uniquePost.blog_id} uniquePost={uniquePost} />
+            <PostPage2
+              key={uniquePost.id}
+              uniquePost={uniquePost}
+              blogId={uniquePost.id}
+            />
           )}
         </div>
       </SquaresPostLayout>
