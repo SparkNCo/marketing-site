@@ -10,7 +10,6 @@ export default {
         body: ["18px", { lineHeight: "auto" }],
         smalltext: ["16px", { lineHeight: "auto" }],
       },
-
       fontFamily: {
         title: ["var(--font-title)"],
         body: ["var(--font-body)"],

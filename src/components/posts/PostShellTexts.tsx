@@ -23,12 +23,14 @@ export function PostShell5({
 }: PostShellProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <PostContent
-        squaresConfig={squaresConfig}
-        blog={blog}
-        edit={edit}
-        layoutType={layoutType}
-      />
+      <div className="relative">
+        <PostContent
+          squaresConfig={squaresConfig}
+          blog={blog}
+          edit={edit}
+          layoutType={layoutType}
+        />
+      </div>
     </QueryClientProvider>
   );
 }
@@ -64,9 +66,12 @@ function PostContent({
   }
 
   return (
-    <div className="w-[1080px] mx-auto h-[1170px]">
+    <div className="w-[1080px] mx-auto h-[1350px] ">
       <SquaresPostLayout squares={squaresConfig} width="[1080px]">
-        <div className="layout title-foreground">
+        {!edit && (
+          <div className="absolute inset-0 bg-transparent opacity-50 z-20" />
+        )}
+        <div className="layout title-foreground ">
           {isCentered ? (
             <PostPageCentered
               key={uniquePost.id}
@@ -82,15 +87,16 @@ function PostContent({
               blogId={blog}
             />
           )}
+
+          <PostFooter
+            height="h-[180px]"
+            bgColor={isCentered ? "bg-[#111111]" : "bg-[#F7F4F0]"}
+            imgSrc={isCentered ? "/nbarIcon.png" : "/nbarIcon2.png"}
+            arrowColor={isCentered ? "white" : "black"}
+            className=" w-[1000px] px-[40px]"
+          />
         </div>
       </SquaresPostLayout>
-
-      <PostFooter
-        height="h-[180px]"
-        bgColor={isCentered ? "bg-[#111111]" : "bg-[#F7F4F0]"}
-        imgSrc={isCentered ? "/nbarIcon.png" : "/nbarIcon2.png"}
-        arrowColor={isCentered ? "white" : "black"}
-      />
     </div>
   );
 }

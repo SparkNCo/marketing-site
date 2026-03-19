@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import { ArrowBigRight } from "lucide-react";
 import { useRef } from "react";
 import { useState, useEffect } from "react";
 import { patchIgPost } from "./patchPost";
@@ -10,9 +9,10 @@ export default function PostFooter({
   imgSrc = "/nbarIcon2.png",
   arrowColor = "text-white",
   hideComponets = false,
+  className = "",
 }) {
   return (
-    <div className={`${height} ${bgColor} w-[1080px]`}>
+    <div className={`${height} ${bgColor} w-[1080px] ${className}`}>
       {!hideComponets && (
         <div className="w-[90%] h-full flex items-center justify-between mx-auto z-20">
           <img
@@ -36,35 +36,10 @@ export function PostFooter1({ title, author, edit, blogId }) {
   const [localAuthor, setLocalAuthor] = useState(author);
   const debounceRef = useRef(null);
 
-const mutation = useMutation({
-  mutationFn: (updates: { title: string; author: string }) =>
-    patchIgPost(blogId!, updates),
-});
-
-
-  // const mutation = useMutation({
-  //   mutationFn: async ({ title, author }) => {
-  //     const res = await fetch(
-  //       `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
-  //       {
-  //         method: "PATCH",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify({
-  //           title,
-  //           author,
-  //         }),
-  //       },
-  //     );
-
-  //     if (!res.ok) {
-  //       throw new Error("Failed to update post");
-  //     }
-
-  //     return res.json();
-  //   },
-  // });
+  const mutation = useMutation({
+    mutationFn: (updates: { title: string; author: string }) =>
+      patchIgPost(blogId!, updates),
+  });
 
   useEffect(() => {
     setLocalTitle(title);
@@ -93,7 +68,7 @@ const mutation = useMutation({
   }, [localTitle, localAuthor]);
 
   return (
-    <div className="h-[270px] flex items-center">
+    <div className="h-[250px] flex items-center mt-[10px]">
       <div className="w-full mx-auto space-y-2 flex flex-col items-end text-right mr-[20px]">
         {edit ? (
           <textarea
@@ -111,11 +86,11 @@ const mutation = useMutation({
         {edit ? (
           <input
             value={localAuthor || ""}
-            className="text-[36px] font-light text-neutral-400 py-6 bg-transparent outline-none text-right overflow-hidden"
+            className="text-[36px] font-light text-neutral-400 my-6 bg-transparent outline-none text-right overflow-hidden"
             onChange={(e) => setLocalAuthor(e.target.value)}
           />
         ) : (
-          <p className="text-[36px] font-light text-neutral-400 py-6">
+          <p className="text-[36px] font-light text-neutral-400 my-6">
             {author}
           </p>
         )}

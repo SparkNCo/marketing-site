@@ -55,29 +55,33 @@ export function PostShell1({ blog, squaresConfig, edit }) {
     },
   ];
   return (
-    <div className="max-w-[1080px] mx-auto ">
-      <SquaresPostLayout
-        squares={squaresConfig}
-        tags={tags}
-        edit={edit}
-        blogId={blog}
-      >
-        <div className="layout title-foreground">
-          <article>
-            <div
-              className="h-[1080px] bg-cover bg-center relative"
-              style={{ backgroundImage: `url(${uniquePost.coverImage})` }}
-            ></div>
-          </article>
-        </div>
-      </SquaresPostLayout>
+    <div className="relative max-w-[1080px] h-[1350px] mx-auto">
+      {!edit && <div className="absolute inset-0 bg-transparent opacity-100 z-20" />}
 
-      <PostFooter1
-        title={uniquePost?.title}
-        author={uniquePost?.author}
-        edit={edit}
-        blogId={blog}
-      />
+      <div className="max-w-[1080px] h-[1350px] mx-auto z-10">
+        <SquaresPostLayout
+          squares={squaresConfig}
+          tags={tags}
+          edit={edit}
+          blogId={blog}
+        >
+          <div className="layout title-foreground">
+            <article>
+              <div
+                className="h-[1080px] bg-cover bg-center relative"
+                style={{ backgroundImage: `url(${uniquePost.coverImage})` }}
+              ></div>
+            </article>
+          </div>
+        </SquaresPostLayout>
+
+        <PostFooter1
+          title={uniquePost?.title}
+          author={uniquePost?.author}
+          edit={edit}
+          blogId={blog}
+        />
+      </div>
     </div>
   );
 }
