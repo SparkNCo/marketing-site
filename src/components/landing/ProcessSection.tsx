@@ -71,14 +71,13 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
   const visibleSteps = steps.filter((step) => step.title);
 
   return (
-    <section className="bg-background py-10 relative">
+    <section className="bg-background py-10 relative mt-8 ">
       <div className="container mx-auto px-4 md:px-6 py-10 max-w-[1530px]">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 md:mb-16 text-center">
           The Spark & Co Process
         </h2>
 
         <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 max-w-7xl mx-auto">
-          {/* LEFT TIMELINE */}
           <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-[350px]">
             <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] top-[230px] bottom-[230px]" />
 

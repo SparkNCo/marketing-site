@@ -32,10 +32,9 @@ const LeftBox = ({ title, summary, onClick }) => {
   );
 };
 
-function FeaturesSection() {
+function FeaturesSection({ setSelectedFeatures }) {
   const [mode, setMode] = useState<"supercharged" | "control" | "mvp">("mvp");
   const modes = ["supercharged", "control", "mvp"] as const;
-  const leftModes = modes.filter((m) => m !== mode);
   const content = {
     supercharged: {
       title: "AI Supercharged",
@@ -72,7 +71,7 @@ function FeaturesSection() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-[850px]  lg:max-w-[1530px] px-4 sm:px-4 md:px-8 lg:px-12 relative mb-4 ">
+    <div className="mx-auto w-full max-w-[850px]  lg:max-w-[1530px] px-4 sm:px-4 md:px-8 lg:px-12 relative mb-4 mt-8 ">
       {" "}
       <h1 className="text-center text-4xl sm:text-4xl md:text-4xl font-bold tracking-tight text-foreground my-10 leading-tight mt-28 lg:mt-4">
         Development Principles
@@ -102,7 +101,10 @@ function FeaturesSection() {
                 key={item}
                 title={content[item].title}
                 summary={content[item].summary}
-                onClick={() => setMode(item)}
+                onClick={() => {
+                  setMode(item);
+                  setSelectedFeatures?.([content[item].title]);
+                }}
               />
             ))}
         </div>

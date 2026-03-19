@@ -44,7 +44,7 @@ export default function ProcessSectionMobile() {
   }, []);
 
   return (
-    <section className="bg-background py-16 text-foreground">
+    <section className="bg-background py-16 text-foreground mt-8">
       <div className="px-6">
         <h2 className="text-3xl font-bold text-center mb-20">
           The Spark & Co Process

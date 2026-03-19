@@ -15,7 +15,7 @@ const fetchPosts = async () => {
   return res.json();
 };
 
-export default function PostsSection() {
+export default function PostsSection({ selectedFeatures }) {
   const [input, setInput] = useState("");
   const [tags, setTags] = useState([]);
   const [page, setPage] = useState(1);
@@ -51,19 +51,24 @@ export default function PostsSection() {
   const filteredPosts = useMemo(() => {
     if (!allPosts.length) return [];
 
-    if (tags.length === 0) return allPosts;
+    const activeFilters = [
+      ...tags,
+      ...(selectedFeatures || []).map((f) => f.toLowerCase()),
+    ];
+
+    if (activeFilters.length === 0) return allPosts;
 
     return allPosts.filter((post) => {
       const text = `
-        ${post.title || ""}
-        ${post.summary || ""}
-        ${post.author || ""}
-        ${(post.tags || []).join(" ")}
-      `.toLowerCase();
+      ${post.title || ""}
+      ${post.summary || ""}
+      ${post.author || ""}
+      ${(post.tags || []).join(" ")}
+    `.toLowerCase();
 
-      return tags.every((tag) => text.includes(tag));
+      return activeFilters.every((filter) => text.includes(filter));
     });
-  }, [tags, allPosts]);
+  }, [tags, selectedFeatures, allPosts]);
 
   const totalPosts = filteredPosts.length;
   const totalPages = Math.ceil(totalPosts / itemsPerPage);
@@ -93,8 +98,7 @@ export default function PostsSection() {
 
   return (
     <section className="w-full max-w-[850px]   mx-auto space-y-4 mb-12 px-4 md:px-8 lg:px-0">
-      {/* Header */}
-      <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between bg-foreground items-stretch sm:items-center px-4 py-4">
+      {/*  <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between bg-foreground items-stretch sm:items-center px-4 py-4">
         <input
           type="text"
           placeholder="Search Articles"
@@ -129,7 +133,6 @@ export default function PostsSection() {
         )}
       </div>
 
-      {/* Tags */}
       {tags.length > 0 && (
         <div className="grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] w-full">
           {tags.map((tag, i) => (
@@ -148,8 +151,7 @@ export default function PostsSection() {
           ))}
         </div>
       )}
-
-      {/* Posts */}
+ */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {paginatedPosts.length > 0 ? (
           paginatedPosts.map((post) => (
