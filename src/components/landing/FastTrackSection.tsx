@@ -1,7 +1,10 @@
 "use client";
 import { useRef, useState } from "react";
+import PrimaryButton from "../ui/primary-button";
+import type { HeroSectionProps } from "../utils/interfaces";
 
-function FastTrackSection() {
+// function FastTrackSection() {
+const FastTrackSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [email, setEmail] = useState("");
 
@@ -44,8 +47,11 @@ function FastTrackSection() {
       {/* <div className="mx-auto w-[280px] md:w-[420px] lg:w-[600px]">
         <BuildScaleToggle setMode={setMode} centerExpanded={true} />
       </div> */}
+      <PrimaryButton onClick={() => setMode?.("form")}>
+        Let&apos;s Go
+      </PrimaryButton>
     </main>
   );
-}
+};
 
 export default FastTrackSection;

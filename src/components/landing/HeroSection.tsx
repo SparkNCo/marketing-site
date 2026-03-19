@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
+import PrimaryButton from "../ui/primary-button";
 
 const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   const [email, setEmail] = useState("");
@@ -73,16 +74,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           </div>
 
           {/* BUTTON */}
-          <button
-            onClick={() => setMode?.("form")}
-            className="py-4 px-6 shadow-md text-foreground bg-background font-bold text-lg lg:text-xl"
-          >
+          <PrimaryButton onClick={() => setMode?.("form")}>
             Let&apos;s Go
-          </button>
+          </PrimaryButton>
         </div>
       </section>
-
-      {/* RIGHT SIDE */}
     </main>
   );
 };

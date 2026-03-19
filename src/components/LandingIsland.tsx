@@ -62,7 +62,9 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
         indexLayout={0}
         indexComponent={1}
       >
-        <FastTrackSection />
+        <FastTrackSection
+          setMode={typeof setMode === "function" ? setMode : () => {}}
+        />
       </SquaresGridLayout>
 
       <ProcessSection isMobile={isMobile} />
