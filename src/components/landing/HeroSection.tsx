@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
-import PrimaryButton from "../ui/primary-button";
 import EmailCapture from "../ui/EmailTemplate/EmailInput";
 
 const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
@@ -26,9 +25,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   };
 
   return (
-    <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20 mt-2 relative">
+    <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20 mt-4 relative">
       {/* TOP BAR */}
-      <div className="absolute top-0 left-0 w-full h-[105px] bg-foreground" />
+      <div className="absolute top-0 left-0 w-full h-[95px] bg-foreground " />
 
       {/* LEFT SIDE */}
       <section

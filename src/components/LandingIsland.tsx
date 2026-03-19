@@ -22,6 +22,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
   const [isMobile, setIsMobile] = useState(false);
   const cellSize = useResponsiveCellSize();
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  
   useEffect(() => {
     const checkScreen = () => {
       setIsMobile(window.innerWidth < 768);

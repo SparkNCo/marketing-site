@@ -32,6 +32,7 @@ export default function DealForm() {
     selectedTime: { start: "", end: "" },
     scheduling_url: "",
     redirect_url: "",
+    build_scale: "build",
   });
 
   const availabilityQuery = useQuery({
@@ -62,13 +63,13 @@ export default function DealForm() {
 
       return res.json();
     },
-    staleTime: 1000 * 60 * 5, 
+    staleTime: 1000 * 60 * 5,
   });
 
   const submitMutation = useMutation({
     mutationFn: async (finalData: FormData) => {
       const res = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/create-lead`,
+        `${import.meta.env.PUBLIC_ENDPOINT}/update-lead`,
 
         {
           method: "POST",
@@ -120,6 +121,13 @@ export default function DealForm() {
     "success",
   ].indexOf(currentStep);
 
+  const setBuildScale = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      build_scale: value,
+    }));
+  };
+
   return (
     <main
       data-header="light"
@@ -130,6 +138,12 @@ export default function DealForm() {
       "
     >
       <div className="min-h-[10vh] sm:min-h-[15vh]" />
+      <div
+        className="text-foreground"
+        onClick={() => console.log({ formData })}
+      >
+        VER CONVER
+      </div>
 
       <AnimatedStepper
         currentStep={stepIndex}
@@ -191,6 +205,7 @@ export default function DealForm() {
                 estimateTimeline: { min: value[0], max: value[1] },
               }))
             }
+            setBuildScale={setBuildScale}
           />
         )}
 

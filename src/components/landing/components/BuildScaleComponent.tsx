@@ -1,132 +1,13 @@
-// import { useState } from "react";
-// import { ChevronRight } from "lucide-react";
-
-// export default function BuildScaleToggle({
-//   setMode,
-//   centerExpanded,
-// }: {
-//   setMode: (mode: "index" | "form") => void;
-//   centerExpanded?: boolean;
-// }) {
-//   const [selected, setSelected] = useState<"build" | "scale">("build");
-
-//   const cardsOrder: ("build" | "scale")[] = ["build", "scale"];
-
-//   const handleClick = (type: "build" | "scale") => {
-//     if (selected === type) {
-//       setMode("form");
-//     } else {
-//       setSelected(type);
-//     }
-//   };
-
-//   const Card = ({
-//     type,
-//     icon,
-//     title,
-//   }: {
-//     type: "build" | "scale";
-//     icon: string;
-//     title: string;
-//   }) => {
-//     const isSelected = selected === type;
-//     const isSecond = type === "scale";
-
-//     return (
-//       <div
-//         onClick={() => handleClick(type)}
-//         className={`
-//           rounded-md shadow-md cursor-pointer overflow-hidden
-//           p-6
-//           transition-all duration-1500 ease-out
-//           active:scale-95
-// flex-shrink-0
-// ${isSelected ? "basis-[360px]" : "basis-[260px]"}
-//           ${
-//             isSecond
-//               ? "bg-foreground text-background"
-//               : "bg-background text-foreground"
-//           }
-
-//           ${!isSelected ? "opacity-90 hover:opacity-100" : ""}
-//         `}
-//       >
-//         {/* Header */}
-//         <div className="flex justify-between items-center">
-//           <div className="flex items-center gap-3">
-//             <img src={icon} className="w-8 h-8 transition-all duration-300" />
-//             <h2 className="text-xl font-bold">{title}</h2>
-//           </div>
-
-//           {/* Chevron */}
-//           <div
-//             className={`
-//               transition-all duration-300
-//               ${
-//                 isSelected
-//                   ? "opacity-100 translate-x-0 rotate-0"
-//                   : "opacity-0 translate-x-3 rotate-12"
-//               }
-//             `}
-//           >
-//             <div
-//               className={`
-//                 border-2  p-0.5 flex items-center justify-center
-//                 ${type === "scale" ? "border-background" : "border-foreground"}
-//               `}
-//             >
-//               <ChevronRight className="w-6 h-6" strokeWidth={3} />
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Text */}
-//         <div
-//           className={`
-//             overflow-hidden transition-all duration-500 ease-out
-//             ${
-//               isSelected
-//                 ? "max-h-40 opacity-100 mt-2 translate-y-0"
-//                 : "max-h-0 opacity-0 -translate-y-2"
-//             }
-//           `}
-//         >
-//           <p className="leading-relaxed">
-//             Launch your new business or product line with Spark & Co's fully
-//             managed software delivery system.
-//           </p>
-//         </div>
-//       </div>
-//     );
-//   };
-
-//   return (
-//     <div
-//       className={`flex flex-row gap-6 items-start ${
-//         centerExpanded ? "justify-center" : "justify-start"
-//       }`}
-//     >
-//       {cardsOrder.map((type) => (
-//         <div key={type} className="w-[480px] flex justify-center">
-//           <Card
-//             type={type}
-//             icon={type === "build" ? "/BuildIcon.png" : "/ScaleIcon.png"}
-//             title={type === "build" ? "Build" : "Scale"}
-//           />
-//         </div>
-//       ))}
-//     </div>
-//   );
-// }
-
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 
 export default function BuildScaleToggle({
   centerExpanded,
+  onClick,
 }: {
   centerExpanded?: boolean;
+  onClick: (scale: "build" | "scale") => void;
 }) {
   const [selected, setSelected] = useState<"build" | "scale" | "none">("build");
 
@@ -136,6 +17,7 @@ export default function BuildScaleToggle({
     if (selected !== type) {
       setSelected(type);
     }
+    onClick(type);
   };
 
   const spring = {

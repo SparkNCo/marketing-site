@@ -25,6 +25,7 @@ export interface FormData {
   };
   scheduling_url: string;
   redirect_url: string;
+  build_scale: "build" | "scale";
 }
 
 export type FeaturesFormProps = Readonly<{

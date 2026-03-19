@@ -10,6 +10,7 @@ export type CompanyDetailsFormProps = Readonly<{
   setBudgetRange: (v: readonly [number, number]) => void;
   timelineRange: readonly [number, number];
   setTimelineRange: (v: readonly [number, number]) => void;
+  setBuildScale: (value: string) => void;
 }>;
 
 export function CompanyDetailsForm({
@@ -19,6 +20,7 @@ export function CompanyDetailsForm({
   setBudgetRange,
   timelineRange,
   setTimelineRange,
+  setBuildScale,
 }: CompanyDetailsFormProps) {
   return (
     <form className="animate-fade-in flex flex-col h-full font-body">
@@ -29,9 +31,12 @@ export function CompanyDetailsForm({
         </h2>
 
         <div className="mx-auto w-[280px] md:w-[420px] lg:w-[600px]">
-          <BuildScaleToggle centerExpanded={true} />
+          <BuildScaleToggle
+            centerExpanded={true}
+            onClick={(value) => setBuildScale(value)}
+          />
         </div>
-        
+
         <div className="flex-1 space-y-8 ">
           <div>
             <p className=" text-foreground text-xl">
