@@ -1,9 +1,29 @@
 import React, { useState } from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
 import PrimaryButton from "../ui/primary-button";
+import EmailCapture from "../ui/EmailTemplate/EmailInput";
 
 const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [shake, setShake] = useState(false);
+
+  const isValidEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleSubmit = () => {
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email");
+      setShake(true);
+
+      setTimeout(() => setShake(false), 400);
+      return;
+    }
+
+    setError("");
+    setMode?.("form");
+  };
 
   return (
     <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20 mt-2 relative">
@@ -16,7 +36,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
         className="
           relative
           w-full lg:w-1/2
-          pt-10 mt-[128px]
+          pt-10 mt-[75px] md:mt-[128px]
           min-h-[535px] lg:min-h-[800px]
           flex flex-col items-start
         "
@@ -27,14 +47,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-background mb-6 leading-tight max-w-[520px]">
             Software that&apos;s up to speed
           </h1>
-
           {/* SUBTITLE */}
           <p className="text-xl md:text-2xl lg:text-3xl mb-6 text-background leading-snug max-w-[500px] md:max-w-[600px]">
             Build <span className="font-bold">[unbreakable]</span> software with
             <span className="font-bold text-primary"> AI supercharged </span>
             efficiency.
           </p>
-
           {/* TECH ICONS */}
           <div className="flex items-center gap-5 mb-10">
             {[
@@ -55,28 +73,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
               </div>
             ))}
           </div>
-
-          {/* INPUT */}
-          <div className="mb-6 w-full max-w-[420px]">
-            <h2 className="text-background font-bold mb-3 text-lg lg:text-xl">
-              Ready to build?
-            </h2>
-
-            <div className="flex items-center bg-foreground shadow-md w-full">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 px-4 py-3 outline-none text-background"
-              />
-            </div>
-          </div>
-
-          {/* BUTTON */}
-          <PrimaryButton onClick={() => setMode?.("form")}>
-            Let&apos;s Go
-          </PrimaryButton>
+          <EmailCapture
+            label="Ready to build?"
+            buttonClassName="w-[130px] h-[60px]"
+            containerClassName="mb-6 w-full max-w-[420px]"
+            inputWrapperClassName="w-full"
+            onValidSubmit={() => setMode?.("form")}
+          />
+          {/*           <PrimaryButton onClick={handleSubmit}>Let&apos;s Go</PrimaryButton>
+           */}{" "}
         </div>
       </section>
     </main>
