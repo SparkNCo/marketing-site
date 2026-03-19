@@ -29,9 +29,6 @@ export default function PostsSection() {
 
   const allPosts = data || [];
 
-  /* ----------------------------------------
-     Add tag
-  ---------------------------------------- */
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -51,9 +48,6 @@ export default function PostsSection() {
     setTags((prev) => prev.filter((t) => t !== tagToRemove));
   };
 
-  /* ----------------------------------------
-     🔥 BETTER FILTERING (uses real CMS data)
-  ---------------------------------------- */
   const filteredPosts = useMemo(() => {
     if (!allPosts.length) return [];
 
@@ -71,9 +65,6 @@ export default function PostsSection() {
     });
   }, [tags, allPosts]);
 
-  /* ----------------------------------------
-     Pagination
-  ---------------------------------------- */
   const totalPosts = filteredPosts.length;
   const totalPages = Math.ceil(totalPosts / itemsPerPage);
 
@@ -101,7 +92,7 @@ export default function PostsSection() {
   }
 
   return (
-    <section className="w-full max-w-[850px] mx-auto space-y-4 mb-12 px-4 sm:px-0 md:px-8 lg:px-0">
+    <section className="w-full max-w-[850px]   mx-auto space-y-4 mb-12 px-4 md:px-8 lg:px-0">
       {/* Header */}
       <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between bg-foreground items-stretch sm:items-center px-4 py-4">
         <input

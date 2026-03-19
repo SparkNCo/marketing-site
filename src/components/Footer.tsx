@@ -31,7 +31,7 @@ export default function Footer({ mode }) {
         </a>
 
         <div
-          className="
+          className=" hidden lg:inline
       flex flex-col gap-1 text-sm text-center
       col-start-2
       lg:col-auto lg:text-right
@@ -41,6 +41,15 @@ export default function Footer({ mode }) {
           <span>Registered in Canada. All rights reserved</span>
         </div>
       </div>
+      <div
+        className="flex flex-col col-start-2 inline lg:hidden
+      gap-1 text-sm text-center
+       lg:text-right w-full pb-4
+    "
+      >
+        <span>2025 Spark & Co Technologies Inc.</span>
+        <span>Registered in Canada. All rights reserved</span>
+      </div>
     </footer>
   );
-}
+} //

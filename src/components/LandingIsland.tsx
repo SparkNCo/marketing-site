@@ -65,26 +65,8 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
         <FastTrackSection />
       </SquaresGridLayout>
 
-      {/* <SquaresPostLayoutEdges
-        squares={FastTrackSquaresConfig}
-        indexLayout={0}
-        indexComponent={1}
-        isMobile={isMobile}
-      >
-        <FastTrackSection />
-      </SquaresPostLayoutEdges> */}
-
       <ProcessSection isMobile={isMobile} />
       <CaseStudiesSection isMobile={isMobile} />
-
-      {/*     <SquaresPostLayoutEdges
-        squares={FooterLeftRightSquares}
-        indexLayout={0}
-        indexComponent={1}
-        isMobile={isMobile}
-      >
-        <FooterSqareSection />
-      </SquaresPostLayoutEdges> */}
 
       <SquaresGridLayout
         squares={FooterLeftRightSquares}

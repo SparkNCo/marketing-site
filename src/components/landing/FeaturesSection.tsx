@@ -72,13 +72,13 @@ function FeaturesSection() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-[1530px] px-4 sm:px-6 md:px-8 lg:px-12 relative mb-4 ">
+    <div className="mx-auto w-full max-w-[850px]  lg:max-w-[1530px] px-4 sm:px-4 md:px-8 lg:px-12 relative mb-4 ">
       {" "}
       <h1 className="text-center text-4xl sm:text-4xl md:text-4xl font-bold tracking-tight text-foreground my-10 leading-tight mt-28 lg:mt-4">
         Development Principles
       </h1>
       {/* MOBILE LAYOUT */}
-      <div className="flex flex-col gap-4 md:hidden  ">
+      <div className="flex flex-col gap-4 lg:hidden max-w-[850px]   ">
         {modes.map((item) => (
           <PrincipleBox
             key={item}
@@ -92,10 +92,9 @@ function FeaturesSection() {
         ))}
       </div>
       {/* DESKTOP LAYOUT */}
-      <div className="hidden md:flex flex-row gap-6 items-stretch w-full max-w-[850px] mx-auto ">
-        {" "}
+      <div className="hidden lg:flex flex-row gap-6 items-stretch w-full max-w-[850px] mx-auto ">
         {/* LEFT COLUMN */}
-        <div className="flex flex-col gap-6 md:w-1/2 max-w-[275px] ">
+        <div className="flex flex-col gap-6 md:w-1/2 max-w-[275px]  ">
           {modes
             .filter((m) => m !== mode)
             .map((item) => (
@@ -108,7 +107,7 @@ function FeaturesSection() {
             ))}
         </div>
         {/* RIGHT COLUMN */}
-        <div className="w-full lg:w-1/2 flex relative min-h-[400px] w-full   ">
+        <div className="w-full lg:w-1/2 flex relative min-h-[400px] w-full  ">
           <SquaresPostLayout squares={SquaresConfigMVP}>
             <FeaturesOptions
               mode={mode}

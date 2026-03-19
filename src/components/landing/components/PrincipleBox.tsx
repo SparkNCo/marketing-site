@@ -26,7 +26,7 @@ export const PrincipleBox = ({
       <div
         className={`overflow-hidden transition-all duration-300 ${
           isActive ? "max-h-[500px] opacity-100 p-5 pt-0" : "max-h-0 opacity-0"
-        } md:hidden`}
+        } lg:hidden`}
       >
         <p className="font-semibold mb-4">{summary}</p>
         <ul className="space-y-3">
