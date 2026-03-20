@@ -51,10 +51,9 @@ export default function ProcessSectionMobile() {
         </h2>
 
         <div className="relative">
-          {/* Shared timeline line */}
           <TimelineLine className="left-[50px] top-0 bottom-[50px] w-[2px]" />
 
-          <div className="flex flex-col gap-28">
+          <div className="flex flex-col gap-28 ">
             {visibleSteps.map((step, index) => {
               const isActive = activeStep === index;
 
@@ -62,7 +61,7 @@ export default function ProcessSectionMobile() {
                 <div
                   key={step.id}
                   ref={(el) => (stepRefs.current[index] = el)}
-                  className="grid grid-cols-[30px_30px_1fr] items-start gap-2 transition-all duration-500"
+                  className="grid grid-cols-[30px_30px_1fr] items-start gap-2"
                 >
                   <ProcessStepItem
                     index={index}
@@ -72,28 +71,36 @@ export default function ProcessSectionMobile() {
 
                   {/* Step content */}
                   <div className="col-start-3">
-                    {isActive && (
-                      <div className="mt-8 flex flex-col gap-5 animate-fade-in">
-                        <div className="font-semibold text-sm">
-                          Project Discovery
-                        </div>
+                    <div
+                      className={`
+                        mt-8 flex flex-col gap-5
+                        transition-all duration-500 ease-out
+                        ${
+                          isActive
+                            ? "opacity-100 translate-y-0"
+                            : "opacity-0 -translate-y-4 pointer-events-none"
+                        }
+                      `}
+                    >
+                      {/* TITLE */}
+                      <div className="font-semibold text-sm">{step.title}</div>
 
-                        <p className="text-sm leading-relaxed">
-                          The more we can solidify at the start of the project,
-                          the smoother the project will be. We start with a
-                          discovery call to go through the ins and outs of your
-                          industry, ICPs and problem statements.
-                        </p>
+                      {/* DESCRIPTION */}
+                      <p className="text-sm leading-relaxed">
+                        {step.description}
+                      </p>
 
-                        <div
-                          className="bg-center bg-contain bg-no-repeat"
-                          style={{
-                            backgroundImage: "url('/dashboard.png')",
-                            minHeight: "220px",
-                          }}
-                        />
-                      </div>
-                    )}
+                      {/* IMAGE */}
+                      <div
+                        className="bg-center bg-contain bg-no-repeat transition-all duration-500"
+                        style={{
+                          backgroundImage: `url(${
+                            step.image || "/dashboard.png"
+                          })`,
+                          minHeight: "220px",
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
               );

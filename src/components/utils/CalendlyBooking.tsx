@@ -184,11 +184,13 @@ export default function CalendlyBooking({
                   {new Date(slot.start).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
+                    hour12: false,
                   })}{" "}
                   -{" "}
                   {new Date(slot.end).toLocaleTimeString([], {
                     hour: "2-digit",
                     minute: "2-digit",
+                    hour12: false,
                   })}
                 </button>
               ))}

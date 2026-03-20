@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Footer from "../components/Footer";
 import Header from "../components/Header";
 import LandingIsland from "../components/LandingIsland";
 import { AppProvider } from "../lib/AppProvider";
@@ -56,7 +55,6 @@ export default function LandingShell({ user, location }: Props) {
               </motion.div>
             )}
           </AnimatePresence>
-
         </div>
       </AppProvider>
     </QueryClientProvider>

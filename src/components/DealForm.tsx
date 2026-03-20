@@ -11,6 +11,7 @@ import { ProductIdeaForm } from "./forms/product-idea-form";
 import { SuccessMessage } from "./utils/success-message";
 import AnimatedStepper from "./utils/animated-stepper";
 import CalendlyBooking, { type Slot } from "./utils/CalendlyBooking";
+import { useApp } from "../lib/AppProvider";
 
 type AvailabilityResponse = {
   timezone: string;
@@ -19,10 +20,10 @@ type AvailabilityResponse = {
 
 export default function DealForm() {
   const [currentStep, setCurrentStep] = useState<FormStep>("contact");
-
+  const { leadEmail } = useApp();
   const [formData, setFormData] = useState<FormData>({
     name: "",
-    email: "",
+    email: leadEmail || "",
     companyName: "",
     industry: "",
     monthlybudget: { min: 10000, max: 40000 },

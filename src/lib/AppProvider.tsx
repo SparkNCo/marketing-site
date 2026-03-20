@@ -16,6 +16,10 @@ type AppContextType = {
   dbUser: DbUser | null;
   login: (email: string, password: string) => Promise<string | null>;
   logout: () => Promise<void>;
+  leadEmail: string;
+  setLeadEmail: React.Dispatch<React.SetStateAction<string>>;
+  test: string;
+  setTest: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -23,13 +27,15 @@ export const AppContext = createContext<AppContextType | null>(null);
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [dbUser, setDbUser] = useState<DbUser | null>(null);
-
+  const [leadEmail, setLeadEmail] = useState("");
+  const [test, setTest] = useState("Test312321321");
+  console.log("AppProvider mounted");
   /**
    * Fetch user from DB by email
    */
   const fetchDbUser = async (email: string) => {
     const res = await fetch(
-      `/api/users/get-user?email=${encodeURIComponent(email)}`
+      `/api/users/get-user?email=${encodeURIComponent(email)}`,
     );
 
     if (!res.ok) {
@@ -96,7 +102,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ user, dbUser, login, logout }}>
+    <AppContext.Provider
+      value={{
+        user,
+        dbUser,
+        login,
+        logout,
+        leadEmail,
+        setLeadEmail,
+        test,
+        setTest,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

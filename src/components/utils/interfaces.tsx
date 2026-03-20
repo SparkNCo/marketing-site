@@ -52,12 +52,16 @@ export interface FormIslandProps {
 export interface LandingIslandProps {
   mode: "index" | "form";
   setMode: (mode: "index" | "form") => void;
+  leadEmail: string;
+  setLeadEmail: (email: string) => void;
 }
 
 export interface HeroSectionProps {
   setMode?: (mode: "index" | "form") => void;
   initialStep?: FormStage;
   submissionId?: string;
+  leadEmail: string;
+  setLeadEmail: (email: string) => void;
 }
 
 export interface ProposalIslandProps {

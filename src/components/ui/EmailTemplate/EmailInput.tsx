@@ -1,6 +1,9 @@
+"use client";
+
 import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import PrimaryButton from "../primary-button";
+import { useApp } from "../../../lib/AppProvider";
 
 interface EmailCaptureProps {
   onValidSubmit?: (email: string) => void;
@@ -17,15 +20,19 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
   inputWrapperClassName = "",
   buttonClassName = "",
 }) => {
-  const [email, setEmail] = useState("");
+  const { leadEmail, setLeadEmail } = useApp();
+
+  const [email, setEmail] = useState(leadEmail || "");
   const [error, setError] = useState("");
   const [shake, setShake] = useState(false);
 
   const submitMutation = useMutation({
     mutationFn: async (email: string) => {
-      const lead_id = crypto.randomUUID(); // 👈 generate here
+      const lead_id = crypto.randomUUID();
 
-      const res = await fetch(`${import.meta.env.PUBLIC_ENDPOINT}/lead`, {
+      const endpoint = import.meta.env.PUBLIC_ENDPOINT;
+
+      const res = await fetch(`${endpoint}/lead`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -40,15 +47,9 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
 
       return res.json();
     },
-    onSuccess: (_data, email) => {
-      setError("");
-      onValidSubmit?.(email);
-    },
     onError: (err) => {
       console.error(err);
-      setError("Something went wrong");
-      setShake(true);
-      setTimeout(() => setShake(false), 400);
+      // Optional: you can show a toast instead of blocking UX
     },
   });
 
@@ -57,7 +58,9 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
   };
 
   const handleSubmit = () => {
-    if (!isValidEmail(email)) {
+    const cleanEmail = email.trim();
+
+    if (!isValidEmail(cleanEmail)) {
       setError("Please enter a valid email");
       setShake(true);
       setTimeout(() => setShake(false), 400);
@@ -66,8 +69,14 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
 
     setError("");
 
-    // 🚀 same as your example
-    submitMutation.mutate(email);
+    // ✅ Save globally
+    setLeadEmail(cleanEmail);
+
+    // ✅ 🚀 IMMEDIATE navigation / UI change
+    onValidSubmit?.(cleanEmail);
+
+    // ✅ Fire request in background (don't block UX)
+    submitMutation.mutate(cleanEmail);
   };
 
   return (
@@ -113,7 +122,7 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
 
       <PrimaryButton
         onClick={handleSubmit}
-        disabled={submitMutation.isPending}
+        disabled={submitMutation.isPending || !email.trim()}
         className={`mt-4 ${buttonClassName}`}
       >
         {submitMutation.isPending ? "Sending..." : "Let’s Go"}
