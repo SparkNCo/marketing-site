@@ -51,7 +51,7 @@ export default function ProcessSectionMobile() {
         </h2>
 
         <div className="relative">
-          <TimelineLine className="left-[50px] top-[20px] bottom-[50px] w-[2px]" />
+          <TimelineLine className="left-[50px] top-[30px] bottom-[50px] w-[2px]" />
 
           <div className="flex flex-col gap-28 ">
             {visibleSteps.map((step, index) => {

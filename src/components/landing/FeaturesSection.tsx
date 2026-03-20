@@ -85,6 +85,7 @@ function FeaturesSection({ setSelectedFeatures }) {
             title={content[item].title}
             summary={content[item].summary}
             features={featuresConfig[item]}
+            setSelectedFeatures={setSelectedFeatures} 
           />
         ))}
       </div>
