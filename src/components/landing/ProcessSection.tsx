@@ -105,14 +105,14 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
   return (
     <section className="bg-background py-10 relative mt-8">
       <div className="container mx-auto px-4 md:px-6 py-10 max-w-[1530px]">
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12 md:mb-16 text-center">
+        <h2 className="text-largeBody md:text-heading1 font-bold text-foreground mb-12 md:mb-16 text-center ">
           The Spark & Co Process
         </h2>
 
         <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 w-full ">
           {/* LEFT SIDE */}
           <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-[350px] mx-auto ">
-            <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] top-[230px] bottom-[230px]" />
+            <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] top-[240px] bottom-[230px]" />
 
             {visibleSteps.map((step, index) => {
               const isFocused = index === activeStep;
@@ -153,12 +153,12 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
 "
               >
                 {/* TITLE */}
-                <div className="w-full md:w-3/4 font-semibold text-sm md:text-lg min-h-[2.5rem] flex items-end ">
+                <div className="w-full md:w-3/4 font-semibold text-heading2 min-h-[2.5rem] flex items-end  ">
                   {currentStep?.title}
                 </div>
 
                 {/* DESCRIPTION */}
-                <p className="text-sm md:text-xl w-full md:w-3/4 min-h-[6rem] md:min-h-[8rem] overflow-hidden">
+                <p className="text-body w-full md:w-3/4 min-h-[6rem] md:min-h-[8rem] overflow-hidden ">
                   {currentStep?.description}
                 </p>
 

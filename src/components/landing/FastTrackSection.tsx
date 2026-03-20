@@ -32,11 +32,11 @@ const FastTrackSection: React.FC<HeroSectionProps> = ({ setMode }) => {
       ref={sectionRef}
       className="flex flex-col items-center justify-center bg-transparent text-center py-24 gap-6 h-[800px] sm:h-[900px] md:h-[1050px] lg:h-[1186px]"
     >
-      <h1 className="font-bold tracking-tight text-background leading-tight text-3xl sm:text-4xl md:text-4xl">
+      <h1 className="font-bold tracking-tight text-background leading-tight text-largeBody md:text-heading1 ">
         Fast Track Your Success
       </h1>
 
-      <p className="text-background leading-snug max-w-[90%] md:max-w-2xl text-lg sm:text-xl md:text-2xl lg:text-3xl w-[280px] sm:w-[480px] md:w-[720px] lg:w-[600px]">
+      <p className="text-background leading-snug max-w-[90%] md:max-w-2xl text-body w-[280px] sm:w-[480px] md:w-[720px] lg:w-[600px]">
         Modernize your software development process and ignite your business
         potential.
       </p>

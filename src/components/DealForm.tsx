@@ -9,7 +9,7 @@ import { ContactForm } from "./forms/contact-form";
 import { CompanyDetailsForm } from "./forms/company-details-form";
 import { ProductIdeaForm } from "./forms/product-idea-form";
 import { SuccessMessage } from "./utils/success-message";
-import AnimatedStepper from "./utils/animated-stepper";
+import AnimatedStepper, { MobileStepper } from "./utils/animated-stepper";
 import CalendlyBooking, { type Slot } from "./utils/CalendlyBooking";
 import { useApp } from "../lib/AppProvider";
 
@@ -139,18 +139,26 @@ export default function DealForm() {
       "
     >
       <div className="min-h-[10vh] sm:min-h-[15vh]" />
-      <div
-        className="text-foreground"
-        onClick={() => console.log({ formData })}
-      >
-        VER CONVER
-      </div>
 
-      <AnimatedStepper
-        currentStep={stepIndex}
-        totalSteps={5}
-        setCurrentStep={setCurrentStep}
-      />
+      <>
+        {/* 📱 Mobile & Tablet (< lg) */}
+        <div className="lg:hidden">
+          <MobileStepper
+            currentStep={stepIndex}
+            totalSteps={5}
+            setCurrentStep={setCurrentStep}
+          />
+        </div>
+
+        {/* 💻 Desktop (lg+) */}
+        <div className="hidden lg:flex my-8">
+          <AnimatedStepper
+            currentStep={stepIndex}
+            totalSteps={5}
+            setCurrentStep={setCurrentStep}
+          />
+        </div>
+      </>
 
       <div
         className={`w-full lg:max-w-2xl p-8 shadow-xl rounded-xl ${

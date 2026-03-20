@@ -32,7 +32,7 @@ export default function Footer({ mode }) {
 
         <div
           className=" hidden lg:inline
-      flex flex-col gap-1 text-sm text-center
+      flex flex-col gap-1 text-smalltext text-center
       col-start-2
       lg:col-auto lg:text-right
     "
@@ -43,7 +43,7 @@ export default function Footer({ mode }) {
       </div>
       <div
         className="flex flex-col col-start-2 inline lg:hidden
-      gap-1 text-sm text-center
+      gap-1 text-smalltext text-center
        lg:text-right w-full pb-4
     "
       >

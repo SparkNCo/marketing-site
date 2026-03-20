@@ -82,7 +82,7 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
   return (
     <div className={`flex flex-col ${containerClassName}`}>
       {label && (
-        <h2 className="text-background font-bold mb-3 text-lg lg:text-xl">
+        <h2 className="text-background font-bold mb-3 text-body lg:text-heading2 ">
           {label}
         </h2>
       )}
@@ -106,13 +106,13 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSubmit();
           }}
-          className="flex-1 px-4 py-3 outline-none text-background"
+          className="flex-1 px-4 py-3 outline-none text-background text-body "
         />
       </div>
 
       <p
         className={`
-          text-red-500 text-sm mt-2 min-h-[20px]
+          text-red-500 text-smalltext mt-2 min-h-[20px]
           transition-opacity duration-200
           ${error ? "opacity-100" : "opacity-0"}
         `}

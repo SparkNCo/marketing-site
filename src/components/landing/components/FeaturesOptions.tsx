@@ -16,7 +16,7 @@ export const FeaturesOptions = ({
   };
 
   return (
-    <div className="bg-card border p-6 flex flex-col justify-between text-title min-h-[400px] w-[550px]  ">
+    <div className="bg-card border p-6 flex flex-col justify-between text-title min-h-[400px] w-[550px] text-body ">
       <AnimatePresence mode="wait">
         <motion.div
           key={mode} // triggers animation when mode changes
@@ -31,9 +31,11 @@ export const FeaturesOptions = ({
               alt="spark/co"
               className="w-6 h-6 sm:w-8 sm:h-8 object-contain cursor-pointer"
             />
-            <h3 className="sm:text-xl md:text-lg font-bold">{title}</h3>
+            <h3 className="text-heading2  font-bold ">
+              {title}
+            </h3>
           </div>
-          <div className="w-3/4 text-lg mt-4 flex flex-col gap-4 ">
+          <div className="w-3/4  mt-4 flex flex-col gap-4 ">
             <p>{subtitle}</p>
             <ul className="space-y-4 leading-relaxed">
               {content.map((feat) => (

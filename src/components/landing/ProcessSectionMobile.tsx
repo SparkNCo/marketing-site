@@ -46,12 +46,12 @@ export default function ProcessSectionMobile() {
   return (
     <section className="bg-background py-16 text-foreground mt-8">
       <div className="px-6">
-        <h2 className="text-3xl font-bold text-center mb-20">
+        <h2 className="text-largeBody font-bold text-center mb-20">
           The Spark & Co Process
         </h2>
 
         <div className="relative">
-          <TimelineLine className="left-[50px] top-0 bottom-[50px] w-[2px]" />
+          <TimelineLine className="left-[50px] top-[20px] bottom-[50px] w-[2px]" />
 
           <div className="flex flex-col gap-28 ">
             {visibleSteps.map((step, index) => {
@@ -83,10 +83,12 @@ export default function ProcessSectionMobile() {
                       `}
                     >
                       {/* TITLE */}
-                      <div className="font-semibold text-sm">{step.title}</div>
+                      <div className="font-semibold text-body">
+                        {step.title}
+                      </div>
 
                       {/* DESCRIPTION */}
-                      <p className="text-sm leading-relaxed">
+                      <p className="text-smalltext leading-relaxed">
                         {step.description}
                       </p>
 

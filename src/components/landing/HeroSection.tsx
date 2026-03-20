@@ -26,10 +26,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
 
   return (
     <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20 mt-4 relative">
-      {/* TOP BAR */}
       <div className="absolute top-0 left-0 w-full h-[95px] bg-foreground " />
-
-      {/* LEFT SIDE */}
       <section
         data-header="light"
         className="
@@ -43,11 +40,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
         {/* CONTENT WRAPPER */}
         <div className="w-full flex flex-col items-start">
           {/* TITLE */}
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-background mb-6 leading-tight max-w-[520px]">
+          <h1 className="text-largeBody md:text-heading1 font-bold tracking-tight text-background mb-6 leading-tight max-w-[520px]">
             Software that&apos;s up to speed
           </h1>
           {/* SUBTITLE */}
-          <p className="text-xl md:text-2xl lg:text-3xl mb-6 text-background leading-snug max-w-[500px] md:max-w-[600px]">
+          <p className="text-body md:text-largeBody mb-6 text-background leading-snug max-w-[500px] ">
             Build <span className="font-bold">[unbreakable]</span> software with
             <span className="font-bold text-primary"> AI supercharged </span>
             efficiency.
@@ -76,7 +73,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
             label="Ready to build?"
             buttonClassName="w-[130px] h-[60px]"
             containerClassName="mb-6 w-full max-w-[420px]"
-            inputWrapperClassName="w-full"
+            inputWrapperClassName="max-w-[380px] md:max-w-full "
             onValidSubmit={() => setMode?.("form")}
           />
           {/*           <PrimaryButton onClick={handleSubmit}>Let&apos;s Go</PrimaryButton>

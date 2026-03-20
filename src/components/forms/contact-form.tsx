@@ -19,7 +19,6 @@ export function ContactForm({
 }: ContactFormProps) {
   const [touchedNext, setTouchedNext] = useState(false);
 
-  // validation
   const isValidName = name.trim().length >= 5;
   const isValidCompany = company.trim().length >= 5;
   const isValidIndustry = industry.trim().length >= 5;
@@ -32,22 +31,24 @@ export function ContactForm({
   const handleNext = () => {
     setTouchedNext(true);
     if (canProceed) {
-      //  setCurrentStep("product");
       setCurrentStep("product");
     }
   };
 
   return (
-    <div className="animate-fade-in flex flex-col h-full">
-      <div className="">
-        <h2 className="mb-4 text-3xl text-title font-bold">
+    <div className="animate-fade-in flex flex-col h-full px-4 sm:px-6 lg:px-0">
+      <div className="w-full max-w-2xl mx-auto">
+        <h2 className="mb-4 text-2xl sm:text-3xl text-title font-bold">
           Tell us about yourself
         </h2>
 
-        <div className="">
+        <div className="space-y-6 sm:space-y-4">
           {/* NAME */}
           <div className="text-surface font-body">
-            <Label className="text-md text-title mt-3" htmlFor="name">
+            <Label
+              className="text-sm sm:text-md text-title mt-3"
+              htmlFor="name"
+            >
               First Name
             </Label>
             <Input
@@ -58,17 +59,16 @@ export function ContactForm({
               autoFocus
               className="
                 mt-3
-                h-16 lg:h-10
-                text-4xl lg:text-sm
-                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
-                placeholder:opacity-60
-                bg-secondary
-                text-body focus:ring-primary 
-    selection:bg-primary selection:text-black selection:font-bold
+                h-14 sm:h-16 lg:h-10
+                text-2xl sm:text-4xl lg:text-sm
+                placeholder:text-xl sm:placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:text-body placeholder:opacity-60
+                bg-secondary text-body focus:ring-primary
+                selection:bg-primary selection:text-black selection:font-bold
               "
             />
             {touchedNext && !isValidName && (
-              <p className="mt-3 text-3xl lg:text-sm text-primary">
+              <p className="mt-2 text-lg sm:text-3xl lg:text-sm text-primary">
                 Name must be at least 5 characters
               </p>
             )}
@@ -76,7 +76,10 @@ export function ContactForm({
 
           {/* EMAIL */}
           <div className="text-surface font-body">
-            <Label className="text-md text-title mt-3" htmlFor="email">
+            <Label
+              className="text-sm sm:text-md text-title mt-3"
+              htmlFor="email"
+            >
               Email
             </Label>
             <Input
@@ -87,17 +90,16 @@ export function ContactForm({
               placeholder="john@example.com"
               className="
                 mt-3
-                h-16 lg:h-10
-                text-4xl lg:text-sm
-                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
-                placeholder:opacity-60
-                bg-secondary
-                text-body focus:ring-primary 
-    selection:bg-primary selection:text-black selection:font-bold
+                h-14 sm:h-16 lg:h-10
+                text-2xl sm:text-4xl lg:text-sm
+                placeholder:text-xl sm:placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:text-body placeholder:opacity-60
+                bg-secondary text-body focus:ring-primary
+                selection:bg-primary selection:text-black selection:font-bold
               "
             />
             {touchedNext && !isValidEmail && (
-              <p className="mt-3 text-3xl lg:text-sm text-primary">
+              <p className="mt-2 text-lg sm:text-3xl lg:text-sm text-primary">
                 Mail format is not valid
               </p>
             )}
@@ -105,7 +107,10 @@ export function ContactForm({
 
           {/* COMPANY */}
           <div className="text-surface font-body">
-            <Label className="text-md text-title mt-3" htmlFor="company">
+            <Label
+              className="text-sm sm:text-md text-title mt-3"
+              htmlFor="company"
+            >
               Company
             </Label>
             <Input
@@ -115,17 +120,16 @@ export function ContactForm({
               placeholder="Acme Inc"
               className="
                 mt-3
-                h-16 lg:h-10
-                text-4xl lg:text-sm
-                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
-                placeholder:opacity-60
-                bg-secondary
-                text-body focus:ring-primary 
-    selection:bg-primary selection:text-black selection:font-bold
+                h-14 sm:h-16 lg:h-10
+                text-2xl sm:text-4xl lg:text-sm
+                placeholder:text-xl sm:placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:text-body placeholder:opacity-60
+                bg-secondary text-body focus:ring-primary
+                selection:bg-primary selection:text-black selection:font-bold
               "
             />
             {touchedNext && !isValidCompany && (
-              <p className="mt-3 text-3xl lg:text-sm text-primary">
+              <p className="mt-2 text-lg sm:text-3xl lg:text-sm text-primary">
                 Company must be at least 5 characters
               </p>
             )}
@@ -133,7 +137,10 @@ export function ContactForm({
 
           {/* INDUSTRY */}
           <div className="text-surface font-body">
-            <Label className="text-md text-title mt-3" htmlFor="industry">
+            <Label
+              className="text-sm sm:text-md text-title mt-3"
+              htmlFor="industry"
+            >
               Industry
             </Label>
             <Input
@@ -143,17 +150,16 @@ export function ContactForm({
               placeholder="Technology"
               className="
                 mt-3
-                h-16 lg:h-10
-                text-4xl lg:text-sm
-                placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body
-                placeholder:opacity-60
-                bg-secondary
-                text-body focus:ring-primary 
-    selection:bg-primary selection:text-black selection:font-bold
+                h-14 sm:h-16 lg:h-10
+                text-2xl sm:text-4xl lg:text-sm
+                placeholder:text-xl sm:placeholder:text-3xl lg:placeholder:text-sm
+                placeholder:text-body placeholder:opacity-60
+                bg-secondary text-body focus:ring-primary
+                selection:bg-primary selection:text-black selection:font-bold
               "
             />
             {touchedNext && !isValidIndustry && (
-              <p className="mt-3 text-3xl lg:text-sm text-primary">
+              <p className="mt-2 text-lg sm:text-3xl lg:text-sm text-primary">
                 Industry must be at least 5 characters
               </p>
             )}
@@ -161,11 +167,11 @@ export function ContactForm({
         </div>
       </div>
 
-      <div className="mt-12 flex flex-col gap-6 font-body lg:flex-row lg:justify-center lg:gap-0 w-full">
+      <div className="mt-10 sm:mt-12 flex flex-col gap-6 font-body lg:flex-row lg:justify-center w-full">
         <Button
           variant="nav"
           size="lg"
-          className="mx-auto text-lg font-bold py-6  bg-background"
+          className="mx-auto text-base sm:text-lg font-bold py-5 sm:py-6 bg-background"
           onClick={handleNext}
           disabled={touchedNext && !canProceed}
         >

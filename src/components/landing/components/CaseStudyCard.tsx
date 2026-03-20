@@ -12,14 +12,16 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
       {/* Content */}
       <div className="p-6 pr-[38%] h-full flex flex-col justify-between">
         <div>
-          <h3 className="text-lg font-bold text-black mb-3">{study.title}</h3>
+          <h3 className="text-heading2 font-bold text-black mb-3 ">
+            {study.title}
+          </h3>
 
-          <p className="text-sm text-gray-700 italic leading-relaxed line-clamp-5 w-3/4">
+          <p className="text-body text-gray-700 italic leading-relaxed line-clamp-5 w-3/4">
             "{study.review}"
           </p>
         </div>
 
-        <p className="text-sm text-black font-semibold mt-4">
+        <p className="text-body text-black font-semibold mt-4">
           {study.author}, <span className="text-[#F78035]">{study.role}</span>
         </p>
       </div>

@@ -16,72 +16,115 @@ type AnimatedStepperProps = Readonly<{
   setCurrentStep: (step: FormStep) => void;
 }>;
 
-export default function AnimatedStepper({
+export default function AnimatedStepper(props: AnimatedStepperProps) {
+  return (
+    <>
+      {/* ✅ Mobile version */}
+      <MobileStepper {...props} />
+
+      {/* ✅ Desktop version (UNCHANGED) */}
+      <div className="hidden sm:flex items-center gap-4">
+        {Array.from({ length: props.totalSteps }).map((_, index) => {
+          const stepNumber = index + 1;
+          const isActive = stepNumber === props.currentStep + 1;
+          const isCompleted = stepNumber < props.currentStep + 1;
+
+          let stepClasses = "bg-card text-text font-bold text-2xl";
+
+          if (isCompleted) {
+            stepClasses = "bg-primary text-accent-foreground text-2xl";
+          }
+
+          if (isActive) {
+            stepClasses =
+              "bg-primary text-primary-foreground scale-110 rotate-12 translate-y-[-4px] text-2xl";
+          }
+
+          const handleClick = () => {
+            const targetStep = STEP_ORDER[index];
+
+            if (STEP_ORDER[props.currentStep] === "success") return;
+            if (index >= props.currentStep) return;
+
+            props.setCurrentStep(targetStep);
+          };
+
+          const isDisabled =
+            STEP_ORDER[props.currentStep] === "success" ||
+            index >= props.currentStep;
+
+          return (
+            <div key={stepNumber} className="flex items-center mb-8">
+              <button
+                type="button"
+                onClick={handleClick}
+                disabled={isDisabled}
+                className={`
+                  w-12 h-12 flex items-center justify-center font-semibold transition-all duration-500
+                  ${stepClasses}
+                `}
+                style={{
+                  transitionProperty: "transform, background-color, color",
+                }}
+              >
+                {stepNumber}
+              </button>
+
+              {stepNumber < props.totalSteps && (
+                <div
+                  className={`w-12 h-1 mx-2 transition-colors duration-300 ${
+                    isCompleted ? "bg-primary" : "bg-card"
+                  }`}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </>
+  );
+}
+
+export function MobileStepper({
   currentStep,
   totalSteps,
-  setCurrentStep,
 }: AnimatedStepperProps) {
   return (
-    <div className="flex items-center gap-4">
-      {Array.from({ length: totalSteps }).map((_, index) => {
-        const stepNumber = index + 1;
-        const isActive = stepNumber === currentStep + 1;
-        const isCompleted = stepNumber < currentStep + 1;
+    <div className="sm:hidden w-full overflow-x-auto  my-8">
+      <div className="flex items-center gap-2 px-2">
+        {Array.from({ length: totalSteps }).map((_, index) => {
+          const stepNumber = index + 1;
+          const isActive = stepNumber === currentStep + 1;
+          const isCompleted = stepNumber < currentStep + 1;
 
-        let stepClasses = "bg-card text-text font-bold text-2xl";
-
-        if (isCompleted) {
-          stepClasses = "bg-primary text-accent-foreground text-2xl";
-        }
-
-        if (isActive) {
-          stepClasses =
-            "bg-primary text-primary-foreground scale-110 rotate-12 translate-y-[-4px] text-2xl";
-        }
-
-        const handleClick = () => {
-          const targetStep = STEP_ORDER[index];
-
-          // Disable all clicks if current step is "success"
-          if (STEP_ORDER[currentStep] === "success") return;
-
-          // Only allow backward navigation
-          if (index >= currentStep) return;
-
-          setCurrentStep(targetStep);
-        };
-
-        // Determine if this step is clickable
-        const isDisabled =
-          STEP_ORDER[currentStep] === "success" || index >= currentStep;
-
-        return (
-          <div key={stepNumber} className="flex items-center mb-8">
-            <button
-              type="button"
-              onClick={handleClick}
-              disabled={isDisabled}
-              className={`
-                w-12 h-12  flex items-center justify-center font-semibold transition-all duration-500
-                ${stepClasses} 
-              `}
-              style={{
-                transitionProperty: "transform, background-color, color",
-              }}
-            >
-              {stepNumber}
-            </button>
-
-            {stepNumber < totalSteps && (
+          return (
+            <div key={stepNumber} className="flex items-center">
               <div
-                className={`w-12 h-1 mx-2 transition-colors duration-300 ${
-                  isCompleted ? "bg-primary" : "bg-card"
-                }`}
-              />
-            )}
-          </div>
-        );
-      })}
+                className={`
+                  min-w-[32px] h-8 flex items-center justify-center text-sm font-semibold
+                  ${
+                    isCompleted
+                      ? "bg-primary text-accent-foreground"
+                      : isActive
+                        ? "bg-primary text-primary-foreground scale-105"
+                        : "bg-card text-text"
+                  }
+                `}
+              >
+                {stepNumber}
+              </div>
+
+              {stepNumber < totalSteps && (
+                <div
+                  className={`w-6 h-[2px] ${
+                    isCompleted ? "bg-primary" : "bg-card"
+                  }`}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
