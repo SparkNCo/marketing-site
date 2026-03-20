@@ -30,7 +30,7 @@ const FastTrackSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   return (
     <main
       ref={sectionRef}
-      className="flex flex-col items-center justify-center bg-transparent text-center py-24 gap-6 h-[800px] sm:h-[900px] md:h-[1050px] lg:h-[1186px]"
+      className="flex flex-col items-center justify-center bg-transparent text-center py-24 gap-6 h-[900px] sm:h-[900px] md:h-[1050px] lg:h-[1186px]"
     >
       <h1 className="font-bold tracking-tight text-background leading-tight text-largeBody md:text-heading1 ">
         Fast Track Your Success

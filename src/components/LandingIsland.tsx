@@ -22,7 +22,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
   const [isMobile, setIsMobile] = useState(false);
   const cellSize = useResponsiveCellSize();
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
-  
+
   useEffect(() => {
     const checkScreen = () => {
       setIsMobile(window.innerWidth < 768);
@@ -42,8 +42,8 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
         background="#F7F4F0"
         width="100%"
         cellSize={cellSize}
-        className="h-[700px] sm:h-[670px] md:h-[750px] lg:h-[auto] "
-        indexLayout={0}
+        className="h-[700px]  md:h-[800px] lg:h-[auto] xl:h-[900px]"
+        indexLayout={0} //  sm:h-[670px]
         indexComponent={1}
       >
         <HeroSection
@@ -59,7 +59,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
         background="#F7F4F0"
         width="100%"
         cellSize={cellSize}
-        className="h-[750px] sm:h-[850px] md:h-[1050px] lg:h-auto "
+        className="h-[850px] sm:h-[850px] md:h-[1050px] lg:h-auto "
         indexLayout={0}
         indexComponent={1}
       >

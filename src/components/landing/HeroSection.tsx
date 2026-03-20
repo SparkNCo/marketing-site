@@ -26,7 +26,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
 
   return (
     <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20 mt-4 relative">
-      <div className="absolute top-0 left-0 w-full h-[95px] bg-foreground " />
+      <div className="absolute top-0 left-0 w-full h-[95px] bg-foreground  " />
       <section
         data-header="light"
         className="
@@ -34,7 +34,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           w-full lg:w-1/2
           pt-10 mt-[75px] md:mt-[128px]
           min-h-[535px] lg:min-h-[800px]
-          flex flex-col items-start
+          flex flex-col items-start 
         "
       >
         {/* CONTENT WRAPPER */}
