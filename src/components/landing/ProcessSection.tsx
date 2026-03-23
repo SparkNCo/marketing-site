@@ -5,43 +5,46 @@ import { ProcessStepItem, TimelineLine } from "./ProcessItems";
 
 export const steps = [
   { id: 0, title: "" },
-  {
+  /* {
     id: 1,
     title: "Sign Up",
     description:
       "The more we can solidify at the start of the project, the smoother the project will be. We start with a discovery call to go through the ins and outs of your industry, ICPs and problem statements.",
-  },
+  }, */
   {
     id: 2,
     title: "Discovery",
     description:
-      "We start with a discovery call to understand your industry, ICPs, and problems.",
+      "We work with you to define the problem, shape the solution, and align on what actually matters. Using our structured methodology and quick iteration, we turn early ideas into a clear product direction with prioritized features and a path to execution.",
   },
   {
     id: 3,
     title: "MVP",
     description:
-      "We build a minimum viable product to validate your idea quickly.",
+      "We build the first version of your product to validate real demand—fast. This is not a throwaway prototype, but a production-ready foundation designed to get in front of users quickly. By combining strong engineering with AI-accelerated workflows, we reduce time to insight and move you toward product-market fit with less waste.",
   },
-  {
+  /*   {
     id: 4,
     title: "Beta",
     description: "You test your product with real users and gather feedback.",
-  },
+  }, */
   {
     id: 5,
     title: "Launch",
-    description: "We prepare and execute a full product launch.",
+    description:
+      "We take your product live with the reliability and performance expected of modern software. From final QA to release orchestration, everything is designed to hold up under real-world usage—so your launch is a milestone, not a risk.",
   },
   {
     id: 6,
     title: "Scale",
-    description: "We optimize performance and scale your product.",
+    description:
+      "As your business grows, your product evolves with it. We enhance capabilities, improve performance, and adapt your systems to handle increasing complexity. Our focus is on building scalable, resilient software that doesn’t need to be rebuilt as you grow.",
   },
   {
     id: 7,
     title: "Support",
-    description: "Ongoing maintenance and improvements.",
+    description:
+      "We give you continuous visibility into product health, delivery, and performance—without the overhead. Through integrated dashboards, automated reporting, and AI-assisted insights, you stay informed and in control while focusing on growth, not operations.",
   },
   { id: 8, title: "" },
 ];
