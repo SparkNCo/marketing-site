@@ -1,5 +1,15 @@
 export const HeroSectionSquaresConfig = [
   {
+    left: 0,
+    top: 0,
+    width: 16,
+    height: 16,
+    colorDelay: 1,
+    duration: 1,
+    zIndex: 0,
+    color: "#F7F4F0",
+  },
+  {
     left: 14,
     bottom: 0,
     width: 10,

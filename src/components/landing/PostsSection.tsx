@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import PostCard from "../posts/PostCard1";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import PostsFilterPagination from "../posts/PostsFilterPagination";
 
 const fetchPosts = async () => {
   const res = await fetch(
@@ -97,41 +98,20 @@ export default function PostsSection({ selectedFeatures }) {
   }
 
   return (
-    <section className="w-full max-w-[850px]   mx-auto space-y-4 mb-12 px-4 md:px-8 lg:px-0">
-      {/*  <div className="w-full flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between bg-foreground items-stretch sm:items-center px-4 py-4">
-        <input
-          type="text"
-          placeholder="Search Articles"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          className="w-full sm:w-80 px-4 py-2 bg-foreground text-background border border-foreground focus:outline-none focus:ring-2 focus:ring-white/20"
-        />
-
-        {totalPosts > 0 && (
-          <div className="flex items-center gap-6 text-white">
-            <button
-              onClick={goPrev}
-              disabled={page === 1}
-              className="p-2 border border-black bg-foreground text-background disabled:opacity-40"
-            >
-              <ChevronLeft size={18} strokeWidth={3} />
-            </button>
-
-            <span className="text-sm text-background">
-              {startIndex + 1}-{endIndex} of {totalPosts}
-            </span>
-
-            <button
-              onClick={goNext}
-              disabled={page === totalPages}
-              className="p-2 border-2 border-black bg-foreground text-background disabled:opacity-40"
-            >
-              <ChevronRight size={18} strokeWidth={3} />
-            </button>
-          </div>
-        )}
-      </div>
+    <section className="w-full max-w-[850px]   mx-auto space-y-4 mb-12 px-4 md:px-8 lg:px-0 border-4 border-white mb-40">
+      {/* FILTERING AND PAGINATION */}
+      <PostsFilterPagination
+        input={input}
+        setInput={setInput}
+        handleKeyDown={handleKeyDown}
+        totalPosts={totalPosts}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        page={page}
+        totalPages={totalPages}
+        goPrev={goPrev}
+        goNext={goNext}
+      />
 
       {tags.length > 0 && (
         <div className="grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] w-full">
@@ -151,7 +131,7 @@ export default function PostsSection({ selectedFeatures }) {
           ))}
         </div>
       )}
- */}
+      {/* FILTERING AND PAGINATION ENDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {paginatedPosts.length > 0 ? (
           paginatedPosts.map((post) => (

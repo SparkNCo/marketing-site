@@ -26,7 +26,7 @@ export default function LandingShell({ user, location }: Props) {
   return (
     <QueryClientProvider client={queryClient}>
       <AppProvider initialUser={user}>
-        <div className="bg-background ">
+        <div className="bg-[#111111]">
           <Header headerMode={mode} />
           <AnimatePresence mode="wait">
             {mode === "index" && (

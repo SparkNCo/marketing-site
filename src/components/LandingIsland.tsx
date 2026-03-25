@@ -37,20 +37,22 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
 
   return (
     <div className="bg-transparent ">
+      <div className="relative top-0 left-0 w-full h-[120px] bg-foreground z-20" />
       <SquaresGridLayout
         squares={HeroSectionSquaresConfig}
-        background="#F7F4F0"
+        background="#111111"
         width="100%"
         cellSize={cellSize}
-        className="h-[700px]  md:h-[800px] lg:h-[auto] xl:h-[900px]"
-        indexLayout={0} //  sm:h-[670px]
+        className="h-[700px] md:h-[800px] lg:h-[auto] xl:h-[900px]   "
+        indexLayout={0}
         indexComponent={1}
       >
+        {" "}
+        {/* */}
         <HeroSection
           setMode={typeof setMode === "function" ? setMode : () => {}}
         />
       </SquaresGridLayout>
-
       <FeaturesSection setSelectedFeatures={setSelectedFeatures} />
       <PostsSection selectedFeatures={selectedFeatures} />
 
@@ -59,7 +61,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
         background="#F7F4F0"
         width="100%"
         cellSize={cellSize}
-        className="h-[850px] sm:h-[850px] md:h-[1050px] lg:h-auto "
+        className="h-[950px] sm:h-[950px] md:h-[1150px] lg:h-auto "
         indexLayout={0}
         indexComponent={1}
       >

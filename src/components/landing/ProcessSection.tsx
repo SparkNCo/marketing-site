@@ -107,15 +107,22 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
 
   return (
     <section className="bg-background py-10 relative mt-8">
-      <div className="container mx-auto px-4 md:px-6 py-10 max-w-[1530px]">
-        <h2 className="text-largeBody md:text-heading1 font-bold text-foreground mb-12 md:mb-16 text-center ">
+      <div
+        className="
+      w-full
+      px-4 md:px-6
+      lg:px-12
+      2xl:px-24 
+
+    "
+      >
+        <h2 className="text-largeBody md:text-heading1 font-bold text-foreground mb-12 md:mb-16 text-center">
           The Spark & Co Process
         </h2>
-
-        <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 w-full ">
+        <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 w-full  ">
           {/* LEFT SIDE */}
-          <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-[350px] mx-auto ">
-            <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] top-[240px] bottom-[230px] 2xl:bottom-[360px] " />
+          <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-full max-w-[400px]">
+            <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] h-[1520px] top-[240px] bottom-[230px]" />
 
             {visibleSteps.map((step, index) => {
               const isFocused = index === activeStep;
@@ -126,12 +133,12 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
                   ref={(el) => {
                     stepRefs.current[index] = el;
                   }}
-                  className={`grid grid-cols-[40px_40px_1fr] items-center my-10 md:my-20 min-h-[200px] md:min-h-[300px] transition-all duration-300
-                  ${
-                    isFocused
-                      ? "opacity-100 blur-0 scale-100 translate-x-0 md:-translate-x-[25px]"
-                      : "opacity-90 blur-[2px] scale-[0.8] md:scale-[0.65] -translate-x-[62px]"
-                  }`}
+                  className={`grid grid-cols-[40px_40px_1fr] items-center my-10 md:my-20 min-h-[200px] md:min-h-[300px] transition-all duration-300 
+              ${
+                isFocused
+                  ? "opacity-100 blur-0 scale-100 translate-x-0 md:-translate-x-[25px]"
+                  : "opacity-90 blur-[2px] scale-[0.8] md:scale-[0.65] -translate-x-[62px]"
+              }`}
                 >
                   <ProcessStepItem
                     index={index}
@@ -144,33 +151,31 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
           </div>
 
           {/* RIGHT SIDE */}
-          <div className="lg:col-span-8 relative flex flex-col min-h-[200vh] text-foreground ">
-            <div className="sticky top-0 h-screen flex flex-col justify-center lg:justify-end 2xl:justify-center ">
+          <div className="lg:col-span-8 relative flex flex-col min-h-[200vh] text-foreground w-full ">
+            <div className="sticky top-0 h-screen flex flex-col justify-center lg:justify-end 2xl:justify-center">
               <div
                 className="
-  flex flex-col gap-6
-  md:h-[50vh] md:justify-center
-  lg:h-auto lg:justify-end
-  xl:h-[80vh] 2xl:h-[60vh] xl:justify-center  w-full lg:w-full 
-  pb-10 items-center  lg:items-start  
-"
+              flex flex-col 
+              md:h-[50vh] md:justify-center
+              lg:h-auto lg:justify-end
+              xl:h-[80vh] 2xl:h-[100vh] xl:justify-end
+              w-full
+              items-center lg:items-start 
+            "
               >
-                {/* TITLE */}
-                <div className="w-full md:w-3/4 font-semibold text-heading2 min-h-[2.5rem] flex items-end  ">
+                <div className="w-full md:w-3/4 font-semibold text-heading2 min-h-[2.5rem] flex items-end mb-6">
                   {currentStep?.title}
                 </div>
 
-                {/* DESCRIPTION */}
-                <p className="text-body w-full md:w-3/4 min-h-[6rem] md:min-h-[14rem] lg:min-h-[8rem] overflow-hidden ">
+                <p className="text-body w-full md:w-3/4 min-h-[6rem] md:min-h-[14rem] lg:min-h-[8rem]">
                   {currentStep?.description}
                 </p>
 
-                {/* IMAGE */}
-                <div className="relative w-full h-[50vh] md:h-[40vh] lg:h-[60vh]">
+                <div className="relative w-full h-[50vh] md:h-[40vh] lg:h-[60vh] ">
                   <img
                     src={currentStep?.image || "/dashboard.png"}
                     alt="Process visual"
-                    className="absolute bottom-0 right-0 w-full max-h-full object-contain"
+                    className="absolute bottom-0 right-0 w-full max-h-full object-contain "
                   />
                 </div>
               </div>
