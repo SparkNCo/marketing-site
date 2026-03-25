@@ -98,7 +98,7 @@ export default function PostsSection({ selectedFeatures }) {
   }
 
   return (
-    <section className="w-full max-w-[850px]   mx-auto space-y-4 mb-12 px-4 md:px-8 lg:px-0 border-4 border-white mb-40">
+    <section className="w-full max-w-[850px]   mx-auto space-y-4 mb-12 px-4 md:px-8 lg:px-0  mb-40">
       {/* FILTERING AND PAGINATION */}
       <PostsFilterPagination
         input={input}

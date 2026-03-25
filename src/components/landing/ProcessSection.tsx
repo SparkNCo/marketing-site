@@ -106,7 +106,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
   const currentStep = visibleSteps[activeStep];
 
   return (
-    <section className="bg-background py-10 relative mt-8">
+    <section className="bg-background py-10 relative mt-32">
       <div
         className="
       w-full
@@ -116,10 +116,10 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
 
     "
       >
-        <h2 className="text-largeBody md:text-heading1 font-bold text-foreground mb-12 md:mb-16 text-center">
+        <h2 className="text-largeBody md:text-heading1 font-bold text-foreground mb-12 md:mb-16 lg:mb-0 text-center">
           The Spark & Co Process
         </h2>
-        <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 w-full  ">
+        <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 w-full ">
           {/* LEFT SIDE */}
           <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-full max-w-[400px]">
             <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] h-[1520px] top-[240px] bottom-[230px]" />
