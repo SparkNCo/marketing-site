@@ -162,7 +162,7 @@ export default function DealForm() {
 
       <div
         className={`w-full lg:max-w-2xl p-8 shadow-xl rounded-xl ${
-          currentStep === "contact" ? "bg-card" : "bg-background"
+          currentStep === "contact" ? "bg-background" : "bg-background"
         }`}
       >
         {currentStep === "contact" && (

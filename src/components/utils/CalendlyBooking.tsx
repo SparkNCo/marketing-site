@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "../ui/button";
 import type { CalendarSubmitData } from "./interfaces";
+import { MobileTimes } from "./MobileTimes";
+import { NextButton } from "../landing/components/NextFormButton";
 
 export type Slot = {
   start: string;
@@ -55,7 +57,9 @@ export default function CalendlyBooking({
   const [dayOffset, setDayOffset] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [loadingTimes, setLoadingTimes] = useState(false);
-  const nextFiveDays = Array.from({ length: 5 }, (_, i) => {
+
+  // 👇 6 days (for mobile 2 rows of 3)
+  const nextDays = Array.from({ length: 6 }, (_, i) => {
     const d = new Date();
     d.setDate(d.getDate() + dayOffset + i);
     return d;
@@ -102,12 +106,16 @@ export default function CalendlyBooking({
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-10 text-foreground">
+      <h2 className="mb-4 text-2xl sm:text-3xl text-title font-bold  ">
+        Schedule a Discovery Call
+      </h2>
+
       {/* STEP 1 — SELECT DAY */}
       <section>
-        <h2 className="text-xl font-semibold mb-4">Select a day</h2>
+        <h2 className="text-body font-semibold mb-4">Select a day</h2>
 
-        <div className="flex items-center gap-3">
-          {/* PREVIOUS */}
+        {/* DESKTOP (unchanged layout) */}
+        <div className="hidden md:flex items-center gap-3">
           <Button
             variant="outline"
             size="icon"
@@ -117,14 +125,12 @@ export default function CalendlyBooking({
               setDayOffset(newOffset);
               fetchAvailabilityRange(newOffset);
             }}
-            aria-label="Previous days"
           >
             &lt;
           </Button>
 
-          {/* DAYS */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 flex-1">
-            {nextFiveDays.map((day) => {
+          <div className="grid grid-cols-5 gap-3 flex-1">
+            {nextDays.slice(0, 5).map((day) => {
               const key = toDayKey(day);
 
               return (
@@ -132,14 +138,16 @@ export default function CalendlyBooking({
                   key={key}
                   onClick={() => setSelectedDate(key)}
                   className={`p-3 rounded-xl border-2 transition
-              ${
-                selectedDate === key
-                  ? "bg-primary text-background border-primary"
-                  : "border-muted"
-              }`}
+                    ${
+                      selectedDate === key
+                        ? "bg-primary text-background border-primary"
+                        : "border-muted"
+                    }`}
                 >
                   <div className="font-semibold">
-                    {day.toLocaleDateString(undefined, { weekday: "short" })}
+                    {day.toLocaleDateString(undefined, {
+                      weekday: "short",
+                    })}
                   </div>
                   <div className="text-sm">{day.getDate()}</div>
                 </button>
@@ -147,7 +155,6 @@ export default function CalendlyBooking({
             })}
           </div>
 
-          {/* NEXT */}
           <Button
             variant="outline"
             size="icon"
@@ -157,44 +164,109 @@ export default function CalendlyBooking({
               setDayOffset(newOffset);
               fetchAvailabilityRange(newOffset);
             }}
-            aria-label="Next days"
           >
             &gt;
           </Button>
         </div>
+
+        {/* MOBILE (new layout) */}
+        <div className="flex flex-col gap-4 md:hidden">
+          <div className="grid grid-cols-3 gap-3">
+            {nextDays.map((day) => {
+              const key = toDayKey(day);
+
+              return (
+                <button
+                  key={key}
+                  onClick={() => setSelectedDate(key)}
+                  className={`p-3 rounded-xl border-2 transition
+                    ${
+                      selectedDate === key
+                        ? "bg-primary text-background border-primary"
+                        : "border-muted"
+                    }`}
+                >
+                  <div className="font-semibold">
+                    {day.toLocaleDateString(undefined, {
+                      weekday: "short",
+                    })}
+                  </div>
+                  <div className="text-sm">{day.getDate()}</div>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex justify-between">
+            <Button
+              variant="outline"
+              size="icon"
+              disabled={dayOffset <= 1 || loadingTimes}
+              onClick={() => {
+                const newOffset = Math.max(1, dayOffset - 6);
+                setDayOffset(newOffset);
+                fetchAvailabilityRange(newOffset);
+              }}
+            >
+              &lt;
+            </Button>
+
+            <Button
+              variant="outline"
+              size="icon"
+              disabled={loadingTimes}
+              onClick={() => {
+                const newOffset = dayOffset + 6;
+                setDayOffset(newOffset);
+                fetchAvailabilityRange(newOffset);
+              }}
+            >
+              &gt;
+            </Button>
+          </div>
+        </div>
       </section>
 
+      {/* TIMES */}
       {availableSlots && selectedDate && (
-        <section className="">
-          <h2 className="text-xl font-semibold mb-4">Available times</h2>
+        <section>
+          <h2 className="text-body font-semibold mb-4">Available times</h2>
 
           {slots.length ? (
-            <div className="grid grid-cols-3 gap-3">
-              {slots.map((slot) => (
-                <button
-                  key={slot.start}
-                  onClick={() => setSelectedSlot(slot)}
-                  className={`p-3 rounded-xl border-2 transition
-          ${
-            selectedSlot?.start === slot.start
-              ? "bg-primary text-background border-primary"
-              : "border-muted"
-          }`}
-                >
-                  {new Date(slot.start).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                  })}{" "}
-                  -{" "}
-                  {new Date(slot.end).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                  })}
-                </button>
-              ))}
-            </div>
+            <>
+              <div className="hidden md:grid grid-cols-3 gap-3">
+                {slots.map((slot) => (
+                  <button
+                    key={slot.start}
+                    onClick={() => setSelectedSlot(slot)}
+                    className={`p-3 rounded-xl border-2 transition
+                ${
+                  selectedSlot?.start === slot.start
+                    ? "bg-primary text-background border-primary"
+                    : "border-muted"
+                }`}
+                  >
+                    {new Date(slot.start).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })}{" "}
+                    -{" "}
+                    {new Date(slot.end).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })}
+                  </button>
+                ))}
+              </div>
+
+              <MobileTimes
+                slots={slots}
+                selectedSlot={selectedSlot}
+                setSelectedSlot={setSelectedSlot}
+              />
+            </>
           ) : (
             <p className="text-muted-foreground">
               No availability for this day
@@ -204,16 +276,16 @@ export default function CalendlyBooking({
       )}
 
       {!selectedDate && (
-        <section className="">
+        <section>
           <h2 className="text-xl font-semibold mb-4">Available times</h2>
-
-          <div className="flex items-center justify-center h-32 rounded-xl  text-sm  ">
+          <div className="flex items-center justify-center h-32 rounded-xl text-sm">
             Select a date to see available time slots
           </div>
         </section>
       )}
+
       {/* SUBMIT */}
-      <Button
+      {/* <Button
         size="lg"
         disabled={!canSubmit || submitting}
         className="w-full text-lg font-bold flex items-center justify-center gap-2"
@@ -235,8 +307,23 @@ export default function CalendlyBooking({
         ) : (
           "Confirm meeting"
         )}
-      </Button>
-
+      </Button> */}
+      <NextButton
+        onClick={() =>
+          onSubmit({
+            selectedDate: selectedDate!,
+            selectedTime: selectedSlot!.start,
+            selectedStartTime: selectedSlot!.start,
+            selectedEndTime: selectedSlot!.end,
+            scheduling_url: "https://cal.com/kabir-malkani-glnivq/15min",
+          })
+        }
+        disabled={!canSubmit}
+        loading={submitting}
+        text="Confirm meeting"
+        wrapperClassName="bg-transparent"
+        buttonClassName="w-full bg-foreground text-background disabled:opacity-50 hover:bg-foreground active:bg-foreground"
+      />
       {error && <p className="text-red-500">{error}</p>}
     </div>
   );

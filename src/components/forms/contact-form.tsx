@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { Label } from "../ui/label";
 import type { ContactFormProps } from "../utils/types";
+import { NextButton } from "../landing/components/NextFormButton";
 
 export function ContactForm({
   setCurrentStep,
@@ -36,19 +37,16 @@ export function ContactForm({
   };
 
   return (
-    <div className="animate-fade-in flex flex-col h-full px-4 sm:px-6 lg:px-0">
+    <div className="animate-fade-in flex flex-col h-full px-4 sm:px-6 lg:px-0 text-foreground">
       <div className="w-full max-w-2xl mx-auto">
-        <h2 className="mb-4 text-2xl sm:text-3xl text-title font-bold">
+        <h2 className="mb-4 text-2xl sm:text-3xl text-title font-bold  ">
           Tell us about yourself
         </h2>
 
         <div className="space-y-6 sm:space-y-4">
           {/* NAME */}
           <div className="text-surface font-body">
-            <Label
-              className="text-sm sm:text-md text-title mt-3"
-              htmlFor="name"
-            >
+            <Label className="text-body  mt-3" htmlFor="name">
               First Name
             </Label>
             <Input
@@ -60,10 +58,10 @@ export function ContactForm({
               className="
                 mt-3
                 h-14 sm:h-16 lg:h-10
-                text-2xl sm:text-4xl lg:text-sm
+                text-bodysm:text-body lg:text-sm
                 placeholder:text-xl sm:placeholder:text-3xl lg:placeholder:text-sm
-                placeholder:text-body placeholder:opacity-60
-                bg-secondary text-body focus:ring-primary
+                placeholder:text-background placeholder:opacity-60
+                bg-secondary text-background focus:ring-primary
                 selection:bg-primary selection:text-black selection:font-bold
               "
             />
@@ -76,10 +74,7 @@ export function ContactForm({
 
           {/* EMAIL */}
           <div className="text-surface font-body">
-            <Label
-              className="text-sm sm:text-md text-title mt-3"
-              htmlFor="email"
-            >
+            <Label className="text-body  mt-3" htmlFor="email">
               Email
             </Label>
             <Input
@@ -91,10 +86,10 @@ export function ContactForm({
               className="
                 mt-3
                 h-14 sm:h-16 lg:h-10
-                text-2xl sm:text-4xl lg:text-sm
+                text-bodysm:text-body lg:text-sm
                 placeholder:text-xl sm:placeholder:text-3xl lg:placeholder:text-sm
-                placeholder:text-body placeholder:opacity-60
-                bg-secondary text-body focus:ring-primary
+                placeholder:text-background placeholder:opacity-60
+                bg-secondary text-background focus:ring-primary
                 selection:bg-primary selection:text-black selection:font-bold
               "
             />
@@ -107,10 +102,7 @@ export function ContactForm({
 
           {/* COMPANY */}
           <div className="text-surface font-body">
-            <Label
-              className="text-sm sm:text-md text-title mt-3"
-              htmlFor="company"
-            >
+            <Label className="text-body mt-3" htmlFor="company">
               Company
             </Label>
             <Input
@@ -121,10 +113,10 @@ export function ContactForm({
               className="
                 mt-3
                 h-14 sm:h-16 lg:h-10
-                text-2xl sm:text-4xl lg:text-sm
+                text-bodysm:text-body lg:text-sm
                 placeholder:text-xl sm:placeholder:text-3xl lg:placeholder:text-sm
-                placeholder:text-body placeholder:opacity-60
-                bg-secondary text-body focus:ring-primary
+                placeholder:text-background placeholder:opacity-60
+                bg-secondary text-background focus:ring-primary
                 selection:bg-primary selection:text-black selection:font-bold
               "
             />
@@ -137,10 +129,7 @@ export function ContactForm({
 
           {/* INDUSTRY */}
           <div className="text-surface font-body">
-            <Label
-              className="text-sm sm:text-md text-title mt-3"
-              htmlFor="industry"
-            >
+            <Label className="text-body mt-3" htmlFor="industry">
               Industry
             </Label>
             <Input
@@ -151,10 +140,10 @@ export function ContactForm({
               className="
                 mt-3
                 h-14 sm:h-16 lg:h-10
-                text-2xl sm:text-4xl lg:text-sm
+                text-bodysm:text-body lg:text-sm
                 placeholder:text-xl sm:placeholder:text-3xl lg:placeholder:text-sm
-                placeholder:text-body placeholder:opacity-60
-                bg-secondary text-body focus:ring-primary
+                placeholder:text-background placeholder:opacity-60
+                bg-secondary text-background focus:ring-primary
                 selection:bg-primary selection:text-black selection:font-bold
               "
             />
@@ -167,17 +156,11 @@ export function ContactForm({
         </div>
       </div>
 
-      <div className="mt-10 sm:mt-12 flex flex-col gap-6 font-body lg:flex-row lg:justify-center w-full">
-        <Button
-          variant="nav"
-          size="lg"
-          className="mx-auto text-base sm:text-lg font-bold py-5 sm:py-6 bg-background"
-          onClick={handleNext}
-          disabled={touchedNext && !canProceed}
-        >
-          Next
-        </Button>
-      </div>
+      <NextButton
+        onClick={handleNext}
+        disabled={touchedNext && !canProceed}
+        buttonClassName="w-full lg:w-auto bg-foreground text-background hover:bg-foreground active:bg-foreground"
+      />
     </div>
   );
 }

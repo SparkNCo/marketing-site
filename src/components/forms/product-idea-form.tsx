@@ -6,6 +6,7 @@ import { Check } from "lucide-react";
 import { debounce } from "@tanstack/pacer";
 import type { FormStep } from "../utils/interfaces";
 import { AIAnalyzedTextarea } from "./AIAnalyzedTextarea";
+import { NextButton } from "../landing/components/NextFormButton";
 
 type ProductIdeaFormProps = Readonly<{
   setCurrentStep: (step: FormStep) => void;
@@ -89,7 +90,7 @@ export function ProductIdeaForm({
           </div>
         )}
 
-        <div className="mt-8 flex justify-center w-full">
+        {/* <div className="mt-8 flex justify-center w-full">
           <Button
             variant="nav"
             onClick={handleNext}
@@ -98,7 +99,13 @@ export function ProductIdeaForm({
           >
             Next
           </Button>
-        </div>
+        </div> */}
+
+        <NextButton
+          onClick={handleNext}
+          disabled={!canProceed}
+          buttonClassName="w-full lg:w-auto bg-foreground text-background hover:bg-foreground active:bg-foreground"
+        />
       </form>
     </div>
   );

@@ -1,5 +1,6 @@
 import { Button } from "../../components/ui/button";
 import BuildScaleToggle from "../landing/components/BuildScaleComponent";
+import { NextButton } from "../landing/components/NextFormButton";
 import { Slider } from "../ui/slider2";
 import type { FormStep } from "../utils/interfaces";
 
@@ -95,7 +96,7 @@ export function CompanyDetailsForm({
       </div>
 
       {/* Bottom Navigation */}
-      <div className="mt-20 flex justify-center">
+      {/* <div className="mt-20 flex justify-center">
         {currentStep === "company" && (
           <Button
             variant="nav"
@@ -105,7 +106,13 @@ export function CompanyDetailsForm({
             Next
           </Button>
         )}
-      </div>
+      </div> */}
+      {currentStep === "company" && (
+        <NextButton
+          onClick={() => setCurrentStep("calendar")}
+          buttonClassName="w-full lg:w-auto bg-foreground text-background hover:bg-foreground active:bg-foreground"
+        />
+      )}
     </form>
   );
 }
