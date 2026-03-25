@@ -98,7 +98,7 @@ export default function PostsSection({ selectedFeatures }) {
   }
 
   return (
-    <section className="w-full max-w-[850px]   mx-auto space-y-4 mb-12 px-4 md:px-8 lg:px-0  mb-40">
+    <section className="w-full max-w-[850px] mx-auto space-y-4 mb-12 px-4 md:px-8 lg:px-0 mb-40">
       {/* FILTERING AND PAGINATION */}
       <PostsFilterPagination
         input={input}
@@ -111,14 +111,15 @@ export default function PostsSection({ selectedFeatures }) {
         totalPages={totalPages}
         goPrev={goPrev}
         goNext={goNext}
+        selectedFeatures={selectedFeatures}
       />
 
       {tags.length > 0 && (
-        <div className="grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] w-full">
+        <div className="grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] w-full border-4 border-red-800">
           {tags.map((tag, i) => (
             <div
               key={i}
-              className="flex items-center justify-between px-3 py-1 rounded-full bg-white text-black text-sm"
+              className="flex items-center justify-between px-3 py-1 rounded-full "
             >
               <span className="truncate">#{tag}</span>
               <button

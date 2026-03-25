@@ -21,7 +21,9 @@ const FastTrackSection = lazy(() => import("./landing/FastTrackSection"));
 const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
   const [isMobile, setIsMobile] = useState(false);
   const cellSize = useResponsiveCellSize();
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([
+    "MVP to Enterprise",
+  ]);
 
   useEffect(() => {
     const checkScreen = () => {
@@ -43,7 +45,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
         background="#111111"
         width="100%"
         cellSize={cellSize}
-        className="h-[700px] md:h-[800px] lg:h-[auto] xl:h-[900px]   "
+        className="h-[700px] md:h-[800px] lg:h-[auto] xl:h-[830px] "
         indexLayout={0}
         indexComponent={1}
       >

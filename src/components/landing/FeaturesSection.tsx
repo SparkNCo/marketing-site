@@ -90,9 +90,9 @@ function FeaturesSection({ setSelectedFeatures }) {
         ))}
       </div>
       {/* DESKTOP LAYOUT */}
-      <div className="hidden lg:flex flex-row gap-6 items-stretch w-full max-w-[850px] mx-auto ">
+      <div className="hidden lg:flex flex-row gap-4 items-stretch w-full max-w-[850px] mx-auto ">
         {/* LEFT COLUMN */}
-        <div className="flex flex-col gap-6 md:w-1/2 max-w-[275px]  ">
+        <div className="flex flex-col gap-4 md:w-1/2 max-w-[275px]  ">
           {modes
             .filter((m) => m !== mode)
             .map((item) => (
@@ -108,7 +108,7 @@ function FeaturesSection({ setSelectedFeatures }) {
             ))}
         </div>
         {/* RIGHT COLUMN */}
-        <div className="w-full lg:w-1/2 flex relative min-h-[400px] w-full  ">
+        <div className="w-full lg:w-1/2 flex relative min-h-[400px] w-full   ">
           <SquaresPostLayout squares={SquaresConfigMVP}>
             <FeaturesOptions
               mode={mode}

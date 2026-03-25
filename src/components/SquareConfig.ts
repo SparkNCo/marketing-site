@@ -752,8 +752,7 @@ export const FastTrackSquaresConfig = [
 //   },
 // ];
 
-export const FooterLeftRightSquares = [
-  /* LEFT ONE */
+/* export const FooterLeftRightSquares = [
   {
     bottom: 0,
     left: 0,
@@ -838,8 +837,6 @@ export const FooterLeftRightSquares = [
     zIndex: 3,
   },
 
-  /* right one */
-
   {
     bottom: 0,
     right: 0,
@@ -922,5 +919,150 @@ export const FooterLeftRightSquares = [
     colorDelay: 20,
     duration: 15,
     zIndex: 6,
+  },
+]; */
+
+export const FooterLeftRightSquares = [
+  {
+    bottom: 0,
+    left: 0,
+    width: 2,
+    height: 1,
+    color: "#F7F4F0",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 1,
+    left: 0,
+    width: 1,
+    height: 1,
+    color: "#f78035",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 2,
+    left: 0,
+    width: 1,
+    height: 1,
+    color: "#111111",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 3,
+    left: 0,
+    width: 1,
+    height: 1,
+    color: "#F7F4F0",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 0,
+    left: 2,
+    width: 2,
+    height: 2,
+    color: "#B65F28",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 0,
+    left: 4,
+    width: 1,
+    height: 1,
+    color: "#F7F4F0",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  /* Right */
+
+  {
+    bottom: 0,
+    right: 0,
+    width: 4,
+    height: 1,
+    color: "#F7F4F0",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 1,
+    right: 0,
+    width: 2,
+    height: 1,
+    color: "#F7F4F0",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 2,
+    right: 0,
+    width: 1,
+    height: 1,
+    color: "#111111",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 2,
+    right: 1,
+    width: 1,
+    height: 1,
+    color: "#F7F4F0",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 3,
+    right: 0,
+    width: 1,
+    height: 1,
+    color: "#f78035",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+
+  {
+    bottom: 3,
+    right: 0,
+    width: 1,
+    color: "#f78035",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 0,
+    right: 4,
+    width: 1,
+    height: 1,
+    color: "#f78035",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
+  },
+  {
+    bottom: 1,
+    right: 2,
+    width: 1,
+    height: 1,
+    color: "#f78035",
+    colorDelay: 20,
+    duration: 15,
+    zIndex: 0,
   },
 ];
