@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronRight } from "lucide-react";
 
 export default function BuildScaleToggle({
   centerExpanded,
@@ -52,26 +51,19 @@ export default function BuildScaleToggle({
     title: string;
   }) => {
     const isSelected = selected === type;
-    const isSecond = type === "scale";
 
     return (
       <motion.div
         layout
         transition={spring}
         onClick={() => handleClick(type)}
-        animate={{
-          width: isSelected ? "100%" : "100%",
-        }}
+        animate={{ width: "100%" }}
         className={`
         w-full lg:w-auto
         rounded-md shadow-md cursor-pointer overflow-hidden
         transition-colors duration-300 p-6
 
-        ${
-          isSecond
-            ? "bg-foreground text-background"
-            : "bg-background text-foreground"
-        }
+        ${isSelected ? "bg-white text-black" : "bg-black text-white"}
 
         ${!isSelected ? "opacity-90 hover:opacity-100" : ""}
       `}
@@ -79,38 +71,20 @@ export default function BuildScaleToggle({
       >
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <motion.img src={icon} className="w-8 h-8" transition={spring} />
+            <motion.img
+              src={icon}
+              className={`
+    w-8 h-8
+    ${
+      (type === "build" && isSelected) || (type === "scale" && !isSelected)
+        ? "invert"
+        : ""
+    }
+  `}
+              transition={spring}
+            />
             <h2 className="text-xl font-bold">{title}</h2>
           </div>
-
-          <AnimatePresence>
-            {isSelected && (
-              <motion.div
-                key={`${type}-go`}
-                initial={{ opacity: 0, x: 12, rotate: -20 }}
-                animate={{ opacity: 1, x: 0, rotate: 0 }}
-                exit={{ opacity: 0, x: 12, rotate: 20 }}
-                transition={{ duration: 0.3 }}
-                className={
-                  type === "scale"
-                    ? `
-            border-2 border-background
-            
-            p-0.5
-            flex items-center justify-center
-          `
-                    : `
-            border-2 border-foreground
-            
-            p-0.5
-            flex items-center justify-center
-          `
-                }
-              >
-                <ChevronRight className="w-6 h-6" strokeWidth={3} />
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
 
         <AnimatePresence mode="wait">

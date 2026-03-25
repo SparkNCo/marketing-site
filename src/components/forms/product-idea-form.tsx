@@ -55,10 +55,10 @@ export function ProductIdeaForm({
   return (
     <div className="animate-fade-in space-y-8 text-xl">
       <div className="text-left space-y-2 ">
-        <h2 className="mb-4 text-3xl text-foreground font-bold">
+        <h2 className="mb-4 text-heading2 text-foreground font-bold">
           Describe your product idea
         </h2>
-        <p className="text-foreground">
+        <p className="text-foreground text-body">
           Tell us about your vision and we'll bring it to life
         </p>
       </div>

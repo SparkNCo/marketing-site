@@ -69,7 +69,7 @@ function FeaturesSection({ setSelectedFeatures }) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-[850px]  lg:max-w-[1530px] px-4 sm:px-4 md:px-8 lg:px-12 relative mb-4 mt-40 ">
+    <div className="mx-auto w-full max-w-[850px]  lg:max-w-[1530px] px-4 sm:px-4 md:px-8 lg:px-12 relative mb-4 lg:mt-40 ">
       {" "}
       <h1 className=" text-largeBody md:text-heading1  text-center  font-bold tracking-tight text-foreground my-10 leading-tight mt-28 lg:mt-4">
         Development Principles

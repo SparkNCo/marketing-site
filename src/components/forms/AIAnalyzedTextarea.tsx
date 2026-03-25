@@ -27,9 +27,21 @@ export function AIAnalyzedTextarea({
   onAnalysis,
   placeholder = "Describe your idea...",
   minLength = 20,
-  wait = 1500,
+  wait = 500, // 👈 reduced to 0.5s
 }: Props) {
   const [loading, setLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+
+  // Detect typing (true while user is actively typing)
+  useEffect(() => {
+    setIsTyping(true);
+
+    const timeout = setTimeout(() => {
+      setIsTyping(false);
+    }, wait);
+
+    return () => clearTimeout(timeout);
+  }, [value, wait]);
 
   const debouncedAnalyze = useMemo(
     () =>
@@ -78,18 +90,21 @@ export function AIAnalyzedTextarea({
     debouncedAnalyze(value);
   }, [value, debouncedAnalyze]);
 
+  const showSpinner = loading || isTyping;
+
   return (
     <div className="relative">
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full min-h-48 p-4  border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+        className="w-full min-h-48 p-4 border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none"
       />
 
-      {loading && (
-        <div className="absolute bottom-2 right-3 text-xs text-muted-foreground">
-          Analyzing...
+      {showSpinner && (
+        <div className="absolute bottom-2 right-3 mb-2">
+          {/* Spinner */}
+          <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
         </div>
       )}
     </div>

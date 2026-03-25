@@ -26,20 +26,20 @@ export function CompanyDetailsForm({
     <form className="animate-fade-in flex flex-col h-full font-body">
       {/* Top Content */}
       <div>
-        <h2 className="mb-6 text-3xl text-foreground font-title">
+        <h2 className="mb-4 text-heading2 text-foreground font-bold">
           Set Project Targets
         </h2>
 
-        <div className="mx-auto w-[280px] md:w-[420px] lg:w-[600px]">
+        <div className="mx-auto w-[full] md:w-[420px] lg:w-[600px] ">
           <BuildScaleToggle
             centerExpanded={true}
             onClick={(value) => setBuildScale(value)}
           />
         </div>
 
-        <div className="flex-1 space-y-8 ">
+        <div className="flex-1 space-y-8 mt-8">
           <div>
-            <p className=" text-foreground text-xl">
+            <p className=" text-foreground text-body">
               Enter your projected monthly spend
             </p>
 
@@ -70,7 +70,7 @@ export function CompanyDetailsForm({
         </div>
       </div>
       <div>
-        <p className="text-foreground text-xl">
+        <p className="text-foreground text-body">
           Enter your estimated project timeline
         </p>
 

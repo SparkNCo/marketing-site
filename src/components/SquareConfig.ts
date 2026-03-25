@@ -3,7 +3,7 @@ export const HeroSectionSquaresConfig = [
     left: 0,
     top: 0,
     width: 16,
-    height: 16,
+    height: 42,
     colorDelay: 1,
     duration: 1,
     zIndex: 0,

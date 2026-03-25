@@ -19,9 +19,9 @@ export function ContactForm({
 }: ContactFormProps) {
   const [touchedNext, setTouchedNext] = useState(false);
 
-  const isValidName = name.trim().length >= 5;
-  const isValidCompany = company.trim().length >= 5;
-  const isValidIndustry = industry.trim().length >= 5;
+  const isValidName = name.trim().length >= 2;
+  const isValidCompany = company.trim().length >= 2;
+  const isValidIndustry = industry.trim().length >= 2;
   const isValidEmail =
     email.trim().length > 0 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -69,7 +69,7 @@ export function ContactForm({
             />
             {touchedNext && !isValidName && (
               <p className="mt-2 text-lg sm:text-3xl lg:text-sm text-primary">
-                Name must be at least 5 characters
+                Name must be at least 2 characters
               </p>
             )}
           </div>
@@ -130,7 +130,7 @@ export function ContactForm({
             />
             {touchedNext && !isValidCompany && (
               <p className="mt-2 text-lg sm:text-3xl lg:text-sm text-primary">
-                Company must be at least 5 characters
+                Company must be at least 2 characters
               </p>
             )}
           </div>
@@ -160,7 +160,7 @@ export function ContactForm({
             />
             {touchedNext && !isValidIndustry && (
               <p className="mt-2 text-lg sm:text-3xl lg:text-sm text-primary">
-                Industry must be at least 5 characters
+                Industry must be at least 2 characters
               </p>
             )}
           </div>
