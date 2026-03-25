@@ -8,6 +8,7 @@ export function ProcessStepItem({
   index,
   title,
   isActive,
+  mobile = false,
 }: ProcessStepItemProps) {
   return (
     <>
@@ -17,7 +18,9 @@ export function ProcessStepItem({
       </div>
 
       {/* Square */}
-      <div className="flex justify-center relative mt-5">
+      <div
+        className={`flex justify-center relative ${mobile ? "mt-4" : "mt-0"}`}
+      >
         <div
           className={`w-5 h-5 border-2 border-white z-10 transition-colors duration-300
           ${isActive ? "bg-foreground" : "bg-white"}`}

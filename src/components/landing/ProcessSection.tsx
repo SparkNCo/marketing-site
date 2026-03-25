@@ -122,7 +122,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
         <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 w-full ">
           {/* LEFT SIDE */}
           <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-full max-w-[400px]">
-            <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] h-[1520px] top-[240px] bottom-[230px]" />
+            <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] h-[1510px] top-[235px] bottom-[230px]" />
 
             {visibleSteps.map((step, index) => {
               const isFocused = index === activeStep;
@@ -137,7 +137,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
               ${
                 isFocused
                   ? "opacity-100 blur-0 scale-100 translate-x-0 md:-translate-x-[25px]"
-                  : "opacity-90 blur-[2px] scale-[0.8] md:scale-[0.65] -translate-x-[62px]"
+                  : "opacity-90 blur-[2px] scale-[0.8] md:scale-[0.6] -translate-x-[50px] lg:translate-x-[-78px]"
               }`}
                 >
                   <ProcessStepItem
