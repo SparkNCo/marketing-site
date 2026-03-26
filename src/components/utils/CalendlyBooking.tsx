@@ -106,7 +106,7 @@ export default function CalendlyBooking({
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-10 text-foreground">
-      <h2 className="mb-4 text-heading2 text-title font-bold  ">
+      <h2 className="mb-4 text-heading2  font-bold  ">
         Schedule a Discovery Call
       </h2>
 
@@ -149,7 +149,7 @@ export default function CalendlyBooking({
                       weekday: "short",
                     })}
                   </div>
-                  <div className="text-sm">{day.getDate()}</div>
+                  <div className="text-body">{day.getDate()}</div>
                 </button>
               );
             })}
@@ -191,7 +191,7 @@ export default function CalendlyBooking({
                       weekday: "short",
                     })}
                   </div>
-                  <div className="text-sm">{day.getDate()}</div>
+                  <div className="text-body">{day.getDate()}</div>
                 </button>
               );
             })}
@@ -277,37 +277,13 @@ export default function CalendlyBooking({
 
       {!selectedDate && (
         <section>
-          <h2 className="text-xl font-semibold mb-4">Available times</h2>
-          <div className="flex items-center justify-center h-32 rounded-xl text-sm">
+          <h2 className="text-heading2 font-semibold mb-4">Available times</h2>
+          <div className="flex items-center justify-center h-32 rounded-xl text-body">
             Select a date to see available time slots
           </div>
         </section>
       )}
 
-      {/* SUBMIT */}
-      {/* <Button
-        size="lg"
-        disabled={!canSubmit || submitting}
-        className="w-full text-lg font-bold flex items-center justify-center gap-2"
-        onClick={() =>
-          onSubmit({
-            selectedDate: selectedDate!,
-            selectedTime: selectedSlot!.start,
-            selectedStartTime: selectedSlot!.start,
-            selectedEndTime: selectedSlot!.end,
-            scheduling_url: "https://cal.com/kabir-malkani-glnivq/15min",
-          })
-        }
-      >
-        {submitting ? (
-          <div className="flex items-center gap-2">
-            <span className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full" />
-            <span>Booking…</span>
-          </div>
-        ) : (
-          "Confirm meeting"
-        )}
-      </Button> */}
       <NextButton
         onClick={() =>
           onSubmit({
