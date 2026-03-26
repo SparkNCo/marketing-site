@@ -14,13 +14,48 @@ type Props = {
   location: string;
 };
 
+type TransitionType = "slide" | "fade";
+
 export default function LandingShell({ user, location }: Props) {
   const [mode, setMode] = React.useState<"index" | "form">("index");
+  const [transitionType, setTransitionType] =
+    React.useState<TransitionType>("slide");
+
+  // 👉 functions passed DOWN
+  const goToFormSlide = () => {
+    setTransitionType("slide");
+    setMode("form");
+  };
+
+  const goToFormFade = () => {
+    setTransitionType("fade");
+    setMode("form");
+  };
+
+  /*   const goBack = () => {
+    setTransitionType("slide");
+    setMode("index");
+  }; */
 
   const variants = {
-    hidden: { x: -200, opacity: 0 },
-    enter: { x: 0, opacity: 1 },
-    exit: { x: 200, opacity: 0 },
+    hidden: (type: TransitionType) => {
+      if (type === "fade") {
+        return { opacity: 0 };
+      }
+      return { x: "-100%", opacity: 1 };
+    },
+
+    enter: {
+      x: 0,
+      opacity: 1,
+    },
+
+    exit: (type: TransitionType) => {
+      if (type === "fade") {
+        return { opacity: 0 }; // 👈 fade only
+      }
+      return { x: "-100%", opacity: 1 }; // 👈 slide
+    },
   };
 
   return (
@@ -28,17 +63,27 @@ export default function LandingShell({ user, location }: Props) {
       <AppProvider initialUser={user}>
         <div className="bg-[#111111]">
           <Header headerMode={mode} />
-          <AnimatePresence mode="wait">
+
+          <AnimatePresence mode="wait" custom={transitionType}>
             {mode === "index" && (
               <motion.div
                 key="landing"
                 variants={variants}
+                custom={transitionType}
                 initial="hidden"
                 animate="enter"
                 exit="exit"
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                transition={
+                  transitionType === "fade"
+                    ? { duration: 0.25, ease: "easeOut" }
+                    : { duration: 0.4, ease: "easeInOut" }
+                }
               >
-                <LandingIsland mode={mode} setMode={setMode} />
+                <LandingIsland
+                  mode={mode}
+                  goToFormSlide={goToFormSlide}
+                  goToFormFade={goToFormFade}
+                />
               </motion.div>
             )}
 
@@ -46,10 +91,15 @@ export default function LandingShell({ user, location }: Props) {
               <motion.div
                 key="form"
                 variants={variants}
+                custom={transitionType}
                 initial="hidden"
                 animate="enter"
                 exit="exit"
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                transition={
+                  transitionType === "fade"
+                    ? { duration: 0.25, ease: "easeOut" }
+                    : { duration: 0.4, ease: "easeInOut" }
+                }
               >
                 <IndexShell />
               </motion.div>

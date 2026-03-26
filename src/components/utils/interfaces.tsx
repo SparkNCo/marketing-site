@@ -52,6 +52,8 @@ export interface FormIslandProps {
 export interface LandingIslandProps {
   mode: "index" | "form";
   setMode: (mode: "index" | "form") => void;
+  goToFormSlide: (mode: "index" | "form") => void;
+  goToFormFade: (mode: "index" | "form") => void;
   leadEmail: string;
   setLeadEmail: (email: string) => void;
 }

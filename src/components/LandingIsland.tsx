@@ -18,7 +18,12 @@ const ProcessSection = lazy(() => import("./landing/ProcessSection"));
 const CaseStudiesSection = lazy(() => import("./landing/CaseStudies"));
 const FastTrackSection = lazy(() => import("./landing/FastTrackSection"));
 
-const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
+const LandingIsland: React.FC<LandingIslandProps> = ({
+  mode,
+  // setMode,
+  goToFormSlide,
+  goToFormFade,
+}) => {
   const [isMobile, setIsMobile] = useState(false);
   const cellSize = useResponsiveCellSize();
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([
@@ -52,7 +57,9 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
         {" "}
         {/* */}
         <HeroSection
-          setMode={typeof setMode === "function" ? setMode : () => {}}
+          setMode={
+            typeof goToFormSlide === "function" ? goToFormSlide : () => {}
+          }
         />
       </SquaresGridLayout>
       <FeaturesSection setSelectedFeatures={setSelectedFeatures} />
@@ -68,7 +75,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({ mode, setMode }) => {
         indexComponent={1}
       >
         <FastTrackSection
-          setMode={typeof setMode === "function" ? setMode : () => {}}
+          setMode={typeof goToFormFade === "function" ? goToFormFade : () => {}}
         />
       </SquaresGridLayout>
 

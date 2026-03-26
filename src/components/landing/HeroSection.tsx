@@ -26,7 +26,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
 
   return (
     <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20  relative ">
-      {/* <div className="absolute top-0 left-0 w-full h-[95px] bg-foreground w-[100vw] " /> */} 
+      {/* <div className="absolute top-0 left-0 w-full h-[95px] bg-foreground w-[100vw] " /> */}
       <section
         data-header="light"
         className="
@@ -76,8 +76,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
             inputWrapperClassName="max-w-[380px] md:max-w-full "
             onValidSubmit={() => setMode?.("form")}
           />
-          {/*           <PrimaryButton onClick={handleSubmit}>Let&apos;s Go</PrimaryButton>
-           */}{" "}
         </div>
       </section>
     </main>
