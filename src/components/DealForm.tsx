@@ -138,7 +138,7 @@ export default function DealForm() {
         px-4 py-6 bg-background  
       "
     >
-      <div className="min-h-[10vh] sm:min-h-[15vh] " />
+      <div className="min-h-[10vh] sm:min-h-[15vh]  lg:min-h-[10vh]  " />
 
       <>
         {/* 📱 Mobile & Tablet (< lg) */}

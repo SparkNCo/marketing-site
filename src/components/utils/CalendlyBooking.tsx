@@ -106,7 +106,7 @@ export default function CalendlyBooking({
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-10 text-foreground">
-      <h2 className="mb-4 text-2xl sm:text-3xl text-title font-bold  ">
+      <h2 className="mb-4 text-heading2 text-title font-bold  ">
         Schedule a Discovery Call
       </h2>
 

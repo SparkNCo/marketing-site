@@ -23,7 +23,7 @@ export default function AnimatedStepper(props: AnimatedStepperProps) {
       <MobileStepper {...props} />
 
       {/* ✅ Desktop version (UNCHANGED) */}
-      <div className="hidden sm:flex items-center ">
+      <div className="hidden sm:flex items-center  ">
         {Array.from({ length: props.totalSteps }).map((_, index) => {
           const stepNumber = index + 1;
           const isActive = stepNumber === props.currentStep + 1;
@@ -54,7 +54,7 @@ export default function AnimatedStepper(props: AnimatedStepperProps) {
             index >= props.currentStep;
 
           return (
-            <div key={stepNumber} className="flex items-center mb-8 ">
+            <div key={stepNumber} className="flex items-center">
               <button
                 type="button"
                 onClick={handleClick}
