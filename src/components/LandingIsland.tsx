@@ -50,7 +50,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
         background="#111111"
         width="100%"
         cellSize={cellSize}
-        className="h-[700px] md:h-[800px] lg:h-[auto] xl:h-[830px] "
+        className="h-[590px] md:h-[620px] lg:h-[auto] xl:h-[830px] "
         indexLayout={0}
         indexComponent={1}
       >

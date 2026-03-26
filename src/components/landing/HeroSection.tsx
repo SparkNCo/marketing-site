@@ -25,20 +25,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   };
 
   return (
-    <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20  relative ">
+    <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20  relative">
       {/* <div className="absolute top-0 left-0 w-full h-[95px] bg-foreground w-[100vw] " /> */}
       <section
         data-header="light"
         className="
           relative
           w-full lg:w-1/2
-          pt-10 mt-[75px] md:mt-[128px]
+          mt-[25px] md:mt-[40px] lg:mt-[90px]
           min-h-[535px] lg:min-h-[800px]
-          flex flex-col items-start  
+          flex flex-col items-start 
         "
       >
         {/* CONTENT WRAPPER */}
-        <div className="w-full flex flex-col items-start">
+        <div className="w-full flex flex-col items-start ">
           {/* TITLE */}
           <h1 className="text-largeBody md:text-heading1 font-bold tracking-tight text-background mb-6 leading-tight max-w-[520px]">
             Software that&apos;s up to speed
