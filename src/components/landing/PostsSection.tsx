@@ -115,7 +115,7 @@ export default function PostsSection({ selectedFeatures }) {
       />
 
       {tags.length > 0 && (
-        <div className="grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] w-full border-4 border-red-800">
+        <div className="grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] w-full ">
           {tags.map((tag, i) => (
             <div
               key={i}
