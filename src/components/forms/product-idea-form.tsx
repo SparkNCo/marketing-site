@@ -104,7 +104,12 @@ export function ProductIdeaForm({
         <NextButton
           onClick={handleNext}
           disabled={!canProceed}
-          buttonClassName="w-full lg:w-auto bg-foreground text-background hover:bg-foreground active:bg-foreground"
+          buttonClassName="
+    w-full
+    h-14 sm:h-16 lg:h-10
+    bg-foreground text-background
+    hover:bg-foreground active:bg-foreground 
+  "
         />
       </form>
     </div>

@@ -23,7 +23,7 @@ export default function AnimatedStepper(props: AnimatedStepperProps) {
       <MobileStepper {...props} />
 
       {/* ✅ Desktop version (UNCHANGED) */}
-      <div className="hidden sm:flex items-center gap-4">
+      <div className="hidden sm:flex items-center ">
         {Array.from({ length: props.totalSteps }).map((_, index) => {
           const stepNumber = index + 1;
           const isActive = stepNumber === props.currentStep + 1;
@@ -54,13 +54,13 @@ export default function AnimatedStepper(props: AnimatedStepperProps) {
             index >= props.currentStep;
 
           return (
-            <div key={stepNumber} className="flex items-center mb-8">
+            <div key={stepNumber} className="flex items-center mb-8 ">
               <button
                 type="button"
                 onClick={handleClick}
                 disabled={isDisabled}
                 className={`
-                  w-12 h-12 flex items-center justify-center font-semibold transition-all duration-500
+                  w-12 h-12 flex items-center justify-center font-semibold transition-all duration-500 
                   ${stepClasses}
                 `}
                 style={{
@@ -90,8 +90,8 @@ export function MobileStepper({
   totalSteps,
 }: AnimatedStepperProps) {
   return (
-    <div className="sm:hidden w-full overflow-x-auto  my-8">
-      <div className="flex items-center gap-2 px-2">
+    <div className="sm:hidden w-full overflow-x-hidden h-[40px] my-6 flex items-center justify-center ">
+      <div className="flex items-center  w-full ">
         {Array.from({ length: totalSteps }).map((_, index) => {
           const stepNumber = index + 1;
           const isActive = stepNumber === currentStep + 1;
@@ -101,7 +101,7 @@ export function MobileStepper({
             <div key={stepNumber} className="flex items-center">
               <div
                 className={`
-                  min-w-[32px] h-8 flex items-center justify-center text-sm font-semibold
+                  min-w-[36px] h-9 flex items-center justify-center text-sm font-semibold
                   ${
                     isCompleted
                       ? "bg-primary text-accent-foreground"
@@ -116,7 +116,7 @@ export function MobileStepper({
 
               {stepNumber < totalSteps && (
                 <div
-                  className={`w-6 h-[2px] ${
+                  className={`mx-2 w-6 h-[2px] ${
                     isCompleted ? "bg-primary" : "bg-card"
                   }`}
                 />

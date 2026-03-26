@@ -95,22 +95,15 @@ export function CompanyDetailsForm({
         </div>
       </div>
 
-      {/* Bottom Navigation */}
-      {/* <div className="mt-20 flex justify-center">
-        {currentStep === "company" && (
-          <Button
-            variant="nav"
-            onClick={() => setCurrentStep("calendar")}
-            className="w-full lg:w-auto text-lg font-bold p-6  bg-foreground text-background"
-          >
-            Next
-          </Button>
-        )}
-      </div> */}
       {currentStep === "company" && (
         <NextButton
           onClick={() => setCurrentStep("calendar")}
-          buttonClassName="w-full lg:w-auto bg-foreground text-background hover:bg-foreground active:bg-foreground"
+          buttonClassName="
+    w-full
+    h-14 sm:h-16 lg:h-10
+    bg-foreground text-background
+    hover:bg-foreground active:bg-foreground 
+  "
         />
       )}
     </form>

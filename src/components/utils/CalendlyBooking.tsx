@@ -322,7 +322,12 @@ export default function CalendlyBooking({
         loading={submitting}
         text="Confirm meeting"
         wrapperClassName="bg-transparent"
-        buttonClassName="w-full bg-foreground text-background disabled:opacity-50 hover:bg-foreground active:bg-foreground"
+        buttonClassName="
+    w-full
+    h-14 sm:h-16 lg:h-10
+    bg-foreground text-background
+    hover:bg-foreground active:bg-foreground 
+  "
       />
       {error && <p className="text-red-500">{error}</p>}
     </div>

@@ -37,8 +37,9 @@ export function ContactForm({
   };
 
   return (
-    <div className="animate-fade-in flex flex-col h-full px-4 sm:px-6 lg:px-0 text-foreground">
-      <div className="w-full max-w-2xl mx-auto">
+    <div className="animate-fade-in flex flex-col h-full md:px-4 lg:px-4 lg:px-0 text-foreground">
+      {" "}
+      <div className="w-full mx-auto">
         <h2 className="mb-4 text-2xl sm:text-3xl text-title font-bold  ">
           Tell us about yourself
         </h2>
@@ -155,11 +156,15 @@ export function ContactForm({
           </div>
         </div>
       </div>
-
       <NextButton
         onClick={handleNext}
         disabled={touchedNext && !canProceed}
-        buttonClassName="w-full lg:w-auto bg-foreground text-background hover:bg-foreground active:bg-foreground"
+        buttonClassName="
+    w-full
+    h-14 sm:h-16 lg:h-10
+    bg-foreground text-background
+    hover:bg-foreground active:bg-foreground 
+  "
       />
     </div>
   );

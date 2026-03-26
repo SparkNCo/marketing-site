@@ -135,14 +135,14 @@ export default function DealForm() {
       className="
         min-h-[88vh]
         flex flex-col items-center justify-center
-        px-4 py-6 bg-background
+        px-4 py-6 bg-background  
       "
     >
-      <div className="min-h-[10vh] sm:min-h-[15vh]" />
+      <div className="min-h-[10vh] sm:min-h-[15vh] " />
 
       <>
         {/* 📱 Mobile & Tablet (< lg) */}
-        <div className="lg:hidden">
+        <div className="sm:hidden w-full px-2 mx-auto  ">
           <MobileStepper
             currentStep={stepIndex}
             totalSteps={5}
@@ -151,7 +151,7 @@ export default function DealForm() {
         </div>
 
         {/* 💻 Desktop (lg+) */}
-        <div className="hidden lg:flex my-8">
+        <div className="hidden sm:flex my-8 mx-auto  ">
           <AnimatedStepper
             currentStep={stepIndex}
             totalSteps={5}
@@ -161,7 +161,7 @@ export default function DealForm() {
       </>
 
       <div
-        className={`w-full lg:max-w-2xl p-8 shadow-xl rounded-xl ${
+        className={` w-full lg:max-w-2xl px-2 lg:p-8 shadow-xl rounded-xl ${
           currentStep === "contact" ? "bg-background" : "bg-background"
         }`}
       >

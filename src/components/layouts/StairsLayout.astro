@@ -9,9 +9,12 @@ const location = Astro.url.pathname;
 <html lang="en">
   <head>
     <Posthog />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,10 +31,10 @@ const location = Astro.url.pathname;
       --font-title: "Space Grotesk";
       --font-body: "Nunito Sans";
       --background: #111111;
-      --foreground: #F7F4F0;
-      --primary: #F78035;
-      --secondary: #F7F4F0;
-      --card: #F7F4F0;
+      --foreground: #f7f4f0;
+      --primary: #f78035;
+      --secondary: #f7f4f0;
+      --card: #f7f4f0;
 
       .hide-scrollbar {
         scrollbar-width: none; /* Firefox */
@@ -225,6 +228,23 @@ const location = Astro.url.pathname;
 
     .cookie-banner button.accept:hover {
       filter: brightness(1.1);
+    }
+
+    @media (max-width: 750px) {
+      .cookie-banner {
+        left: 50%;
+        right: auto;
+        width: calc(100% - 32px);
+        max-width: 420px;
+
+        transform: translate(-50%, 20px); /* hidden state */
+      }
+
+      .cookie-banner.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, 0); /* visible state */
+      }
     }
   </style>
 </html>

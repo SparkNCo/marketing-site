@@ -22,8 +22,8 @@ export function NextButton({
   return (
     <div
       className={`
-        mt-10 sm:mt-12 flex flex-col gap-6 font-body 
-        lg:flex-row lg:justify-center w-full
+        mt-10 sm:mt-12 flex flex-col gap-6 font-body  
+        lg:flex-row lg:justify-center w-full  
         ${wrapperClassName}
       `}
     >
@@ -32,9 +32,9 @@ export function NextButton({
         onClick={onClick}
         disabled={disabled || loading}
         className={`
-          mx-auto text-[26px] font-bold py-5 sm:py-6
+          mx-auto font-bold py-5 sm:py-6
           flex items-center justify-center gap-2
-          
+          text-[24px] md:text-[20px]
           bg-transparent
           hover:bg-transparent
           active:scale-100
