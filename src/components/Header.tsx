@@ -89,7 +89,7 @@ export default function Header({
           <LoginPopover mode={mode} />
         ) : (
           <div className="flex items-center gap-3 z-10 ">
-            <div className="h-9 w-9 rounded-full bg-background text-foreground flex items-center justify-center font-bold">
+            <div className="h-9 w-9 rounded-full bg-background text-foreground  hidden  md:flex items-center justify-center font-bold">
               {user.email?.charAt(0).toUpperCase()}
             </div>
 
