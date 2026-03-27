@@ -4,6 +4,9 @@ import { useEffect, useState, useRef } from "react";
 import CtaProposal from "./ctaProposal";
 import { DraftPlate } from "./DraftPlate";
 import ProposalSection from "./proposalSection/ProposalSection";
+import ProposalDrawer from "./ProposalDrawer";
+import ProposalSidebar from "./ProposalSidebar";
+import RequirementDisplayer from "./RequirementDisplayer";
 
 export default function ProposalPage({ proposal, dbUser }) {
   const [openSections, setOpenSections] = useState<string[]>([]);
@@ -159,32 +162,22 @@ export default function ProposalPage({ proposal, dbUser }) {
   if (!localProposal) return null;
 
   return (
-    <div className="flex mt-32 w-full bg-background">
+    <div className="lg:flex mt-32 w-full bg-background">
+      {/* Sidebar */}
       <div className="w-60 pr-6 hidden lg:block text-foreground ">
-        <div className="sticky top-32 space-y-4 text-sm">
-          <div className="flex items-center gap-2 font-semibold">
-            <span className="text-primary">☰</span>
-            <span>Table of Contents</span>
-          </div>
-
-          <div className="space-y-2">
-            {Object.keys(sections).map((key) => (
-              <button
-                key={key}
-                onClick={() => scrollToSection(key)}
-                className="flex items-center gap-2 text-left w-full text-muted-foreground hover:text-primary"
-              >
-                <span className="text-primary">•</span>
-                {key}
-              </button>
-            ))}
-          </div>
-        </div>
+        <ProposalSidebar sections={sections} onSelect={scrollToSection} />
+      </div>
+      {/* Drawer */}
+      <div className="lg:hidden text-foreground w-full">
+        <ProposalDrawer
+          sections={Object.keys(sections)}
+          onSelect={scrollToSection}
+        />
       </div>
 
       {/* Main content */}
       <div className="bg-background w-full ">
-        <div className="flex-1 bg-card  w-[80%] mx-auto ">
+        <div className="flex-1 bg-card w-[90%] lg:w-[80%] mx-auto ">
           {Object.entries(sections).map(([sectionKey, sectionData]) => (
             <div
               key={sectionKey}
@@ -202,13 +195,17 @@ export default function ProposalPage({ proposal, dbUser }) {
             </div>
           ))}
 
-          <CtaProposal
-            proposalId={proposal.passcode}
-            signature_url={proposal.signature_url}
-          />
-
+          {dbUser?.role !== "admin" && (
+            <CtaProposal
+              proposalId={proposal.passcode}
+              signature_url={proposal.signature_url}
+            />
+          )}
           {dbUser?.role === "admin" && (
-            <DraftPlate proposal={localProposal} setStage={setStage} />
+            <div>
+              <RequirementDisplayer submissionId={proposal.passcode} />
+              <DraftPlate proposal={localProposal} setStage={setStage} />
+            </div>
           )}
         </div>
       </div>
