@@ -11,6 +11,7 @@ import {
 } from "./MissingPasscode";
 import DiscoveryForm from "../DiscoveryForm";
 import ProposalPage from "./1-ProposalPage";
+import Footer from "../Footer";
 
 type PageMode = "features" | "loading" | "view" | "draft" | "waiting";
 
@@ -57,16 +58,16 @@ const slideVariants = {
 
 async function fetchProposal(passcode: string) {
   const res = await fetch(
-    // `http://127.0.0.1:54321/functions/v1/proposals/?passcode=${passcode}`,
     `${import.meta.env.PUBLIC_ENDPOINT}/proposals/?passcode=${passcode}`,
   );
 
+  const json = await res.json();
+
   if (!res.ok) {
-    throw new Error("Unable to load proposal");
+    throw new Error(json?.error || "Unable to load proposal");
   }
 
-  const { data } = await res.json();
-  return data as Proposal;
+  return json.data as Proposal;
 }
 
 const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
@@ -96,8 +97,35 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
     queryFn: () => fetchProposal(passcode!),
     enabled: !!passcode,
   });
-
   if (isLoading) return <LoadingProposal />;
+
+  if (isError) {
+    const errMsg = (error as Error)?.message;
+
+    if (errMsg === "Proposal not found") {
+      return (
+        <div className="min-h-[90vh]">
+          <InvalidPasscode />
+          <Footer mode="bottom" />
+        </div>
+      );
+    }
+
+    // fallback error
+    return (
+      <div className="min-h-[90vh]">
+        <p className="text-center text-sm text-red-500">Something went wrong</p>
+        <div
+          className="text-foreground"
+          onClick={() => console.log({ errMsg })}
+        >
+          VER errMsg
+        </div>
+
+        <Footer mode="bottom" />
+      </div>
+    );
+  }
 
   return (
     <AnimatePresence mode="wait">
@@ -134,16 +162,20 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           <div className="min-h-[90vh] pt-20">
             <ProposalInProgress />
           </div>
+          <Footer mode={"fixxed"} />
         </motion.div>
       )}
       {dbUser?.role === "admin" && proposal.stage !== "justCreated" && (
-        <ProposalPage
-          proposal={proposal}
-          dbUser={{
-            userName: dbUser?.email,
-            role: dbUser?.role,
-          }}
-        />
+        <div>
+          <ProposalPage
+            proposal={proposal}
+            dbUser={{
+              userName: dbUser?.email,
+              role: dbUser?.role,
+            }}
+          />
+          <Footer mode={"fixxed"} />
+        </div>
       )}
 
       {(dbUser?.role === undefined || dbUser?.role !== "admin") &&
@@ -158,16 +190,20 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           >
             {proposal.stage === "for-review" ||
             proposal.stage === "accepted" ? (
-              <ProposalPage
-                proposal={proposal}
-                dbUser={{
-                  userName: dbUser?.email,
-                  role: dbUser?.role,
-                }}
-              />
+              <div>
+                <ProposalPage
+                  proposal={proposal}
+                  dbUser={{
+                    userName: dbUser?.email,
+                    role: dbUser?.role,
+                  }}
+                />
+                <Footer mode={"bottom"} />
+              </div>
             ) : (
-              <div className="min-h-[90vh] pt-20">
+              <div className="min-h-[90vh]">
                 <ProposalInProgress />
+                <Footer mode={"bottom"} />
               </div>
             )}
           </motion.div>
@@ -182,7 +218,10 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           exit="exit"
           className="min-h-[90vh]"
         >
-          <InvalidPasscode />
+          <div className="min-h-[90vh]">
+            <InvalidPasscode />
+            <Footer mode={"bottom"} />
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

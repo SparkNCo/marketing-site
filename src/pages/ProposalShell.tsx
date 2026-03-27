@@ -22,7 +22,7 @@ export default function ProposalShell({ user, mode, passcode }: Props) {
         <ToastLayout>
           <Header headerMode={"form"} />
           <ProposalIsland mode={mode} passcode={passcode} />
-          <Footer mode={"fixxed"} />
+          {/*  <Footer mode={"fixxed"} /> */}
         </ToastLayout>
       </AppProvider>
     </QueryClientProvider>
