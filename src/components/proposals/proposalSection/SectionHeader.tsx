@@ -21,8 +21,7 @@ export default function SectionHeader({
       className="mb-6 flex items-center justify-between cursor-pointer text-background bg-card p-4  "
     >
       <div className="flex items-center gap-3">
-        {/* <FileText className="h-6 w-6 text-primary" /> */}
-        <h2 className="text-3xl font-bold text-background">{title}</h2>
+        <h2 className="text-heading2 font-bold text-background">{title}</h2>
       </div>
 
       <div className="flex flex-row gap-6 text-foreground ">

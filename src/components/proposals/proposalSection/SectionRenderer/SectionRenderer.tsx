@@ -30,7 +30,7 @@ const blockTemplates: Record<string, any> = {
     columns: 2,
   },
   grid: { type: "grid", columns: 2, content: [] },
-/*   card: {
+  /*   card: {
     type: "card",
     subtype: "Technology",
     title: "New Card",
@@ -112,7 +112,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
           {!showPicker && (
             <button
               onClick={() => setShowPicker(true)}
-              className="px-4 py-2 text-sm border "
+              className="px-4 py-2 text-body border "
             >
               + Add Block
             </button>
@@ -127,7 +127,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
                       <select
                         value={newListSubtype}
                         onChange={(e) => setNewListSubtype(e.target.value)}
-                        className="bg-card text-sm px-3 py-1  appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="bg-card text-body px-3 py-1  appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
                       >
                         <option value="bulleted">Bulleted</option>
                         <option value="numbered">Numbered</option>
@@ -137,7 +137,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
 
                       <button
                         onClick={() => addBlock(type)}
-                        className="px-3 py-1 text-sm border  hover:bg-muted"
+                        className="px-3 py-1 text-body border  hover:bg-muted"
                       >
                         {type}
                       </button>
@@ -150,7 +150,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
                     <div key={type} className="flex items-center">
                       <button
                         onClick={() => addBlock(type)}
-                        className="px-3 py-1 text-sm border  hover:bg-muted"
+                        className="px-3 py-1 text-body border  hover:bg-muted"
                       >
                         {type}
                       </button>
@@ -161,7 +161,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
                         onChange={(e) =>
                           setNewTableColumns(Number(e.target.value))
                         }
-                        className="bg-card text-sm px-3 py-1  w-16 appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="bg-card text-body px-3 py-1  w-16 appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                     </div>
                   );
@@ -172,7 +172,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
                     <div key={type} className="flex items-center ">
                       <button
                         onClick={() => addBlock(type)}
-                        className="px-3 py-1 text-sm border  hover:bg-muted"
+                        className="px-3 py-1 text-body border  hover:bg-muted"
                       >
                         {type}
                       </button>
@@ -183,7 +183,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
                         onChange={(e) =>
                           setNewGridColumns(Number(e.target.value))
                         }
-                        className="bg-card text-sm px-3 py-1  w-16 appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
+                        className="bg-card text-body px-3 py-1  w-16 appearance-none focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                     </div>
                   );
@@ -193,7 +193,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
                   <button
                     key={type}
                     onClick={() => addBlock(type)}
-                    className="px-3 py-1 text-sm border  hover:bg-muted"
+                    className="px-3 py-1 text-body border  hover:bg-muted"
                   >
                     {type}
                   </button>
@@ -202,7 +202,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
 
               <button
                 onClick={() => setShowPicker(false)}
-                className="px-3 py-1 text-sm text-red-500"
+                className="px-3 py-1 text-body text-red-500"
               >
                 Cancel
               </button>

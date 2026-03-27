@@ -7,6 +7,7 @@ import ProposalSection from "./proposalSection/ProposalSection";
 import ProposalDrawer from "./ProposalDrawer";
 import ProposalSidebar from "./ProposalSidebar";
 import RequirementDisplayer from "./RequirementDisplayer";
+import Footer from "../Footer";
 
 export default function ProposalPage({ proposal, dbUser }) {
   const [openSections, setOpenSections] = useState<string[]>([]);
@@ -209,6 +210,7 @@ export default function ProposalPage({ proposal, dbUser }) {
               <DraftPlate proposal={localProposal} setStage={setStage} />
             </div>
           )}
+          <Footer mode={"relative"} />
         </div>
       </div>
     </div>

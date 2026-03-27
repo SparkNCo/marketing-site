@@ -12,6 +12,7 @@ import type {
   DiscoveryFormProps,
   DiscoveryFormState,
 } from "./discorveryForm/DiscoveryFormProps";
+import { FeaturesCollectionMobile } from "./forms/FeaturesCollectionMobile";
 
 export default function DiscoveryForm({
   proposal,

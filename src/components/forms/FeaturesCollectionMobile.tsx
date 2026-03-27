@@ -1,30 +1,12 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import { Button } from "../../components/ui/button";
-import { Plus, Loader2 } from "lucide-react";
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  type DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { Plus, Loader2, Trash } from "lucide-react";
+import { toast } from "react-hot-toast";
 import { LoadingProposal } from "../proposals/MissingPasscode";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { toast } from "react-hot-toast";
 import type { Proposal } from "../proposals/Proposal";
 import { SortableFeatureCard, type Feature } from "./SortableFeatureCard";
 import type { DiscoveryFormState } from "../discorveryForm/DiscoveryFormProps";
-
-export const inputBaseClass =
-  "mt-3 h-16 lg:h-10 text-body lg:text-body placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
 
 function generateUUID() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -42,20 +24,13 @@ type FeaturesCollectionProps = Readonly<{
   discoveryState: DiscoveryFormState;
 }>;
 
-export function FeaturesCollection({
+export function FeaturesCollectionMobile({
   proposal,
   submissionId,
   setPageMode,
   discoveryState,
 }: FeaturesCollectionProps) {
   const [features, setFeatures] = useState<Feature[]>([]);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
 
   /* --------------------------------
    * Load features
@@ -65,17 +40,19 @@ export function FeaturesCollection({
     enabled: !!submissionId,
     queryFn: async () => {
       const response = await fetch(
-        //`http://127.0.0.1:54321/functions/v1/features/?submission_id=${submissionId}`,
         `${import.meta.env.PUBLIC_ENDPOINT}/features/?submission_id=${submissionId}`,
       );
-
-      if (!response.ok) {
-        throw new Error("Failed to load features");
-      }
-
+      if (!response.ok) throw new Error("Failed to load features");
       return response.json();
     },
   });
+
+  // populate local state when data arrives
+  useEffect(() => {
+    if (featuresQuery.data) {
+      setFeatures(featuresQuery.data);
+    }
+  }, [featuresQuery.data]);
 
   /* --------------------------------
    * Save features
@@ -101,28 +78,19 @@ export function FeaturesCollection({
           }),
         },
       );
-
-      if (!response.ok) {
-        throw new Error("Failed to save features");
-      }
+      if (!response.ok) throw new Error("Failed to save features");
       setPageMode("waiting");
       return response.json();
     },
-    onSuccess: () => {
-      setPageMode("waiting");
-    },
-    onError: (error) => {
-      console.error("[v0] Error saving features:", error);
-    },
+    onSuccess: () => setPageMode("waiting"),
+    onError: (error) => console.error("[v0] Error saving features:", error),
   });
 
   const handleSaveFeatures = () => {
-    console.log(features.length);
     if (features.length === 0) {
       toast.error("You must add at least one feature");
       return;
     }
-
     saveFeaturesMutation.mutate();
   };
 
@@ -149,82 +117,52 @@ export function FeaturesCollection({
   };
 
   const deleteFeature = (id: string) => {
-    const filtered = features.filter((f) => f.id !== id);
-    const reordered = filtered.map((f, idx) => ({ ...f, sort_order: idx }));
-    setFeatures(reordered);
+    setFeatures(features.filter((f) => f.id !== id));
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-
-    if (over && active.id !== over.id) {
-      setFeatures((items) => {
-        const oldIndex = items.findIndex((i) => i.id === active.id);
-        const newIndex = items.findIndex((i) => i.id === over.id);
-        const reordered = arrayMove(items, oldIndex, newIndex);
-        return reordered.map((f, idx) => ({ ...f, sort_order: idx }));
-      });
-    }
-  };
-
-  const isLoading = featuresQuery.isLoading;
+  if (featuresQuery.isLoading) return <LoadingProposal />;
   const isSaving = saveFeaturesMutation.isPending;
-  if (isLoading) {
-    return <LoadingProposal />;
-  }
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-0 sm:px-6 lg:px-0  mt-0  space-y-6 font-body ">
+    <div className="mx-auto w-full max-w-4xl px-4 mt-4 space-y-6 font-body">
       {/* Header */}
-      <div className="text-center md:px-2">
+      <div className="text-center">
         <p className="text-heading2 font-bold text-primary">
           Add all features you are interested in implementing in your project
         </p>
       </div>
 
       {/* Feature List */}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={features.map((f) => f.id)}
-          strategy={verticalListSortingStrategy}
-        >
-          <div className="space-y-4 sm:space-y-5 w-full">
-            {features.map((feature) => (
-              <SortableFeatureCard
-                key={feature.id}
-                feature={feature}
-                onUpdate={updateFeature}
-                onDelete={deleteFeature}
-              />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+      <div className="space-y-4 sm:space-y-5 w-full">
+        {features.map((feature) => (
+          <SortableFeatureCard
+            key={feature.id}
+            feature={feature}
+            onUpdate={updateFeature}
+            onDelete={deleteFeature}
+          />
+        ))}
+      </div>
 
       {/* Actions */}
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center">
         <Button
           variant="outline"
-          onClick={() => addFeature()}
-          className=" w-full md:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm text-foreground hover:text-primary border-2 bg-transparent "
+          onClick={addFeature}
+          className="w-full md:w-fit px-4 py-6 text-xs sm:text-sm text-foreground hover:text-primary border-2 bg-transparent flex items-center justify-center"
         >
-          <Plus className="mr-2 h-3 w-3 sm:h-4 sm:w-4 " />
+          <Plus className="mr-2 h-4 w-4" />
           Add Feature
         </Button>
 
         <Button
           onClick={handleSaveFeatures}
           disabled={isSaving}
-          title="Complete at least one feature before saving"
-          className="w-full md:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm font-bold"
+          className="w-full md:w-fit px-4 py-6 text-xs sm:text-sm font-bold"
         >
           {isSaving ? (
             <span className="flex items-center justify-center">
-              <Loader2 className="mr-2 h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Saving...
             </span>
           ) : (

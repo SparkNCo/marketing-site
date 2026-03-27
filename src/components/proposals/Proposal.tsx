@@ -174,7 +174,6 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
               role: dbUser?.role,
             }}
           />
-          <Footer mode={"fixxed"} />
         </div>
       )}
 
@@ -198,7 +197,6 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
                     role: dbUser?.role,
                   }}
                 />
-                <Footer mode={"bottom"} />
               </div>
             ) : (
               <div className="min-h-[90vh]">
