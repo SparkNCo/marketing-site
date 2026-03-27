@@ -75,7 +75,6 @@ export function FeaturesCollection({
   const saveFeaturesMutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(
-        //  "http://127.0.0.1:54321/functions/v1/features/",
         `${import.meta.env.PUBLIC_ENDPOINT}/features`,
         {
           method: "POST",
@@ -167,10 +166,10 @@ export function FeaturesCollection({
   }
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-0 sm:px-6 lg:px-0 py-6 sm:py-8 mt-12 sm:mt-16 md:mt-20 space-y-6 font-body ">
+    <div className="mx-auto w-full max-w-4xl px-0 sm:px-6 lg:px-0  mt-0  space-y-6 font-body">
       {/* Header */}
       <div className="text-center md:px-2">
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-foreground font-title leading-snug">
+        <p className="text-heading2 font-bold text-primary">
           Add all features you are interested in implementing in your project
         </p>
       </div>
@@ -199,13 +198,13 @@ export function FeaturesCollection({
       </DndContext>
 
       {/* Actions */}
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center">
         <Button
           variant="outline"
           onClick={addFeature}
-          className="w-full sm:flex-1 py-4 sm:py-5 md:py-6 text-sm sm:text-base text-foreground hover:text-primary border-2 bg-transparent"
+          className=" w-full md:w-fit px-4 sm:px-5 py-2 sm:py-3 text-xs sm:text-sm text-foreground hover:text-primary border-2 bg-transparent"
         >
-          <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
+          <Plus className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
           Add Feature
         </Button>
 
@@ -213,11 +212,11 @@ export function FeaturesCollection({
           onClick={handleSaveFeatures}
           disabled={isSaving}
           title="Complete at least one feature before saving"
-          className="w-full sm:flex-1 py-4 sm:py-5 md:py-6 text-sm sm:text-base font-bold"
+          className="w-full md:w-fit px-4 sm:px-5 py-2 sm:py-3 text-xs sm:text-sm font-bold"
         >
           {isSaving ? (
             <span className="flex items-center justify-center">
-              <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+              <Loader2 className="mr-2 h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
               Saving...
             </span>
           ) : (

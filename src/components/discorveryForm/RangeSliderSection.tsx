@@ -23,7 +23,7 @@ export function RangeSliderSection({
 }: Props) {
   return (
     <div>
-      <h3 className="mb-2 text-lg font-bold text-primary">{title}</h3>
+      <h3 className="mb-2 text-heading2 font-bold text-primary">{title}</h3>
 
       <Slider
         min={min}
@@ -34,11 +34,11 @@ export function RangeSliderSection({
       />
 
       <div className="mt-4 flex items-center justify-between">
-        <span className="text-xl font-bold text-primary">
+        <span className="text-body font-bold text-primary">
           {format(value[0])}
         </span>
         <span className="text-foreground">to</span>
-        <span className="text-xl font-bold text-primary">
+        <span className="text-body font-bold text-primary">
           {format(value[1])}
         </span>
       </div>

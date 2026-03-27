@@ -65,11 +65,11 @@ export default function DiscoveryForm({
   };
 
   return (
-    <section className="mt-16 md:mt-24 lg:mt-28 mb-12 md:mb-16 px-0 sm:px-6 lg:px-8 ">
+    <section className="mt-16 md:mt-24 lg:mt-28 mb-12 md:mb-16 px-0 sm:px-6 lg:px-8  ">
       {/* Container */}
-      <div className="max-w-5xl mx-auto mt-32">
+      <div className="max-w-5xl mx-auto mt-32 ">
         {/* Header */}
-        <div className="mb-6 md:mb-8 flex items-center gap-3 justify-center mt-3">
+        <div className="mb-6 md:mb-8 flex items-center gap-3 justify-center mt-3 ">
           <FileText className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 text-primary" />
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
             Discovery

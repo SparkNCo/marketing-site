@@ -38,7 +38,7 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
 
   return (
     <div>
-      <h3 className="mb-2 text-lg font-bold text-primary">{title}</h3>
+      <h3 className="mb-2 text-heading2 font-bold text-primary">{title}</h3>
 
       <div className="relative">
         <AIAnalyzedTextarea
@@ -59,7 +59,7 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
       </div>
 
       {currentTip && (
-        <div className="flex items-start gap-2 text-sm text-foreground mt-3">
+        <div className="flex items-start gap-2 text-body text-foreground mt-3">
           <Check className="mt-0.5 h-4 w-4 text-gray-400" />
           <span>{currentTip.text}</span>
         </div>
