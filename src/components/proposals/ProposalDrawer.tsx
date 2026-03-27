@@ -20,7 +20,7 @@ export default function ProposalDrawer({
   return (
     <>
       {/* Trigger */}
-      <div className="lg:hidden px-4 py-3 border-b border-border flex justify-between items-center ">
+      <div className="lg:hidden px-4 py-3 border-b border-border flex justify-between items-center">
         <button onClick={() => setOpen(true)} className="p-2 rounded-md border">
           <Menu className="h-4 w-4" />
         </button>

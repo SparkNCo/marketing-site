@@ -32,11 +32,6 @@ export default function LandingShell({ user, location }: Props) {
     setMode("form");
   };
 
-  /*   const goBack = () => {
-    setTransitionType("slide");
-    setMode("index");
-  }; */
-
   const variants = {
     hidden: (type: TransitionType) => {
       if (type === "fade") {

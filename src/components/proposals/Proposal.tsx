@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-
 import type { ProposalIslandProps } from "../utils/interfaces";
 import { useApp } from "../../lib/AppProvider";
 import {
@@ -12,14 +11,6 @@ import {
 } from "./MissingPasscode";
 import DiscoveryForm from "../DiscoveryForm";
 import ProposalPage from "./1-ProposalPage";
-
-type DiscoveryFormState = {
-  lead_id: string;
-  requirementOverview: string;
-  timelineRange: [number, number];
-  budgetRange: [number, number];
-  currentState: string;
-};
 
 type PageMode = "features" | "loading" | "view" | "draft" | "waiting";
 
@@ -49,7 +40,6 @@ export type Proposal = {
   signature_url: string;
   signed_at: string;
 };
-
 
 const slideVariants = {
   initial: { opacity: 0, x: 80 },

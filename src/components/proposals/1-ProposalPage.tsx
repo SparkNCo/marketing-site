@@ -162,21 +162,23 @@ export default function ProposalPage({ proposal, dbUser }) {
   if (!localProposal) return null;
 
   return (
-    <div className="lg:flex mt-32 w-full bg-background">
+    <div className="lg:flex w-full bg-background">
       {/* Sidebar */}
-      <div className="w-60 pr-6 hidden lg:block text-foreground ">
+      <div className="w-80 hidden lg:block text-foreground  ">
         <ProposalSidebar sections={sections} onSelect={scrollToSection} />
       </div>
       {/* Drawer */}
-      <div className="lg:hidden text-foreground w-full">
+      <div className="lg:hidden text-foreground w-full ">
         <ProposalDrawer
           sections={Object.keys(sections)}
           onSelect={scrollToSection}
         />
       </div>
-
       {/* Main content */}
-      <div className="bg-background w-full ">
+      <div
+        className="bg-background w-full 
+"
+      >
         <div className="flex-1 bg-card w-[90%] lg:w-[80%] mx-auto ">
           {Object.entries(sections).map(([sectionKey, sectionData]) => (
             <div
