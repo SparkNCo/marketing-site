@@ -1,14 +1,6 @@
-import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { Button } from "../../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../../components/ui/card";
-import { Input } from "../../components/ui/input";
-import { Textarea } from "../../components/ui/textarea";
-import { Plus, GripVertical, Trash2, Loader2 } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import {
   DndContext,
   closestCenter,
@@ -23,130 +15,16 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-  useSortable,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { LoadingProposal } from "../proposals/MissingPasscode";
-import type { DiscoveryFormState } from "../DiscoveryForm";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import type { Proposal } from "../proposals/Proposal";
+import { SortableFeatureCard, type Feature } from "./SortableFeatureCard";
+import type { DiscoveryFormState } from "../discorveryForm/DiscoveryFormProps";
 
 export const inputBaseClass =
-  "mt-3 h-16 lg:h-10 text-4xl lg:text-sm placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
-
-type Feature = Readonly<{
-  id: string;
-  title: string;
-  purpose: string;
-  description: string;
-  integrations: string;
-  tech_constraints: string;
-  sort_order: number;
-}>;
-
-type SortableFeatureCardProps = Readonly<{
-  feature: Feature;
-  onUpdate: (id: string, field: keyof Feature, value: string) => void;
-  onDelete: (id: string) => void;
-}>;
-
-function SortableFeatureCard({
-  feature,
-  onUpdate,
-  onDelete,
-}: SortableFeatureCardProps) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: feature.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
-  return (
-    <Card
-      ref={setNodeRef}
-      style={style}
-      className="relative font-body font-title"
-    >
-      <CardHeader className="flex flex-row items-center gap-4 ">
-        <button
-          {...attributes}
-          {...listeners}
-          className="cursor-grab touch-none text-slate-400 hover:text-slate-600 active:cursor-grabbing"
-        >
-          <GripVertical className="h-5 w-5" />
-        </button>
-
-        <CardTitle className="flex-1 text-lg font-semibold text-foreground">
-          Feature #{feature.sort_order + 1}
-        </CardTitle>
-
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => onDelete(feature.id)}
-          className="text-slate-400 hover:text-red-600"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </CardHeader>
-
-      <CardContent className="space-y-4">
-        <Input
-          id={`title-${feature.id}`}
-          value={feature.title}
-          onChange={(e) => onUpdate(feature.id, "title", e.target.value)}
-          placeholder="Feature name"
-          className={inputBaseClass}
-        />
-
-        {/* <Input
-          id={`purpose-${feature.id}`}
-          value={feature.purpose}
-          onChange={(e) => onUpdate(feature.id, "purpose", e.target.value)}
-          placeholder="What problem does this solve?"
-          className={inputBaseClass}
-        /> */}
-
-        <Textarea
-          id={`description-${feature.id}`}
-          value={feature.description}
-          onChange={(e) => onUpdate(feature.id, "description", e.target.value)}
-          placeholder="Detailed description of the feature"
-          rows={3}
-          className="mt-3 min-h-48 resize-none  border-input bg-secondary p-4 pb-8 text-body focus:outline-none focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body"
-        />
-
-        {/*  <Input
-          id={`integrations-${feature.id}`}
-          value={feature.integrations}
-          onChange={(e) => onUpdate(feature.id, "integrations", e.target.value)}
-          placeholder="Third-party services needed"
-          className={inputBaseClass}
-        />
-
-        <Input
-          id={`tech-${feature.id}`}
-          value={feature.tech_constraints}
-          onChange={(e) =>
-            onUpdate(feature.id, "tech_constraints", e.target.value)
-          }
-          placeholder="Technical requirements or limitations"
-          className={inputBaseClass}
-        /> */}
-      </CardContent>
-    </Card>
-  );
-}
+  "mt-3 h-16 lg:h-10 text-body lg:text-body placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
 
 type FeaturesCollectionProps = Readonly<{
   proposal: Proposal | null;
@@ -162,7 +40,6 @@ export function FeaturesCollection({
   setPageMode,
   discoveryState,
 }: FeaturesCollectionProps) {
-  // const [proposalId, setProposalId] = useState<Feature[]>([]);
   const [features, setFeatures] = useState<Feature[]>([]);
 
   const sensors = useSensors(
@@ -290,15 +167,15 @@ export function FeaturesCollection({
   }
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 w-full  font-body py-8 mt-20 ">
-      <div className="mb-8 text-center">
-        {/* <h1 className="mb-3 text-4xl md:text-4xl font-bold  tracking-tight text-foreground ">
-          Tell us about your Project
-        </h1> */}
-        <p className="text-2xl text-foreground font-title">
-          Add All features you are interested to implement in your Project
+    <div className="mx-auto w-full max-w-4xl px-0 sm:px-6 lg:px-0 py-6 sm:py-8 mt-12 sm:mt-16 md:mt-20 space-y-6 font-body ">
+      {/* Header */}
+      <div className="text-center md:px-2">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-foreground font-title leading-snug">
+          Add all features you are interested in implementing in your project
         </p>
       </div>
+
+      {/* Feature List */}
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -308,38 +185,41 @@ export function FeaturesCollection({
           items={features.map((f) => f.id)}
           strategy={verticalListSortingStrategy}
         >
-          {features.map((feature) => (
-            <SortableFeatureCard
-              key={feature.id}
-              feature={feature}
-              onUpdate={updateFeature}
-              onDelete={deleteFeature}
-            />
-          ))}
+          <div className="space-y-4 sm:space-y-5 ">
+            {features.map((feature) => (
+              <SortableFeatureCard
+                key={feature.id}
+                feature={feature}
+                onUpdate={updateFeature}
+                onDelete={deleteFeature}
+              />
+            ))}
+          </div>
         </SortableContext>
       </DndContext>
 
-      <div className="flex gap-4">
+      {/* Actions */}
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
         <Button
           variant="outline"
           onClick={addFeature}
-          className="flex-1 bg-transparent py-6 text-foreground hover:text-primary border-2 "
+          className="w-full sm:flex-1 py-4 sm:py-5 md:py-6 text-sm sm:text-base text-foreground hover:text-primary border-2 bg-transparent"
         >
-          <Plus className="mr-2" />
+          <Plus className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
           Add Feature
         </Button>
 
         <Button
           onClick={handleSaveFeatures}
           disabled={isSaving}
-          title={"Complete at least one feature before saving"}
-          className="flex-1 py-6 font-bold"
+          title="Complete at least one feature before saving"
+          className="w-full sm:flex-1 py-4 sm:py-5 md:py-6 text-sm sm:text-base font-bold"
         >
           {isSaving ? (
-            <>
-              <Loader2 className="mr-2 animate-spin" />
+            <span className="flex items-center justify-center">
+              <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
               Saving...
-            </>
+            </span>
           ) : (
             "Save All Features"
           )}

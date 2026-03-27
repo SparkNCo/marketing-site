@@ -1,32 +1,17 @@
 "use client";
 
-import { Check, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import { Card } from "./ui/card";
 import { FeaturesCollection } from "./forms/features-collection";
-import { Textarea } from "./ui/textarea";
 import { useEffect, useState } from "react";
-import { Slider } from "./ui/slider2";
-import { cn } from "../../lib/utils";
-import type { Proposal } from "./proposals/Proposal";
-import { AIAnalyzedTextarea } from "./forms/AIAnalyzedTextarea";
 import type { AIResponse } from "./forms/product-idea-form";
 
-export type DiscoveryFormState = {
-  description: string;
-  estimateTime_min: number;
-  estimateTime_max: number;
-  budget_min: number;
-  budget_max: number;
-  formatted_date: string;
-  currentState: string;
-};
-
-export type DiscoveryFormProps = {
-  proposal: Proposal | null;
-  passcode: string;
-  pageMode: PageMode;
-  setPageMode: (mode: PageMode) => void;
-};
+import { RangeSliderSection } from "./discorveryForm/RangeSliderSection";
+import { AnalyzedTextareaSection } from "./discorveryForm/AnalyzedTextareaSection";
+import type {
+  DiscoveryFormProps,
+  DiscoveryFormState,
+} from "./discorveryForm/DiscoveryFormProps";
 
 export default function DiscoveryForm({
   proposal,
@@ -34,21 +19,22 @@ export default function DiscoveryForm({
   pageMode,
   setPageMode,
 }: DiscoveryFormProps) {
-  const isEditable = true;
-
   const [state, setState] = useState<DiscoveryFormState | null>(null);
-  const [analysis, setAnalysis] = useState({
+
+  const [analysis, setAnalysis] = useState<AIResponse>({
     audience: false,
     problem: false,
     idea: false,
     stage: false,
   });
+
   const [currentStateAnalysis, setCurrentStateAnalysis] = useState({
     user: false,
     capability: false,
     reason: false,
     limitations: false,
   });
+
   useEffect(() => {
     if (!proposal?.lead) return;
 
@@ -65,214 +51,104 @@ export default function DiscoveryForm({
 
   if (!state) return null;
 
-  const {
-    description,
-    estimateTime_min,
-    estimateTime_max,
-    budget_min,
-    budget_max,
-    formatted_date,
-    currentState,
-  } = state;
-
-  const formatReadableDate = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = date
-      .toLocaleString("en-US", { month: "short" })
-      .toUpperCase();
-    const year = String(date.getFullYear());
-    return `${day} - ${month} - ${year}`;
-  };
-
   const updateField =
     <K extends keyof DiscoveryFormState>(key: K) =>
     (value: DiscoveryFormState[K]) => {
       setState((prev) => (prev ? { ...prev, [key]: value } : prev));
     };
 
-  const tips = [
-    { key: "audience", text: "Who is your target audience?" },
-    { key: "problem", text: "What problem are you solving?" },
-    { key: "idea", text: "Describe what your product does." },
-    { key: "stage", text: "What stage is your business in?" },
-  ];
-
-  const currentStateTips = [
-    { key: "user", text: "Who will use the system?" },
-    { key: "capability", text: "What capabilities already exist?" },
-    { key: "reason", text: "Why are you building this now?" },
-    {
-      key: "limitations",
-      text: "Are there technical or business limitations?",
-    },
-  ];
-
-  const currentTip =
-    tips.find((tip) => !analysis[tip.key as keyof AIResponse]) ?? null;
-
-  // description progress bar
-
-  const passedCount = Object.values(analysis).filter(Boolean).length;
-  const progress = Math.round((passedCount / 4) * 100);
-  const canProceed = passedCount >= 2;
-  // current state progress bar
-  const currentStatePassed =
-    Object.values(currentStateAnalysis).filter(Boolean).length;
-  const currentStateProgress = Math.round((currentStatePassed / 4) * 100);
-  const currentStateTip =
-    currentStateTips.find(
-      (tip) =>
-        !currentStateAnalysis[tip.key as keyof typeof currentStateAnalysis],
-    ) ?? null;
+  const formatReadableDate = (isoDate: string) => {
+    const date = new Date(isoDate);
+    return `${String(date.getDate()).padStart(2, "0")} - ${date
+      .toLocaleString("en-US", { month: "short" })
+      .toUpperCase()} - ${date.getFullYear()}`;
+  };
 
   return (
-    <section className="mt-28 mb-16 w-[80vw] mx-auto p-8">
-      {/* Header */}
-      <div className="mb-8 mt-10 flex items-center gap-3 mx-auto w-fit">
-        <FileText className="h-12 w-12 text-primary" />
-        <h2 className="text-4xl md:text-4xl font-bold tracking-tight text-foreground">
-          Discovery
-        </h2>
-      </div>
+    <section className="mt-16 md:mt-24 lg:mt-28 mb-12 md:mb-16 px-0 sm:px-6 lg:px-8 ">
+      {/* Container */}
+      <div className="max-w-5xl mx-auto mt-32">
+        {/* Header */}
+        <div className="mb-6 md:mb-8 flex items-center gap-3 justify-center mt-3">
+          <FileText className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 text-primary" />
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
+            Discovery
+          </h2>
+        </div>
 
-      {/* Subtitle */}
-      <p className="text-2xl text-foreground font-title mb-8 mx-auto w-fit">
-        Here's an outline of what we'll be discussing on our call at{" "}
-        <span className="font-medium text-primary">
-          {formatReadableDate(formatted_date)}
-        </span>
-        . Please add as much detail as you can before we meet. See you soon!
-      </p>
+        {/* Subtitle */}
+        <p className="text-sm sm:text-base md:text-lg text-center text-foreground mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
+          Here's an outline of what we'll be discussing on our call at{" "}
+          <span className="text-primary font-bold">
+            {formatReadableDate(state.formatted_date)}
+          </span>
+          . Please add as much detail as you can before we meet. See you soon!
+        </p>
 
-      {/* Content */}
-      <Card className="border-border bg-background p-8">
-        <div className="space-y-8 text-2xl font-title">
-          {/* Requirement Overview */}
-          <div>
-            <h3 className="mb-2 text-lg font-bold text-primary">
-              Requirement Overview
-            </h3>
+        {/* Card */}
+        <Card className="p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 ">
+          {/* Description */}
+          <AnalyzedTextareaSection
+            title="Requirement Overview"
+            value={state.description}
+            onChange={updateField("description")}
+            endpoint="/debounce?type=idea"
+            analysis={analysis}
+            setAnalysis={setAnalysis}
+            tips={[
+              { key: "audience", text: "Who is your target audience?" },
+              { key: "problem", text: "What problem are you solving?" },
+              { key: "idea", text: "Describe what your product does." },
+              { key: "stage", text: "What stage is your business in?" },
+            ]}
+            placeholder="Describe the main requirements..."
+          />
 
-            <AIAnalyzedTextarea
-              value={description}
-              onChange={(value) => updateField("description")(value)}
-              endpoint="/debounce?type=idea"
-              onAnalysis={setAnalysis}
-              placeholder="Describe the main requirements..."
-              wait={2000}
-            />
-            {/* Progress bar */}
-            <div className="pointer-events-none absolute left-2 right-2 bottom-2 h-1.5 rounded-full bg-muted overflow-hidden">
-              <div
-                className="h-full bg-primary transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            {currentTip && (
-              <div className="flex items-start gap-2 text-sm text-foreground">
-                <Check className="mt-0.5 h-4 w-4 text-gray-400" />
-                <span>{currentTip.text}</span>
-              </div>
-            )}
-          </div>
-          {/* <Textarea
-              value={description}
-              onChange={(e) => updateField("description")(e.target.value)}
-              disabled={!isEditable}
-              className={cn(
-                "mt-3 min-h-48  bg-secondary p-4 pb-8 placeholder:text-body text-body focus:ring-2 focus:ring-primary",
-                !isEditable && "opacity-60 cursor-not-allowed",
-              )}
-              placeholder="Describe the main requirements..."
-            /> */}
-          {/* Timeline */}
-          <div>
-            <h3 className="mb-2 text-lg font-bold text-primary">Timeline</h3>
-
-            <Slider
+          {/* Timeline + Budget (GRID on desktop) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+            <RangeSliderSection
+              title="Timeline"
               min={1}
               max={24}
               step={1}
-              value={[estimateTime_min, estimateTime_max]}
-              disabled={!isEditable}
-              onValueChange={(value) => {
-                updateField("estimateTime_min")(value[0]);
-                updateField("estimateTime_max")(value[1]);
+              value={[state.estimateTime_min, state.estimateTime_max]}
+              onChange={([min, max]) => {
+                updateField("estimateTime_min")(min);
+                updateField("estimateTime_max")(max);
               }}
+              format={(v) => `${v} Months`}
             />
 
-            <div className="mt-4 flex items-center justify-between">
-              <span className="text-xl font-bold text-primary">
-                {estimateTime_min} Months
-              </span>
-              <span className="text-foreground">to</span>
-              <span className="text-xl font-bold text-primary">
-                {estimateTime_max} Months
-              </span>
-            </div>
-          </div>
-
-          {/* Budget */}
-          <div>
-            <h3 className="mb-2 text-lg font-bold text-primary">Budget</h3>
-
-            <Slider
+            <RangeSliderSection
+              title="Budget"
               min={1000}
               max={50000}
               step={5000}
-              value={[budget_min, budget_max]}
-              disabled={!isEditable}
-              onValueChange={(value) => {
-                updateField("budget_min")(value[0]);
-                updateField("budget_max")(value[1]);
+              value={[state.budget_min, state.budget_max]}
+              onChange={([min, max]) => {
+                updateField("budget_min")(min);
+                updateField("budget_max")(max);
               }}
+              format={(v) => `$${v.toLocaleString()}`}
             />
-
-            <div className="mt-4 flex items-center justify-between">
-              <span className="text-xl font-bold text-primary">
-                ${budget_min.toLocaleString()}
-              </span>
-              <span className="text-foreground">to</span>
-              <span className="text-xl font-bold text-primary">
-                ${budget_max.toLocaleString()}
-              </span>
-            </div>
           </div>
 
-          <div>
-            <h3 className="mb-2 text-lg font-bold text-primary">
-              Current State
-            </h3>
-
-            {/* Textarea wrapper */}
-            <div className="relative">
-              <AIAnalyzedTextarea
-                value={currentState}
-                onChange={(value) => updateField("currentState")(value)}
-                endpoint="/debounce?type=current-state"
-                onAnalysis={setCurrentStateAnalysis}
-                placeholder="Current resources, tools, and any restrictions..."
-                wait={2000}
-              />
-
-              {/* Progress bar now attached ONLY to textarea */}
-              <div className="pointer-events-none absolute left-2 right-2 bottom-2 h-1.5 rounded-full bg-muted overflow-hidden">
-                <div
-                  className="h-full bg-primary transition-all duration-300"
-                  style={{ width: `${currentStateProgress}%` }}
-                />
-              </div>
-            </div>
-
-            {/* Tips now OUTSIDE that relative container */}
-            {currentStateTip && (
-              <div className="flex items-start gap-2 text-sm text-foreground mt-3">
-                <Check className="mt-0.5 h-4 w-4 text-gray-400" />
-                <span>{currentStateTip.text}</span>
-              </div>
-            )}
-          </div>
+          {/* Current State */}
+          <AnalyzedTextareaSection
+            title="Current State"
+            value={state.currentState}
+            onChange={updateField("currentState")}
+            endpoint="/debounce?type=current-state"
+            analysis={currentStateAnalysis}
+            setAnalysis={setCurrentStateAnalysis}
+            tips={[
+              { key: "user", text: "Who will use the system?" },
+              { key: "capability", text: "What capabilities exist?" },
+              { key: "reason", text: "Why now?" },
+              { key: "limitations", text: "Any limitations?" },
+            ]}
+            placeholder="Current resources, tools..."
+          />
 
           {/* Features */}
           <FeaturesCollection
@@ -282,8 +158,8 @@ export default function DiscoveryForm({
             setPageMode={setPageMode}
             discoveryState={state}
           />
-        </div>
-      </Card>
+        </Card>
+      </div>
     </section>
   );
 }

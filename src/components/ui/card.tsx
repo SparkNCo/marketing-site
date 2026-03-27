@@ -12,7 +12,7 @@ function Card({ className, rounded = true, ...props }: CardProps) {
       className={cn(
         "bg-background text-card-foreground flex flex-col gap-6 py-6 shadow-sm",
         rounded && "rounded-xl",
-        className
+        className,
       )}
       {...props}
     />
@@ -66,13 +66,7 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-content"
-      className={cn("px-6", className)}
-      {...props}
-    />
-  );
+  return <div data-slot="card-content" className={cn(className)} {...props} />;
 }
 
 function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
