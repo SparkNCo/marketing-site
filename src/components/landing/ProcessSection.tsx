@@ -152,7 +152,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
 
           {/* RIGHT SIDE */}
           <div className="lg:col-span-8 relative flex flex-col md:min-h-[200vh] text-foreground w-full ">
-            <div className="sticky top-0 h-screen flex flex-col justify-center lg:justify-end 2xl:justify-center">
+            <div className="sticky top-0 h-screen flex flex-col justify-end 2xl:justify-center">
               <div
                 className="
                   flex flex-col 
@@ -163,11 +163,11 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
                   items-center lg:items-start 
                 "
                   >
-                <div className="w-full md:w-3/4 font-semibold text-heading2 min-h-[2.5rem] flex items-end mb-6">
+                <div className="w-full font-semibold text-heading2 min-h-[2.5rem] flex items-end mb-6">
                   {currentStep?.title}
                 </div>
 
-                <p className="text-body w-full md:w-3/4 min-h-[6rem] md:min-h-[14rem] lg:min-h-[8rem]">
+                <p className="text-body w-full min-h-[6rem] md:min-h-[14rem] lg:min-h-[8rem]">
                   {currentStep?.description}
                 </p>
 

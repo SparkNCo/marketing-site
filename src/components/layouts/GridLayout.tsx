@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+
 interface Square {
   top?: number;
   bottom?: number;
@@ -49,8 +51,26 @@ export default function SquaresGridLayout({
   indexComponent = 5,
   className,
 }: Props) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setInView(true);
+      },
+      { threshold: 0.1 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   return (
     <div
+      ref={rootRef}
       key={"SquareLayout"}
       id={"SquareLayoutID"}
       className={`relative overflow-hidden m-[${margin}] ${className}`}
@@ -113,8 +133,10 @@ export default function SquaresGridLayout({
                   className="absolute inset-0"
                   style={{
                     backgroundColor: sq.baseColor,
-                    animation: `gridLayoutSquareFadeToSecond ${fadeDuration}s ease forwards`,
-                    animationDelay: `${fadeDelay}s`,
+                    ...(inView && {
+                      animation: `gridLayoutSquareFadeToSecond ${fadeDuration}s ease forwards`,
+                      animationDelay: `${fadeDelay}s`,
+                    }),
                   }}
                 />
               </div>
