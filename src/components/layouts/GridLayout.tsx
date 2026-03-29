@@ -9,8 +9,10 @@ interface Square {
   width: number;
   height: number;
 
-  color?: string;
-  color2?: string;
+  /** Final color; also the underlay when `baseColor` is set. */
+  color: string;
+  /** Optional starting color; when set, fades out to reveal `color`. */
+  baseColor?: string;
 
   zIndex?: number;
 
@@ -49,10 +51,11 @@ export default function SquaresGridLayout({
 }: Props) {
   return (
     <div
-      className={`relative overflow-hidden ${className}`}
+      key={"SquareLayout"}
+      id={"SquareLayoutID"}
+      className={`relative overflow-hidden m-[${margin}] ${className}`}
       style={{
         width,
-        margin,
         background,
       }}
     >
@@ -64,32 +67,71 @@ export default function SquaresGridLayout({
         {children}
       </div>
 
+      <style>{`
+        @keyframes gridLayoutSquareFadeToSecond {
+          from {
+            opacity: 1;
+          }
+          to {
+            opacity: 0;
+          }
+        }
+      `}</style>
+
       {/* SQUARES LAYER */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{ zIndex: indexLayout }}
+        id="SquareSectionSquares"
       >
-        {squares.map((sq, i) => (
-          <div
-            key={i}
-            className="absolute"
-            style={{
-              top: sq.top !== undefined ? sq.top * cellSize : undefined,
-              bottom:
-                sq.bottom !== undefined ? sq.bottom * cellSize : undefined,
+        {squares.map((sq, i) => {
+          const base = {
+            top: sq.top !== undefined ? sq.top * cellSize : undefined,
+            bottom:
+              sq.bottom !== undefined ? sq.bottom * cellSize : undefined,
 
-              left: sq.left !== undefined ? sq.left * cellSize : undefined,
-              right: sq.right !== undefined ? sq.right * cellSize : undefined,
+            left: sq.left !== undefined ? sq.left * cellSize : undefined,
+            right: sq.right !== undefined ? sq.right * cellSize : undefined,
 
-              width: sq.width * cellSize,
-              height: sq.height * cellSize,
+            width: sq.width * cellSize,
+            height: sq.height * cellSize,
 
-              backgroundColor: sq.color ?? "#000",
+            zIndex: sq.zIndex ?? 0,
+          } as const;
 
-              zIndex: sq.zIndex ?? 0,
-            }}
-          />
-        ))}
+          const fadeDuration = sq.duration ?? 0.8;
+          const fadeDelay = sq.colorDelay ?? 0;
+
+          if (sq.baseColor !== undefined) {
+            return (
+              <div key={i} className="absolute" style={base}>
+                <div
+                  className="absolute inset-0"
+                  style={{ backgroundColor: sq.color }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundColor: sq.baseColor,
+                    animation: `gridLayoutSquareFadeToSecond ${fadeDuration}s ease forwards`,
+                    animationDelay: `${fadeDelay}s`,
+                  }}
+                />
+              </div>
+            );
+          }
+
+          return (
+            <div
+              key={i}
+              className="absolute"
+              style={{
+                ...base,
+                backgroundColor: sq.color,
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );

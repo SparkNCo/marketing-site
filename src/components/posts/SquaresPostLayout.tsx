@@ -222,12 +222,12 @@ export default function SquaresPostLayout({
                   top: sq.y,
                   width: sq.width,
                   height: sq.height,
-                  backgroundColor: sq.color,
+                  backgroundColor: sq.baseColor ?? sq.color,
                   zIndex: sq.zIndex ?? 0,
-                  "--color-1": sq.color,
-                  "--color-2": sq.color2 ?? sq.color,
+                  "--color-1": sq.baseColor ?? sq.color,
+                  "--color-2": sq.color,
                   animation: [
-                    sq.color2
+                    sq.baseColor
                       ? `square-color ${sq.duration ?? 3}s ease-in-out ${
                           sq.colorDelay ?? 0
                         }s infinite`

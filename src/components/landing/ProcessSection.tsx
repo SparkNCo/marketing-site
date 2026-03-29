@@ -121,7 +121,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
         </h2>
         <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 w-full ">
           {/* LEFT SIDE */}
-          <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-full max-w-[400px]">
+          <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-full max-w-[400px] pb-[100%]">
             <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] h-[1510px] top-[235px] bottom-[230px]" />
 
             {visibleSteps.map((step, index) => {
@@ -155,14 +155,14 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
             <div className="sticky top-0 h-screen flex flex-col justify-center lg:justify-end 2xl:justify-center">
               <div
                 className="
-              flex flex-col 
-              md:h-[50vh] md:justify-center
-              lg:h-auto lg:justify-end
-              xl:h-[80vh] 2xl:h-[100vh] xl:justify-end
-              w-full
-              items-center lg:items-start 
-            "
-              >
+                  flex flex-col 
+                  md:justify-center
+                  lg:justify-end
+                  xl:justify-end
+                  w-full
+                  items-center lg:items-start 
+                "
+                  >
                 <div className="w-full md:w-3/4 font-semibold text-heading2 min-h-[2.5rem] flex items-end mb-6">
                   {currentStep?.title}
                 </div>

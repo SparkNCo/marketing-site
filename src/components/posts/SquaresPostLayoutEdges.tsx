@@ -19,7 +19,7 @@ export default function SquaresPostLayoutEdges({
     width: string;
     height: string;
     color: string;
-    color2?: string;
+    baseColor?: string;
     zIndex?: number;
     duration?: number;
     colorDelay?: number;
@@ -111,16 +111,16 @@ export default function SquaresPostLayoutEdges({
                   right: sq.right * cellSize,
                   width: sq.width * cellSize,
                   height: sq.height * cellSize,
-                  backgroundColor: sq.color,
+                  backgroundColor: sq.baseColor ?? sq.color,
                   zIndex: sq.zIndex ?? 0,
-                  "--color-1": sq.color,
-                  "--color-2": sq.color2 ?? sq.color,
+                  "--color-1": sq.baseColor ?? sq.color,
+                  "--color-2": sq.color,
                   "--move-top": sq.moveTop ?? "0px",
                   "--move-bottom": sq.moveBottom ?? "0px",
                   "--move-left": sq.moveLeft ?? "0px",
                   "--move-right": sq.moveRight ?? "0px",
                   animation: [
-                    sq.color2
+                    sq.baseColor
                       ? `square-color ${sq.duration ?? 3}s ease-in-out ${sq.colorDelay ?? 0}s`
                       : null,
                     sq.moveTop || sq.moveBottom || sq.moveLeft || sq.moveRight

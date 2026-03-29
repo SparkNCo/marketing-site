@@ -7,6 +7,7 @@ export interface SquareConfig {
   y: string;
   width: string;
   height: string;
+  baseColor?: string;
   color: string;
   zIndex?: number;
   borderRadius?: string;
