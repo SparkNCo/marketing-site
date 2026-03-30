@@ -62,7 +62,7 @@ const Stairs: React.FC<StairsProps> = ({ children, location }) => {
                     animate="enter"
                     exit="exit"
                     variants={expand}
-                    className="relative flex-1 bg-black z-50"
+                    className="relative flex-1 bg-[#111] z-50"
                     style={{ top: 0 }}
                   />
                 ))}

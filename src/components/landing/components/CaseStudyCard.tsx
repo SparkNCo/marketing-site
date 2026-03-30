@@ -33,7 +33,7 @@ export function CaseStudyCard({ study }: { study: CaseStudy }) {
 
       {/* Black block */}
       <div className="absolute right-48 top-16 w-1/5 h-3/5  shadow-lg overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#020202] to-[#000000]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#020202] to-[#111111]" />
       </div>
     </div>
   );

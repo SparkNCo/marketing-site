@@ -106,23 +106,14 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
   const currentStep = visibleSteps[activeStep];
 
   return (
-    <section className="bg-background py-10 relative md:mt-16 lg:mt-32  ">
+    <section className="bg-background py-10 relative">
       <div
-        className="
-      w-full
-      px-4 md:px-6
-      lg:px-12
-      2xl:px-24  
-
-    "
+        className="w-full"
       >
-        <h2 className="text-largeBody md:text-heading1 font-bold text-foreground md:mb-0 lg:mb-0 text-center">
-          The Spark & Co Process
-        </h2>
         <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 w-full ">
           {/* LEFT SIDE */}
-          <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-full max-w-[400px] pb-[100%]">
-            <TimelineLine className="left-[58px] md:left-[33px] lg:left-[33px] h-[1510px] top-[235px] bottom-[230px]" />
+          <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-full max-w-[400px] pb-[100%] mt-[25%] pl-8 mx-auto">
+            <TimelineLine className="left-[58px] md:left-[64px] lg:left-[64px] h-[1510px] top-[235px] bottom-[230px]" />
 
             {visibleSteps.map((step, index) => {
               const isFocused = index === activeStep;
@@ -136,8 +127,8 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
                   className={`grid grid-cols-[40px_40px_1fr] items-center my-10 md:my-20 min-h-[200px] md:min-h-[300px] transition-all duration-300 
               ${
                 isFocused
-                  ? "opacity-100 blur-0 scale-100 translate-x-0 md:-translate-x-[25px]"
-                  : "opacity-90 blur-[2px] scale-[0.8] md:scale-[0.6] -translate-x-[50px] lg:translate-x-[-78px]"
+                  ? "opacity-100 blur-0 scale-100 translate-x-0 md:-translate-x-[26px]"
+                  : "opacity-90 blur-[2px] scale-[0.8] md:scale-[0.6] -translate-x-[45px] lg:translate-x-[-61px] xl:translate-x-[-72px]"
               }`}
                 >
                   <ProcessStepItem
@@ -162,20 +153,23 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
                   w-full
                   items-center lg:items-start 
                 "
-                  >
-                <div className="w-full font-semibold text-heading2 min-h-[2.5rem] flex items-end mb-6">
+              >
+                <h2 className="w-full collapse lg:visible text-largeBody md:text-heading1 font-bold text-foreground md:mb-0 lg:mb-0 pb-2">
+                  The Spark & Co Process
+                </h2>
+                <div className="w-full collapse lg:visible font-semibold text-heading2 flex items-end lg:mb-6">
                   {currentStep?.title}
                 </div>
 
-                <p className="text-body w-full min-h-[6rem] md:min-h-[14rem] lg:min-h-[8rem]">
+                <p className="text-body xl:w-4/5 mb-[5vh] pr-4">
                   {currentStep?.description}
                 </p>
 
-                <div className="relative w-full h-[50vh] md:h-[40vh] lg:h-[60vh] ">
+                <div className="relative h-[50vh] w-full overflow-x-hidden">
                   <img
                     src={currentStep?.image || "/dashboard.png"}
                     alt="Process visual"
-                    className="absolute bottom-0 right-0 w-full max-h-full object-contain "
+                    className="absolute bottom-0 left-0 h-[50vh] w-[100vh] max-w-none object-cover object-left"
                   />
                 </div>
               </div>

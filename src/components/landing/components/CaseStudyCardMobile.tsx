@@ -31,7 +31,7 @@ export function CaseStudyCardMobile({ study }: { study: CaseStudy }) {
       <div className="relative w-full h-40 overflow-hidden">
         {/* Small square (top layer) */}
         <div className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#020202] to-[#000000]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#020202] to-[#111111]" />
         </div>
 
         {/* Large background */}
