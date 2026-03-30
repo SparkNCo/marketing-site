@@ -143,7 +143,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
 
           {/* RIGHT SIDE */}
           <div className="lg:col-span-8 relative flex flex-col md:min-h-[200vh] text-foreground w-full ">
-            <div className="sticky top-0 h-screen flex flex-col justify-end 2xl:justify-center">
+            <div className="sticky top-0 h-screen flex flex-col justify-end ">
               <div
                 className="
                   flex flex-col 
@@ -169,7 +169,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
                   <img
                     src={currentStep?.image || "/dashboard.png"}
                     alt="Process visual"
-                    className="absolute bottom-0 left-0 h-[50vh] w-[100vh] max-w-none object-cover object-left"
+                    className="absolute bottom-0 right-0 h-full object-fill "
                   />
                 </div>
               </div>
