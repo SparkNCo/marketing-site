@@ -105,11 +105,10 @@ export function FeaturesCollection({
       if (!response.ok) {
         throw new Error("Failed to save features");
       }
-      setPageMode("waiting");
       return response.json();
     },
     onSuccess: () => {
-      setPageMode("waiting");
+      toast.success("Features saved");
     },
     onError: (error) => {
       console.error("[v0] Error saving features:", error);
@@ -177,8 +176,8 @@ export function FeaturesCollection({
     <div className="mx-auto w-full max-w-4xl px-0 sm:px-6 lg:px-0  mt-0  space-y-6 font-body ">
       {/* Header */}
       <div className="text-center md:px-2">
-        <p className="text-heading2 font-bold text-primary">
-          Add all features you are interested in implementing in your project
+        <p className="text-heading2 font-bold text-secondary">
+          Add features you are interested in implementing in your project
         </p>
       </div>
 

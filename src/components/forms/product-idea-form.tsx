@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Button } from "../../components/ui/button";
+import { useState } from "react";
 import { Check } from "lucide-react";
-import { debounce } from "@tanstack/pacer";
 import type { FormStep } from "../utils/interfaces";
 import { AIAnalyzedTextarea } from "./AIAnalyzedTextarea";
 import { NextButton } from "../landing/components/NextFormButton";
@@ -50,9 +48,6 @@ export function ProductIdeaForm({
     { key: "stage", text: "What stage is your business in?" },
   ];
 
-  const currentTip =
-    tips.find((tip) => !analysis[tip.key as keyof AIResponse]) ?? null;
-
   return (
     <div className="animate-fade-in space-y-8 text-xl">
       <div className="text-left space-y-2 ">
@@ -83,12 +78,25 @@ export function ProductIdeaForm({
             />
           </div>
         </div>
-        {currentTip && (
-          <div className="flex items-start gap-2 text-sm text-foreground">
-            <Check className="mt-0.5 h-4 w-4 text-gray-400" />
-            <span>{currentTip.text}</span>
-          </div>
-        )}
+        <div className="mt-3 space-y-1.5 flex flex-col items-end">
+          {tips.map((tip) => {
+            const isDone = analysis[tip.key as keyof AIResponse];
+            return (
+              <div key={tip.key} className="flex items-start gap-2 text-body">
+
+                <span className={isDone ? "text-primary" : "text-secondary"}>
+                  {tip.text}
+                </span>
+
+                <Check
+                  className={`mt-0.5 h-4 w-4 ${
+                    isDone ? "text-primary" : "text-secondary"
+                  }`}
+                />
+              </div>
+            );
+          })}
+        </div>
 
         {/* <div className="mt-8 flex justify-center w-full">
           <Button

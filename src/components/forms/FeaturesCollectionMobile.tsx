@@ -79,10 +79,9 @@ export function FeaturesCollectionMobile({
         },
       );
       if (!response.ok) throw new Error("Failed to save features");
-      setPageMode("waiting");
       return response.json();
     },
-    onSuccess: () => setPageMode("waiting"),
+    onSuccess: () => toast.success("Features saved"),
     onError: (error) => console.error("[v0] Error saving features:", error),
   });
 
@@ -127,8 +126,8 @@ export function FeaturesCollectionMobile({
     <div className="mx-auto w-full max-w-4xl px-4 mt-4 space-y-6 font-body">
       {/* Header */}
       <div className="text-center">
-        <p className="text-heading2 font-bold text-primary">
-          Add all features you are interested in implementing in your project
+        <p className="text-heading2 font-bold text-secondary">
+          Add features you are interested in implementing
         </p>
       </div>
 

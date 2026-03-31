@@ -104,7 +104,7 @@ export function SortableFeatureCard({
           id={`description-${feature.id}`}
           value={feature.description}
           onChange={(e) => onUpdate(feature.id, "description", e.target.value)}
-          placeholder="Detailed description of the feature"
+          placeholder="Quick description of what the feature does"
           rows={3}
           className="
             w-full

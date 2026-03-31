@@ -23,7 +23,7 @@ export function RangeSliderSection({
 }: Props) {
   return (
     <div>
-      <h3 className="mb-2 text-heading2 font-bold text-primary">{title}</h3>
+      <h3 className="mb-2 text-heading2 font-bold text-secondary">{title}</h3>
 
       <Slider
         min={min}

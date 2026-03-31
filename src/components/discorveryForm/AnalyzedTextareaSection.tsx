@@ -36,7 +36,7 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
 
   return (
     <div>
-      <h3 className="mb-2 text-heading2 font-bold text-primary">{title}</h3>
+      <h3 className="mb-2 text-heading2 font-bold text-secondary">{title}</h3>
 
       <div className="relative">
         <AIAnalyzedTextarea
@@ -56,7 +56,7 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
         </div>
       </div>
 
-      <div className="mt-3 space-y-1.5">
+      <div className="mt-3 space-y-1.5 flex flex-col items-end">
         {tips.map((tip) => {
           const isDone = analysis[tip.key as keyof T];
           return (
@@ -66,12 +66,12 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
             >
               <Check
                 className={`mt-0.5 h-4 w-4 ${
-                  isDone ? "text-primary" : "text-gray-500"
+                  isDone ? "text-primary" : "text-secondary"
                 }`}
               />
               <span
                 className={
-                  isDone ? "text-primary" : "text-foreground/80"
+                  isDone ? "text-primary" : "text-secondary"
                 }
               >
                 {tip.text}

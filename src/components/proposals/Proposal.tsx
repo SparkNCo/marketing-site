@@ -15,6 +15,14 @@ import Footer from "../Footer";
 
 type PageMode = "features" | "loading" | "view" | "draft" | "waiting";
 
+/** Proposal is ready for client review — not still filling discovery. */
+const PROPOSAL_READY_STAGES = new Set(["for-review", "accepted"]);
+
+function isDiscoveryEditingStage(stage?: string | null) {
+  if (stage == null || stage === "") return true;
+  return !PROPOSAL_READY_STAGES.has(stage);
+}
+
 export type Proposal = {
   id: string;
   passcode: string;
@@ -130,7 +138,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
   return (
     <AnimatePresence mode="wait">
       {pageMode !== "waiting" &&
-        proposal.stage === "justCreated" &&
+        isDiscoveryEditingStage(proposal.stage) &&
         passcode && (
           <motion.div
             key="features"
@@ -165,7 +173,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           <Footer mode={"fixxed"} />
         </motion.div>
       )}
-      {dbUser?.role === "admin" && proposal.stage !== "justCreated" && (
+      {dbUser?.role === "admin" && !isDiscoveryEditingStage(proposal.stage) && (
         <div>
           <ProposalPage
             proposal={proposal}
@@ -179,7 +187,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
 
       {(dbUser?.role === undefined || dbUser?.role !== "admin") &&
         pageMode !== "waiting" &&
-        proposal.stage !== "justCreated" && (
+        !isDiscoveryEditingStage(proposal.stage) && (
           <motion.div
             key="draft"
             variants={slideVariants}
