@@ -17,6 +17,7 @@ type Props<T> = {
   setAnalysis: (val: T) => void;
   tips: Tip<T>[];
   placeholder: string;
+  readOnly?: boolean;
 };
 
 export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
@@ -28,6 +29,7 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
   setAnalysis,
   tips,
   placeholder,
+  readOnly = false,
 }: Props<T>) {
   const passedCount = Object.values(analysis).filter(Boolean).length;
   const progress = Math.round(
@@ -46,6 +48,7 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
           onAnalysis={setAnalysis}
           placeholder={placeholder}
           wait={2000}
+          readOnly={readOnly}
         />
 
         <div className="pointer-events-none absolute left-2 right-2 bottom-2 h-1.5 rounded-full bg-muted overflow-hidden">

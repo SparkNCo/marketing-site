@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 export type Feature = Readonly<{
   id: string;
   title: string;
+  feature_name?: string;
   purpose: string;
   description: string;
   integrations: string;
@@ -25,12 +26,14 @@ type SortableFeatureCardProps = Readonly<{
   feature: Feature;
   onUpdate: (id: string, field: keyof Feature, value: string) => void;
   onDelete: (id: string) => void;
+  readOnly?: boolean;
 }>;
 
 export function SortableFeatureCard({
   feature,
   onUpdate,
   onDelete,
+  readOnly = false,
 }: SortableFeatureCardProps) {
   const {
     attributes,
@@ -55,13 +58,15 @@ export function SortableFeatureCard({
     >
       <CardHeader className="flex flex-row items-center gap-4 px-2 sm:px-6">
         {/* Drag handle */}
-        <button
-          {...attributes}
-          {...listeners}
-          className="cursor-grab text-slate-400 hover:text-slate-600 active:cursor-grabbing"
-        >
-          <GripVertical className="h-5 w-5" />
-        </button>
+        {!readOnly && (
+          <button
+            {...attributes}
+            {...listeners}
+            className="cursor-grab text-slate-400 hover:text-slate-600 active:cursor-grabbing"
+          >
+            <GripVertical className="h-5 w-5" />
+          </button>
+        )}
 
         {/* Feature title */}
         <CardTitle className="flex-1 text-body font-bold text-foreground">
@@ -69,22 +74,26 @@ export function SortableFeatureCard({
         </CardTitle>
 
         {/* Delete button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => onDelete(feature.id)}
-          className="text-slate-400 hover:text-red-600"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
+        {!readOnly && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDelete(feature.id)}
+            className="text-slate-400 hover:text-red-600"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        )}
       </CardHeader>
 
       <CardContent className="space-y-4 px-2 sm:px-6 pb-4">
         {/* Feature title input */}
         <Input
           id={`title-${feature.id}`}
-          value={feature.title}
+          value={feature.title || feature.feature_name || ""}
           onChange={(e) => onUpdate(feature.id, "title", e.target.value)}
+          readOnly={readOnly}
+          disabled={readOnly}
           placeholder="Feature name"
           className="
             w-full
@@ -104,6 +113,8 @@ export function SortableFeatureCard({
           id={`description-${feature.id}`}
           value={feature.description}
           onChange={(e) => onUpdate(feature.id, "description", e.target.value)}
+          readOnly={readOnly}
+          disabled={readOnly}
           placeholder="Quick description of what the feature does"
           rows={3}
           className="

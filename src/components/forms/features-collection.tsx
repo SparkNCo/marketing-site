@@ -40,6 +40,8 @@ type FeaturesCollectionProps = Readonly<{
   pageMode: string;
   setPageMode: Dispatch<SetStateAction<string>>;
   discoveryState: DiscoveryFormState;
+  initialFeatures?: Feature[];
+  readOnly?: boolean;
 }>;
 
 export function FeaturesCollection({
@@ -47,8 +49,10 @@ export function FeaturesCollection({
   submissionId,
   setPageMode,
   discoveryState,
+  initialFeatures,
+  readOnly = false,
 }: FeaturesCollectionProps) {
-  const [features, setFeatures] = useState<Feature[]>([]);
+  const [features, setFeatures] = useState<Feature[]>(initialFeatures ?? []);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -197,6 +201,7 @@ export function FeaturesCollection({
                 feature={feature}
                 onUpdate={updateFeature}
                 onDelete={deleteFeature}
+                readOnly={readOnly}
               />
             ))}
           </div>
@@ -204,32 +209,34 @@ export function FeaturesCollection({
       </DndContext>
 
       {/* Actions */}
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center">
-        <Button
-          variant="outline"
-          onClick={() => addFeature()}
-          className=" w-full md:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm text-foreground hover:text-primary border-2 bg-transparent "
-        >
-          <Plus className="mr-2 h-3 w-3 sm:h-4 sm:w-4 " />
-          Add Feature
-        </Button>
+      {!readOnly && (
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center">
+          <Button
+            variant="outline"
+            onClick={() => addFeature()}
+            className=" w-full md:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm text-foreground hover:text-primary border-2 bg-transparent "
+          >
+            <Plus className="mr-2 h-3 w-3 sm:h-4 sm:w-4 " />
+            Add Feature
+          </Button>
 
-        <Button
-          onClick={handleSaveFeatures}
-          disabled={isSaving}
-          title="Complete at least one feature before saving"
-          className="w-full md:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm font-bold"
-        >
-          {isSaving ? (
-            <span className="flex items-center justify-center">
-              <Loader2 className="mr-2 h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
-              Saving...
-            </span>
-          ) : (
-            "Save All Features"
-          )}
-        </Button>
-      </div>
+          <Button
+            onClick={handleSaveFeatures}
+            disabled={isSaving}
+            title="Complete at least one feature before saving"
+            className="w-full md:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm font-bold"
+          >
+            {isSaving ? (
+              <span className="flex items-center justify-center">
+                <Loader2 className="mr-2 h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
+                Saving...
+              </span>
+            ) : (
+              "Save All Features"
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

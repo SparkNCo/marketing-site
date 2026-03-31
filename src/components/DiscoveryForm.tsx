@@ -12,15 +12,26 @@ import type {
   DiscoveryFormProps,
   DiscoveryFormState,
 } from "./discorveryForm/DiscoveryFormProps";
-import { FeaturesCollectionMobile } from "./forms/FeaturesCollectionMobile";
+import type { Feature } from "./forms/SortableFeatureCard";
 
 export default function DiscoveryForm({
   proposal,
   passcode,
   pageMode,
   setPageMode,
-}: DiscoveryFormProps) {
-  const [state, setState] = useState<DiscoveryFormState | null>(null);
+  readOnly = false,
+  features,
+  discoveryState: discoveryStateProp,
+  formatted_date,
+}: DiscoveryFormProps & {
+  readOnly?: boolean;
+  features?: Feature[];
+  discoveryState?: DiscoveryFormState;
+  formatted_date?: string;
+}) {
+  const [state, setState] = useState<DiscoveryFormState | null>(
+    discoveryStateProp ?? null,
+  );
 
   const [analysis, setAnalysis] = useState<AIResponse>({
     audience: false,
@@ -37,18 +48,18 @@ export default function DiscoveryForm({
   });
 
   useEffect(() => {
+    if (discoveryStateProp) return;
     if (!proposal?.lead) return;
-
     setState({
       description: proposal.lead.description ?? "",
       estimateTime_min: proposal.lead.estimateTime_min ?? 1,
       estimateTime_max: proposal.lead.estimateTime_max ?? 6,
       budget_min: proposal.lead.budget_min ?? 1000,
       budget_max: proposal.lead.budget_max ?? 50000,
-      formatted_date: proposal.lead.formatted_date ?? "",
+      formatted_date: proposal.lead.formatted_date ?? undefined,
       currentState: "",
     });
-  }, [proposal]);
+  }, [proposal, discoveryStateProp, formatted_date]);
 
   if (!state) return null;
 
@@ -58,16 +69,21 @@ export default function DiscoveryForm({
       setState((prev) => (prev ? { ...prev, [key]: value } : prev));
     };
 
-  const formatReadableDate = (isoDate: string) => {
+  const formatReadableDate = (isoDate?: string) => {
+    if (!isoDate) return "No date";
+
     const date = new Date(isoDate);
+
+    if (isNaN(date.getTime())) return "Invalid date";
+
     return `${String(date.getDate()).padStart(2, "0")} - ${date
       .toLocaleString("en-US", { month: "short" })
       .toUpperCase()} - ${date.getFullYear()}`;
   };
   return (
     <section className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 pb-12 md:pb-16 font-body">
-      <div className="space-y-8 md:space-y-10">
-        <header className="flex flex-col items-center gap-4 text-center">
+      <div className="space-y-8 md:space-y-10 ">
+        <header className="flex flex-col items-center gap-4 text-center text-foreground">
           <div className="flex items-center justify-center gap-3">
             <FileText
               className="h-8 w-8 shrink-0 text-primary md:h-9 md:w-9"
@@ -80,11 +96,16 @@ export default function DiscoveryForm({
           <p className="text-body max-w-2xl leading-relaxed text-foreground/90">
             Here&apos;s an outline of what we&apos;ll be discussing on our call
             at{" "}
-            <span className="font-semibold text-primary">
-              {formatReadableDate(state.formatted_date)}
-            </span>
-            . Please add as much detail as you can before we meet. See you
-            soon!
+            {state.formatted_date !== "" ? (
+              <span className="font-semibold text-primary">
+                {formatReadableDate(state.formatted_date)}
+              </span>
+            ) : (
+              <span className="font-semibold text-primary">
+                {formatReadableDate(formatted_date)}
+              </span>
+            )}
+            . Please add as much detail as you can before we meet. See you soon!
           </p>
         </header>
 
@@ -104,6 +125,7 @@ export default function DiscoveryForm({
               { key: "stage", text: "What stage is your business in?" },
             ]}
             placeholder="Describe the main requirements..."
+            readOnly={readOnly}
           />
 
           {/* Timeline + Budget (GRID on desktop) */}
@@ -119,6 +141,7 @@ export default function DiscoveryForm({
                 updateField("estimateTime_max")(max);
               }}
               format={(v) => `${v} Months`}
+              readOnly={readOnly}
             />
 
             <RangeSliderSection
@@ -132,6 +155,7 @@ export default function DiscoveryForm({
                 updateField("budget_max")(max);
               }}
               format={(v) => `$${v.toLocaleString()}`}
+              readOnly={readOnly}
             />
           </div>
 
@@ -150,6 +174,7 @@ export default function DiscoveryForm({
               { key: "limitations", text: "Any limitations?" },
             ]}
             placeholder="Current resources, tools..."
+            readOnly={readOnly}
           />
 
           {/* Features */}
@@ -159,6 +184,8 @@ export default function DiscoveryForm({
             pageMode={pageMode}
             setPageMode={setPageMode}
             discoveryState={state}
+            initialFeatures={features}
+            readOnly={readOnly}
           />
         </Card>
       </div>

@@ -6,7 +6,7 @@ export type DiscoveryFormState = {
   estimateTime_max: number;
   budget_min: number;
   budget_max: number;
-  formatted_date: string;
+  formatted_date: string | undefined;
   currentState: string;
 };
 

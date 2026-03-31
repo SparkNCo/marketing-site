@@ -8,8 +8,16 @@ import ProposalDrawer from "./ProposalDrawer";
 import ProposalSidebar from "./ProposalSidebar";
 import RequirementDisplayer from "./RequirementDisplayer";
 import Footer from "../Footer";
+import DiscoveryForm from "../DiscoveryForm";
 
-export default function ProposalPage({ proposal, dbUser }: { proposal: any; dbUser: any }) {
+export default function ProposalPage({
+  proposal,
+  dbUser,
+}: {
+  proposal: any;
+  dbUser: any;
+}) {
+  const [showFeatures, setShowFeatures] = useState(false);
   const [openSections, setOpenSections] = useState<string[]>([]);
   const [localProposal, setLocalProposal] = useState<any>(proposal);
   const [sections, setSections] = useState<any>(() =>
@@ -105,6 +113,7 @@ export default function ProposalPage({ proposal, dbUser }: { proposal: any; dbUs
       stage: stage ?? localProposal?.stage,
       signature_url: localProposal?.signature_url,
       signed_at: localProposal?.signed_at,
+      meetingDate: localProposal?.lead.formatted_date,
     };
 
     try {
@@ -162,60 +171,113 @@ export default function ProposalPage({ proposal, dbUser }: { proposal: any; dbUs
 
   if (!localProposal) return null;
 
+  const isAdmin = dbUser?.role === "admin";
+
+  const discoveryState = {
+    description: proposal.lead?.description ?? "",
+    estimateTime_min: Number(proposal.lead?.estimateTime_min ?? 0),
+    estimateTime_max: Number(proposal.lead?.estimateTime_max ?? 0),
+    budget_min: Number(proposal.lead?.budget_min ?? 0),
+    budget_max: Number(proposal.lead?.budget_max ?? 0),
+    formatted_date: "",
+    currentState: proposal.lead?.discovery_state ?? "",
+  };
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-background font-body lg:flex-row">
-      {/* Desktop: dedicated sidebar rail — not shown on mobile */}
-      <aside
-        className="
-          fixed top-0 left-0 hidden h-screen w-[min(20rem,32vw)] shrink-0 flex-col
-          border-foreground/10 bg-secondary/25 lg:flex lg:border-r
-        "
-      >
-        <ProposalSidebar sections={sections} onSelect={scrollToSection} />
-      </aside>
+      {/* Sidebar — hidden when viewing features */}
+      {!showFeatures && (
+        <aside
+          className="
+            fixed top-0 left-0 hidden h-screen w-[min(20rem,32vw)] shrink-0 flex-col
+            border-foreground/10 bg-secondary/25 lg:flex lg:border-r
+          "
+        >
+          <ProposalSidebar sections={sections} onSelect={scrollToSection} />
+        </aside>
+      )}
 
-      {/* Mobile: compact section nav in drawer only */}
       <div className="w-full min-w-0 flex-1 lg:min-h-0">
-        <div className="lg:hidden">
-          <ProposalDrawer
-            sections={Object.keys(sections)}
-            onSelect={scrollToSection}
-          />
-        </div>
+        {/* Mobile drawer — only for proposal view */}
+        {!showFeatures && (
+          <div className="lg:hidden">
+            <ProposalDrawer
+              sections={Object.keys(sections)}
+              onSelect={scrollToSection}
+            />
+          </div>
+        )}
 
         <div className="bg-background">
           <div className="mx-auto w-full max-w-4xl px-4 pb-12 pt-2 lg:pt-6">
-            {Object.entries(sections).map(([sectionKey, sectionData]) => (
-              <div
-                key={sectionKey}
-                ref={(el) => {
-                  sectionRefs.current[sectionKey] = el;
-                }}
-                className="scroll-mt-32"
+            {/* Toggle */}
+            <div className="mb-6 flex items-center gap-3">
+              <span className="text-sm text-foreground/60">Proposal</span>
+              <button
+                onClick={() => setShowFeatures((v) => !v)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                  showFeatures ? "bg-primary" : "bg-foreground/20"
+                }`}
               >
-                <ProposalSection
-                  title={sectionKey}
-                  data={sectionData}
-                  dbUser={dbUser}
-                  openSections={openSections}
-                  setOpenSections={setOpenSections}
-                  setProposal={(val) => handleUpdate(sectionKey, val)}
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    showFeatures ? "translate-x-6" : "translate-x-1"
+                  }`}
                 />
-              </div>
-            ))}
+              </button>
+              <span className="text-sm text-foreground/60">Features</span>
+            </div>
 
-            {dbUser?.role !== "admin" && (
-              <CtaProposal
-                proposalId={proposal.passcode}
-                signature_url={proposal.signature_url}
+            {showFeatures ? (
+              <DiscoveryForm
+                proposal={localProposal}
+                passcode={proposal.passcode}
+                pageMode=""
+                setPageMode={() => {}}
+                readOnly={isAdmin}
+                features={proposal.features ?? []}
+                discoveryState={discoveryState}
+                formatted_date={localProposal?.lead.formatted_date}
               />
-            )}
-            {dbUser?.role === "admin" && (
-              <div>
-                <RequirementDisplayer submissionId={proposal.passcode} />
+            ) : (
+              <>
+                {Object.entries(sections).map(([sectionKey, sectionData]) => (
+                  <div
+                    key={sectionKey}
+                    ref={(el) => {
+                      sectionRefs.current[sectionKey] = el;
+                    }}
+                    className="scroll-mt-32"
+                  >
+                    <ProposalSection
+                      title={sectionKey}
+                      data={sectionData}
+                      dbUser={dbUser}
+                      openSections={openSections}
+                      setOpenSections={setOpenSections}
+                      setProposal={(val) => handleUpdate(sectionKey, val)}
+                    />
+                  </div>
+                ))}
+
+                {dbUser?.role !== "admin" && (
+                  <CtaProposal
+                    proposalId={proposal.passcode}
+                    signature_url={proposal.signature_url}
+                  />
+                )}
+
                 <DraftPlate proposal={localProposal} setStage={setStage} />
-              </div>
+
+                <div
+                  className="text-foreground"
+                  onClick={() => console.log({ localProposal })}
+                >
+                  VER CONVER proposal
+                </div>
+              </>
             )}
+
             <Footer mode="relative" />
           </div>
         </div>

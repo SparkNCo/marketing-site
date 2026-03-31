@@ -18,6 +18,7 @@ type Props = {
   placeholder?: string;
   minLength?: number;
   wait?: number;
+  readOnly?: boolean;
 };
 
 export function AIAnalyzedTextarea({
@@ -28,6 +29,7 @@ export function AIAnalyzedTextarea({
   placeholder = "Describe your idea...",
   minLength = 20,
   wait = 500, // 👈 reduced to 0.5s
+  readOnly = false,
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
@@ -98,7 +100,9 @@ export function AIAnalyzedTextarea({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full min-h-48 p-4 border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+        readOnly={readOnly}
+        disabled={readOnly}
+        className="w-full min-h-48 p-4 border-input bg-secondary text-body focus:outline-none focus:ring-2 focus:ring-primary resize-none disabled:opacity-70 disabled:cursor-default"
       />
 
       {showSpinner && (

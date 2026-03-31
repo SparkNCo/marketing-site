@@ -149,6 +149,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
 
   return (
     <AnimatePresence mode="wait">
+      {/* Features Form */}
       {pageMode !== "waiting" &&
         showDiscoveryForm(proposal.stage, dbUser?.role) &&
         passcode && (
@@ -169,7 +170,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
             )}
           </motion.div>
         )}
-
+      {/* Wont be showing anymore */}
       {pageMode === "waiting" && dbUser?.role !== "admin" && (
         <motion.div
           key="loading"
@@ -185,6 +186,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           <Footer mode="bottom" />
         </motion.div>
       )}
+      {/* Proposal Page  */}
       {dbUser?.role === "admin" && proposal.stage !== "justCreated" && (
         <div className="w-full">
           <ProposalPage
@@ -226,7 +228,6 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
             )}
           </motion.div>
         )}
-
     </AnimatePresence>
   );
 };

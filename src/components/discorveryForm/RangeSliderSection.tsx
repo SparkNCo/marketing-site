@@ -10,6 +10,7 @@ type Props = {
   value: [number, number];
   onChange: (value: [number, number]) => void;
   format?: (val: number) => string;
+  readOnly?: boolean;
 };
 
 export function RangeSliderSection({
@@ -20,6 +21,7 @@ export function RangeSliderSection({
   value,
   onChange,
   format = (v) => v.toString(),
+  readOnly = false,
 }: Props) {
   return (
     <div>
@@ -31,6 +33,7 @@ export function RangeSliderSection({
         step={step}
         value={value}
         onValueChange={(v) => onChange([v[0], v[1]])}
+        disabled={readOnly}
       />
 
       <div className="mt-4 flex items-center justify-between">
