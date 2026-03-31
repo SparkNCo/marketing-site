@@ -296,25 +296,26 @@ export default function ProposalPage({
                     signature_url={proposal.signature_url}
                   />
                 )}
-
-                <DraftPlate
-                  value={localProposal.stage}
-                  onChange={setStage}
-                  bgColor="bg-primary"
-                  rounded="rounded-b-xl"
-                  options={[
-                    {
-                      value: "draft",
-                      label: "Draft",
-                      statusText: "Proposal in progress",
-                    },
-                    {
-                      value: "for-review",
-                      label: "For Review",
-                      statusText: "Ready for review",
-                    },
-                  ]}
-                />
+                {dbUser?.role === "admin" && (
+                  <DraftPlate
+                    value={localProposal.stage}
+                    onChange={setStage}
+                    bgColor="bg-primary"
+                    rounded="rounded-b-xl"
+                    options={[
+                      {
+                        value: "draft",
+                        label: "Draft",
+                        statusText: "Proposal in progress",
+                      },
+                      {
+                        value: "for-review",
+                        label: "For Review",
+                        statusText: "Ready for review",
+                      },
+                    ]}
+                  />
+                )}
               </>
             )}
           </div>
