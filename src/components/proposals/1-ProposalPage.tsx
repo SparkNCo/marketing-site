@@ -213,7 +213,7 @@ export default function ProposalPage({
           <div className="mx-auto w-full max-w-4xl px-4 pb-12 pt-2 lg:pt-6 ">
             {/* Toggle */}
 
-            {showFeatures ? (
+            {showFeatures && proposal?.stage !== "for-review" ? (
               <div>
                 {dbUser?.role === "admin" && (
                   <DraftPlate
@@ -249,25 +249,27 @@ export default function ProposalPage({
               </div>
             ) : (
               <>
-                <DraftPlate
-                  value={showFeatures ? "features" : "proposal"}
-                  onChange={(v) => setShowFeatures(v === "features")}
-                  bgColor="bg-background"
-                  textColor="text-foreground"
-                  rounded="rounded-t-xl"
-                  options={[
-                    {
-                      value: "proposal",
-                      label: "Proposal",
-                      statusText: "Viewing ",
-                    },
-                    {
-                      value: "features",
-                      label: "Features",
-                      statusText: "Viewing ",
-                    },
-                  ]}
-                />
+                {dbUser?.role === "admin" && (
+                  <DraftPlate
+                    value={showFeatures ? "features" : "proposal"}
+                    onChange={(v) => setShowFeatures(v === "features")}
+                    bgColor="bg-background"
+                    textColor="text-foreground"
+                    rounded="rounded-t-xl"
+                    options={[
+                      {
+                        value: "proposal",
+                        label: "Proposal",
+                        statusText: "Viewing ",
+                      },
+                      {
+                        value: "features",
+                        label: "Features",
+                        statusText: "Viewing ",
+                      },
+                    ]}
+                  />
+                )}
 
                 {Object.entries(sections).map(([sectionKey, sectionData]) => (
                   <div
