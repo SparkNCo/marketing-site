@@ -21,8 +21,10 @@ export default function ProposalShell({ user, mode, passcode }: Props) {
       <AppProvider initialUser={user}>
         <ToastLayout>
           <Header headerMode={"form"} />
-          <ProposalIsland mode={mode} passcode={passcode} />
-          {/*  <Footer mode={"fixxed"} /> */}
+          {/* Clear fixed header: top-6 + bar ≈ 5.5–6.5rem */}
+          <main className="min-h-screen bg-background pt-24 sm:pt-[6.5rem]">
+            <ProposalIsland mode={mode} passcode={passcode} />
+          </main>
         </ToastLayout>
       </AppProvider>
     </QueryClientProvider>

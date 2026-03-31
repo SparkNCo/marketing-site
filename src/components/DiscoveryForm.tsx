@@ -65,31 +65,30 @@ export default function DiscoveryForm({
       .toUpperCase()} - ${date.getFullYear()}`;
   };
   return (
-    <section
-      className="mt-0 lg:mt-28 mb-12 md:mb-16 px-0 sm:px-6 lg:px-8 
- "
-    >
-      {/* Container */}
-      <div className="max-w-5xl mx-auto mt-8 lg:mt-32 ">
-        {/* Header */}
-        <div className="mb-6 md:mb-8 flex items-center gap-3 justify-center mt-3 ">
-          <FileText className="h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 text-primary" />
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
-            Discovery
-          </h2>
-        </div>
+    <section className="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8 pb-12 md:pb-16 font-body">
+      <div className="space-y-8 md:space-y-10">
+        <header className="flex flex-col items-center gap-4 text-center">
+          <div className="flex items-center justify-center gap-3">
+            <FileText
+              className="h-8 w-8 shrink-0 text-primary md:h-9 md:w-9"
+              aria-hidden
+            />
+            <h2 className="text-heading2 font-title font-bold tracking-tight text-foreground">
+              Discovery
+            </h2>
+          </div>
+          <p className="text-body max-w-2xl leading-relaxed text-foreground/90">
+            Here&apos;s an outline of what we&apos;ll be discussing on our call
+            at{" "}
+            <span className="font-semibold text-primary">
+              {formatReadableDate(state.formatted_date)}
+            </span>
+            . Please add as much detail as you can before we meet. See you
+            soon!
+          </p>
+        </header>
 
-        {/* Subtitle */}
-        <p className="text-sm sm:text-base md:text-lg text-center text-foreground mb-6 md:mb-8 max-w-2xl mx-auto leading-relaxed px-2">
-          Here's an outline of what we'll be discussing on our call at{" "}
-          <span className="text-primary font-bold">
-            {formatReadableDate(state.formatted_date)}
-          </span>
-          . Please add as much detail as you can before we meet. See you soon!
-        </p>
-
-        {/* Card */}
-        <Card className="p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 ">
+        <Card className="space-y-6 border border-foreground/10 p-4 shadow-sm sm:p-6 md:space-y-8 md:p-8">
           {/* Description */}
           <AnalyzedTextareaSection
             title="Requirement Overview"

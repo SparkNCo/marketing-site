@@ -174,9 +174,8 @@ export function FeaturesCollection({
 
   return (
     <div className="mx-auto w-full max-w-4xl px-0 sm:px-6 lg:px-0  mt-0  space-y-6 font-body ">
-      {/* Header */}
       <div className="text-center md:px-2">
-        <p className="text-heading2 font-bold text-secondary">
+        <p className="text-heading2 font-title font-bold leading-snug text-secondary">
           Add features you are interested in implementing in your project
         </p>
       </div>

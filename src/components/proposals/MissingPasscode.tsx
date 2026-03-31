@@ -106,27 +106,24 @@ export const InvalidPasscode = () => {
 
 export const ProposalInProgress = () => {
   return (
-    <div className="w-full flex items-center justify-center py-24 animate-fade-in h-min-[90vh]">
-      <div className="  rounded-xl bg-foreground text-center space-y-8 py-10 px-10 max-w-lg w-full shadow-xl">
-        {/* Animated gears */}
-        <div className="flex justify-center items-center gap-4 ">
-          <Settings className="w-20 h-20 text-primary animate-spin [animation-duration:5.5s]" />
-          <Settings className="w-14 h-14 text-primary/70 animate-spin [animation-duration:7s]" />
+    <div className="flex min-h-[60vh] w-full items-center justify-center px-4 py-16 animate-fade-in">
+      <div className="w-full max-w-lg space-y-8 rounded-xl bg-foreground px-8 py-10 text-center shadow-xl">
+        <div className="flex items-center justify-center gap-4">
+          <Settings className="h-16 w-16 text-primary animate-spin [animation-duration:5.5s] md:h-20 md:w-20" />
+          <Settings className="h-12 w-12 text-primary/70 animate-spin [animation-duration:7s] md:h-14 md:w-14" />
         </div>
 
-        {/* Text */}
-        <div className="space-y-2">
-          <h2 className="text-4xl font-bold text-title">
+        <div className="space-y-3">
+          <h2 className="text-heading2 font-title font-bold text-title sm:text-[1.75rem] sm:leading-snug">
             Proposal in progress
           </h2>
-          <p className="text-xl text-background">
+          <p className="text-body text-background/95">
             We are currently working on this proposal
           </p>
         </div>
 
-        {/* Hint */}
-        <p className="text-sm text-muted-foreground">
-          Please check back soon — we’ll notify you once it’s ready
+        <p className="text-smalltext text-muted-foreground">
+          Please check back soon — we&apos;ll notify you once it&apos;s ready
         </p>
       </div>
     </div>
@@ -174,11 +171,11 @@ export const LoadingProposal = () => {
         </div>
 
         {/* Text */}
-        <div className="text-center space-y-1">
-          <p className="text-xl font-semibold text-primary">
+        <div className="space-y-1 text-center">
+          <p className="text-heading2 font-title font-semibold text-primary">
             Loading proposal…
           </p>
-          <p className="text-sm text-foreground">Please wait a moment</p>
+          <p className="text-smalltext text-foreground/80">Please wait a moment</p>
         </div>
       </div>
     </div>

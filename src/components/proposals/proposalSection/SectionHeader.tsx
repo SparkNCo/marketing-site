@@ -18,7 +18,7 @@ export default function SectionHeader({
   return (
     <div
       onClick={toggleOpen}
-      className="mb-6 flex items-center justify-between cursor-pointer text-background bg-card p-4  "
+      className="flex items-center justify-between cursor-pointer text-background bg-card p-4"
     >
       <div className="flex items-center gap-3">
         <h2 className="text-heading2 font-bold text-background">{title}</h2>

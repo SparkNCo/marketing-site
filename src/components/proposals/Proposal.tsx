@@ -23,6 +23,15 @@ function isDiscoveryEditingStage(stage?: string | null) {
   return !PROPOSAL_READY_STAGES.has(stage);
 }
 
+/** Clients stay on discovery for any non-ready stage; admins only use discovery when stage is still `justCreated`, then see ProposalPage for all later stages. */
+function showDiscoveryForm(
+  stage: string | null | undefined,
+  role: string | undefined,
+) {
+  if (!isDiscoveryEditingStage(stage)) return false;
+  return role !== "admin" || stage === "justCreated";
+}
+
 export type Proposal = {
   id: string;
   passcode: string;
@@ -55,12 +64,12 @@ const slideVariants = {
   animate: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.4, ease: "easeOut" },
+    transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const },
   },
   exit: {
     opacity: 0,
     x: -80,
-    transition: { duration: 0.3, ease: "easeIn" },
+    transition: { duration: 0.3, ease: [0.4, 0, 1, 1] as const },
   },
 };
 
@@ -119,26 +128,29 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
       );
     }
 
-    // fallback error
     return (
-      <div className="min-h-[90vh]">
-        <p className="text-center text-sm text-red-500">Something went wrong</p>
-        <div
-          className="text-foreground"
-          onClick={() => console.log({ errMsg })}
-        >
-          VER errMsg
-        </div>
-
+      <div className="flex min-h-[90vh] flex-col items-center justify-center gap-3 px-4">
+        <p className="text-center text-body text-red-500" role="alert">
+          Something went wrong
+        </p>
+        {import.meta.env.DEV && (
+          <p className="max-w-md text-center font-mono text-smalltext text-foreground/70">
+            {errMsg}
+          </p>
+        )}
         <Footer mode="bottom" />
       </div>
     );
   }
 
+  if (!proposal) {
+    return <LoadingProposal />;
+  }
+
   return (
     <AnimatePresence mode="wait">
       {pageMode !== "waiting" &&
-        isDiscoveryEditingStage(proposal.stage) &&
+        showDiscoveryForm(proposal.stage, dbUser?.role) &&
         passcode && (
           <motion.div
             key="features"
@@ -153,7 +165,6 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
                 passcode={passcode}
                 pageMode={pageMode}
                 setPageMode={setPageMode}
-                leadId={proposal.lead_id}
               />
             )}
           </motion.div>
@@ -166,15 +177,16 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           initial="initial"
           animate="animate"
           exit="exit"
+          className="flex min-h-[85vh] flex-col"
         >
-          <div className="min-h-[90vh] pt-20">
+          <div className="flex flex-1 flex-col justify-center">
             <ProposalInProgress />
           </div>
-          <Footer mode={"fixxed"} />
+          <Footer mode="bottom" />
         </motion.div>
       )}
-      {dbUser?.role === "admin" && !isDiscoveryEditingStage(proposal.stage) && (
-        <div>
+      {dbUser?.role === "admin" && proposal.stage !== "justCreated" && (
+        <div className="w-full">
           <ProposalPage
             proposal={proposal}
             dbUser={{
@@ -215,21 +227,6 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
           </motion.div>
         )}
 
-      {(pageMode === "draft" || pageMode === "features") && isError && (
-        <motion.div
-          key="error"
-          variants={slideVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          className="min-h-[90vh]"
-        >
-          <div className="min-h-[90vh]">
-            <InvalidPasscode />
-            <Footer mode={"bottom"} />
-          </div>
-        </motion.div>
-      )}
     </AnimatePresence>
   );
 };

@@ -20,8 +20,16 @@ export default function ProposalDrawer({
   return (
     <>
       {/* Trigger */}
-      <div className="lg:hidden px-4 py-3 border-b border-border flex justify-between items-center">
-        <button onClick={() => setOpen(true)} className="p-2 rounded-md border">
+      <div className="flex items-center justify-between border-b border-foreground/10 px-4 py-3 lg:hidden">
+        <span className="text-smalltext font-medium text-foreground/80">
+          Proposal
+        </span>
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="rounded-md border border-foreground/15 p-2 text-foreground transition hover:bg-foreground/5"
+          aria-label="Open table of contents"
+        >
           <Menu className="h-4 w-4" />
         </button>
       </div>

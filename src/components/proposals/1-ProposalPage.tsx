@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import CtaProposal from "./ctaProposal";
 import { DraftPlate } from "./DraftPlate";
 import ProposalSection from "./proposalSection/ProposalSection";
@@ -9,7 +9,7 @@ import ProposalSidebar from "./ProposalSidebar";
 import RequirementDisplayer from "./RequirementDisplayer";
 import Footer from "../Footer";
 
-export default function ProposalPage({ proposal, dbUser }) {
+export default function ProposalPage({ proposal, dbUser }: { proposal: any; dbUser: any }) {
   const [openSections, setOpenSections] = useState<string[]>([]);
   const [localProposal, setLocalProposal] = useState<any>(proposal);
   const [sections, setSections] = useState<any>(() =>
@@ -143,7 +143,7 @@ export default function ProposalPage({ proposal, dbUser }) {
     const el = sectionRefs.current[key];
     if (!el) return;
 
-    const y = el.getBoundingClientRect().top + window.scrollY - 140;
+    const y = el.getBoundingClientRect().top + window.scrollY - 120;
 
     window.scrollTo({
       top: y,
@@ -163,54 +163,61 @@ export default function ProposalPage({ proposal, dbUser }) {
   if (!localProposal) return null;
 
   return (
-    <div className="lg:flex w-full bg-background">
-      {/* Sidebar */}
-      <div className="w-80 hidden lg:block text-foreground  ">
-        <ProposalSidebar sections={sections} onSelect={scrollToSection} />
-      </div>
-      {/* Drawer */}
-      <div className="lg:hidden text-foreground w-full ">
-        <ProposalDrawer
-          sections={Object.keys(sections)}
-          onSelect={scrollToSection}
-        />
-      </div>
-      {/* Main content */}
-      <div
-        className="bg-background w-full 
-"
+    <div className="flex min-h-screen w-full flex-col bg-background font-body lg:flex-row">
+      {/* Desktop: dedicated sidebar rail — not shown on mobile */}
+      <aside
+        className="
+          fixed top-0 left-0 hidden h-screen w-[min(20rem,32vw)] shrink-0 flex-col
+          border-foreground/10 bg-secondary/25 lg:flex lg:border-r
+        "
       >
-        <div className="flex-1 bg-card w-[90%] lg:w-[80%] mx-auto ">
-          {Object.entries(sections).map(([sectionKey, sectionData]) => (
-            <div
-              key={sectionKey}
-              ref={(el) => (sectionRefs.current[sectionKey] = el)}
-              className="scroll-mt-40"
-            >
-              <ProposalSection
-                title={sectionKey}
-                data={sectionData}
-                dbUser={dbUser}
-                openSections={openSections}
-                setOpenSections={setOpenSections}
-                setProposal={(val) => handleUpdate(sectionKey, val)}
-              />
-            </div>
-          ))}
+        <ProposalSidebar sections={sections} onSelect={scrollToSection} />
+      </aside>
 
-          {dbUser?.role !== "admin" && (
-            <CtaProposal
-              proposalId={proposal.passcode}
-              signature_url={proposal.signature_url}
-            />
-          )}
-          {dbUser?.role === "admin" && (
-            <div>
-              <RequirementDisplayer submissionId={proposal.passcode} />
-              <DraftPlate proposal={localProposal} setStage={setStage} />
-            </div>
-          )}
-          <Footer mode={"relative"} />
+      {/* Mobile: compact section nav in drawer only */}
+      <div className="w-full min-w-0 flex-1 lg:min-h-0">
+        <div className="lg:hidden">
+          <ProposalDrawer
+            sections={Object.keys(sections)}
+            onSelect={scrollToSection}
+          />
+        </div>
+
+        <div className="bg-background">
+          <div className="mx-auto w-full max-w-4xl px-4 pb-12 pt-2 lg:pt-6">
+            {Object.entries(sections).map(([sectionKey, sectionData]) => (
+              <div
+                key={sectionKey}
+                ref={(el) => {
+                  sectionRefs.current[sectionKey] = el;
+                }}
+                className="scroll-mt-32"
+              >
+                <ProposalSection
+                  title={sectionKey}
+                  data={sectionData}
+                  dbUser={dbUser}
+                  openSections={openSections}
+                  setOpenSections={setOpenSections}
+                  setProposal={(val) => handleUpdate(sectionKey, val)}
+                />
+              </div>
+            ))}
+
+            {dbUser?.role !== "admin" && (
+              <CtaProposal
+                proposalId={proposal.passcode}
+                signature_url={proposal.signature_url}
+              />
+            )}
+            {dbUser?.role === "admin" && (
+              <div>
+                <RequirementDisplayer submissionId={proposal.passcode} />
+                <DraftPlate proposal={localProposal} setStage={setStage} />
+              </div>
+            )}
+            <Footer mode="relative" />
+          </div>
         </div>
       </div>
     </div>

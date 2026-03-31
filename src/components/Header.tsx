@@ -16,25 +16,10 @@ export default function Header({
   useEffect(() => {
     if (headerMode === "form") {
       setMode("dark");
-
-      let lastScrollY = window.scrollY;
-
-      const handleScroll = () => {
-        const currentScrollY = window.scrollY;
-
-        if (currentScrollY > lastScrollY && currentScrollY > 50) {
-          // scrolling down → hide
-          setHidden(true);
-        } else {
-          // scrolling up → show
-          setHidden(false);
-        }
-
-        lastScrollY = currentScrollY;
-      };
-
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      return () => window.removeEventListener("scroll", handleScroll);
+      setHidden(false);
+      // Keep header fixed and visible on proposal flows — avoids transform
+      // conflicts with centered layout and overlap with page content.
+      return;
     }
 
     // normal behavior (index mode)
@@ -50,9 +35,9 @@ export default function Header({
   return (
     <header
       className={`
-        ${"fixed top-6 left-1/2 -translate-x-1/2"}
-        ${hidden ? "-translate-y-32 opacity-0" : "translate-y-0 opacity-100"}
-        transition-all duration-300 z-50 w-full max-w-4xl px-4
+        fixed top-6 left-1/2 z-50 w-full max-w-4xl px-4
+        -translate-x-1/2 transition-all duration-300
+        ${hidden ? "-translate-y-24 opacity-0 pointer-events-none" : "translate-y-0 opacity-100"}
       `}
     >
       <div
@@ -77,7 +62,7 @@ export default function Header({
 
         {/* Title */}
         <h1
-          className={`text-3xl font-bold z-10 ${
+          className={`text-xl sm:text-2xl font-title font-bold z-10 tracking-tight ${
             mode === "dark" ? "text-background" : "text-card"
           }`}
         >
