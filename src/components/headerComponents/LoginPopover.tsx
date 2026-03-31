@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useApp } from "../../lib/AppProvider";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 type AuthPopoverProps = {
   mode: "light" | "dark";
@@ -56,7 +56,7 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
         <>
           {/* Overlay */}
           <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
             onClick={() => setShow(false)}
           />
 
@@ -77,9 +77,17 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
               `}
             >
               {/* Header */}
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold">Welcome back</h3>
-                <p className="text-xs opacity-70">Sign in to continue</p>
+              <div className="mb-4 flex items-start justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold">Welcome back</h3>
+                  <p className="text-xs opacity-70">Sign in to continue</p>
+                </div>
+                <button
+                  onClick={() => setShow(false)}
+                  className="opacity-50 hover:opacity-100 transition"
+                >
+                  <X size={18} />
+                </button>
               </div>
 
               {/* Form */}

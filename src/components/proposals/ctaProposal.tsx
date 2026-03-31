@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Card } from "../ui/card";
 import { SignatureModal } from "./SignatureModal";
-import { CheckCircle, Phone, Menu } from "lucide-react";
+import { CheckCircle, Phone } from "lucide-react";
 import ProposalButton from "../ui/ProposalButton";
 
 export default function CtaProposal({
@@ -57,15 +57,14 @@ export default function CtaProposal({
   };
 
   return (
-    <div className="py-8">
+    <div className="bg-foreground p-4 ">
       <section className="mb-16 ">
         <Card
-          className="p-8 bg-background text-foreground border-none"
+          className="p-0 bg-background text-foreground border-none p-4 rounded-xl "
           rounded={false}
         >
           {/* Header */}
           <div className="flex items-center gap-3">
-            <Menu className="w-10 h-10" />{" "}
             <h2 className="text-2xl font-bold">Build</h2>
           </div>
 

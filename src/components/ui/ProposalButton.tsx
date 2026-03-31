@@ -22,7 +22,7 @@ export default function ProposalButton({
 
   const styles =
     variant === "primary"
-      ? "bg-primary text-primary-foreground hover:opacity-90"
+      ? "bg-primary text-background hover:opacity-90"
       : "bg-foreground text-background hover:opacity-90";
 
   return (

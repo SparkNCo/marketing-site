@@ -197,6 +197,7 @@ export default function ProposalPage({
 
       <div className="w-full min-w-0 flex-1 lg:min-h-0">
         {/* Mobile drawer — only for proposal view */}
+
         {!showFeatures && (
           <div className="lg:hidden">
             <ProposalDrawer
@@ -214,25 +215,27 @@ export default function ProposalPage({
 
             {showFeatures ? (
               <div>
-                <DraftPlate
-                  value={showFeatures ? "features" : "proposal"}
-                  onChange={(v) => setShowFeatures(v === "features")}
-                  bgColor="bg-background"
-                  textColor="text-foreground"
-                  rounded="rounded-t-xl"
-                  options={[
-                    {
-                      value: "proposal",
-                      label: "Proposal",
-                      statusText: "Viewing",
-                    },
-                    {
-                      value: "features",
-                      label: "Features",
-                      statusText: "Viewing",
-                    },
-                  ]}
-                />
+                {dbUser?.role === "admin" && (
+                  <DraftPlate
+                    value={showFeatures ? "features" : "proposal"}
+                    onChange={(v) => setShowFeatures(v === "features")}
+                    bgColor="bg-background"
+                    textColor="text-foreground"
+                    rounded="rounded-t-xl"
+                    options={[
+                      {
+                        value: "proposal",
+                        label: "Proposal",
+                        statusText: "Viewing",
+                      },
+                      {
+                        value: "features",
+                        label: "Features",
+                        statusText: "Viewing",
+                      },
+                    ]}
+                  />
+                )}
                 <DiscoveryForm
                   proposal={localProposal}
                   passcode={proposal.passcode}
