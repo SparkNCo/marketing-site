@@ -61,7 +61,7 @@ export default function ProposalDrawer({
             <button
               key={key}
               onClick={() => handleClick(key)}
-              className="flex items-center gap-2 text-left w-full text-muted-foreground hover:text-primary"
+              className="flex items-center gap-2 text-left w-full text-foreground hover:text-primary"
             >
               <span className="text-primary">•</span>
               {key}
