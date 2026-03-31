@@ -47,7 +47,7 @@ export default function ProposalSection({
 
   if (title === "Cover Page") {
     return (
-      <section className="mb-6  ">
+      <section className="  ">
         <CoverPageRenderer
           data={localData}
           setData={setLocalData}
@@ -58,7 +58,7 @@ export default function ProposalSection({
   }
 
   return (
-    <section className="mb-6  bg-card ">
+    <section className="  bg-card ">
       <SectionHeader
         title={title}
         isOpen={isOpen}

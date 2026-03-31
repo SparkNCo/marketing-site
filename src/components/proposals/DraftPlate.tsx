@@ -1,50 +1,58 @@
 "use client";
 
-import { useState, useEffect } from "react";
+type Option = {
+  value: string;
+  label: string;
+  statusText: string;
+};
 
-export const DraftPlate = ({ proposal, setStage }) => {
-  const [localStage, setLocalStage] = useState(proposal?.stage);
-  useEffect(() => {
-    setLocalStage(proposal?.stage);
-  }, [proposal?.stage]);
+interface DraftPlateProps {
+  options: [Option, Option];
+  value: string;
+  onChange: (value: string) => void;
+  bgColor?: string;
+  knobColor?: string;
+  textColor?: string;
+  rounded?: string;
+}
 
-  const isDraft = localStage === "draft";
+export const DraftPlate = ({
+  options,
+  value,
+  onChange,
+  bgColor = "bg-primary",
+  knobColor = "bg-primary",
+  textColor = "text-background",
+  rounded = "",
+}: DraftPlateProps) => {
+  const [optionA, optionB] = options;
+  const isA = value === optionA.value;
 
-  const toggleStage = () => {
-    const newStage = isDraft ? "for-review" : "draft";
-    setLocalStage(newStage);
-    setStage(newStage);
-  };
+  const toggle = () => onChange(isA ? optionB.value : optionA.value);
+
+  const statusText = isA ? optionA.statusText : optionB.statusText;
 
   return (
-    <div className="w-full h-[4rem] bg-primary text-background font-semibold text-lg flex items-center justify-between px-4 mb-10 text-[16px]">
-      <div className="py-2">
-        {isDraft ? "Proposal in progress" : "Ready for review"}
-      </div>
+    <div
+      className={`w-full h-[4rem] ${bgColor} ${rounded} ${textColor} font-semibold text-lg flex items-center justify-between px-4 text-[16px] `}
+    >
+      <div className="py-2">{statusText}</div>
 
       <div className="flex items-center gap-4">
-        {/* LEFT LABEL */}
-        <span className="text-sm opacity-80">Draft</span>
+        <span className="text-sm opacity-80">{optionA.label}</span>
 
-        {/* TOGGLE */}
         <button
-          onClick={toggleStage}
-          className="
-            relative inline-flex h-6 w-11 items-center
-            rounded-full transition bg-background
-          "
+          onClick={toggle}
+          className="relative inline-flex h-6 w-11 items-center rounded-full transition bg-background"
         >
           <span
-            className={`
-              inline-block h-5 w-5 transform
-              rounded-full bg-primary transition
-              ${isDraft ? "translate-x-1" : "translate-x-5"}
-            `}
+            className={`inline-block h-5 w-5 transform rounded-full ${knobColor} transition ${
+              isA ? "translate-x-1" : "translate-x-5"
+            }`}
           />
         </button>
 
-        {/* RIGHT LABEL */}
-        <span className="text-sm opacity-80">For Review</span>
+        <span className="text-sm opacity-80">{optionB.label}</span>
       </div>
     </div>
   );

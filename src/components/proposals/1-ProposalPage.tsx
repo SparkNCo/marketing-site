@@ -6,7 +6,6 @@ import { DraftPlate } from "./DraftPlate";
 import ProposalSection from "./proposalSection/ProposalSection";
 import ProposalDrawer from "./ProposalDrawer";
 import ProposalSidebar from "./ProposalSidebar";
-import RequirementDisplayer from "./RequirementDisplayer";
 import Footer from "../Footer";
 import DiscoveryForm from "../DiscoveryForm";
 
@@ -182,9 +181,8 @@ export default function ProposalPage({
     formatted_date: "",
     currentState: proposal.lead?.discovery_state ?? "",
   };
-
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background font-body lg:flex-row">
+    <div className="flex min-h-screen w-full flex-col bg-background font-body lg:flex-row ">
       {/* Sidebar — hidden when viewing features */}
       {!showFeatures && (
         <aside
@@ -207,40 +205,67 @@ export default function ProposalPage({
             />
           </div>
         )}
-
-        <div className="bg-background">
-          <div className="mx-auto w-full max-w-4xl px-4 pb-12 pt-2 lg:pt-6">
+        <div
+          className="bg-background 
+"
+        >
+          <div className="mx-auto w-full max-w-4xl px-4 pb-12 pt-2 lg:pt-6 ">
             {/* Toggle */}
-            <div className="mb-6 flex items-center gap-3">
-              <span className="text-sm text-foreground/60">Proposal</span>
-              <button
-                onClick={() => setShowFeatures((v) => !v)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                  showFeatures ? "bg-primary" : "bg-foreground/20"
-                }`}
-              >
-                <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    showFeatures ? "translate-x-6" : "translate-x-1"
-                  }`}
-                />
-              </button>
-              <span className="text-sm text-foreground/60">Features</span>
-            </div>
 
             {showFeatures ? (
-              <DiscoveryForm
-                proposal={localProposal}
-                passcode={proposal.passcode}
-                pageMode=""
-                setPageMode={() => {}}
-                readOnly={isAdmin}
-                features={proposal.features ?? []}
-                discoveryState={discoveryState}
-                formatted_date={localProposal?.lead.formatted_date}
-              />
+              <div>
+                <DraftPlate
+                  value={showFeatures ? "features" : "proposal"}
+                  onChange={(v) => setShowFeatures(v === "features")}
+                  bgColor="bg-background"
+                  textColor="text-foreground"
+                  rounded="rounded-t-xl"
+                  options={[
+                    {
+                      value: "proposal",
+                      label: "Proposal",
+                      statusText: "Viewing",
+                    },
+                    {
+                      value: "features",
+                      label: "Features",
+                      statusText: "Viewing",
+                    },
+                  ]}
+                />
+                <DiscoveryForm
+                  proposal={localProposal}
+                  passcode={proposal.passcode}
+                  pageMode=""
+                  setPageMode={() => {}}
+                  readOnly={isAdmin}
+                  features={proposal.features ?? []}
+                  discoveryState={discoveryState}
+                  formatted_date={localProposal?.lead.formatted_date}
+                />
+              </div>
             ) : (
               <>
+                <DraftPlate
+                  value={showFeatures ? "features" : "proposal"}
+                  onChange={(v) => setShowFeatures(v === "features")}
+                  bgColor="bg-background"
+                  textColor="text-foreground"
+                  rounded="rounded-t-xl"
+                  options={[
+                    {
+                      value: "proposal",
+                      label: "Proposal",
+                      statusText: "Viewing ",
+                    },
+                    {
+                      value: "features",
+                      label: "Features",
+                      statusText: "Viewing ",
+                    },
+                  ]}
+                />
+
                 {Object.entries(sections).map(([sectionKey, sectionData]) => (
                   <div
                     key={sectionKey}
@@ -267,19 +292,28 @@ export default function ProposalPage({
                   />
                 )}
 
-                <DraftPlate proposal={localProposal} setStage={setStage} />
-
-                <div
-                  className="text-foreground"
-                  onClick={() => console.log({ localProposal })}
-                >
-                  VER CONVER proposal
-                </div>
+                <DraftPlate
+                  value={localProposal.stage}
+                  onChange={setStage}
+                  bgColor="bg-primary"
+                  rounded="rounded-b-xl"
+                  options={[
+                    {
+                      value: "draft",
+                      label: "Draft",
+                      statusText: "Proposal in progress",
+                    },
+                    {
+                      value: "for-review",
+                      label: "For Review",
+                      statusText: "Ready for review",
+                    },
+                  ]}
+                />
               </>
             )}
-
-            <Footer mode="relative" />
           </div>
+          <Footer mode="relative" />
         </div>
       </div>
     </div>
