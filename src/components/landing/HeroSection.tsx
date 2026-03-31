@@ -27,12 +27,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
   return (
     <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20  relative">
       {/* <div className="absolute top-0 left-0 w-full h-[95px] bg-foreground w-[100vw] " /> */}
+      
       <section
         data-header="light"
         className="
           relative
           w-full lg:w-1/2
-          mt-[25px] md:mt-[40px] lg:mt-[90px]
+          mt-[25px] 
           min-h-[535px] lg:min-h-[800px]
           flex flex-col items-start 
         "

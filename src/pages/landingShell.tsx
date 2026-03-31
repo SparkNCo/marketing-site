@@ -70,8 +70,8 @@ export default function LandingShell({ user, location }: Props) {
                 exit="exit"
                 transition={
                   transitionType === "fade"
-                    ? { duration: 0.25, ease: "easeOut" }
-                    : { duration: 0.4, ease: "easeInOut" }
+                    ? { duration: 0.5, ease: "easeOut" }
+                    : { duration: 0.8, ease: "easeInOut" }
                 }
               >
                 <LandingIsland

@@ -50,7 +50,7 @@ export default function Header({
   return (
     <header
       className={`
-        ${headerMode === "form" ? "relative  mx-auto mt-8" : "fixed top-6 left-1/2 -translate-x-1/2"}
+        ${"fixed top-6 left-1/2 -translate-x-1/2"}
         ${hidden ? "-translate-y-32 opacity-0" : "translate-y-0 opacity-100"}
         transition-all duration-300 z-50 w-full max-w-4xl px-4
       `}

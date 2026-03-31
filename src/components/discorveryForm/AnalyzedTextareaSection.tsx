@@ -34,8 +34,6 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
     (passedCount / Object.keys(analysis).length) * 100,
   );
 
-  const currentTip = tips.find((tip) => !analysis[tip.key as keyof T]) ?? null;
-
   return (
     <div>
       <h3 className="mb-2 text-heading2 font-bold text-primary">{title}</h3>
@@ -58,12 +56,30 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
         </div>
       </div>
 
-      {currentTip && (
-        <div className="flex items-start gap-2 text-body text-foreground mt-3">
-          <Check className="mt-0.5 h-4 w-4 text-gray-400" />
-          <span>{currentTip.text}</span>
-        </div>
-      )}
+      <div className="mt-3 space-y-1.5">
+        {tips.map((tip) => {
+          const isDone = analysis[tip.key as keyof T];
+          return (
+            <div
+              key={tip.key as string}
+              className="flex items-start gap-2 text-body"
+            >
+              <Check
+                className={`mt-0.5 h-4 w-4 ${
+                  isDone ? "text-primary" : "text-gray-500"
+                }`}
+              />
+              <span
+                className={
+                  isDone ? "text-primary" : "text-foreground/80"
+                }
+              >
+                {tip.text}
+              </span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
