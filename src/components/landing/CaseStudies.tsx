@@ -5,51 +5,66 @@ function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
   const caseStudies = [
     {
       id: 1,
-      title: "Title",
+      title: "BeAssured",
+      subtitle: "SEO and GMB Optimization Platform",
       review:
-        "Some quote to be collected, Some quote to be collected, Some quote to be collected...",
-      author: "Sash Alagh",
-      role: "CEO",
+        "Couldn't be happier—the team turned our SEO and GMB goals into a product we trust and enjoy shipping.",
+      author: "Tom Davenport",
+      role: "Owner",
     },
     {
       id: 2,
-      title: "Title",
+      title: "RentScape",
+      subtitle: "Automated Rental Listing Agent",
       review:
-        "Some quote to be collected, Some quote to be collected, Some quote to be collected...",
-      author: "Sash Alagh",
+        "Your crew made building our rental agent feel effortless; we're grateful for the speed, care, and partnership.",
+      author: "Nicolaus Wong",
       role: "CEO",
     },
     {
       id: 3,
-      title: "Title",
+      title: "Bender",
+      subtitle: "Social Media Chat Manager",
       review:
-        "Some quote to be collected, Some quote to be collected, Some quote to be collected...",
-      author: "Sash Alagh",
-      role: "CEO",
+        "Working with you was a joy—you helped us ship a social chat product that finally matches our brand and pace.",
+      author: "Ivo Sofiganov",
+      role: "Owner",
     },
     {
       id: 4,
-      title: "Title",
+      title: "PursuitAI",
+      subtitle: "Fitness and Nutrition AI App",
       review:
-        "Some quote to be collected, Some quote to be collected, Some quote to be collected...",
+        "Delighted you steered our fitness app from fuzzy idea to launch; the collaboration felt supportive every week.",
       author: "Sash Alagh",
       role: "CEO",
     },
     {
       id: 5,
-      title: "Title",
+      title: "NextMarket",
+      subtitle: "Vendor Marketplace",
       review:
-        "Some quote to be collected, Some quote to be collected, Some quote to be collected...",
-      author: "Sash Alagh",
+        "Incredibly thankful for how you walked us through marketplace complexity and helped us ship with confidence.",
+      author: "Alkyhan Sehra",
       role: "CEO",
     },
     {
       id: 6,
-      title: "Title",
+      title: "Curabit",
+      subtitle: "Chatbot and Chat Analysis Platform",
       review:
-        "Some quote to be collected, Some quote to be collected, Some quote to be collected...",
-      author: "Sash Alagh",
+        "Happy isn't strong enough—you helped us unify reviews and chatbot flows so support finally feels human.",
+      author: "Sana Mungroo",
       role: "CEO",
+    },
+    {
+      id: 7,
+      title: "SoCo Market",
+      subtitle: "Link-in-bio Services and Crypto Transfers",
+      review:
+        "Thrilled with how you shaped our link-in-bio and crypto experience; customers feel the polish and we do too.",
+      author: "Thai Doan",
+      role: "CMO",
     },
   ];
 
@@ -59,7 +74,7 @@ function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
 
   return (
     <section className="bg-background mt-32 py-32 overflow-hidden ">
-      <div className="pl-16 mb-20">
+      <div className="px-6 lg:px-16 mb-20">
         <h2 className="text-largeBody md:text-heading1 text-foreground mb-4 text-left">
           Don't just take our word for it
         </h2>

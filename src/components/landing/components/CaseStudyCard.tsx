@@ -1,6 +1,7 @@
 type CaseStudy = {
   id: number;
   title: string;
+  subtitle: string;
   review: string;
   author: string;
   role: string;
@@ -8,15 +9,18 @@ type CaseStudy = {
 
 export function CaseStudyCard({ study }: { study: CaseStudy }) {
   return (
-    <div className="max-w-[45rem] h-[220px] bg-white  overflow-hidden shadow-md flex-shrink-0 relative">
+    <div className="max-w-[45rem] min-h-[260px] h-[260px] bg-white  overflow-hidden shadow-md flex-shrink-0 relative">
       {/* Content */}
       <div className="p-6 pr-[38%] h-full flex flex-col justify-between">
         <div>
-          <h3 className="text-heading2 font-bold text-black mb-3 ">
+          <h3 className="text-heading2 font-bold text-black mb-1 ">
             {study.title}
           </h3>
+          <p className="text-smalltext text-gray-600 leading-snug mb-3 w-3/4 line-clamp-2">
+            {study.subtitle}
+          </p>
 
-          <p className="text-body text-gray-700 italic leading-relaxed line-clamp-5 w-3/4">
+          <p className="text-body text-gray-700 italic leading-relaxed line-clamp-4 w-3/4">
             "{study.review}"
           </p>
         </div>

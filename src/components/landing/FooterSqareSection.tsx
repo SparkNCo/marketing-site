@@ -2,7 +2,7 @@ export default function FooterSqareSection() {
   return (
     <div className="relative text-foreground h-[275px] md:h-[300px] lg:h-[475px] w-full">
       <img
-        src={"/nbarIcon.png"}
+        src={"/icon.svg"}
         alt="spark/co"
         className="
           w-40 h-40 object-contain

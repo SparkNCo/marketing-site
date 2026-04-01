@@ -17,6 +17,7 @@ const FeaturesSection = lazy(() => import("./landing/FeaturesSection"));
 const ProcessSection = lazy(() => import("./landing/ProcessSection"));
 const CaseStudiesSection = lazy(() => import("./landing/CaseStudies"));
 const FastTrackSection = lazy(() => import("./landing/FastTrackSection"));
+const FAQSection = lazy(() => import("./landing/FAQSection"));
 
 const LandingIsland: React.FC<LandingIslandProps> = ({
   mode,
@@ -82,7 +83,10 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
       </SquaresGridLayout>
 
       <FeaturesSection setSelectedFeatures={setSelectedFeatures} />
-      <PostsSection selectedFeatures={selectedFeatures} />
+      {/* Hide until posts are ready */}
+      {/* <PostsSection selectedFeatures={selectedFeatures} /> */}
+
+      <FAQSection />
 
       <SquaresGridLayout
         squares={FooterLeftRightSquares}
