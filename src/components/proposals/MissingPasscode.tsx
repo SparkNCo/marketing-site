@@ -175,7 +175,7 @@ export const LoadingProposal = () => {
           <p className="text-heading2 font-title font-semibold text-primary">
             Loading proposal…
           </p>
-          <p className="text-smalltext text-foreground/80">Please wait a moment</p>
+          <p className="text-smalltext text-foreground">Please wait a moment</p>
         </div>
       </div>
     </div>
