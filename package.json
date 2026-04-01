@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "pnpm exec astro dev",
     "build": "pnpm exec astro build",
-    "start": "pnpm exec astro preview"
+    "start": "pnpm exec astro preview",
+    "add-skills": "mkdir -p .cursor/skills && cp -R .agents/skills/* .cursor/skills/"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
