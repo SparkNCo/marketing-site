@@ -438,199 +438,203 @@ export function SDLCDonutChart() {
       className="flex w-full flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-12 
 "
     >
-      {/* Left: Chart (3/5) */}
-      <div className="flex flex-col items-center gap-6 lg:w-3/5">
-        {/* Chart Container */}
-        <div
-          className="relative"
-          style={{
-            width: SIZE + LABEL_RADIUS * 2,
-            height: SIZE + LABEL_RADIUS * 2,
-          }}
-        >
-          <svg
-            width={SIZE}
-            height={SIZE}
-            viewBox={`0 0 ${SIZE} ${SIZE}`}
-            className="absolute drop-shadow-2xl"
-            style={{ left: LABEL_RADIUS, top: LABEL_RADIUS }}
-          >
-            <defs>
-              <linearGradient
-                id="energyGradient"
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="100%"
-              >
-                <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.8" />
-                <stop offset="50%" stopColor="#F99550" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#F78035" stopOpacity="0.8" />
-              </linearGradient>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                <feMerge>
-                  <feMergeNode in="coloredBlur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-
-            {/* Energy ring for complete state */}
-            {isComplete && <EnergyRing />}
-
-            {/* Segments */}
-            {SEGMENTS.map((segment, index) => (
-              <SegmentArc
-                key={segment.id}
-                segment={segment}
-                startAngle={segmentAngles[index].startAngle}
-                endAngle={segmentAngles[index].endAngle}
-                isSelected={selectedSegments.has(segment.id)}
-                isHovered={hoveredSegment === segment.id}
-                isComplete={isComplete || completingIndex >= index}
-                onClick={() => toggleSegment(segment.id)}
-                onMouseEnter={() => setHoveredSegment(segment.id)}
-                onMouseLeave={() => setHoveredSegment(null)}
-                hasAnySelection={hasAnySelection}
-              />
-            ))}
-          </svg>
-
-          {/* Center Text */}
+      <div className="flex flex-col items-center gap-6 overflow-hidden lg:w-3/5 lg:overflow-visible">
+        <div className="-mb-[350px] origin-top scale-[0.54] lg:mb-0 lg:scale-100">
           <div
-            className="absolute flex flex-col items-center justify-center"
+            className="relative"
             style={{
-              left: LABEL_RADIUS,
-              top: LABEL_RADIUS,
-              width: SIZE,
-              height: SIZE,
+              width: SIZE + LABEL_RADIUS * 2,
+              height: SIZE + LABEL_RADIUS * 2,
             }}
           >
-            <AnimatePresence mode="wait">
-              {isComplete ? (
-                <motion.div
-                  key="complete"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  className="flex flex-col items-center text-center"
+            <svg
+              width={SIZE}
+              height={SIZE}
+              viewBox={`0 0 ${SIZE} ${SIZE}`}
+              className="absolute drop-shadow-2xl"
+              style={{ left: LABEL_RADIUS, top: LABEL_RADIUS }}
+            >
+              <defs>
+                <linearGradient
+                  id="energyGradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="100%"
                 >
-                  <span
-                    className="text-4xl font-bold"
-                    style={{
-                      color: "#F78035",
-                      textShadow: "0 0 20px rgba(247, 128, 53, 0.5)",
-                    }}
+                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.8" />
+                  <stop offset="50%" stopColor="#F99550" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#F78035" stopOpacity="0.8" />
+                </linearGradient>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+
+              {/* Energy ring for complete state */}
+              {isComplete && <EnergyRing />}
+
+              {/* Segments */}
+              {SEGMENTS.map((segment, index) => (
+                <SegmentArc
+                  key={segment.id}
+                  segment={segment}
+                  startAngle={segmentAngles[index].startAngle}
+                  endAngle={segmentAngles[index].endAngle}
+                  isSelected={selectedSegments.has(segment.id)}
+                  isHovered={hoveredSegment === segment.id}
+                  isComplete={isComplete || completingIndex >= index}
+                  onClick={() => toggleSegment(segment.id)}
+                  onMouseEnter={() => setHoveredSegment(segment.id)}
+                  onMouseLeave={() => setHoveredSegment(null)}
+                  hasAnySelection={hasAnySelection}
+                />
+              ))}
+            </svg>
+
+            {/* Center Text */}
+            <div
+              className="absolute flex flex-col items-center justify-center "
+              style={{
+                left: LABEL_RADIUS,
+                top: LABEL_RADIUS,
+                width: SIZE,
+                height: SIZE,
+              }}
+            >
+              <AnimatePresence mode="wait">
+                {isComplete ? (
+                  <motion.div
+                    key="complete"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="flex flex-col items-center text-center"
                   >
-                    100%
-                  </span>
-                  <span className="text-sm font-medium text-foreground">
-                    System Complete
-                  </span>
-                  <span className="text-xs text-muted-foreground">
-                    Ready to Launch
-                  </span>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="progress"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="flex flex-col items-center text-center"
-                >
-                  <span className="text-4xl font-bold text-foreground">
-                    {completionPercentage}%
-                  </span>
-                  <span className="max-w-[120px] text-xs text-foreground">
-                    {hasAnySelection
-                      ? "System Completeness"
-                      : "How complete is your system?"}
-                  </span>
-                </motion.div>
+                    <span
+                      className="text-4xl font-bold"
+                      style={{
+                        color: "#F78035",
+                        textShadow: "0 0 20px rgba(247, 128, 53, 0.5)",
+                      }}
+                    >
+                      100%
+                    </span>
+                    <span className="text-sm font-medium text-foreground">
+                      System Complete
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      Ready to Launch
+                    </span>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="progress"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="flex flex-col items-center text-center"
+                  >
+                    <span className="text-4xl font-bold text-foreground">
+                      {completionPercentage}%
+                    </span>
+                    <span className="max-w-[120px] text-xs text-foreground">
+                      {hasAnySelection
+                        ? "System Completeness"
+                        : "How complete is your system?"}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Tooltip */}
+            <AnimatePresence>
+              {hoveredSegmentData && hoveredAngle && (
+                <Tooltip
+                  segment={hoveredSegmentData}
+                  isSelected={selectedSegments.has(hoveredSegmentData.id)}
+                  position={{
+                    x:
+                      SIZE / 2 +
+                      RADIUS *
+                        Math.cos(
+                          (((hoveredAngle.startAngle + hoveredAngle.endAngle) /
+                            2 -
+                            90) *
+                            Math.PI) /
+                            180,
+                        ),
+                    y:
+                      SIZE / 2 +
+                      RADIUS *
+                        Math.sin(
+                          (((hoveredAngle.startAngle + hoveredAngle.endAngle) /
+                            2 -
+                            90) *
+                            Math.PI) /
+                            180,
+                        ),
+                  }}
+                />
               )}
             </AnimatePresence>
-          </div>
 
-          {/* Tooltip */}
-          <AnimatePresence>
-            {hoveredSegmentData && hoveredAngle && (
-              <Tooltip
-                segment={hoveredSegmentData}
-                isSelected={selectedSegments.has(hoveredSegmentData.id)}
-                position={{
-                  x:
-                    SIZE / 2 +
-                    RADIUS *
-                      Math.cos(
-                        (((hoveredAngle.startAngle + hoveredAngle.endAngle) /
-                          2 -
-                          90) *
-                          Math.PI) /
-                          180,
-                      ),
-                  y:
-                    SIZE / 2 +
-                    RADIUS *
-                      Math.sin(
-                        (((hoveredAngle.startAngle + hoveredAngle.endAngle) /
-                          2 -
-                          90) *
-                          Math.PI) /
-                          180,
-                      ),
-                }}
-              />
-            )}
-          </AnimatePresence>
+            {/* Radial Labels — inside chart container so they're always centered */}
+            <div
+              className="absolute inset-0 scale-[1.2] lg:scale-100"
+              style={{ pointerEvents: "none" }}
+            >
+              {SEGMENTS.map((segment, index) => {
+                const midAngle =
+                  (segmentAngles[index].startAngle +
+                    segmentAngles[index].endAngle) /
+                  2;
+                const angleRad = ((midAngle - 90) * Math.PI) / 180;
+                const labelX =
+                  (SIZE + LABEL_RADIUS * 2) / 2 +
+                  LABEL_RADIUS * Math.cos(angleRad);
+                const labelY =
+                  (SIZE + LABEL_RADIUS * 2) / 2 +
+                  LABEL_RADIUS * Math.sin(angleRad);
 
-          {/* Radial Labels — inside chart container so they're always centered */}
-          <div className="absolute inset-0" style={{ pointerEvents: "none" }}>
-            {SEGMENTS.map((segment, index) => {
-              const midAngle =
-                (segmentAngles[index].startAngle +
-                  segmentAngles[index].endAngle) /
-                2;
-              const angleRad = ((midAngle - 90) * Math.PI) / 180;
-              const labelX =
-                (SIZE + LABEL_RADIUS * 2) / 2 +
-                LABEL_RADIUS * Math.cos(angleRad);
-              const labelY =
-                (SIZE + LABEL_RADIUS * 2) / 2 +
-                LABEL_RADIUS * Math.sin(angleRad);
-
-              return (
-                <button
-                  key={segment.id}
-                  onClick={() => toggleSegment(segment.id)}
-                  className={cn(
-                    "absolute flex items-center gap-2 border px-3 py-1.5 text-xs font-medium transition-all whitespace-nowrap pointer-events-auto",
-                    selectedSegments.has(segment.id) || isComplete
-                      ? "border-transparent bg-secondary/50 text-foreground"
-                      : "border-border bg-transparent text-foreground hover:border-muted-foreground",
-                  )}
-                  style={{
-                    left: labelX,
-                    top: labelY,
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  <span
-                    className="h-2 w-2 rounded-full"
+                return (
+                  <button
+                    key={segment.id}
+                    onClick={() => toggleSegment(segment.id)}
+                    className={cn(
+                      "absolute flex items-center gap-3 border px-[18px] py-[9px] text-lg font-medium transition-all whitespace-nowrap pointer-events-auto lg:gap-2 lg:px-3 lg:py-1.5 lg:text-xs",
+                      selectedSegments.has(segment.id) || isComplete
+                        ? "border-transparent bg-secondary/50 text-foreground"
+                        : "border-border bg-transparent text-foreground hover:border-muted-foreground",
+                    )}
                     style={{
-                      backgroundColor:
-                        selectedSegments.has(segment.id) || isComplete
-                          ? segment.color
-                          : "rgba(255,255,255,0.3)",
+                      left: labelX,
+                      top: labelY,
+                      transform: "translate(-50%, -50%)",
                     }}
-                  />
-                  {segment.shortName}
-                </button>
-              );
-            })}
+                  >
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{
+                        backgroundColor:
+                          selectedSegments.has(segment.id) || isComplete
+                            ? segment.color
+                            : "rgba(255,255,255,0.3)",
+                      }}
+                    />
+                    {segment.shortName}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
+        {/* end scale wrapper */}
 
         {/* <AnimatePresence>
           {hasAnySelection && !isComplete && (
