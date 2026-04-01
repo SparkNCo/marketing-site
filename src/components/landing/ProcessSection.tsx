@@ -106,10 +106,8 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
   const currentStep = visibleSteps[activeStep];
 
   return (
-    <section className="bg-background py-10 relative">
-      <div
-        className="w-full"
-      >
+    <section className="bg-background  relative  ">
+      <div className="w-full">
         <div className="grid grid-cols-[180px_1fr] md:grid-cols-[260px_1fr] lg:grid-cols-12 w-full ">
           {/* LEFT SIDE */}
           <div className="lg:col-span-4 pr-2 md:pr-4 relative z-10 w-full max-w-[400px] pb-[100%] mt-[25%] pl-8 mx-auto">

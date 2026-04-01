@@ -10,6 +10,7 @@ import FooterSqareSection from "./landing/FooterSqareSection";
 import Footer from "./Footer";
 import SquaresGridLayout from "./layouts/GridLayout";
 import { useResponsiveCellSize } from "./utils/useResponsiveCellSize";
+import DonutChatSection from "./landing/DonutChatSection";
 
 /* Lazy sections */
 const HeroSection = lazy(() => import("./landing/HeroSection"));
@@ -64,7 +65,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
         />
       </SquaresGridLayout>
       <CaseStudiesSection isMobile={isMobile} />
-
+      <DonutChatSection />
 
       <ProcessSection isMobile={isMobile} />
 
