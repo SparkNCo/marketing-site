@@ -75,7 +75,7 @@ export default function CtaProposal({
           </p>
 
           {/* Buttons */}
-          <div className="flex gap-4 w-full">
+          <div className="flex flex-col sm:flex-row gap-4 w-full">
             <ProposalButton
               icon={<CheckCircle className="w-5 h-5" />}
               disabled={isSigning}

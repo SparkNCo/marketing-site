@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { BookOpen, X } from "lucide-react";
 
 export default function ProposalDrawer({
   sections,
@@ -19,20 +19,16 @@ export default function ProposalDrawer({
 
   return (
     <>
-      {/* Trigger */}
-      <div className="flex items-center justify-between border-b border-foreground/10 px-4 py-3 lg:hidden">
-        <span className="text-smalltext font-medium text-foreground/80">
-          Proposal
-        </span>
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="rounded-md border border-foreground/15 p-2 text-foreground transition hover:bg-foreground/5"
-          aria-label="Open table of contents"
-        >
-          <Menu className="h-4 w-4" />
-        </button>
-      </div>
+      {/* Trigger — floating pill at bottom-right */}
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="fixed bottom-6 right-4 z-30 flex items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground shadow-lg transition hover:opacity-90 2xl:hidden"
+        aria-label="Open table of contents"
+      >
+        <BookOpen className="h-4 w-4" />
+        Contents
+      </button>
 
       {/* Overlay */}
       {open && (

@@ -187,8 +187,8 @@ export default function ProposalPage({
       {!showFeatures && (
         <aside
           className="
-            fixed top-0 left-0 hidden h-screen w-[min(20rem,32vw)] shrink-0 flex-col
-            border-foreground/10 bg-secondary/25 lg:flex lg:border-r
+            fixed top-0 left-0 hidden 2xl:flex h-screen w-[min(20rem,32vw)] shrink-0 flex-col
+            border-foreground/10 bg-secondary/25  lg:border-r
           "
         >
           <ProposalSidebar sections={sections} onSelect={scrollToSection} />
