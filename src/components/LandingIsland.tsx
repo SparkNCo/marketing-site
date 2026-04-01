@@ -62,8 +62,10 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
           }
         />
       </SquaresGridLayout>
-      <FeaturesSection setSelectedFeatures={setSelectedFeatures} />
-      <PostsSection selectedFeatures={selectedFeatures} />
+      <CaseStudiesSection isMobile={isMobile} />
+
+
+      <ProcessSection isMobile={isMobile} />
 
       <SquaresGridLayout
         squares={FastTrackSquaresConfig}
@@ -79,8 +81,8 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
         />
       </SquaresGridLayout>
 
-      <ProcessSection isMobile={isMobile} />
-      <CaseStudiesSection isMobile={isMobile} />
+      <FeaturesSection setSelectedFeatures={setSelectedFeatures} />
+      <PostsSection selectedFeatures={selectedFeatures} />
 
       <SquaresGridLayout
         squares={FooterLeftRightSquares}

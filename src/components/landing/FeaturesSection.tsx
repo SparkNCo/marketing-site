@@ -71,9 +71,12 @@ function FeaturesSection({ setSelectedFeatures }) {
   return (
     <div className="mx-auto w-full max-w-[850px]  lg:max-w-[1530px] px-4 sm:px-4 md:px-8 lg:px-12 relative mb-4 lg:mt-40 ">
       {" "}
-      <h1 className=" text-largeBody md:text-heading1  text-center  font-bold tracking-tight text-foreground my-10 leading-tight mt-28 lg:mt-4">
-        Development Principles
+      <h1 className=" text-largeBody md:text-heading1 text-center tracking-tight text-foreground my-2 leading-tight mt-28 lg:mt-4">
+        Operating Principles
       </h1>
+      <h2 className=" text-body text-center tracking-tight text-foreground mb-10 leading-tight max-w-[850px] mx-auto">
+        Good software is starts with strong foundations, ours are backed by industry standards, best practices, and experience in a wide range of organizations.
+      </h2>
       {/* MOBILE LAYOUT */}
       <div className="flex flex-col gap-4 lg:hidden max-w-[850px]   ">
         {modes.map((item) => (

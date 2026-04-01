@@ -154,7 +154,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
                   items-center lg:items-start 
                 "
               >
-                <h2 className="w-full collapse lg:visible text-largeBody md:text-heading1 font-bold text-foreground md:mb-0 lg:mb-0 pb-2">
+                <h2 className="w-full collapse lg:visible text-largeBody md:text-heading1 text-foreground md:mb-0 lg:mb-0 pb-2">
                   The Spark & Co Process
                 </h2>
                 <div className="w-full collapse lg:visible font-semibold text-heading2 flex items-end lg:mb-6">

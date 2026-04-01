@@ -58,11 +58,17 @@ function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
   const CardComponent = isMobile ? CaseStudyCardMobile : CaseStudyCard;
 
   return (
-    <section className="bg-background py-32 overflow-hidden ">
-      <div className="container mx-auto px-6 mb-20">
-        <h2 className="text-largeBody md:text-heading1 font-bold text-foreground  mb-12 text-center">
-          Case Studies
+    <section className="bg-background mt-32 py-32 overflow-hidden ">
+      <div className="pl-16 mb-20">
+        <h2 className="text-largeBody md:text-heading1 text-foreground mb-4 text-left">
+          Don't just take our word for it
         </h2>
+
+        <p className="text-body md:text-heading2 text-foreground mb-12 text-left leading-relaxed lg:container">
+          We partner with teams to ship software that holds up in production, not
+          just on a roadmap. Here’s how founders and product leaders describe
+          working with us—and what it unlocked for their businesses.
+        </p>
       </div>
 
       {/* Top row */}
