@@ -91,7 +91,7 @@ function PostContent({
           <PostFooter
             height="h-[180px]"
             bgColor={isCentered ? "bg-[#111111]" : "bg-[#F7F4F0]"}
-            imgSrc={isCentered ? "/nbarIcon.png" : "/nbarIcon2.png"}
+            imgSrc={isCentered ? "/icon.svg" : "/icon2.svg"}
             arrowColor={isCentered ? "white" : "black"}
             className=" w-[1000px] px-[40px]"
           />

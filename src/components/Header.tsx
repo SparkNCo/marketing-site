@@ -53,7 +53,7 @@ export default function Header({
         {/* Logo */}
         <div className="w-12 h-12 flex items-center justify-center z-10">
           <img
-            src={mode === "dark" ? "/nbarIcon2.png" : "/nbarIcon.png"}
+            src={mode === "dark" ? "/icon2.svg" : "/icon.svg"}
             alt="spark/co"
             className="w-full h-full object-contain cursor-pointer"
             onClick={() => (window.location.href = "/")}
@@ -135,7 +135,7 @@ export default function Header({
 //         {/* Logo */}
 //         <div className="w-12 h-12 flex items-center justify-center z-10">
 //           <img
-//             src={mode === "dark" ? "/nbarIcon2.png" : "/nbarIcon.png"}
+//             src={mode === "dark" ? "/icon.svg" : "/icon.svg"}
 //             alt="spark/co"
 //             className="w-full h-full object-contain cursor-pointer"
 //             onClick={() => (window.location.href = "/")}

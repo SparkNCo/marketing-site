@@ -117,7 +117,7 @@ const faqData: FAQItem[] = [
 
 function FAQSection() {
   return (
-    <section className="w-full bg-background py-20 md:py-32">
+    <section className="w-full bg-background py-20 ">
       <div className="max-w-[850px] mx-auto px-4 md:px-8 lg:px-0">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -125,10 +125,10 @@ function FAQSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-largeBody md:text-heading1 text-foreground mb-4 text-center font-title font-bold">
+          <h2 className="text-largeBody md:text-heading1 text-foreground mb-4 text-center font-title">
             Frequently Asked Questions
           </h2>
-          <p className="text-body text-foreground/80 mb-12 text-center leading-relaxed max-w-[650px] mx-auto">
+          <p className="text-body text-foreground mb-12 text-center leading-relaxed max-w-[650px] mx-auto">
             Everything you need to know about working with us, from ownership
             and security to delivery and pricing.
           </p>
@@ -137,7 +137,6 @@ function FAQSection() {
         <Accordion.Root
           type="single"
           collapsible
-          className="space-y-4"
         >
           {faqData.map((faq, index) => (
             <motion.div
@@ -149,22 +148,22 @@ function FAQSection() {
             >
               <Accordion.Item
                 value={`item-${faq.id}`}
-                className="border border-foreground/20 bg-foreground/5 backdrop-blur-sm overflow-hidden group hover:border-primary/50 transition-colors duration-300"
+                className="group border border-foreground/20 bg-background text-foreground overflow-hidden transition-colors duration-300 hover:bg-secondary hover:text-background data-[state=open]:bg-secondary data-[state=open]:text-background"
               >
                 <Accordion.Header>
-                  <Accordion.Trigger className="w-full flex items-center justify-between px-6 py-5 text-left group/trigger">
-                    <span className="text-body md:text-heading2 text-foreground font-semibold font-title pr-4 group-hover/trigger:text-primary transition-colors duration-300">
+                  <Accordion.Trigger className="w-full flex items-center justify-between px-6 py-5 text-left">
+                    <span className="text-body md:text-heading2 pr-4 text-inherit [font-family:var(--font-title)]">
                       {faq.question}
                     </span>
                     <ChevronDown
-                      className="w-5 h-5 md:w-6 md:h-6 text-primary flex-shrink-0 transition-transform duration-300 group-data-[state=open]:rotate-180"
+                      className="w-5 h-5 md:w-6 md:h-6 shrink-0 text-inherit transition-transform duration-300 group-data-[state=open]:rotate-180"
                       aria-hidden="true"
                     />
                   </Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Content className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
                   <div className="px-6 pb-5 pt-1">
-                    <p className="text-body text-foreground/90 leading-relaxed font-body">
+                    <p className="text-body leading-relaxed text-inherit [font-family:var(--font-body)]">
                       {faq.answer}
                     </p>
                   </div>

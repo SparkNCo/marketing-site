@@ -74,7 +74,7 @@ function PostContent({ squaresConfig, blog, layoutType }: PostShellProps) {
       <PostFooter
         height="h-[180px]"
         bgColor={isCentered ? "bg-[#111111]" : "bg-[#F7F4F0]"}
-        imgSrc={isCentered ? "/nbarIcon.png" : "/nbarIcon2.png"}
+        imgSrc={isCentered ? "/icon.svg" : "/icon2.svg"}
         arrowColor={isCentered ? "text-foreground" : "text-background"}
       />
     </div>

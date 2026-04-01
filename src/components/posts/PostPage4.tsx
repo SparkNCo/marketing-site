@@ -39,7 +39,7 @@ export function PostPage4() {
           behind.{" "}
         </p>{" "}
         <img
-          src={"/nbarIcon.png"}
+          src={"/icon.svg"}
           alt="footer-icon"
           className="w-24 h-24 object-contain mx-auto mt-12"
         />{" "}

@@ -6,7 +6,7 @@ import { patchIgPost } from "./patchPost";
 export default function PostFooter({
   height = "h-28",
   bgColor = "bg-white",
-  imgSrc = "/nbarIcon2.png",
+  imgSrc = "/icon2.svg",
   arrowColor = "text-white",
   hideComponets = false,
   className = "",

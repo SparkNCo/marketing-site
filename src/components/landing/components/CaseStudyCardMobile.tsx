@@ -1,6 +1,7 @@
 type CaseStudy = {
   id: number;
   title: string;
+  subtitle: string;
   review: string;
   author: string;
   role: string;
@@ -12,11 +13,14 @@ export function CaseStudyCardMobile({ study }: { study: CaseStudy }) {
       {/* Content */}
       <div className="p-6 flex flex-col justify-between">
         <div>
-          <h3 className="text-lg font-bold text-black mb-3">
+          <h3 className="text-lg font-bold text-black mb-1">
             {study.title}
           </h3>
+          <p className="text-xs text-gray-600 leading-snug mb-2 line-clamp-2">
+            {study.subtitle}
+          </p>
 
-          <p className="text-sm text-gray-700 italic leading-relaxed line-clamp-5">
+          <p className="text-sm text-gray-700 italic leading-relaxed line-clamp-4">
             "{study.review}"
           </p>
         </div>
