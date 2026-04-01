@@ -13,6 +13,7 @@ import { useResponsiveCellSize } from "./utils/useResponsiveCellSize";
 
 /* Lazy sections */
 const HeroSection = lazy(() => import("./landing/HeroSection"));
+const SocialProofSection = lazy(() => import("./landing/SocialProofSection"));
 const FeaturesSection = lazy(() => import("./landing/FeaturesSection"));
 const ProcessSection = lazy(() => import("./landing/ProcessSection"));
 const CaseStudiesSection = lazy(() => import("./landing/CaseStudies"));
@@ -62,6 +63,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
           }
         />
       </SquaresGridLayout>
+      <SocialProofSection />
       <FeaturesSection setSelectedFeatures={setSelectedFeatures} />
       <PostsSection selectedFeatures={selectedFeatures} />
 
