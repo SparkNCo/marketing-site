@@ -28,7 +28,7 @@ export default function DonutChatSection() {
           <h1 className="text-largeBody md:text-heading1 font-bold tracking-tight text-foreground ">
             Code Generation is Only the Beginning
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl  text-body text-foreground">
+          <p className="mx-auto mt-4 max-w-2xl  text-body text-donut">
             Discover why your development process might not be as complete as
             you think. Select the phases you&apos;ve implemented and see the
             full picture.

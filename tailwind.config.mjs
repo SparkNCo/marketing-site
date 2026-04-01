@@ -21,6 +21,7 @@ export default {
         surface: "var(--surface)",
         secondary: "var(--secondary)",
         card: "var(--card)",
+        donut: "var(--donut)",
       },
     },
   },

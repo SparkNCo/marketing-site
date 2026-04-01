@@ -108,7 +108,7 @@ const STROKE_WIDTH = 44;
 const RADIUS = (SIZE - STROKE_WIDTH) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const GAP = 0; // degrees - no gap for straight edges
-const LABEL_RADIUS = RADIUS + STROKE_WIDTH / 2 + 60; // Distance from center for labels
+const LABEL_RADIUS = RADIUS + STROKE_WIDTH / 2 + 90; // Distance from center for labels
 
 function polarToCartesian(
   centerX: number,
@@ -607,10 +607,10 @@ export function SDLCDonutChart() {
                     key={segment.id}
                     onClick={() => toggleSegment(segment.id)}
                     className={cn(
-                      "absolute flex items-center gap-3 border px-[18px] py-[9px] text-lg font-medium transition-all whitespace-nowrap pointer-events-auto lg:gap-2 lg:px-3 lg:py-1.5 lg:text-xs",
+                      "absolute flex items-center gap-3 border px-[18px] py-[9px] text-lg font-medium transition-all whitespace-nowrap pointer-events-auto lg:gap-2 lg:px-3 lg:py-1.5 lg:text-body",
                       selectedSegments.has(segment.id) || isComplete
                         ? "border-transparent bg-secondary/50 text-foreground"
-                        : "border-border bg-transparent text-foreground hover:border-muted-foreground",
+                        : "border-donut bg-transparent text-foreground hover:border-muted-foreground",
                     )}
                     style={{
                       left: labelX,
