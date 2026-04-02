@@ -15,19 +15,19 @@ export default function Footer({ mode }) {
           lg:flex lg:flex-row lg:justify-around lg:items-center lg:gap-10 lg:text-left py-6
         "
       >
-        <a href="/privacy-policy" className="hover:underline">
+        <a href="/privacy-policy" className="hover:underline p-2">
           Privacy Policy
         </a>
 
-        <a href="/terms-and-conditions" className="hover:underline">
+        <a href="/terms-and-conditions" className="hover:underline p-2">
           Terms and Conditions
         </a>
 
-        <a href="/cookie-policy" className="hover:underline">
+        <a href="/cookie-policy" className="hover:underline p-2">
           Cookie Policy
         </a>
 
-        <a href="/contact" className="hover:underline">
+        <a href="/contact" className="hover:underline p-2">
           Contact
         </a>
 

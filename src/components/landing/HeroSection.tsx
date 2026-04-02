@@ -72,7 +72,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           </div>
           <EmailCapture
             label="Ready to build?"
-            buttonClassName="w-[130px] h-[60px]"
+            buttonClassName="w-[130px] h-[60px] text-foreground bg-background"
             containerClassName="mb-6 w-full max-w-[420px]"
             inputWrapperClassName="max-w-[380px] md:max-w-full "
             onValidSubmit={() => setMode?.("form")}

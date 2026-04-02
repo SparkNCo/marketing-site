@@ -65,7 +65,11 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
         />
       </SquaresGridLayout>
       <CaseStudiesSection isMobile={isMobile} />
-      <DonutChatSection />
+      <DonutChatSection
+        setMode={
+          typeof goToFormFade === "function" ? goToFormFade : () => {}
+        }
+      />
 
       <ProcessSection isMobile={isMobile} />
 

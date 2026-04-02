@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import EmailCapture from "../../../ui/EmailTemplate/EmailInput";
 import { cn } from "./utils";
 
 interface Segment {
@@ -366,7 +367,11 @@ function EnergyRing() {
   );
 }
 
-export function SDLCDonutChart() {
+type SDLCDonutChartProps = {
+  setMode?: (mode: "index" | "form") => void;
+};
+
+export function SDLCDonutChart({ setMode }: SDLCDonutChartProps) {
   const [selectedSegments, setSelectedSegments] = useState<Set<string>>(
     new Set(),
   );
@@ -435,11 +440,13 @@ export function SDLCDonutChart() {
     : null;
   return (
     <div
-      className="flex w-full flex-col items-center gap-8 lg:flex-row lg:items-center lg:gap-12 
-"
+      className={cn(
+        "flex w-full flex-col items-center justify-center gap-8",
+        "lg:flex-row lg:items-center lg:justify-center lg:gap-10",
+      )}
     >
-      <div className="flex flex-col items-center gap-6 overflow-hidden lg:w-3/5 lg:overflow-visible">
-        <div className="-mb-[350px] origin-top scale-[0.54] lg:mb-0 lg:scale-100">
+      <div className="flex w-full flex-col items-center gap-6 overflow-hidden lg:w-fit lg:overflow-visible">
+        <div className="-mb-[200px] origin-top md:mb-0 scale-75 md:scale-100">
           <div
             className="relative"
             style={{
@@ -544,8 +551,8 @@ export function SDLCDonutChart() {
                     </span>
                     <span className="max-w-[120px] text-xs text-foreground">
                       {hasAnySelection
-                        ? "System Completeness"
-                        : "How complete is your system?"}
+                        ? "Production Readiness"
+                        : "How ready is your build?"}
                     </span>
                   </motion.div>
                 )}
@@ -584,9 +591,9 @@ export function SDLCDonutChart() {
               )}
             </AnimatePresence>
 
-            {/* Radial Labels — inside chart container so they're always centered */}
+            {/* Radial labels — md+ only (positioned around chart) */}
             <div
-              className="absolute inset-0 scale-[1.2] lg:scale-100"
+              className="absolute inset-0 hidden md:block lg:scale-100"
               style={{ pointerEvents: "none" }}
             >
               {SEGMENTS.map((segment, index) => {
@@ -605,11 +612,12 @@ export function SDLCDonutChart() {
                 return (
                   <button
                     key={segment.id}
+                    type="button"
                     onClick={() => toggleSegment(segment.id)}
                     className={cn(
                       "absolute flex items-center gap-3 border px-[18px] py-[9px] text-lg font-medium transition-all whitespace-nowrap pointer-events-auto lg:gap-2 lg:px-3 lg:py-1.5 lg:text-body",
                       selectedSegments.has(segment.id) || isComplete
-                        ? "border-transparent bg-secondary/50 text-foreground"
+                        ? "border-donut bg-secondary/50 text-foreground"
                         : "border-donut bg-transparent text-foreground hover:border-muted-foreground",
                     )}
                     style={{
@@ -635,6 +643,34 @@ export function SDLCDonutChart() {
           </div>
         </div>
         {/* end scale wrapper */}
+
+        {/* Below md: same controls under chart, flex-wrapped and centered */}
+        <div className="relative z-10 -mt-28 flex w-full max-w-md flex-wrap justify-center gap-2 px-3 md:hidden">
+          {SEGMENTS.map((segment) => (
+            <button
+              key={`mobile-${segment.id}`}
+              type="button"
+              onClick={() => toggleSegment(segment.id)}
+              className={cn(
+                "flex items-center gap-2 border px-3 py-2 text-smalltext font-medium transition-all",
+                selectedSegments.has(segment.id) || isComplete
+                  ? "border-donut bg-secondary/50 text-foreground"
+                  : "border-donut bg-transparent text-foreground hover:border-muted-foreground",
+              )}
+            >
+              <span
+                className="h-2 w-2 shrink-0 rounded-full"
+                style={{
+                  backgroundColor:
+                    selectedSegments.has(segment.id) || isComplete
+                      ? segment.color
+                      : "rgba(255,255,255,0.3)",
+                }}
+              />
+              {segment.shortName}
+            </button>
+          ))}
+        </div>
 
         {/* <AnimatePresence>
           {hasAnySelection && !isComplete && (
@@ -673,14 +709,26 @@ export function SDLCDonutChart() {
         </motion.button> */}
       </div>
 
-      {/* Right: Text (2/5) */}
-      <div className="flex flex-col gap-4 text-center lg:w-2/5 lg:text-left">
-        <h2 className="text-heading2 md:text-largeBody font-bold text-foreground">
-          How shippable is your software?
+      {/* Below chart below 1024px; to the right of chart at lg+ */}
+      <div
+        className={cn(
+          "flex w-full max-w-xl flex-col gap-4 px-4 text-center",
+          "items-center",
+          "lg:max-w-none lg:w-2/5 lg:items-start lg:px-0 lg:pr-8 lg:text-left",
+        )}
+      >
+        <h2 className="text-largeBody md:text-heading1 text-foreground">
+          Ready for launch?
         </h2>
-        <p className="text-body text-foreground">
-          Sign up with Spark &amp; Co and close the gap
+        <p className="text-body md:text-heading2 text-foreground mb-4">
+          Prototypes and MVPs have never been easier, but are you ready for the next step? Sign up with Spark &amp; Co and close the gap.
         </p>
+        <EmailCapture
+          containerClassName="w-full max-w-xl items-center lg:items-start"
+          inputWrapperClassName="w-[260px] max-w-full sm:w-[320px] md:w-[378px]"
+          buttonClassName="w-[130px] h-[60px] self-center lg:self-start text-background bg-foreground"
+          onValidSubmit={() => setMode?.("form")}
+        />
       </div>
     </div>
   );

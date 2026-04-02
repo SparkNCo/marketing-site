@@ -37,14 +37,13 @@ const FastTrackSection: React.FC<HeroSectionProps> = ({ setMode }) => {
       </h1>
 
       <p className="text-background leading-snug max-w-[90%] md:max-w-2xl text-body w-[280px] sm:w-[480px] md:w-[720px] lg:w-[600px]">
-        Modernize your software development process and ignite your business
-        potential.
+        Modernize your software development process and ignite your business potential.
       </p>
 
       <EmailCapture
         containerClassName="max-w-xl w-full items-center"
         inputWrapperClassName="w-[260px] sm:w-[320px] md:w-[378px]"
-        buttonClassName="w-[130px] h-[60px] self-center"
+        buttonClassName="w-[130px] h-[60px] self-center text-foreground bg-background"
         onValidSubmit={() => setMode?.("form")}
       />
     </main>

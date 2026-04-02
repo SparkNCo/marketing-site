@@ -18,10 +18,9 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
       type={type}
       onClick={onClick}
       className={`
-        py-4 px-6 shadow-md 
-        text-foreground bg-background 
-        font-bold text-lg lg:text-xl
         ${className}
+        py-4 px-6 shadow-md 
+        font-bold text-lg lg:text-xl
       `}
     >
       {children}

@@ -40,7 +40,7 @@ export function ContactForm({
     <div className="animate-fade-in flex flex-col h-full md:px-4 lg:px-4 lg:px-0 text-foreground">
       {" "}
       <div className="w-full mx-auto">
-        <h2 className="mb-4 text-2xl sm:text-3xl text-title font-bold  ">
+        <h2 className="mb-4 text-2xl sm:text-3xl text-title  ">
           Tell us about yourself
         </h2>
 
@@ -48,7 +48,7 @@ export function ContactForm({
           {/* NAME */}
           <div className="text-surface font-body">
             <Label className="text-body  mt-3" htmlFor="name">
-              First Name
+              Name
             </Label>
             <Input
               id="name"
