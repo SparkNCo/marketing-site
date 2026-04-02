@@ -73,7 +73,7 @@ function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
   const CardComponent = isMobile ? CaseStudyCardMobile : CaseStudyCard;
 
   return (
-    <section className="bg-background mt-32 py-32 overflow-hidden ">
+    <section className="bg-background mt-32 py-32">
       <div className="px-6 lg:px-16 mb-20">
         <h2 className="text-largeBody md:text-heading1 text-foreground mb-4 text-left">
           Don't just take our word for it
@@ -87,8 +87,8 @@ function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
       </div>
 
       {/* Top row */}
-      <div className="relative mb-12 overflow-hidden">
-        <div className="animate-scroll-right flex gap-8">
+      <div className="relative mb-12 overflow-hidden [transform:translateZ(0)] isolate">
+        <div className="animate-scroll-right gap-8">
           {duplicatedStudies.map((study, index) => (
             <CardComponent key={`top-${index}`} study={study} />
           ))}
@@ -96,8 +96,8 @@ function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
       </div>
 
       {/* Bottom row */}
-      <div className="relative overflow-hidden">
-        <div className="animate-scroll-left flex gap-8">
+      <div className="relative overflow-hidden [transform:translateZ(0)] isolate">
+        <div className="animate-scroll-left gap-8">
           {duplicatedStudies.map((study, index) => (
             <CardComponent key={`bottom-${index}`} study={study} />
           ))}

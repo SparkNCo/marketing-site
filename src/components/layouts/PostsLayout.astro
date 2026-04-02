@@ -60,10 +60,10 @@ const location = Astro.url.pathname;
     /* ✅ KEYFRAMES MUST BE TOP LEVEL */
     @keyframes scroll-right {
       from {
-        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
       }
       to {
-        transform: translateX(-50%);
+        transform: translate3d(-50%, 0, 0);
       }
     }
 
@@ -81,19 +81,25 @@ const location = Astro.url.pathname;
 
     @keyframes scroll-left {
       from {
-        transform: translateX(-50%);
+        transform: translate3d(-50%, 0, 0);
       }
       to {
-        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
       }
     }
 
-    /* ✅ SHARED STYLES */
+    /* ✅ SHARED STYLES (inline-flex: reliable width for % translate3d on iOS Safari) */
     .animate-scroll-right,
     .animate-scroll-left {
-      display: flex;
+      display: inline-flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      align-items: stretch;
       gap: 2rem;
-      width: max-content;
+      min-width: min-content;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      will-change: transform;
     }
 
     /* ✅ INDIVIDUAL ANIMATIONS */
