@@ -9,9 +9,9 @@ type CaseStudy = {
 
 export function CaseStudyCardMobile({ study }: { study: CaseStudy }) {
   return (
-    <div className="w-[45vw] max-w-md bg-white  overflow-hidden shadow-md flex-shrink-0">
+    <div className="flex h-full min-h-[28rem] w-[45vw] max-w-md flex-shrink-0 flex-col self-stretch bg-white overflow-hidden shadow-md">
       {/* Content */}
-      <div className="p-6 flex flex-col justify-between">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col p-6 pb-0">
         <div>
           <h3 className="text-lg font-bold text-black mb-1">
             {study.title}
@@ -25,14 +25,16 @@ export function CaseStudyCardMobile({ study }: { study: CaseStudy }) {
           </p>
         </div>
 
-        <p className="text-sm text-black font-semibold mt-4">
+        <p className="mt-4 shrink-0 text-sm font-semibold text-black">
           {study.author},{" "}
           <span className="text-[#F78035]">{study.role}</span>
         </p>
+
+        <div className="min-h-0 min-w-0 flex-1" aria-hidden />
       </div>
 
       {/* Images */}
-      <div className="relative w-full h-40 overflow-hidden">
+      <div className="relative h-40 w-full shrink-0 overflow-hidden">
         {/* Small square (top layer) */}
         <div className="absolute bottom-0 left-0 w-3/5 h-3/5 z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-[#020202] to-[#111111]" />
