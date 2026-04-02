@@ -228,9 +228,8 @@ export default function SquaresPostLayout({
                   "--color-2": sq.color,
                   animation: [
                     sq.baseColor
-                      ? `square-color ${sq.duration ?? 3}s ease-in-out ${
-                          sq.colorDelay ?? 0
-                        }s infinite`
+                      ? `square-color ${sq.duration ?? 3}s ease-in-out ${sq.colorDelay ?? 0
+                      }s infinite`
                       : null,
                     sq.moveToX || sq.moveToY
                       ? `${moveAnim} ${sq.moveDuration ?? 6}s ease-in-out infinite`

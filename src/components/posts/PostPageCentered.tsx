@@ -35,16 +35,16 @@ export default function PostPageCentered({ uniquePost, edit, blogId }) {
   return (
     <article className="w-full h-[1170px]  bg-white text-background flex flex-col text-center relative ">
       {/* Content */}
-      <div className="w-[90%] mx-auto flex flex-col items-center overflow-y-hidden mt-20">
+      <div className="w-[90%] mx-auto flex flex-col items-center overflow-y-hidden mt-[6rem]">
         {edit ? (
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={6}
-            className="w-[90%] text-[34px] font-light text-background bg-transparent outline-none resize-none text-center whitespace-pre-line h-[660px] overflow-y-hidden"
+            className="w-[90%] text-[38px] font-light text-background bg-transparent outline-none resize-none text-center whitespace-pre-line h-[660px] overflow-y-hidden"
           />
         ) : (
-          <div className="w-[90%] text-[34px] font-light text-background whitespace-pre-line h-[660px] overflow-y-hidden">
+          <div className="w-[90%] text-[38px] font-light text-background whitespace-pre-line h-[660px] overflow-y-hidden">
             {content}
           </div>
         )}

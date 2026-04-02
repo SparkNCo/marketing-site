@@ -33,10 +33,9 @@ export function PostPage4() {
           {" "}
           Software that’s up to speed{" "}
         </h1>{" "}
-        <p className="w-[80%] text-[34px] font-light text-foreground max-w-2xl mx-auto">
+        <p className="text-[38px] font-light text-foreground max-w-2xl mx-auto">
           {" "}
-          Sign up at buildwithspark.co and don’t leave your business
-          behind.{" "}
+          Find out how you can leverage the latest in tech for your business at buildwithspark.co{" "}
         </p>{" "}
         <img
           src={"/icon.svg"}
