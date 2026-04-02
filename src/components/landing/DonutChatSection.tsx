@@ -24,7 +24,7 @@ export default function DonutChatSection({ setMode }: DonutChatSectionProps) {
       <div className="pointer-events-none absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-chart-2/10 blur-3xl" />
 
       {/* Content */}
-      <div className="relative flex flex-col items-center justify-center px-4 py-16">
+      <div className="relative flex flex-col items-center justify-center px-4 pb-16 md:pt-16">
       
         <SDLCDonutChart setMode={setMode} />
 

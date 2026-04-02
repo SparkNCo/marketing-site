@@ -446,7 +446,7 @@ export function SDLCDonutChart({ setMode }: SDLCDonutChartProps) {
       )}
     >
       <div className="flex w-full flex-col items-center gap-6 overflow-hidden lg:w-fit lg:overflow-visible">
-        <div className="-mb-[200px] origin-top md:mb-0 scale-75 md:scale-100">
+        <div className="-mb-[250px] origin-top md:mb-0 scale-75 md:scale-100">
           <div
             className="relative"
             style={{
