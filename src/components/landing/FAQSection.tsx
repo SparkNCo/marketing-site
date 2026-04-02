@@ -33,7 +33,7 @@ const faqData: FAQItem[] = [
     id: 4,
     question: "What commitments and risk mitigations are in place?",
     answer:
-      "We define clear scope and deliverables upfront, provide continuous visibility into progress, and structure work in a way that allows early feedback and course correction. Risk is reduced through transparency and systemized delivery.",
+      "We define clear scope and deliverables upfront, provide continuous visibility into progress, and structure work in a way that allows early feedback and course correction. Risk is reduced through transparency and systematized delivery.",
   },
   {
     id: 5,

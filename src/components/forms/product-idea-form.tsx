@@ -55,7 +55,7 @@ export function ProductIdeaForm({
           Describe your product idea
         </h2>
         <p className="text-foreground text-body">
-          Tell us about your vision and we'll bring it to life
+          Tell us about your vision, and we&apos;ll bring it to life.
         </p>
       </div>
 

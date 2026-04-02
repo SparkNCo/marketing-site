@@ -96,7 +96,7 @@ export function ContactForm({
             />
             {touchedNext && !isValidEmail && (
               <p className="mt-2 text-lg sm:text-3xl lg:text-sm text-primary">
-                Mail format is not valid
+                Please enter a valid email address
               </p>
             )}
           </div>

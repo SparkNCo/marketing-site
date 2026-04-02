@@ -36,7 +36,7 @@ function FeaturesSection({ setSelectedFeatures }) {
   const content = {
     supercharged: {
       title: "AI Supercharged",
-      summary: "The perfect balance of human creativity, and AI efficiency",
+      summary: "The perfect balance of human creativity and AI efficiency",
     },
     control: {
       title: "Business Control",
@@ -46,24 +46,24 @@ function FeaturesSection({ setSelectedFeatures }) {
     mvp: {
       title: "MVP to Enterprise",
       summary:
-        "Guidance and support from “just an idea” to thousands of users.",
+        'Guidance and support from "just an idea" to thousands of users.',
     },
   };
 
   const featuresConfig = {
     mvp: [
-      "Battle tested systems that are ready to scale",
-      "Flexible Partnership Models",
+      "Battle-tested systems that are ready to scale",
+      "Flexible partnership models",
       "Consulting on go-to-market and growth strategy",
     ],
     supercharged: [
-      "Battle tested systems that are ready to scale",
-      "Flexible Partnership Models",
+      "Battle-tested systems that are ready to scale",
+      "Flexible partnership models",
       "Consulting on go-to-market and growth strategy",
     ],
     control: [
-      "Battle tested systems that are ready to scale",
-      "Flexible Partnership Models",
+      "Battle-tested systems that are ready to scale",
+      "Flexible partnership models",
       "Consulting on go-to-market and growth strategy",
     ],
   };
@@ -75,7 +75,9 @@ function FeaturesSection({ setSelectedFeatures }) {
         Operating Principles
       </h1>
       <h2 className=" text-body text-center tracking-tight text-foreground mb-10 leading-tight max-w-[850px] mx-auto">
-        Good software is starts with strong foundations, ours are backed by industry standards, best practices, and experience in a wide range of organizations.
+        Good software starts with strong foundations. Ours are backed by
+        industry standards, best practices, and experience in a wide range of
+        organizations.
       </h2>
       {/* MOBILE LAYOUT */}
       <div className="flex flex-col gap-4 lg:hidden max-w-[850px]   ">

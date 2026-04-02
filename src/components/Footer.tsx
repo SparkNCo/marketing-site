@@ -37,8 +37,8 @@ export default function Footer({ mode }) {
             col-start-2 lg:col-auto lg:text-right
           "
         >
-          <span>2025 Spark & Co Technologies Inc.</span>
-          <span>Registered in Canada. All rights reserved</span>
+          <span>2026 Spark & Co Technologies Inc.</span>
+          <span>Registered in Canada. All rights reserved.</span>
         </div>
       </div>
 
@@ -47,8 +47,8 @@ export default function Footer({ mode }) {
           gap-1 text-smalltext text-center w-full pb-4
         "
       >
-        <span>2025 Spark & Co Technologies Inc.</span>
-        <span>Registered in Canada. All rights reserved</span>
+        <span>2026 Spark & Co Technologies Inc.</span>
+        <span>Registered in Canada. All rights reserved.</span>
       </div>
     </footer>
   );

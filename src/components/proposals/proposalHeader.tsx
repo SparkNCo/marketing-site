@@ -11,7 +11,7 @@ export default function ProposalHeader() {
             </h1>
           </div>
           <Badge variant="secondary" className="text-xs">
-            Valid until: Jan 31, 2025
+            Valid until: Dec 31, 2026
           </Badge>
         </div>
       </div> */}
