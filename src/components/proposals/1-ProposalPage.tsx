@@ -1,5 +1,6 @@
 "use client";
 
+import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 import { useState, useRef } from "react";
 import CtaProposal from "./ctaProposal";
 import { DraftPlate } from "./DraftPlate";
@@ -116,7 +117,7 @@ export default function ProposalPage({
     };
 
     try {
-      await fetch(`${import.meta.env.PUBLIC_ENDPOINT}/proposals`, {
+      await fetch(supabaseFunctionsUrl("proposals"), {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

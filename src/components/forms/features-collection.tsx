@@ -22,6 +22,7 @@ import { toast } from "react-hot-toast";
 import type { Proposal } from "../proposals/Proposal";
 import { SortableFeatureCard, type Feature } from "./SortableFeatureCard";
 import type { DiscoveryFormState } from "../discorveryForm/DiscoveryFormProps";
+import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 
 export const inputBaseClass =
   "mt-3 h-16 lg:h-10 text-body lg:text-body placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
@@ -70,7 +71,7 @@ export function FeaturesCollection({
     queryFn: async () => {
       const response = await fetch(
         //`http://127.0.0.1:54321/functions/v1/features/?submission_id=${submissionId}`,
-        `${import.meta.env.PUBLIC_ENDPOINT}/features/?submission_id=${submissionId}`,
+        `${supabaseFunctionsUrl("features")}?submission_id=${encodeURIComponent(submissionId)}`,
       );
 
       if (!response.ok) {
@@ -87,7 +88,7 @@ export function FeaturesCollection({
   const saveFeaturesMutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/features`,
+        supabaseFunctionsUrl("features"),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import type { Proposal } from "../proposals/Proposal";
 import { SortableFeatureCard, type Feature } from "./SortableFeatureCard";
 import type { DiscoveryFormState } from "../discorveryForm/DiscoveryFormProps";
+import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 
 function generateUUID() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -40,7 +41,7 @@ export function FeaturesCollectionMobile({
     enabled: !!submissionId,
     queryFn: async () => {
       const response = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/features/?submission_id=${submissionId}`,
+        `${supabaseFunctionsUrl("features")}?submission_id=${encodeURIComponent(submissionId)}`,
       );
       if (!response.ok) throw new Error("Failed to load features");
       return response.json();
@@ -60,7 +61,7 @@ export function FeaturesCollectionMobile({
   const saveFeaturesMutation = useMutation({
     mutationFn: async () => {
       const response = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/features`,
+        supabaseFunctionsUrl("features"),
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

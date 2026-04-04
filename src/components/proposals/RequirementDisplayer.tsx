@@ -1,5 +1,6 @@
 "use client";
 
+import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -29,7 +30,7 @@ export default function RequirementDisplayer({
     queryKey: ["requirements", submissionId],
     queryFn: async () => {
       const res = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/features?submission_id=${submissionId}`,
+        `${supabaseFunctionsUrl("features")}?submission_id=${encodeURIComponent(submissionId)}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },

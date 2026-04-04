@@ -1,5 +1,6 @@
 "use client";
 
+import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 import { useState } from "react";
 import { Card } from "../ui/card";
 import { SignatureModal } from "./SignatureModal";
@@ -21,7 +22,7 @@ export default function CtaProposal({
     try {
       setIsSigning(true);
 
-      const res = await fetch(`${import.meta.env.PUBLIC_ENDPOINT}/proposals`, {
+      const res = await fetch(supabaseFunctionsUrl("proposals"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

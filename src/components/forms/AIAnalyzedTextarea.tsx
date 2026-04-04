@@ -1,5 +1,6 @@
 "use client";
 
+import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 import { useEffect, useMemo, useState } from "react";
 import { debounce } from "@tanstack/pacer";
 
@@ -63,7 +64,7 @@ export function AIAnalyzedTextarea({
             setLoading(true);
 
             const res = await fetch(
-              `${import.meta.env.PUBLIC_ENDPOINT}${endpoint}`,
+              supabaseFunctionsUrl(endpoint.replace(/^\//, "")),
               {
                 method: "POST",
                 headers: {

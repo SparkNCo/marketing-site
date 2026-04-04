@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import type { ProposalIslandProps } from "../utils/interfaces";
 import { useApp } from "../../lib/AppProvider";
+import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 import {
   InvalidPasscode,
   LoadingProposal,
@@ -75,7 +76,7 @@ const slideVariants = {
 
 async function fetchProposal(passcode: string) {
   const res = await fetch(
-    `${import.meta.env.PUBLIC_ENDPOINT}/proposals/?passcode=${passcode}`,
+    `${supabaseFunctionsUrl("proposals")}?passcode=${encodeURIComponent(passcode)}`,
   );
 
   const json = await res.json();

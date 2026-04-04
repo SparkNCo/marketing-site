@@ -1,0 +1,135 @@
+---
+import StairsLayout from "../../components/layouts/StairsLayout.astro";
+import { marked } from "marked";
+import {
+  CONTENTFUL_CONTENT_TYPE_BLOG_POST,
+  fetchPostByUrl,
+  getMarkdownFromPost,
+} from "../../lib/contentfulPost";
+
+const slug = Astro.params.slug;
+if (!slug) {
+  return new Response(null, { status: 404 });
+}
+
+let post: Awaited<ReturnType<typeof fetchPostByUrl>>;
+try {
+  post = await fetchPostByUrl(slug, CONTENTFUL_CONTENT_TYPE_BLOG_POST);
+} catch {
+  return new Response(null, { status: 404 });
+}
+
+const title =
+  typeof post.title === "string" ? post.title : "Blog post";
+const author = typeof post.author === "string" ? post.author : "";
+const coverImage =
+  typeof post.coverImage === "string" ? post.coverImage : "";
+
+const markdown = getMarkdownFromPost(post);
+const contentHtml = markdown.trim()
+  ? await marked.parse(markdown)
+  : "";
+---
+
+<StairsLayout>
+  <main class="min-h-screen text-background pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+    <article class="container mx-auto bg-foreground p-8">
+      <p class="mb-8">
+        <a
+          href="/"
+          class="text-primary hover:underline text-body font-medium"
+        >
+          ← Home
+        </a>
+      </p>
+
+      <header class="mb-8 space-y-3">
+        <h1 class="text-3xl md:text-4xl font-bold font-title text-background">
+          {title}
+        </h1>
+        {author && (
+          <p class="text-body text-background/80">By {author}</p>
+        )}
+      </header>
+
+      {coverImage && (
+        <div class="mb-10 w-full overflow-hidden rounded-lg border border-foreground/10">
+          <img
+            src={coverImage}
+            alt=""
+            class="w-full h-auto object-cover max-h-[min(50vh,480px)]"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      )}
+
+      <div
+        class="blog-markdown text-body leading-relaxed space-y-4"
+        set:html={contentHtml}
+      />
+    </article>
+  </main>
+</StairsLayout>
+
+<style is:global>
+  .blog-markdown h1,
+  .blog-markdown h2,
+  .blog-markdown h3 {
+    font-family: var(--font-title), system-ui, sans-serif;
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  .blog-markdown h1 {
+    font-size: 1.75rem;
+  }
+  .blog-markdown h2 {
+    font-size: 1.375rem;
+  }
+  .blog-markdown h3 {
+    font-size: 1.125rem;
+  }
+  .blog-markdown p {
+    margin-bottom: 1em;
+  }
+  .blog-markdown a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .blog-markdown ul,
+  .blog-markdown ol {
+    margin: 1em 0;
+    padding-left: 1.5em;
+  }
+  .blog-markdown li {
+    margin-bottom: 0.35em;
+  }
+  .blog-markdown pre {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1em 0;
+    font-size: 0.9em;
+  }
+  .blog-markdown code {
+    font-size: 0.9em;
+  }
+  .blog-markdown pre code {
+    background: none;
+    padding: 0;
+  }
+  .blog-markdown blockquote {
+    border-left: 3px solid var(--primary);
+    margin: 1em 0;
+    padding-left: 1rem;
+    opacity: 0.9;
+  }
+  .blog-markdown img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+</style>

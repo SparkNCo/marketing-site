@@ -12,6 +12,7 @@ import { SuccessMessage } from "./utils/success-message";
 import AnimatedStepper, { MobileStepper } from "./utils/animated-stepper";
 import CalendlyBooking, { type Slot } from "./utils/CalendlyBooking";
 import { useApp } from "../lib/AppProvider";
+import { supabaseFunctionsUrl } from "../lib/supabaseFunctionsUrl";
 
 type AvailabilityResponse = {
   timezone: string;
@@ -69,15 +70,11 @@ export default function DealForm() {
 
   const submitMutation = useMutation({
     mutationFn: async (finalData: FormData) => {
-      const res = await fetch(
-        `${import.meta.env.PUBLIC_ENDPOINT}/update-lead`,
-
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(finalData),
-        },
-      );
+      const res = await fetch(supabaseFunctionsUrl("update-lead"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(finalData),
+      });
 
       if (!res.ok) {
         throw new Error("Failed to submit");

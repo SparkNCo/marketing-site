@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import PrimaryButton from "../primary-button";
 import { useApp } from "../../../lib/AppProvider";
+import { supabaseFunctionsUrl } from "../../../lib/supabaseFunctionsUrl";
 
 interface EmailCaptureProps {
   onValidSubmit?: (email: string) => void;
@@ -30,9 +31,7 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
     mutationFn: async (email: string) => {
       const lead_id = crypto.randomUUID();
 
-      const endpoint = import.meta.env.PUBLIC_ENDPOINT;
-
-      const res = await fetch(`${endpoint}/lead`, {
+      const res = await fetch(supabaseFunctionsUrl("lead"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

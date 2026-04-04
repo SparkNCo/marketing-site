@@ -1,5 +1,9 @@
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../lib/tanStack/index.ts";
+import {
+  CONTENTFUL_CONTENT_TYPE_SOCIAL_MEDIA_BLOG_PROMO,
+  fetchPostByUrl,
+} from "../../lib/contentfulPost.ts";
 import SquaresPostLayout from "./SquaresPostLayout.tsx";
 import { PostFooter1 } from "./PostFooter.tsx";
 import { LoadingWrapper } from "../proposals/MissingPasscode.tsx";
@@ -11,15 +15,7 @@ export type Post1Props = {
 };
 export async function fetchPost(blog: string) {
   console.log("blog calling", blog);
-
-  const res = await fetch(
-    `${import.meta.env.PUBLIC_ENDPOINT}/contentfull?url=${blog}`,
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch post");
-  }
-
-  return res.json();
+  return fetchPostByUrl(blog, CONTENTFUL_CONTENT_TYPE_SOCIAL_MEDIA_BLOG_PROMO);
 }
 
 export function Post1Client({ squaresConfig, blog, edit }: Post1Props) {
@@ -36,7 +32,7 @@ export function PostShell1({ blog, squaresConfig, edit }) {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["post", blog],
+    queryKey: ["post", blog, CONTENTFUL_CONTENT_TYPE_SOCIAL_MEDIA_BLOG_PROMO],
     queryFn: () => fetchPost(blog),
     enabled: !!blog,
   });

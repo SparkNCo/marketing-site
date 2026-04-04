@@ -1,6 +1,8 @@
+import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
+
 export async function patchIgPost(blogId: string, updates: Record<string, any>) {
   const res = await fetch(
-    `${import.meta.env.PUBLIC_ENDPOINT}/igposts?id=${blogId}`,
+    `${supabaseFunctionsUrl("igposts")}?id=${encodeURIComponent(blogId)}`,
     {
       method: "PATCH",
       headers: {

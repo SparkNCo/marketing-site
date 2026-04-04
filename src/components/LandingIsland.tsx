@@ -89,7 +89,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
 
       <FeaturesSection setSelectedFeatures={setSelectedFeatures} />
       {/* Hide until posts are ready */}
-      {/* <PostsSection selectedFeatures={selectedFeatures} /> */}
+      <PostsSection selectedFeatures={selectedFeatures} />
 
       <FAQSection />
 

@@ -114,6 +114,9 @@ export default function PostCard({ img, title, subtitle, postId, url }) {
           <div
             className="h-[280px] w-full bg-cover "
             style={{ backgroundImage: `url(${img})` }}
+            onClick={() => {
+              window.location.href = `/blog/${url}`;
+            }}
           />
         </SquaresGridLayout>
       </div>
@@ -121,7 +124,7 @@ export default function PostCard({ img, title, subtitle, postId, url }) {
       <div className="h-full p-4 flex flex-col  ">
         <div className="flex flex-col text-right gap-2">
           <a
-            href={`/post-1?blog=${url}`}
+            href={`/blog/${url}`}
             className="
     text-body font-light text-background
     hover:text-background transition-colors font-medium

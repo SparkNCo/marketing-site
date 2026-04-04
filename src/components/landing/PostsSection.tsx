@@ -3,18 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import PostCard from "../posts/PostCard1";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import PostsFilterPagination from "../posts/PostsFilterPagination";
+import { fetchContentfulList } from "../../lib/contentfulPost";
 
-const fetchPosts = async () => {
-  const res = await fetch(
-    "https://ozybsusoollnomaaxkcy.supabase.co/functions/v1/contentfull?contentType=igPost",
-  );
-
-  if (!res.ok) {
-    throw new Error("Error fetching posts");
-  }
-
-  return res.json();
-};
+const fetchPosts = () => fetchContentfulList("igPost");
 
 export default function PostsSection({ selectedFeatures }) {
   const [input, setInput] = useState("");
@@ -60,14 +51,11 @@ export default function PostsSection({ selectedFeatures }) {
     if (activeFilters.length === 0) return allPosts;
 
     return allPosts.filter((post) => {
-      const text = `
-      ${post.title || ""}
-      ${post.summary || ""}
-      ${post.author || ""}
-      ${(post.tags || []).join(" ")}
-    `.toLowerCase();
+      const postTags = Array.isArray(post.tags)
+        ? post.tags.map((t) => String(t).toLowerCase())
+        : [];
 
-      return activeFilters.every((filter) => text.includes(filter));
+      return activeFilters.every((filter) => postTags.includes(filter));
     });
   }, [tags, selectedFeatures, allPosts]);
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 import { Card } from "../ui/card";
 import { useMutation } from "@tanstack/react-query";
 import { Menu, Save } from "lucide-react";
@@ -60,7 +61,7 @@ export default function CreateProposalCta({
         signed_at: localProposal?.signed_at,
       };
 
-      const res = await fetch(`${import.meta.env.PUBLIC_ENDPOINT}/proposals`, {
+      const res = await fetch(supabaseFunctionsUrl("proposals"), {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

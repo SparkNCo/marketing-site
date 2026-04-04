@@ -551,8 +551,8 @@ export function SDLCDonutChart({ setMode }: SDLCDonutChartProps) {
                     </span>
                     <span className="max-w-[120px] text-xs text-foreground">
                       {hasAnySelection
-                        ? "Production Readiness"
-                        : "How ready is your build?"}
+                        ? "Ready for Launch"
+                        : "How complete is your tech stack?"}
                     </span>
                   </motion.div>
                 )}
