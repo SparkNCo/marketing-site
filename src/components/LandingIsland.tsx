@@ -29,7 +29,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
   const [isMobile, setIsMobile] = useState(false);
   const cellSize = useResponsiveCellSize();
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([
-    "MVP to Enterprise",
+    "Rapid Iteration",
   ]);
 
   useEffect(() => {

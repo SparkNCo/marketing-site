@@ -16,7 +16,7 @@ export const FeaturesOptions = ({
   };
 
   return (
-    <div className="bg-card border p-2 sm:p-4 flex flex-col justify-between text-title min-h-[400px] w-[560px] text-body ">
+    <div className="bg-card border p-2 sm:p-4 flex flex-col justify-between text-title min-h-[400px] w-[534px] text-body ">
       <AnimatePresence mode="wait">
         <motion.div
           key={mode} // triggers animation when mode changes
