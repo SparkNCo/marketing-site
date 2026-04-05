@@ -6,6 +6,7 @@
     "dev": "pnpm exec astro dev",
     "build": "pnpm exec astro build",
     "start": "pnpm exec astro preview",
+    "sonar:scanner": "dotenv -e .env -- sonar-scanner",
     "add-skills": "mkdir -p .cursor/skills && cp -R .agents/skills/* .cursor/skills/"
   },
   "dependencies": {
@@ -87,6 +88,7 @@
     "prettier-plugin-tailwindcss": "^0.7.2",
     "prisma": "^7.3.0",
     "supabase": "^2.72.8",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "dotenv-cli": "^8.0.0"
   }
 }

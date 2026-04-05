@@ -10,11 +10,9 @@ const StepOne = lazy(() => import("./DealForm"));
 
 /* ───────────────── Component ───────────────── */
 
-const FormIsland: React.FC<FormIslandProps> = ({ initialStep }) => {
-  const [step, setStep] = useState<FormStep>(initialStep);
-
+const FormIsland: React.FC<FormIslandProps> = () => {
   return (
-    <div className="bg-secondary  ">{step === "initial" && <StepOne />}</div>
+    <div className="bg-secondary">{<StepOne />}</div>
   );
 };
 

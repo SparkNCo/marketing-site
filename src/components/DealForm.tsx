@@ -158,9 +158,7 @@ export default function DealForm() {
       </>
 
       <div
-        className={` w-full lg:max-w-2xl px-2 lg:p-8 shadow-xl rounded-xl ${
-          currentStep === "contact" ? "bg-background" : "bg-background"
-        }`}
+        className={` w-full lg:max-w-2xl px-2 lg:p-8 shadow-xl rounded-xl bg-background`}
       >
         {currentStep === "contact" && (
           <ContactForm

@@ -74,7 +74,7 @@ export default function DiscoveryForm({
 
     const date = new Date(isoDate);
 
-    if (isNaN(date.getTime())) return "Invalid date";
+    if (Number.isNaN(date.getTime())) return "Invalid date";
 
     return `${String(date.getDate()).padStart(2, "0")} - ${date
       .toLocaleString("en-US", { month: "short" })
