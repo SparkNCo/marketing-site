@@ -1,33 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import type { HeroSectionProps } from "../utils/interfaces";
 import EmailCapture from "../ui/EmailTemplate/EmailInput";
 
 const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [shake, setShake] = useState(false);
-
-  const isValidEmail = (email: string) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  const handleSubmit = () => {
-    if (!isValidEmail(email)) {
-      setError("Please enter a valid email");
-      setShake(true);
-
-      setTimeout(() => setShake(false), 400);
-      return;
-    }
-
-    setError("");
-    setMode?.("form");
-  };
-
   return (
     <main className="flex flex-col lg:flex-row overflow-hidden justify-start mx-6 lg:mx-20  relative">
       {/* <div className="absolute top-0 left-0 w-full h-[95px] bg-foreground w-[100vw] " /> */}
-      
+
       <section
         data-header="light"
         className="
@@ -46,8 +25,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           </h1>
           {/* SUBTITLE */}
           <p className="text-body md:text-largeBody mb-6 text-background leading-snug max-w-[500px] ">
-            Build <span className="font-bold">[unbreakable]</span> software with
-            <span className="font-bold text-primary"> AI supercharged </span>
+            Build <span className="font-bold">[unbreakable]</span> software with{" "}
+            <span className="font-bold text-primary">AI supercharged</span>{" "}
             efficiency.
           </p>
           {/* TECH ICONS */}
