@@ -34,7 +34,7 @@ function showDiscoveryForm(
 }
 
 export type Proposal = {
-  id: string;
+  proposal_id: string;
   passcode: string;
   stage?: string;
   lead_id?: string;
@@ -89,11 +89,9 @@ async function fetchProposal(passcode: string) {
 }
 
 const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
-  if ((mode === "features" || mode === "draft") && !passcode) {
-    return <MissingPasscode />;
-  }
-
   const { dbUser } = useApp();
+
+
 
   const initialMode: PageMode =
     mode === "features" ||
@@ -115,10 +113,15 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
     queryFn: () => fetchProposal(passcode!),
     enabled: !!passcode,
   });
+
+  if ((mode === "features" || mode === "draft") && !passcode) {
+    return <MissingPasscode />;
+  }
+
   if (isLoading) return <LoadingProposal />;
 
   if (isError) {
-    const errMsg = (error as Error)?.message;
+    const errMsg = error?.message;
 
     if (errMsg === "Proposal not found") {
       return (

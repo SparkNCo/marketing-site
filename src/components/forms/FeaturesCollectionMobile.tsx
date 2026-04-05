@@ -1,6 +1,6 @@
 import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import { Button } from "../../components/ui/button";
-import { Plus, Loader2, Trash } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { LoadingProposal } from "../proposals/MissingPasscode";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -10,8 +10,8 @@ import type { DiscoveryFormState } from "../discorveryForm/DiscoveryFormProps";
 import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 
 function generateUUID() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0;
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replaceAll(/[xy]/g, function (c) {
+    const r = Math.trunc(Math.random() * 16);
     const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
