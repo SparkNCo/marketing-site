@@ -29,7 +29,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [dbUser, setDbUser] = useState<DbUser | null>(null);
   const [leadEmail, setLeadEmail] = useState("");
   const [test, setTest] = useState("Test312321321");
-  console.log("AppProvider mounted");
   /**
    * Fetch user from DB by email
    */
