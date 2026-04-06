@@ -13,6 +13,7 @@ import AnimatedStepper, { MobileStepper } from "./utils/animated-stepper";
 import CalendlyBooking, { type Slot } from "./utils/CalendlyBooking";
 import { useApp } from "../lib/AppProvider";
 import { supabaseFunctionsUrl } from "../lib/supabaseFunctionsUrl";
+import { trackMetaPixel } from "../lib/metaPixel";
 
 type AvailabilityResponse = {
   timezone: string;
@@ -108,6 +109,7 @@ export default function DealForm() {
       redirect_url: redirectUrl,
     };
 
+    trackMetaPixel("Schedule");
     submitMutation.mutate(finalData);
   };
 

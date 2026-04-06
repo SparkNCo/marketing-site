@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Label } from "../ui/label";
 import type { ContactFormProps } from "../utils/types";
 import { NextButton } from "../landing/components/NextFormButton";
+import { trackMetaPixel } from "../../lib/metaPixel";
 
 export function ContactForm({
   setCurrentStep,
@@ -32,6 +33,7 @@ export function ContactForm({
   const handleNext = () => {
     setTouchedNext(true);
     if (canProceed) {
+      trackMetaPixel("CompleteRegistration");
       setCurrentStep("product");
     }
   };

@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import PrimaryButton from "../primary-button";
 import { useApp } from "../../../lib/AppProvider";
 import { supabaseFunctionsUrl } from "../../../lib/supabaseFunctionsUrl";
+import { trackMetaPixel } from "../../../lib/metaPixel";
 
 interface EmailCaptureProps {
   onValidSubmit?: (email: string) => void;
@@ -74,6 +75,7 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
     // ✅ 🚀 IMMEDIATE navigation / UI change
     onValidSubmit?.(cleanEmail);
 
+    trackMetaPixel("Lead");
     // ✅ Fire request in background (don't block UX)
     submitMutation.mutate(cleanEmail);
   };
