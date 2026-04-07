@@ -1,0 +1,10 @@
+---
+import StairsLayout from "../components/layouts/StairsLayout.astro";
+import ImpactShell from "../components/impact/ImpactShell";
+
+const location = Astro.url.pathname;
+---
+
+<StairsLayout>
+  <ImpactShell client:load />
+</StairsLayout>

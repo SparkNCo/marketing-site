@@ -14,6 +14,7 @@ import DonutChatSection from "./landing/DonutChatSection";
 
 /* Lazy sections */
 const HeroSection = lazy(() => import("./landing/HeroSection"));
+const ImpactBanner = lazy(() => import("./landing/ImpactBanner"));
 const FeaturesSection = lazy(() => import("./landing/FeaturesSection"));
 const ProcessSection = lazy(() => import("./landing/ProcessSection"));
 const CaseStudiesSection = lazy(() => import("./landing/CaseStudies"));
@@ -64,6 +65,7 @@ const LandingIsland: React.FC<LandingIslandProps> = ({
           }
         />
       </SquaresGridLayout>
+      <ImpactBanner />
       <CaseStudiesSection isMobile={isMobile} />
       <DonutChatSection
         setMode={
