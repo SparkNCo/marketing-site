@@ -47,7 +47,7 @@ export default function GridBlock({
         {content.map((item: any, cardIndex: number) => {
           if (item.type === "card") {
             return (
-              <div key={cardIndex} className="relative">
+              <div key={`${item.subtype}-${item.title}`} className="relative">
                 {isEditing && (
                   <button
                     onClick={() => removeCard(cardIndex)}

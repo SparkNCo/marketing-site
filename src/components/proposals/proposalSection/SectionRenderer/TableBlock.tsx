@@ -76,7 +76,7 @@ export default function TableBlock({
           <tr>
             {headers.map((header: string, i: number) => (
               <th
-                key={i}
+                key={header}
                 className="border border-border px-3 py-2 text-left font-semibold"
               >
                 {isEditing ? (
@@ -97,12 +97,10 @@ export default function TableBlock({
 
         <tbody>
           {rows.map((row: string[], rowIndex: number) => (
-            <tr key={rowIndex}>
+            <tr key={row.join("|")}>
               {row.map((cell: string, colIndex: number) => (
-                <td key={colIndex} className="border border-border px-3 py-2">
-                  {!isEditing ? (
-                    cell
-                  ) : (
+                <td key={headers[colIndex]} className="border border-border px-3 py-2">
+                  {isEditing ? (
                     <input
                       value={cell}
                       onChange={(e) =>
@@ -110,6 +108,8 @@ export default function TableBlock({
                       }
                       className="w-full bg-transparent outline-none text-sm"
                     />
+                  ) : (
+                    cell
                   )}
                 </td>
               ))}
@@ -132,15 +132,15 @@ export default function TableBlock({
           <tfoot className="bg-muted font-semibold">
             <tr>
               {footer.map((cell: string, colIndex: number) => (
-                <td key={colIndex} className="border border-border px-3 py-2">
-                  {!isEditing ? (
-                    cell
-                  ) : (
+                <td key={headers[colIndex]} className="border border-border px-3 py-2">
+                  {isEditing ? (
                     <input
                       value={cell}
                       onChange={(e) => updateFooter(colIndex, e.target.value)}
                       className="w-full bg-transparent outline-none text-sm"
                     />
+                  ) : (
+                    cell
                   )}
                 </td>
               ))}

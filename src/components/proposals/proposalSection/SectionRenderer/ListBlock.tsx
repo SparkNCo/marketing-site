@@ -1,18 +1,40 @@
 import { CircleCheck, Trash2, Plus, Dot } from "lucide-react";
 
+type TitledItem = {
+  title: string;
+  content: string;
+};
+
+type ListContent = {
+  subtype: "titled" | "checked" | "numbered" | "bullet";
+  items: TitledItem[] | string[];
+};
+
+type ListBlockData = {
+  title?: string;
+  content: ListContent;
+};
+
+type ListBlockProps = Readonly<{
+  block: ListBlockData;
+  index: number;
+  data: ListBlockData[];
+  setData: (data: ListBlockData[]) => void;
+  isEditing: boolean;
+}>;
+
 export default function ListBlock({
   block,
   index,
   data,
   setData,
   isEditing,
-}: any) {
+}: ListBlockProps) {
   const { title, content } = block;
   const { subtype, items } = content;
 
-  const updateItems = (newItems: any[]) => {
+  const updateItems = (newItems: TitledItem[] | string[]) => {
     const updated = [...data];
-
     updated[index] = {
       ...block,
       content: {
@@ -20,36 +42,40 @@ export default function ListBlock({
         items: newItems,
       },
     };
-
     setData(updated);
   };
 
   const handleChange = (value: string, itemIndex: number, key?: string) => {
     if (subtype === "titled") {
       updateItems(
-        items.map((item: any, i: number) =>
+        (items as TitledItem[]).map((item, i) =>
           i === itemIndex ? { ...item, [key!]: value } : item,
         ),
       );
     } else {
       updateItems(
-        items.map((item: string, i: number) =>
-          i === itemIndex ? value : item,
-        ),
+        (items as string[]).map((item, i) => (i === itemIndex ? value : item)),
       );
     }
   };
 
   const addItem = () => {
     if (subtype === "titled") {
-      updateItems([...items, { title: "New title", content: "New content" }]);
+      updateItems([
+        ...(items as TitledItem[]),
+        { title: "New title", content: "New content" },
+      ]);
     } else {
-      updateItems([...items, "New item"]);
+      updateItems([...(items as string[]), "New item"]);
     }
   };
 
   const removeItem = (itemIndex: number) => {
-    updateItems(items.filter((_: any, i: number) => i !== itemIndex));
+    if (subtype === "titled") {
+      updateItems((items as TitledItem[]).filter((_, i) => i !== itemIndex));
+    } else {
+      updateItems((items as string[]).filter((_, i) => i !== itemIndex));
+    }
   };
 
   if (subtype === "titled") {
@@ -58,16 +84,9 @@ export default function ListBlock({
         {title && <h3 className="font-semibold text-lg">{title}</h3>}
 
         <div className="space-y-4">
-          {items.map((item: any, i: number) => (
-            <div key={i} className="space-y-2">
-              {!isEditing ? (
-                <>
-                  <h4 className="font-semibold">{item.title}</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {item.content}
-                  </p>
-                </>
-              ) : (
+          {(items as TitledItem[]).map((item, i) => (
+            <div key={item.title} className="space-y-2">
+              {isEditing ? (
                 <div className="flex flex-col gap-2 border p-2 rounded-md">
                   <div className="flex justify-between items-start gap-2">
                     <input
@@ -77,6 +96,8 @@ export default function ListBlock({
                     />
 
                     <button
+                      type="button"
+                      aria-label="Remove item"
                       onClick={() => removeItem(i)}
                       className="text-red-500"
                     >
@@ -90,6 +111,13 @@ export default function ListBlock({
                     className="border rounded-md px-2 py-1 text-sm"
                   />
                 </div>
+              ) : (
+                <>
+                  <h4 className="font-semibold">{item.title}</h4>
+                  <p className="text-sm text-muted-foreground">
+                    {item.content}
+                  </p>
+                </>
               )}
             </div>
           ))}
@@ -97,6 +125,7 @@ export default function ListBlock({
 
         {isEditing && (
           <button
+            type="button"
             onClick={addItem}
             className="flex items-center gap-2 text-sm text-primary"
           >
@@ -114,13 +143,11 @@ export default function ListBlock({
         {title && <h3 className="font-semibold text-lg">{title}</h3>}
 
         <div className="space-y-3">
-          {items.map((item: string, i: number) => (
-            <div key={i} className="flex gap-3 items-start">
+          {(items as string[]).map((item, i) => (
+            <div key={item} className="flex gap-3 items-start">
               <CircleCheck className="text-primary mt-1 w-5 h-5 shrink-0" />
 
-              {!isEditing ? (
-                <p className="text-sm">{item}</p>
-              ) : (
+              {isEditing ? (
                 <>
                   <input
                     value={item}
@@ -129,12 +156,16 @@ export default function ListBlock({
                   />
 
                   <button
+                    type="button"
+                    aria-label="Remove item"
                     onClick={() => removeItem(i)}
                     className="text-red-500"
                   >
                     <Trash2 size={16} />
                   </button>
                 </>
+              ) : (
+                <p className="text-sm">{item}</p>
               )}
             </div>
           ))}
@@ -142,6 +173,7 @@ export default function ListBlock({
 
         {isEditing && (
           <button
+            type="button"
             onClick={addItem}
             className="flex items-center gap-2 text-sm text-primary"
           >
@@ -160,8 +192,8 @@ export default function ListBlock({
       {title && <h3 className="font-semibold text-lg">{title}</h3>}
 
       <ListTag className="space-y-2">
-        {items.map((item: string, i: number) => (
-          <li key={i} className="flex gap-2 items-start">
+        {(items as string[]).map((item, i) => (
+          <li key={item} className="flex gap-2 items-start">
             {subtype === "numbered" ? (
               <span className="text-primary font-semibold w-5 shrink-0">
                 {i + 1}.
@@ -170,9 +202,7 @@ export default function ListBlock({
               <Dot className="text-primary mt-1 w-5 h-5 shrink-0 scale-[1.9]" />
             )}
 
-            {!isEditing ? (
-              <span>{item}</span>
-            ) : (
+            {isEditing ? (
               <>
                 <input
                   value={item}
@@ -180,10 +210,17 @@ export default function ListBlock({
                   className="w-full border rounded-md px-2 py-1 text-sm"
                 />
 
-                <button onClick={() => removeItem(i)} className="text-red-500">
+                <button
+                  type="button"
+                  aria-label="Remove item"
+                  onClick={() => removeItem(i)}
+                  className="text-red-500"
+                >
                   <Trash2 size={16} />
                 </button>
               </>
+            ) : (
+              <span>{item}</span>
             )}
           </li>
         ))}
@@ -191,6 +228,7 @@ export default function ListBlock({
 
       {isEditing && (
         <button
+          type="button"
           onClick={addItem}
           className="flex items-center gap-2 text-sm text-primary"
         >

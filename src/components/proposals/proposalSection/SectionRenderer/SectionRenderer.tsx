@@ -71,6 +71,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
       template.columns = newGridColumns;
     }
 
+    template.id = crypto.randomUUID();
     setData([...data, template]);
     setShowPicker(false);
   };
@@ -86,7 +87,7 @@ export default function SectionRenderer({ data, setData, isEditing }: any) {
         if (!Component) return null;
 
         return (
-          <div key={index} className="relative group">
+          <div key={(block.id as string) || block.type} className="relative group">
             {isEditing && (
               <button
                 onClick={() => removeBlock(index)}
