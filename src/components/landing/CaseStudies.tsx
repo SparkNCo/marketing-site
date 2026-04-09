@@ -73,7 +73,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
   const CardComponent = isMobile ? CaseStudyCardMobile : CaseStudyCard;
 
   return (
-    <section className="bg-background mt-32 pt-8 md:pb-32">
+    <section className="bg-background mt-8 lg:mt-32 pt-8 md:pb-32">
       <div className="px-6 lg:px-16 mb-20">
         <h2 className="text-largeBody md:text-heading1 text-foreground mb-4 text-left">
           Don't just take our word for it
