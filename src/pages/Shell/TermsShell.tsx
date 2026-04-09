@@ -12,9 +12,9 @@ type Props = {
   location: string;
 };
 
-export default function TermsShell({ user, location }: Props) {
+export default function TermsShell({ user, location }: Readonly<Props>) {
   return (
-    <AppProvider initialUser={user}>
+    <AppProvider>
       <div className="">
         <TermsIsland />
         <Footer />

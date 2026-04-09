@@ -80,15 +80,16 @@
   },
   "devDependencies": {
     "@astrojs/react": "^4.4.2",
+    "@types/node": "^25.5.2",
     "@types/pg": "^8.16.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "astro": "^5.16.5",
+    "dotenv-cli": "^8.0.0",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "prisma": "^7.3.0",
     "supabase": "^2.72.8",
-    "typescript": "^5.9.3",
-    "dotenv-cli": "^8.0.0"
+    "typescript": "^5.9.3"
   }
 }

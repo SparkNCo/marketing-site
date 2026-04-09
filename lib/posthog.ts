@@ -1,6 +1,6 @@
 import posthog from "posthog-js";
 
-if (typeof window !== "undefined") {
+if (typeof globalThis.window !== "undefined") {
   const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY;
   const posthogHost =
     process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://app.posthog.com";

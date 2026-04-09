@@ -3,11 +3,14 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "strict": true
+    "strict": true,
+    "types": ["node"]
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.astro"
-, "prisma.config.ts"  ]
+    "src/**/*.astro",
+    "lib/**/*.ts",
+    "prisma.config.ts"
+  ]
 }

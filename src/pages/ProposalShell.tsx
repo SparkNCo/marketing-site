@@ -5,7 +5,6 @@ import Header from "../components/Header";
 import ProposalIsland from "../components/proposals/Proposal";
 import { AppProvider } from "../lib/AppProvider";
 import { queryClient } from "../lib/tanStack";
-import Footer from "../components/Footer";
 import ToastLayout from "../components/layouts/ToastLayout";
 
 type Props = {
@@ -15,10 +14,13 @@ type Props = {
   mode: string;
   passcode?: string;
 };
-export default function ProposalShell({ user, mode, passcode }: Props) {
+export default function ProposalShell({
+  mode,
+  passcode,
+}: Readonly<Props>) {
   return (
     <QueryClientProvider client={queryClient}>
-      <AppProvider initialUser={user}>
+      <AppProvider>
         <ToastLayout>
           <Header headerMode={"form"} />
           {/* Clear fixed header: top-6 + bar ≈ 5.5–6.5rem */}

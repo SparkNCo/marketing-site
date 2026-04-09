@@ -16,7 +16,7 @@ type Props = {
 
 type TransitionType = "slide" | "fade";
 
-export default function LandingShell({ user, location }: Props) {
+export default function LandingShell({ user, location }: Readonly<Props>) {
   const [mode, setMode] = React.useState<"index" | "form">("index");
   const [transitionType, setTransitionType] =
     React.useState<TransitionType>("slide");

@@ -11,7 +11,7 @@ type LoadingWrapperProps = {
 const PASSCODE_SLOT_KEYS = ["slot-0", "slot-1", "slot-2", "slot-3", "slot-4", "slot-5"];
 
 export const MissingPasscode = () => {
-  const [code, setCode] = useState<string[]>(Array(6).fill(""));
+  const [code, setCode] = useState<string[]>(new Array(6).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
   const passcode = code.join("");
