@@ -34,6 +34,7 @@ export default function ChatbaseWidget() {
     };
 
     const script = document.createElement("script");
+    // eslint-disable-next-line @microsoft/sdl/no-insecure-url
     script.src = "https://www.chatbase.co/embed.min.js";
     script.id = CHATBASE_SCRIPT_ID;
     script.defer = true;
