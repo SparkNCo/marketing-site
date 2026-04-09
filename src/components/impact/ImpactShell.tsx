@@ -22,27 +22,6 @@ const programProjects = [
     description:
       "Educates buyers on where their money is going, so they can make socially responsible purchase decisions and only support companies that support them.",
   },
-  {
-    id: 3,
-    image: "/dashboard.png",
-    title: "Community Resource Hub",
-    description:
-      "A platform connecting local nonprofits with volunteers and donors, helping communities access essential services and support.",
-  },
-  {
-    id: 4,
-    image: "/dashboard.png",
-    title: "Education Access Portal",
-    description:
-      "An online learning platform providing free educational resources to underserved communities, bridging the digital divide.",
-  },
-  {
-    id: 5,
-    image: "/dashboard.png",
-    title: "Environmental Action Tracker",
-    description:
-      "A tool for environmental organizations to coordinate conservation efforts, track impact, and engage community members.",
-  },
 ];
 
 const ImpactShell: React.FC = () => {

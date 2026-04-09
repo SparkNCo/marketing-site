@@ -73,16 +73,16 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
   const CardComponent = isMobile ? CaseStudyCardMobile : CaseStudyCard;
 
   return (
-    <section className="bg-background mt-32 pt-32 md:pb-32">
+    <section className="bg-background mt-32 pt-8 md:pb-32">
       <div className="px-6 lg:px-16 mb-20">
         <h2 className="text-largeBody md:text-heading1 text-foreground mb-4 text-left">
           Don't just take our word for it
         </h2>
 
         <p className="text-body md:text-heading2 text-foreground mb-12 text-left leading-relaxed lg:container">
-          We partner with teams to ship software that holds up in production, not
-          just on a roadmap. Here’s how founders and product leaders describe
-          working with us—and what it unlocked for their businesses.
+          We partner with teams to ship software that holds up in production,
+          not just on a roadmap. Here’s how founders and product leaders
+          describe working with us—and what it unlocked for their businesses.
         </p>
       </div>
 
@@ -90,7 +90,10 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       <div className="relative mb-12 overflow-hidden [transform:translateZ(0)] isolate">
         <div className="animate-scroll-right gap-8">
           {duplicatedStudies.map((study, index) => (
-            <CardComponent key={`top-${study.id}-${index < caseStudies.length ? "a" : "b"}`} study={study} />
+            <CardComponent
+              key={`top-${study.id}-${index < caseStudies.length ? "a" : "b"}`}
+              study={study}
+            />
           ))}
         </div>
       </div>
@@ -99,7 +102,10 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       <div className="relative overflow-hidden [transform:translateZ(0)] isolate">
         <div className="animate-scroll-left gap-8">
           {duplicatedStudies.map((study, index) => (
-            <CardComponent key={`bottom-${study.id}-${index < caseStudies.length ? "a" : "b"}`} study={study} />
+            <CardComponent
+              key={`bottom-${study.id}-${index < caseStudies.length ? "a" : "b"}`}
+              study={study}
+            />
           ))}
         </div>
       </div>
