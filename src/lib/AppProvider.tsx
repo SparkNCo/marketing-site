@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../pages/api/submissions/server";
 
@@ -24,7 +24,7 @@ type AppContextType = {
 
 export const AppContext = createContext<AppContextType | null>(null);
 
-export function AppProvider({ children }: { children: React.ReactNode }) {
+export function AppProvider({ children }: Readonly<{ children: React.ReactNode }>) {
   const [user, setUser] = useState<User | null>(null);
   const [dbUser, setDbUser] = useState<DbUser | null>(null);
   const [leadEmail, setLeadEmail] = useState("");
@@ -100,19 +100,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setDbUser(null);
   };
 
+  const contextValue = useMemo(
+    () => ({ user, dbUser, login, logout, leadEmail, setLeadEmail, test, setTest }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user, dbUser, leadEmail, test],
+  );
+
   return (
-    <AppContext.Provider
-      value={{
-        user,
-        dbUser,
-        login,
-        logout,
-        leadEmail,
-        setLeadEmail,
-        test,
-        setTest,
-      }}
-    >
+    <AppContext.Provider value={contextValue}>
       {children}
     </AppContext.Provider>
   );
