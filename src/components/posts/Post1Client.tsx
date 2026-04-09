@@ -18,7 +18,7 @@ export async function fetchPost(blog: string) {
   return fetchPostByUrl(blog, CONTENTFUL_CONTENT_TYPE_SOCIAL_MEDIA_BLOG_PROMO);
 }
 
-export function Post1Client({ squaresConfig, blog, edit }: Post1Props) {
+export function Post1Client({ squaresConfig, blog, edit }: Readonly<Post1Props>) {
   return (
     <QueryClientProvider client={queryClient}>
       <PostShell1 blog={blog} squaresConfig={squaresConfig} edit={edit} />
@@ -26,14 +26,14 @@ export function Post1Client({ squaresConfig, blog, edit }: Post1Props) {
   );
 }
 
-export function PostShell1({ blog, squaresConfig, edit }) {
+export function PostShell1({ blog, squaresConfig, edit }: Readonly<Post1Props>) {
   const {
     data: uniquePost,
     isLoading,
     error,
   } = useQuery({
     queryKey: ["post", blog, CONTENTFUL_CONTENT_TYPE_SOCIAL_MEDIA_BLOG_PROMO],
-    queryFn: () => fetchPost(blog),
+    queryFn: () => fetchPost(blog!),
     enabled: !!blog,
   });
 

@@ -4,7 +4,6 @@ import PostPageCentered from "./PostPageCentered.tsx";
 import PostPage2 from "./PostPage2.tsx";
 import { QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../lib/tanStack/index.ts";
-import { useEffect } from "react";
 import { fetchPost } from "./Post1Client.tsx";
 
 type PostShellProps = {
@@ -15,10 +14,9 @@ type PostShellProps = {
 
 export function PostShell5({
   squaresConfig,
-  edit,
   blog,
   layoutType,
-}: PostShellProps) {
+}: Readonly<PostShellProps>) {
   return (
     <QueryClientProvider client={queryClient}>
       <PostContent
@@ -30,7 +28,7 @@ export function PostShell5({
   );
 }
 
-function PostContent({ squaresConfig, blog, layoutType }: PostShellProps) {
+function PostContent({ squaresConfig, blog, layoutType }: Readonly<PostShellProps>) {
   const {
     data: uniquePost,
     isLoading,
@@ -41,11 +39,7 @@ function PostContent({ squaresConfig, blog, layoutType }: PostShellProps) {
     enabled: !!blog,
   });
 
-  const isCentered = layoutType === "page3";
-
-  useEffect(() => {
-    fetchPost(blog);
-  }, [blog]);
+  const isCentered = layoutType === "centered";
 
   if (isLoading) {
     return <div className="w-[1080px] mx-auto h-[1170px]">Loading...</div>;
@@ -60,12 +54,13 @@ function PostContent({ squaresConfig, blog, layoutType }: PostShellProps) {
       <SquaresPostLayout squares={squaresConfig} width="[1080px]">
         <div className="layout title-foreground">
           {isCentered ? (
-            <PostPageCentered key={uniquePost.id} uniquePost={uniquePost} />
+            <PostPageCentered key={uniquePost.id as string} uniquePost={uniquePost} edit={null} blogId={null} />
           ) : (
             <PostPage2
-              key={uniquePost.id}
+              key={uniquePost.id as string}
               uniquePost={uniquePost}
-              blogId={uniquePost.id}
+              edit={null}
+              blogId={uniquePost.id as string}
             />
           )}
         </div>

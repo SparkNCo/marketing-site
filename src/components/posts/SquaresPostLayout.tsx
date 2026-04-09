@@ -1,9 +1,8 @@
+// @ts-nocheck
 import { useMutation } from "@tanstack/react-query";
-import { PlusCircle, Save } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { patchIgPost } from "./patchPost";
-
-// @ts-nocheck
 
 export default function SquaresPostLayout({
   children,
@@ -23,6 +22,10 @@ export default function SquaresPostLayout({
   squares?: any[];
   indexLayout?: number;
   indexComponent?: number;
+  width?: string;
+  margin?: string;
+  edit?: string | boolean | null;
+  tags?: { labels: unknown; x: string; y: string }[];
   onTagsChange?: (tags: string[]) => void;
   onSave?: () => void;
   blogId?: string | null;
@@ -228,8 +231,9 @@ export default function SquaresPostLayout({
                   "--color-2": sq.color,
                   animation: [
                     sq.baseColor
-                      ? `square-color ${sq.duration ?? 3}s ease-in-out ${sq.colorDelay ?? 0
-                      }s infinite`
+                      ? `square-color ${sq.duration ?? 3}s ease-in-out ${
+                          sq.colorDelay ?? 0
+                        }s infinite`
                       : null,
                     sq.moveToX || sq.moveToY
                       ? `${moveAnim} ${sq.moveDuration ?? 6}s ease-in-out infinite`

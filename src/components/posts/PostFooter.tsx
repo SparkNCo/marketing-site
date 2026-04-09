@@ -1,7 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import { useRef } from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { patchIgPost } from "./patchPost";
+
+type PostFooterProps = {
+  height?: string;
+  bgColor?: string;
+  imgSrc?: string;
+  arrowColor?: string;
+  hideComponets?: boolean;
+  className?: string;
+};
 
 export default function PostFooter({
   height = "h-28",
@@ -10,7 +18,7 @@ export default function PostFooter({
   arrowColor = "text-white",
   hideComponets = false,
   className = "",
-}) {
+}: Readonly<PostFooterProps>) {
   return (
     <div className={`${height} ${bgColor} w-[1080px] ${className}`}>
       {!hideComponets && (
@@ -21,9 +29,9 @@ export default function PostFooter({
             className="w-32 h-32 object-contain"
           />
           {arrowColor === "black" ? (
-            <img src="/Arrow 1.svg" alt="arrow" className={`w-20 h-20`} />
+            <img src="/Arrow 1.svg" alt="arrow" className="w-20 h-20" />
           ) : (
-            <img src="/Arrow 2.svg" alt="arrow" className={`w-20 h-20`} />
+            <img src="/Arrow 2.svg" alt="arrow" className="w-20 h-20" />
           )}
         </div>
       )}
@@ -31,10 +39,22 @@ export default function PostFooter({
   );
 }
 
-export function PostFooter1({ title, author, edit, blogId }) {
+type PostFooter1Props = {
+  title: string;
+  author: string;
+  edit: boolean | string | null;
+  blogId: string | null;
+};
+
+export function PostFooter1({
+  title,
+  author,
+  edit,
+  blogId,
+}: Readonly<PostFooter1Props>) {
   const [localTitle, setLocalTitle] = useState(title);
   const [localAuthor, setLocalAuthor] = useState(author);
-  const debounceRef = useRef(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const mutation = useMutation({
     mutationFn: (updates: { title: string; author: string }) =>
@@ -55,7 +75,7 @@ export function PostFooter1({ title, author, edit, blogId }) {
     // do nothing if values didn't change
     if (localTitle === title && localAuthor === author) return;
 
-    clearTimeout(debounceRef.current);
+    clearTimeout(debounceRef.current ?? undefined);
 
     debounceRef.current = setTimeout(() => {
       mutation.mutate({
@@ -64,7 +84,7 @@ export function PostFooter1({ title, author, edit, blogId }) {
       });
     }, 2000);
 
-    return () => clearTimeout(debounceRef.current);
+    return () => clearTimeout(debounceRef.current ?? undefined);
   }, [localTitle, localAuthor]);
 
   return (

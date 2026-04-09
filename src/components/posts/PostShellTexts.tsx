@@ -20,7 +20,7 @@ export function PostShell5({
   blog,
   layoutType,
   edit,
-}: PostShellProps) {
+}: Readonly<PostShellProps>) {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="relative">
