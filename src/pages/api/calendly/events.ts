@@ -1,11 +1,10 @@
 import type { APIRoute } from "astro";
 
-const CAL_BASE = "https://api.cal.com/v1";
+const CAL_BASE = "https://api.cal.com/v2";
 
 export const GET: APIRoute = async () => {
   try {
     const USERNAME = import.meta.env.CAL_USERNAME;
-    // 👆 put your cal.com username in env
 
     if (!USERNAME) {
       return new Response(JSON.stringify({ error: "Missing CAL_USERNAME" }), {
@@ -15,36 +14,36 @@ export const GET: APIRoute = async () => {
 
     const url =
       `${CAL_BASE}/event-types?` +
-      new URLSearchParams({
-        apiKey: import.meta.env.CAL_KEY,
-        username: USERNAME,
-      }).toString();
+      new URLSearchParams({ username: USERNAME }).toString();
 
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.CAL_KEY}`,
+        "cal-api-version": "2024-06-14",
+      },
+    });
 
     if (!res.ok) {
       throw new Error(await res.text());
     }
 
-    const data = await res.json();
-    console.log("data", data);
+    const json = await res.json();
 
-    // Only expose what frontend needs
-    const events = (data.event_types || [])
+    const events = (json.data ?? [])
       .filter((event: any) => !event.hidden)
       .map((event: any) => ({
         id: event.id,
         slug: event.slug,
         title: event.title,
-        length: event.length,
-        scheduling_url: event.link, // 👈 cal.com booking link
+        length: event.lengthInMinutes ?? event.length,
+        scheduling_url: event.bookingLink ?? event.link,
       }));
 
     return new Response(JSON.stringify({ events }), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (err: any) {
-    console.error("🔥 /api/calendly/events error:", err.message);
+    console.error("/api/calendly/events error:", err.message);
     return new Response(
       JSON.stringify({ error: "Failed to load event types" }),
       { status: 500 }
