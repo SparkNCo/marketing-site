@@ -16,7 +16,7 @@ export default function ProposalButton({
   onClick,
   disabled,
   variant = "primary",
-}: Props) {
+}: Readonly<Props>) {
   const base =
     "w-full py-3 font-semibold rounded-md flex items-center justify-center gap-2 transition-opacity";
 

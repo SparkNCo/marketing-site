@@ -27,8 +27,8 @@ import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
 export const inputBaseClass =
   "mt-3 h-16 lg:h-10 text-body lg:text-body placeholder:text-3xl lg:placeholder:text-sm placeholder:text-body bg-secondary text-body focus:ring-2 focus:ring-primary selection:bg-primary selection:text-body";
 
-function generateUUID() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+export function generateUUID() {
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replaceAll(/[xy]/g, function (c) {
     const r = Math.trunc(Math.random() * 16);
     const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);

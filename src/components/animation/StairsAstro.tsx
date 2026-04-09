@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 
 interface StairsProps {
   children?: ReactNode;
+  location: string;
 }
 
 const Stairs: React.FC<StairsProps> = ({ children, location }) => {
@@ -21,7 +22,7 @@ const Stairs: React.FC<StairsProps> = ({ children, location }) => {
     enter: (i: number) => ({
       bottom: 1200,
       height: 0,
-      transition: { duration: 0.8, delay: 0.05 * i, ease: [0.1, 0, 1, 1] },
+      transition: { duration: 0.8, delay: 0.05 * i, ease: [0.1, 0, 1, 1] as [number, number, number, number] },
     }),
     exit: (i: number) => ({
       top: "-200%",
@@ -52,20 +53,18 @@ const Stairs: React.FC<StairsProps> = ({ children, location }) => {
 
             {/* Columns */}
             <div className="absolute inset-0 flex">
-              {Array(nmOfColumns)
-                .fill(undefined)
-                .map((_, i) => (
-                  <motion.div
-                    key={i}
-                    custom={i}
-                    initial="initial"
-                    animate="enter"
-                    exit="exit"
-                    variants={expand}
-                    className="relative flex-1 bg-[#111] z-50"
-                    style={{ top: 0 }}
-                  />
-                ))}
+              {new Array(nmOfColumns).fill(undefined).map((_, i) => (
+                <motion.div
+                  key={i}
+                  custom={i}
+                  initial="initial"
+                  animate="enter"
+                  exit="exit"
+                  variants={expand}
+                  className="relative flex-1 bg-[#111] z-50"
+                  style={{ top: 0 }}
+                />
+              ))}
             </div>
           </>
         )}

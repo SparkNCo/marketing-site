@@ -29,14 +29,14 @@ export function StepIndicator({ currentStep, totalSteps }: StepIndicatorProps) {
 
       {/* Step labels */}
       <div className="flex justify-between px-1">
-        {Array.from({ length: totalSteps }).map((_, i) => (
+        {Array.from({ length: totalSteps }, (_, i) => i).map((step) => (
           <div
-            key={i}
+            key={`step-${step + 1}`}
             className={`text-xs font-medium transition-colors ${
-              i <= currentStep ? "text-primary" : "text-foreground"
+              step <= currentStep ? "text-primary" : "text-foreground"
             }`}
           >
-            Step {i + 1}
+            Step {step + 1}
           </div>
         ))}
       </div>

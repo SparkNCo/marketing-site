@@ -30,6 +30,7 @@ export default function DealForm() {
     industry: "",
     monthlybudget: { min: 10000, max: 40000 },
     estimateTimeline: { min: 1, max: 24 },
+    mode: "",
     productIdea: "",
     selectedDate: "",
     selectedTime: { start: "", end: "" },
@@ -121,7 +122,7 @@ export default function DealForm() {
     "success",
   ].indexOf(currentStep);
 
-  const setBuildScale = (value: string) => {
+  const setBuildScale = (value: "build" | "scale") => {
     setFormData((prev) => ({
       ...prev,
       build_scale: value,
@@ -139,25 +140,23 @@ export default function DealForm() {
     >
       <div className="min-h-[10vh] sm:min-h-[15vh]  lg:min-h-[10vh]  " />
 
-      <>
-        {/* 📱 Mobile & Tablet (< lg) */}
-        <div className="sm:hidden w-full px-2 mx-auto  ">
-          <MobileStepper
-            currentStep={stepIndex}
-            totalSteps={5}
-            setCurrentStep={setCurrentStep}
-          />
-        </div>
+      {/* 📱 Mobile & Tablet (< lg) */}
+      <div className="sm:hidden w-full px-2 mx-auto  ">
+        <MobileStepper
+          currentStep={stepIndex}
+          totalSteps={5}
+          setCurrentStep={setCurrentStep}
+        />
+      </div>
 
-        {/* 💻 Desktop (lg+) */}
-        <div className="hidden sm:flex my-8 mx-auto  ">
-          <AnimatedStepper
-            currentStep={stepIndex}
-            totalSteps={5}
-            setCurrentStep={setCurrentStep}
-          />
-        </div>
-      </>
+      {/* 💻 Desktop (lg+) */}
+      <div className="hidden sm:flex my-8 mx-auto  ">
+        <AnimatedStepper
+          currentStep={stepIndex}
+          totalSteps={5}
+          setCurrentStep={setCurrentStep}
+        />
+      </div>
 
       <div
         className={` w-full lg:max-w-2xl px-2 lg:p-8 shadow-xl rounded-xl bg-background`}

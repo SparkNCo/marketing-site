@@ -1,15 +1,18 @@
 import { useMemo, useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import PostCard from "../posts/PostCard1";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import PostsFilterPagination from "../posts/PostsFilterPagination";
 import { fetchContentfulList } from "../../lib/contentfulPost";
 
 const fetchPosts = () => fetchContentfulList("igPost");
 
-export default function PostsSection({ selectedFeatures }) {
+type PostsSectionProps = {
+  selectedFeatures?: string[];
+};
+
+export default function PostsSection({ selectedFeatures }: Readonly<PostsSectionProps>) {
   const [input, setInput] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [page, setPage] = useState(1);
 
   const itemsPerPage = 3;
@@ -19,9 +22,9 @@ export default function PostsSection({ selectedFeatures }) {
     queryFn: fetchPosts,
   });
 
-  const allPosts = data || [];
+  const allPosts = data ?? [];
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
 
@@ -36,7 +39,7 @@ export default function PostsSection({ selectedFeatures }) {
     }
   };
 
-  const removeTag = (tagToRemove) => {
+  const removeTag = (tagToRemove: string) => {
     setTags((prev) => prev.filter((t) => t !== tagToRemove));
   };
 
@@ -104,9 +107,9 @@ export default function PostsSection({ selectedFeatures }) {
 
       {tags.length > 0 && (
         <div className="grid gap-2 [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] w-full ">
-          {tags.map((tag, i) => (
+          {tags.map((tag) => (
             <div
-              key={i}
+              key={tag}
               className="flex items-center justify-between px-3 py-1 rounded-full "
             >
               <span className="truncate">#{tag}</span>
@@ -125,12 +128,12 @@ export default function PostsSection({ selectedFeatures }) {
         {paginatedPosts.length > 0 ? (
           paginatedPosts.map((post) => (
             <PostCard
-              key={post.id}
-              img={post.coverImage}
-              title={post.title}
-              subtitle={post.author}
-              postId={post.id}
-              url={post.url}
+              key={post.id as string}
+              img={post.coverImage as string}
+              title={post.title as string}
+              subtitle={post.author as string}
+              postId={post.id as string}
+              url={post.url as string}
             />
           ))
         ) : (

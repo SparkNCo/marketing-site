@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
 
+type WindowWithPosthog = typeof globalThis & {
+  posthog?: {
+    opt_in_capturing: () => void;
+    opt_out_capturing: () => void;
+    capture: (event: string) => void;
+  };
+};
+
+const win = globalThis as WindowWithPosthog;
+
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
 
@@ -10,21 +20,21 @@ export default function CookieBanner() {
 
     const timer = setTimeout(() => {
       setVisible(true);
-    }, 1000); 
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
 
   const accept = () => {
-    window.posthog?.opt_in_capturing();
-    window.posthog?.capture("$pageview");
+    win.posthog?.opt_in_capturing();
+    win.posthog?.capture("$pageview");
 
     localStorage.setItem("cookie_consent", "accepted");
     setVisible(false);
   };
 
   const reject = () => {
-    window.posthog?.opt_out_capturing();
+    win.posthog?.opt_out_capturing();
     localStorage.setItem("cookie_consent", "rejected");
     setVisible(false);
   };

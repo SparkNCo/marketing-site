@@ -5,7 +5,7 @@ interface CardProps extends React.ComponentProps<"div"> {
   rounded?: boolean;
 }
 
-function Card({ className, rounded = true, ...props }: CardProps) {
+function Card({ className, rounded = true, ...props }: Readonly<CardProps>) {
   return (
     <div
       data-slot="card"

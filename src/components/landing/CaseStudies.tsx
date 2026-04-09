@@ -1,7 +1,7 @@
 import { CaseStudyCard } from "./components/CaseStudyCard";
 import { CaseStudyCardMobile } from "./components/CaseStudyCardMobile";
 
-function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
+function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
   const caseStudies = [
     {
       id: 1,
@@ -90,7 +90,7 @@ function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
       <div className="relative mb-12 overflow-hidden [transform:translateZ(0)] isolate">
         <div className="animate-scroll-right gap-8">
           {duplicatedStudies.map((study, index) => (
-            <CardComponent key={`top-${index}`} study={study} />
+            <CardComponent key={`top-${study.id}-${index < caseStudies.length ? "a" : "b"}`} study={study} />
           ))}
         </div>
       </div>
@@ -99,7 +99,7 @@ function CaseStudiesSection({ isMobile }: { isMobile: boolean }) {
       <div className="relative overflow-hidden [transform:translateZ(0)] isolate">
         <div className="animate-scroll-left gap-8">
           {duplicatedStudies.map((study, index) => (
-            <CardComponent key={`bottom-${index}`} study={study} />
+            <CardComponent key={`bottom-${study.id}-${index < caseStudies.length ? "a" : "b"}`} study={study} />
           ))}
         </div>
       </div>

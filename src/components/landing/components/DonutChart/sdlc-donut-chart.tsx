@@ -108,7 +108,6 @@ const SIZE = 320;
 const STROKE_WIDTH = 44;
 const RADIUS = (SIZE - STROKE_WIDTH) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-const GAP = 0; // degrees - no gap for straight edges
 const LABEL_RADIUS = RADIUS + STROKE_WIDTH / 2 + 90; // Distance from center for labels
 
 function polarToCartesian(
@@ -117,36 +116,11 @@ function polarToCartesian(
   radius: number,
   angleInDegrees: number,
 ) {
-  const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
+  const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180;
   return {
     x: centerX + radius * Math.cos(angleInRadians),
     y: centerY + radius * Math.sin(angleInRadians),
   };
-}
-
-function describeArc(
-  x: number,
-  y: number,
-  radius: number,
-  startAngle: number,
-  endAngle: number,
-) {
-  const start = polarToCartesian(x, y, radius, endAngle);
-  const end = polarToCartesian(x, y, radius, startAngle);
-  const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-  return [
-    "M",
-    start.x,
-    start.y,
-    "A",
-    radius,
-    radius,
-    0,
-    largeArcFlag,
-    0,
-    end.x,
-    end.y,
-  ].join(" ");
 }
 
 const INNER_RADIUS = RADIUS - STROKE_WIDTH / 2;
@@ -195,13 +169,10 @@ function describeChevronSegment(
   );
   const frontChevronTip = polarToCartesian(centerX, centerY, RADIUS, endAngle);
 
-  // Determine if we need large arc flag for outer arc
-  const outerSweepAngle = endAngle - chevronAngleOffset - adjustedStartAngle;
-  const outerLargeArcFlag = outerSweepAngle > 180 ? "1" : "0";
-
-  // Determine if we need large arc flag for inner arc
-  const innerSweepAngle = endAngle - chevronAngleOffset - adjustedStartAngle;
-  const innerLargeArcFlag = innerSweepAngle > 180 ? "1" : "0";
+  // Determine if we need large arc flag for outer/inner arcs (same sweep angle)
+  const sweepAngle = endAngle - chevronAngleOffset - adjustedStartAngle;
+  const outerLargeArcFlag = sweepAngle > 180 ? "1" : "0";
+  const innerLargeArcFlag = outerLargeArcFlag;
 
   // All segments: chevron notch at back, chevron point at front
   return [
@@ -261,31 +232,46 @@ function SegmentArc({
   onMouseEnter,
   onMouseLeave,
   hasAnySelection,
-}: SegmentArcProps) {
+}: Readonly<SegmentArcProps>) {
   const center = SIZE / 2;
   const path = describeChevronSegment(center, center, startAngle, endAngle);
 
   const shouldPulse = hasAnySelection && !isSelected && !isComplete;
+  const isActiveSegment = isComplete || isSelected;
+
+  let animatedOpacity: number | number[];
+  if (isActiveSegment) {
+    animatedOpacity = 1;
+  } else if (shouldPulse) {
+    animatedOpacity = [0.15, 0.3, 0.15];
+  } else {
+    animatedOpacity = 0.15;
+  }
+
+  let animatedFill: string;
+  if (isActiveSegment) {
+    animatedFill = segment.color;
+  } else if (isHovered) {
+    animatedFill = segment.hoverColor;
+  } else {
+    animatedFill = "rgba(255,255,255,0.1)";
+  }
+
+  const animatedScale = isHovered && !isComplete ? 1.02 : 1;
 
   return (
     <motion.path
       d={path}
-      fill={isComplete || isSelected ? segment.color : "rgba(255,255,255,0.1)"}
+      fill={isActiveSegment ? segment.color : "rgba(255,255,255,0.1)"}
       stroke="none"
       style={{
         cursor: isComplete ? "default" : "pointer",
       }}
       initial={{ opacity: 0.3 }}
       animate={{
-        opacity:
-          isComplete || isSelected ? 1 : shouldPulse ? [0.15, 0.3, 0.15] : 0.15,
-        scale: isHovered && !isComplete ? 1.02 : 1,
-        fill:
-          isComplete || isSelected
-            ? segment.color
-            : isHovered
-              ? segment.hoverColor
-              : "rgba(255,255,255,0.1)",
+        opacity: animatedOpacity,
+        scale: animatedScale,
+        fill: animatedFill,
       }}
       transition={{
         opacity: shouldPulse
@@ -307,7 +293,7 @@ interface TooltipProps {
   position: { x: number; y: number };
 }
 
-function Tooltip({ segment, isSelected, position }: TooltipProps) {
+function Tooltip({ segment, isSelected, position }: Readonly<TooltipProps>) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9, y: 10 }}
@@ -371,13 +357,13 @@ type SDLCDonutChartProps = {
   setMode?: (mode: "index" | "form") => void;
 };
 
-export function SDLCDonutChart({ setMode }: SDLCDonutChartProps) {
+export function SDLCDonutChart({ setMode }: Readonly<SDLCDonutChartProps>) {
   const [selectedSegments, setSelectedSegments] = useState<Set<string>>(
     new Set(),
   );
   const [hoveredSegment, setHoveredSegment] = useState<string | null>(null);
-  const [isComplete, setIsComplete] = useState(false);
-  const [completingIndex, setCompletingIndex] = useState(-1);
+  const [isComplete] = useState(false);
+  const [completingIndex] = useState(-1);
 
   const completionPercentage = useMemo(() => {
     if (isComplete) return 100;
@@ -401,25 +387,6 @@ export function SDLCDonutChart({ setMode }: SDLCDonutChartProps) {
     },
     [isComplete],
   );
-
-  const completeSystem = useCallback(async () => {
-    if (isComplete) return;
-
-    for (let i = 0; i < SEGMENTS.length; i++) {
-      setCompletingIndex(i);
-      setSelectedSegments((prev) => new Set([...prev, SEGMENTS[i].id]));
-      await new Promise((resolve) => setTimeout(resolve, 150));
-    }
-
-    setCompletingIndex(-1);
-    setIsComplete(true);
-  }, [isComplete]);
-
-  const resetSystem = useCallback(() => {
-    setIsComplete(false);
-    setSelectedSegments(new Set());
-    setCompletingIndex(-1);
-  }, []);
 
   // Calculate segment angles
   const segmentAngles = useMemo(() => {
@@ -721,7 +688,8 @@ export function SDLCDonutChart({ setMode }: SDLCDonutChartProps) {
           Ready for launch?
         </h2>
         <p className="text-body md:text-heading2 text-foreground mb-4">
-          Prototypes and MVPs have never been easier, but are you ready for the next step? Sign up with Spark &amp; Co and close the gap.
+          Prototypes and MVPs have never been easier, but are you ready for the
+          next step? Sign up with Spark &amp; Co and close the gap.
         </p>
         <EmailCapture
           containerClassName="w-full max-w-xl items-center lg:items-start"

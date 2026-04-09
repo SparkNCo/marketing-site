@@ -8,7 +8,7 @@ type AuthPopoverProps = {
   mode: "light" | "dark";
 };
 
-export default function LoginPopover({ mode }: AuthPopoverProps) {
+export default function LoginPopover({ mode }: Readonly<AuthPopoverProps>) {
   const { login } = useApp();
 
   const [show, setShow] = useState(false);
@@ -43,20 +43,23 @@ export default function LoginPopover({ mode }: AuthPopoverProps) {
   return (
     <div className="relative z-10">
       {/* Hamburger trigger */}
-      <div
+      <button
+        type="button"
         onClick={() => setShow((v) => !v)}
-        className={`cursor-pointer transition hover:opacity-80 ${
+        className={`cursor-pointer transition hover:opacity-80 bg-transparent border-none p-0 ${
           mode === "dark" ? "text-background" : "text-foreground"
         }`}
       >
         <Menu size={28} strokeWidth={2} />
-      </div>
+      </button>
 
       {show && (
         <>
           {/* Overlay */}
-          <div
-            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm"
+          <button
+            type="button"
+            aria-label="Close menu"
+            className="fixed inset-0 z-40 bg-background backdrop-blur-sm w-full border-none p-0"
             onClick={() => setShow(false)}
           />
 

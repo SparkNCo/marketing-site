@@ -97,19 +97,14 @@ export function MobileStepper({
           const isActive = stepNumber === currentStep + 1;
           const isCompleted = stepNumber < currentStep + 1;
 
+          let stepBgClass = "bg-card text-text";
+          if (isCompleted) stepBgClass = "bg-primary text-accent-foreground";
+          else if (isActive) stepBgClass = "bg-primary text-primary-foreground scale-105";
+
           return (
             <div key={stepNumber} className="flex items-center">
               <div
-                className={`
-                  min-w-[36px] h-9 flex items-center justify-center text-sm font-semibold
-                  ${
-                    isCompleted
-                      ? "bg-primary text-accent-foreground"
-                      : isActive
-                        ? "bg-primary text-primary-foreground scale-105"
-                        : "bg-card text-text"
-                  }
-                `}
+                className={`min-w-[36px] h-9 flex items-center justify-center text-sm font-semibold ${stepBgClass}`}
               >
                 {stepNumber}
               </div>

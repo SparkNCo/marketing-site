@@ -1,7 +1,5 @@
 import React from "react";
 
-
-
 export interface SquareConfig {
   x: string;
   y: string;
@@ -21,9 +19,9 @@ const SquaresLayout: React.FC<SquaresLayoutProps> = ({ squares, children }) => {
     <div className="relative w-full h-full">
       {" "}
       {/* Squares layer */}{" "}
-      {squares.map((sq, i) => (
+      {squares.map((sq) => (
         <div
-          key={i}
+          key={`${sq.x}-${sq.y}-${sq.width}-${sq.height}`}
           className="fixed pointer-events-none"
           style={{
             left: sq.x,

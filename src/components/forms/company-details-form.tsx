@@ -1,4 +1,3 @@
-import { Button } from "../../components/ui/button";
 import BuildScaleToggle from "../landing/components/BuildScaleComponent";
 import { NextButton } from "../landing/components/NextFormButton";
 import { Slider } from "../ui/slider2";
@@ -11,7 +10,7 @@ export type CompanyDetailsFormProps = Readonly<{
   setBudgetRange: (v: readonly [number, number]) => void;
   timelineRange: readonly [number, number];
   setTimelineRange: (v: readonly [number, number]) => void;
-  setBuildScale: (value: string) => void;
+  setBuildScale: (value: "build" | "scale") => void;
 }>;
 
 export function CompanyDetailsForm({

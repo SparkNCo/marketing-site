@@ -30,7 +30,7 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
   tips,
   placeholder,
   readOnly = false,
-}: Props<T>) {
+}: Readonly<Props<T>>) {
   const passedCount = Object.values(analysis).filter(Boolean).length;
   const progress = Math.round(
     (passedCount / Object.keys(analysis).length) * 100,
@@ -45,7 +45,7 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
           value={value}
           onChange={onChange}
           endpoint={endpoint}
-          onAnalysis={setAnalysis}
+          onAnalysis={(data) => setAnalysis(data as unknown as T)}
           placeholder={placeholder}
           wait={2000}
           readOnly={readOnly}
@@ -61,7 +61,7 @@ export function AnalyzedTextareaSection<T extends Record<string, boolean>>({
 
       <div className="mt-3 space-y-1.5 flex flex-col items-end">
         {tips.map((tip) => {
-          const isDone = analysis[tip.key as keyof T];
+          const isDone = analysis[tip.key];
           return (
             <div
               key={tip.key as string}

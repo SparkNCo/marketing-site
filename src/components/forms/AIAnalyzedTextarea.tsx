@@ -1,7 +1,7 @@
 "use client";
 
 import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { debounce } from "@tanstack/pacer";
 
 type AIResponse = {
@@ -29,11 +29,13 @@ export function AIAnalyzedTextarea({
   onAnalysis,
   placeholder = "Describe your idea...",
   minLength = 20,
-  wait = 500, // 👈 reduced to 0.5s
+  wait = 500,
   readOnly = false,
-}: Props) {
+}: Readonly<Props>) {
   const [loading, setLoading] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const onAnalysisRef = useRef(onAnalysis);
+  onAnalysisRef.current = onAnalysis;
 
   // Detect typing (true while user is actively typing)
   useEffect(() => {
@@ -51,7 +53,7 @@ export function AIAnalyzedTextarea({
       debounce(
         async (text: string) => {
           if (!text.trim() || text.length < minLength) {
-            onAnalysis({
+            onAnalysisRef.current({
               audience: false,
               problem: false,
               idea: false,
@@ -77,7 +79,7 @@ export function AIAnalyzedTextarea({
             if (!res.ok) throw new Error("AI request failed");
 
             const data: AIResponse = await res.json();
-            onAnalysis(data);
+            onAnalysisRef.current(data);
           } catch (err) {
             console.error(err);
           } finally {
@@ -86,7 +88,7 @@ export function AIAnalyzedTextarea({
         },
         { wait },
       ),
-    [endpoint, minLength, wait, onAnalysis],
+    [endpoint, minLength, wait],
   );
 
   useEffect(() => {

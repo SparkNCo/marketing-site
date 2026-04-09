@@ -7,7 +7,7 @@ type CaseStudy = {
   role: string;
 };
 
-export function CaseStudyCard({ study }: { study: CaseStudy }) {
+export function CaseStudyCard({ study }: Readonly<{ study: CaseStudy }>) {
   return (
     <div className="max-w-[45rem] min-h-[260px] h-[260px] bg-white  overflow-hidden shadow-md flex-shrink-0 relative">
       {/* Content */}

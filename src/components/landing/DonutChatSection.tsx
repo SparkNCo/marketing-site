@@ -4,7 +4,7 @@ type DonutChatSectionProps = {
   setMode?: (mode: "index" | "form") => void;
 };
 
-export default function DonutChatSection({ setMode }: DonutChatSectionProps) {
+export default function DonutChatSection({ setMode }: Readonly<DonutChatSectionProps>) {
   return (
     <main className="relative overflow-hidden">
       {/* Background grid */}

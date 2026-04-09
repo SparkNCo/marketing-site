@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 declare global {
   interface Window {
@@ -9,15 +9,18 @@ declare global {
   }
 }
 
-const CHATBASE_SCRIPT_ID = 'chatbase-embed-script';
+const CHATBASE_SCRIPT_ID = "chatbase-embed-script";
 const CHATBASE_CONFIG = {
-  chatbotId: 'v9HlHRDbHSCQDENZhrKWM',
-  domain: 'www.chatbase.co',
+  chatbotId: "v9HlHRDbHSCQDENZhrKWM",
+  domain: "www.chatbase.co",
 };
 
 export default function ChatbaseWidget() {
   useEffect(() => {
-    if (typeof window === 'undefined' || typeof document === 'undefined') {
+    if (
+      typeof globalThis.window === "undefined" ||
+      typeof document === "undefined"
+    ) {
       return;
     }
 
@@ -25,17 +28,17 @@ export default function ChatbaseWidget() {
       return;
     }
 
-    window.embeddedChatbotConfig = {
+    globalThis.window.embeddedChatbotConfig = {
       chatbotId: CHATBASE_CONFIG.chatbotId,
       domain: CHATBASE_CONFIG.domain,
     };
 
-    const script = document.createElement('script');
-    script.src = 'https://www.chatbase.co/embed.min.js';
+    const script = document.createElement("script");
+    script.src = "https://www.chatbase.co/embed.min.js";
     script.id = CHATBASE_SCRIPT_ID;
     script.defer = true;
-    script.setAttribute('chatbotId', CHATBASE_CONFIG.chatbotId);
-    script.setAttribute('domain', CHATBASE_CONFIG.domain);
+    script.setAttribute("chatbotId", CHATBASE_CONFIG.chatbotId);
+    script.setAttribute("domain", CHATBASE_CONFIG.domain);
 
     document.body.appendChild(script);
 

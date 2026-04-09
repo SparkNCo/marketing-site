@@ -22,7 +22,7 @@ export function RangeSliderSection({
   onChange,
   format = (v) => v.toString(),
   readOnly = false,
-}: Props) {
+}: Readonly<Props>) {
   return (
     <div>
       <h3 className="mb-2 text-heading2 font-bold text-secondary">{title}</h3>

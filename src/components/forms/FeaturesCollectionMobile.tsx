@@ -8,14 +8,7 @@ import type { Proposal } from "../proposals/Proposal";
 import { SortableFeatureCard, type Feature } from "./SortableFeatureCard";
 import type { DiscoveryFormState } from "../discorveryForm/DiscoveryFormProps";
 import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
-
-function generateUUID() {
-  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replaceAll(/[xy]/g, function (c) {
-    const r = Math.trunc(Math.random() * 16);
-    const v = c === "x" ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
-}
+import { generateUUID } from "./features-collection";
 
 type FeaturesCollectionProps = Readonly<{
   proposal: Proposal | null;

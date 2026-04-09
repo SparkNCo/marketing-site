@@ -85,21 +85,22 @@ type LeftBoxProps = {
   onClick: () => void;
 };
 
-const LeftBox = ({ title, onClick }: LeftBoxProps) => {
+const LeftBox = ({ title, onClick }: Readonly<LeftBoxProps>) => {
   return (
-    <div
-      onClick={() => onClick()}
-      className="p-2 sm:p-4 flex-1 flex flex-col justify-center bg-foreground text-background min-h-[72px] md:min-h-[80px] cursor-pointer"
+    <button
+      type="button"
+      onClick={onClick}
+      className="p-2 sm:p-4 flex-1 flex flex-col justify-center bg-foreground text-background min-h-[72px] md:min-h-[80px] cursor-pointer text-left"
     >
       <div className="flex flex-row items-center gap-3 sm:gap-4">
         <img
           src={"/Frame.png"}
           alt="spark/co"
-          className="w-6 h-6 sm:w-8 sm:h-8 object-contain cursor-pointer shrink-0"
+          className="w-6 h-6 sm:w-8 sm:h-8 object-contain shrink-0"
         />
         <h3 className="text-heading2 font-bold">{title}</h3>
       </div>
-    </div>
+    </button>
   );
 };
 
@@ -107,7 +108,9 @@ type FeaturesSectionProps = {
   setSelectedFeatures?: (features: string[]) => void;
 };
 
-function FeaturesSection({ setSelectedFeatures }: FeaturesSectionProps) {
+function FeaturesSection({
+  setSelectedFeatures,
+}: Readonly<FeaturesSectionProps>) {
   const [mode, setMode] = useState<PrincipleMode>("rapidIteration");
 
   return (
@@ -153,7 +156,7 @@ function FeaturesSection({ setSelectedFeatures }: FeaturesSectionProps) {
         </div>
         {/* RIGHT COLUMN */}
         <div className="flex relative min-h-[400px] ">
-          <SquaresPostLayout squares={SquaresConfigMVP} >
+          <SquaresPostLayout squares={SquaresConfigMVP}>
             <FeaturesOptions
               mode={mode}
               title={principleContent[mode].title}

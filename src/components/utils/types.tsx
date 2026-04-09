@@ -18,5 +18,5 @@ export type CompanyDetailsFormProps = Readonly<{
   setCurrentStep: (step: FormStep) => void;
   budgetRange: [number, number];
   setBudgetRange: (value: [number, number]) => void;
-  setBuildScale: (value: string) => void;
+  setBuildScale: (value: "build" | "scale") => void;
 }>;

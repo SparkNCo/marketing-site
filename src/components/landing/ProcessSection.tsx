@@ -49,15 +49,13 @@ export const steps = [
   { id: 8, title: "" },
 ];
 
-export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
-  if (isMobile) {
-    return <ProcessSectionMobile />;
-  }
-
+export default function ProcessSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
   const [activeStep, setActiveStep] = useState(0);
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    if (isMobile) return;
+
     const observers: IntersectionObserver[] = [];
 
     const updateActiveStep = () => {
@@ -100,7 +98,11 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
     return () => {
       observers.forEach((observer) => observer.disconnect());
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) {
+    return <ProcessSectionMobile />;
+  }
 
   const visibleSteps = steps.filter((step) => step.title);
   const currentStep = visibleSteps[activeStep];
@@ -165,7 +167,7 @@ export default function ProcessSection({ isMobile }: { isMobile: boolean }) {
 
                 <div className="relative h-[50vh] w-full overflow-x-hidden">
                   <img
-                    src={currentStep?.image || "/dashboard.png"}
+                    src="/dashboard.png"
                     alt="Process visual"
                     className="absolute bottom-0 right-0 h-full object-fill "
                   />

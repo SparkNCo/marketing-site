@@ -24,12 +24,8 @@ interface Square {
 
 interface Props {
   children: React.ReactNode;
-
   squares?: Square[];
-
   width?: string;
-  height?: string;
-
   margin?: string;
   background?: string;
 
@@ -50,7 +46,7 @@ export default function SquaresGridLayout({
   indexLayout = 10,
   indexComponent = 5,
   className,
-}: Props) {
+}: Readonly<Props>) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
 
@@ -106,52 +102,46 @@ export default function SquaresGridLayout({
       >
         {squares.map((sq, i) => {
           const base = {
-            top: sq.top !== undefined ? sq.top * cellSize : undefined,
-            bottom:
-              sq.bottom !== undefined ? sq.bottom * cellSize : undefined,
-
-            left: sq.left !== undefined ? sq.left * cellSize : undefined,
-            right: sq.right !== undefined ? sq.right * cellSize : undefined,
-
+            top: sq.top === undefined ? undefined : sq.top * cellSize,
+            bottom: sq.bottom === undefined ? undefined : sq.bottom * cellSize,
+            left: sq.left === undefined ? undefined : sq.left * cellSize,
+            right: sq.right === undefined ? undefined : sq.right * cellSize,
             width: sq.width * cellSize,
             height: sq.height * cellSize,
-
             zIndex: sq.zIndex ?? 0,
           } as const;
 
           const fadeDuration = sq.duration ?? 0.8;
           const fadeDelay = sq.colorDelay ?? 0;
+          const key = `sq-${i}-${sq.color}-${sq.width}-${sq.height}`;
 
-          if (sq.baseColor !== undefined) {
+          if (sq.baseColor === undefined) {
             return (
-              <div key={i} className="absolute" style={base}>
-                <div
-                  className="absolute inset-0"
-                  style={{ backgroundColor: sq.color }}
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundColor: sq.baseColor,
-                    ...(inView && {
-                      animation: `gridLayoutSquareFadeToSecond ${fadeDuration}s ease forwards`,
-                      animationDelay: `${fadeDelay}s`,
-                    }),
-                  }}
-                />
-              </div>
+              <div
+                key={key}
+                className="absolute"
+                style={{ ...base, backgroundColor: sq.color }}
+              />
             );
           }
 
           return (
-            <div
-              key={i}
-              className="absolute"
-              style={{
-                ...base,
-                backgroundColor: sq.color,
-              }}
-            />
+            <div key={key} className="absolute" style={base}>
+              <div
+                className="absolute inset-0"
+                style={{ backgroundColor: sq.color }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  backgroundColor: sq.baseColor,
+                  ...(inView && {
+                    animation: `gridLayoutSquareFadeToSecond ${fadeDuration}s ease forwards`,
+                    animationDelay: `${fadeDelay}s`,
+                  }),
+                }}
+              />
+            </div>
           );
         })}
       </div>

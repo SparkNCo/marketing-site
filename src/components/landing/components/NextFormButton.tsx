@@ -18,7 +18,7 @@ export function NextButton({
   wrapperClassName = "",
   buttonClassName = "",
   text = "Next",
-}: NextButtonProps) {
+}: Readonly<NextButtonProps>) {
   return (
     <div
       className={`

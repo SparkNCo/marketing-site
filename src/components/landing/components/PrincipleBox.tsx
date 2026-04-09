@@ -15,17 +15,18 @@ export const PrincipleBox = ({
   title,
   summary,
   features,
-  setSelectedFeatures, // ✅ added
+  setSelectedFeatures, 
 }: PrincipleBoxProps) => {
   const isActive = modeKey === activeMode;
 
   return (
-    <div
+    <button
+      type="button"
       onClick={() => {
         setMode(modeKey);
-        setSelectedFeatures?.([title]); // ✅ added
+        setSelectedFeatures?.([title]);
       }}
-      className="cursor-pointer bg-foreground text-background transition-all duration-300"
+      className="w-full text-left cursor-pointer bg-foreground text-background transition-all duration-300 border-none p-0"
     >
       <div className="p-5 flex justify-left items-center gap-4 ">
         <img
@@ -51,6 +52,6 @@ export const PrincipleBox = ({
           ))}
         </ul>
       </div>
-    </div>
+    </button>
   );
 };

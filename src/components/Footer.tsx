@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export default function Footer({ mode }) {
+export default function Footer({ mode = "index" }: Readonly<{ mode?: string }>) {
   return (
     <footer
       className={clsx("w-full bg-foreground text-title font-semibold", {

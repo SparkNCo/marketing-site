@@ -4,9 +4,9 @@ export function useResponsiveCellSize() {
   const [cellSize, setCellSize] = useState(64);
 
   useEffect(() => {
-    const sm = window.matchMedia("(min-width: 640px)");
-    const md = window.matchMedia("(min-width: 768px)");
-    const lg = window.matchMedia("(min-width: 1024px)");
+    const sm = globalThis.matchMedia("(min-width: 640px)");
+    const md = globalThis.matchMedia("(min-width: 768px)");
+    const lg = globalThis.matchMedia("(min-width: 1024px)");
 
     const update = () => {
       if (lg.matches) setCellSize(64);

@@ -2,6 +2,7 @@ interface ProcessStepItemProps {
   index: number;
   title: string;
   isActive: boolean;
+  mobile?: boolean;
 }
 
 export function ProcessStepItem({
@@ -9,7 +10,7 @@ export function ProcessStepItem({
   title,
   isActive,
   mobile = false,
-}: ProcessStepItemProps) {
+}: Readonly<ProcessStepItemProps>) {
   return (
     <>
       {/* Number */}
@@ -49,7 +50,7 @@ export function ProcessStepItem({
   );
 }
 
-export function TimelineLine({ className = "" }: { className?: string }) {
+export function TimelineLine({ className = "" }: Readonly<{ className?: string }>) {
   return (
     <div
       className={`absolute w-[3px] bg-foreground opacity-90 blur-[1px] ${className}`}
@@ -62,15 +63,15 @@ export function ProcessStepContent({
   description,
   image,
   sticky = false,
-}: {
+}: Readonly<{
   title: string;
   description: string;
   image: string;
   sticky?: boolean;
-}) {
+}>) {
   return (
     <div
-      className={`lg:col-span-8 text-foreground relative z-0 ${sticky ? "" : ""} border-4`}
+      className="lg:col-span-8 text-foreground relative z-0 border-4"
     >
       <div
         className={`flex flex-col gap-6 ${

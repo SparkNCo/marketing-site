@@ -96,13 +96,13 @@ export default function DiscoveryForm({
           <p className="text-body max-w-2xl leading-relaxed text-foreground/90">
             Here&apos;s an outline of what we&apos;ll be discussing on our call
             at{" "}
-            {state.formatted_date !== "" ? (
+            {state.formatted_date === "" ? (
               <span className="font-semibold text-primary">
-                {formatReadableDate(state.formatted_date)}
+                {formatReadableDate(formatted_date)}
               </span>
             ) : (
               <span className="font-semibold text-primary">
-                {formatReadableDate(formatted_date)}
+                {formatReadableDate(state.formatted_date)}
               </span>
             )}
             . Please add as much detail as you can before we meet. See you soon!
