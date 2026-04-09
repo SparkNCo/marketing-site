@@ -32,9 +32,9 @@ export default function ChatbaseWidget() {
       chatbotId: CHATBASE_CONFIG.chatbotId,
       domain: CHATBASE_CONFIG.domain,
     };
-
-    const script = document.createElement("script");
+    
     // eslint-disable-next-line @microsoft/sdl/no-insecure-url
+    const script = document.createElement("script");
     script.src = "https://www.chatbase.co/embed.min.js";
     script.id = CHATBASE_SCRIPT_ID;
     script.defer = true;

@@ -27,19 +27,7 @@ export default function CalendlyBooking({
   const [availableSlots, setAvailableSlots] = useState(availability);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
-  const slots = availableSlots[selectedDate] ?? [];
-
-  const columns = useMemo(() => {
-    if (!slots.length) return [[], [], []];
-
-    const chunkSize = Math.ceil(slots.length / 3);
-
-    return [
-      slots.slice(0, chunkSize),
-      slots.slice(chunkSize, chunkSize * 2),
-      slots.slice(chunkSize * 2),
-    ];
-  }, [selectedDate]);
+  const slots = (selectedDate ? availableSlots[selectedDate] : undefined) ?? [];
 
   useEffect(() => {
     if (!selectedDate && availableSlots) {
