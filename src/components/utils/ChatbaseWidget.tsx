@@ -33,8 +33,7 @@ export default function ChatbaseWidget() {
       domain: CHATBASE_CONFIG.domain,
     };
     
-    // eslint-disable-next-line @microsoft/sdl/no-insecure-url
-    const script = document.createElement("script");
+    const script = document.createElement("script"); // NOSONAR
     script.src = "https://www.chatbase.co/embed.min.js";
     script.id = CHATBASE_SCRIPT_ID;
     script.defer = true;

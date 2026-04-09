@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat eslint.config.*)",
+      "Bash(cat .eslintrc*)"
+    ]
+  }
+}
