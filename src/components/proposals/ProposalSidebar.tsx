@@ -9,7 +9,7 @@ type ProposalSidebarProps = {
 export default function ProposalSidebar({
   sections,
   onSelect,
-}: ProposalSidebarProps) {
+}: Readonly<ProposalSidebarProps>) {
   const keys = Object.keys(sections);
 
   return (

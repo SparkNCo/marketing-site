@@ -16,7 +16,7 @@ export default function CreateProposalCta({
   submissionId,
   sections,
   localProposal,
-}: Props) {
+}: Readonly<Props>) {
   const buildSectionUpdates = () => {
     return {
       client_name: sections?.["Cover Page"]?.["Client Name"],

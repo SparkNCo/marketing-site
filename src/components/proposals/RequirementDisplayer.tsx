@@ -15,9 +15,9 @@ type Requirement = {
 
 export default function RequirementDisplayer({
   submissionId,
-}: {
+}: Readonly<{
   submissionId: string;
-}) {
+}>) {
   const [openIds, setOpenIds] = useState<string[]>([]);
 
   const toggle = (id: string) => {

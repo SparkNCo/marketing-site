@@ -10,10 +10,10 @@ import ProposalButton from "../ui/ProposalButton";
 export default function CtaProposal({
   proposalId,
   signature_url,
-}: {
+}: Readonly<{
   proposalId: string;
   signature_url: string;
-}) {
+}>) {
   const [open, setOpen] = useState(false);
   const [isSigning, setIsSigning] = useState(false);
   const [isSigned, setIsSigned] = useState(false);

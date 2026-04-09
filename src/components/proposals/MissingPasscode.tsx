@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Settings, XCircle } from "lucide-react";
 
 type LoadingWrapperProps = {
   children?: ReactNode;
   label?: string;
 };
+
+const PASSCODE_SLOT_KEYS = ["slot-0", "slot-1", "slot-2", "slot-3", "slot-4", "slot-5"];
 
 export const MissingPasscode = () => {
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
@@ -16,7 +18,7 @@ export const MissingPasscode = () => {
 
   useEffect(() => {
     if (passcode.length === 6 && !code.includes("")) {
-      window.location.href = `http://localhost:4321/proposal?mode=features&passcode=${passcode}`;
+      window.location.href = `/proposal?mode=features&passcode=${passcode}`;
     }
   }, [passcode, code]);
 
@@ -54,13 +56,13 @@ export const MissingPasscode = () => {
 
         {/* Passcode inputs */}
         <div className="flex justify-center gap-4">
-          {code.map((value, index) => (
+          {PASSCODE_SLOT_KEYS.map((slotKey, index) => (
             <input
-              key={index}
-              ref={(el) => (inputsRef.current[index] = el)}
+              key={slotKey}
+              ref={(el) => { inputsRef.current[index] = el; }}
               type="text"
               maxLength={1}
-              value={value}
+              value={code[index]}
               autoFocus={index === 0}
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}

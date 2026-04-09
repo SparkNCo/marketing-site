@@ -1,11 +1,23 @@
 import {
-  FileText,
   Pencil,
   Save,
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
 import { Button } from "../../ui/button";
+
+type DbUser = {
+  role?: string;
+};
+
+type SectionHeaderProps = Readonly<{
+  title: string;
+  isOpen: boolean;
+  toggleOpen: () => void;
+  isEditing: boolean;
+  toggleEdit: () => void;
+  dbUser?: DbUser | null;
+}>;
 
 export default function SectionHeader({
   title,
@@ -14,11 +26,17 @@ export default function SectionHeader({
   isEditing,
   toggleEdit,
   dbUser,
-}: any) {
+}: SectionHeaderProps) {
+  const handleEditClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    toggleEdit();
+  };
+
   return (
-    <div
+    <button
+      type="button"
       onClick={toggleOpen}
-      className="flex items-center justify-between cursor-pointer text-background bg-card p-4"
+      className="flex w-full items-center justify-between cursor-pointer text-background bg-card p-4"
     >
       <div className="flex items-center gap-3">
         <h2 className="text-heading2 font-bold text-background">{title}</h2>
@@ -29,10 +47,7 @@ export default function SectionHeader({
           <Button
             variant="outline"
             size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleEdit();
-            }}
+            onClick={handleEditClick}
             className="flex items-center gap-2 "
           >
             {isEditing ? (
@@ -52,6 +67,6 @@ export default function SectionHeader({
           <ChevronDown className="h-6 w-6 text-background" />
         )}
       </div>
-    </div>
+    </button>
   );
 }

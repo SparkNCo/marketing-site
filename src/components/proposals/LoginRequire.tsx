@@ -1,5 +1,4 @@
 import { Lock } from "lucide-react";
-import LoginPopover from "../headerComponents/LoginPopover";
 import LoginRequiredModal from "../headerComponents/LoginRequireModal";
 
 export const LoginRequire = () => {
@@ -22,7 +21,7 @@ export const LoginRequire = () => {
 
         {/* AUTH POPOVER */}
         <div className="flex justify-center">
-          <LoginRequiredModal mode="dark" />
+          <LoginRequiredModal />
         </div>
       </div>
     </div>

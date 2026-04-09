@@ -14,7 +14,7 @@ export function SignatureModal({
   open,
   onClose,
   onConfirm,
-}: SignatureModalProps) {
+}: Readonly<SignatureModalProps>) {
   const sigRef = useRef<SignatureCanvas | null>(null);
 
   if (!open) return null;

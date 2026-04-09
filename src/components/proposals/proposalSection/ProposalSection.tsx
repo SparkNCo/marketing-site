@@ -5,14 +5,14 @@ import SectionHeader from "./SectionHeader";
 import SectionCard from "./SectionCard";
 import CoverPageRenderer from "./SectionRenderer/CoverPageRenderer";
 
-interface ProposalSectionProps {
+type ProposalSectionProps = {
   title: string;
-  data: any;
+  data: Record<string, unknown>;
   openSections: string[];
   setOpenSections: (sections: string[]) => void;
-  setProposal: (data: any) => void;
+  setProposal: (data: Record<string, unknown>) => void;
   dbUser?: { role?: string };
-}
+};
 
 export default function ProposalSection({
   title,
@@ -21,9 +21,9 @@ export default function ProposalSection({
   openSections,
   setOpenSections,
   dbUser,
-}: ProposalSectionProps) {
+}: Readonly<ProposalSectionProps>) {
   const [isEditing, setIsEditing] = useState(false);
-  const [localData, setLocalData] = useState<any>(data);
+  const [localData, setLocalData] = useState<Record<string, unknown>>(data);
   const isOpen = openSections.includes(title);
 
   const toggleOpen = () => {
@@ -70,7 +70,6 @@ export default function ProposalSection({
 
       {isOpen && (
         <SectionCard
-          key={title}
           title={title}
           localData={localData}
           setLocalData={setLocalData}

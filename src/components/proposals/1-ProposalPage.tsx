@@ -10,13 +10,40 @@ import ProposalSidebar from "./ProposalSidebar";
 import Footer from "../Footer";
 import DiscoveryForm from "../DiscoveryForm";
 
+function buildSectionsFromProposal(p: any) {
+  if (!p) return {};
+
+  return {
+    "Cover Page": {
+      "Prepared By": p.provider_name,
+      Date: p.proposal_date,
+      Client: p.client_name,
+      "Valid Until": p.valid_until,
+    },
+
+    "Executive Summary": p.summary,
+    "Problem & Context": p.problem_and_context,
+    "Solution Overview": p.solution_overview,
+    "Objectives & Success Criteria": p.objectives_and_success_criteria,
+    Deliverables: p.deliverables,
+    "Assumptions & Dependencies": p.assumptions_and_dependencies,
+    "Timeline & Milestones": p.timeline_milestones,
+    "Team & Communication": p.team_and_communication,
+    "Technology & Architecture": p.technology_and_architecture,
+    "Change Management Process": p.change_management_process,
+    "Pricing & Commercial Terms": p.pricing_and_commercial,
+    "Risk & Responsibility Boundaries": p.risk_and_responsabilities,
+    "Next Steps": p.next_steps,
+    Disclaimer: p.disclaimer,
+    AssuranceAndQuality: p.assurance_and_quality,
+    HistoryAndCaseStudies: p.history_and_case_studies,
+  };
+}
+
 export default function ProposalPage({
   proposal,
   dbUser,
-}: {
-  proposal: any;
-  dbUser: any;
-}) {
+}: Readonly<{ proposal: any; dbUser: any }>) {
   const [showFeatures, setShowFeatures] = useState(false);
   const [openSections, setOpenSections] = useState<string[]>([]);
   const [localProposal, setLocalProposal] = useState<any>(proposal);
@@ -46,38 +73,6 @@ export default function ProposalPage({
     AssuranceAndQuality: "assurance_and_quality",
     HistoryAndCaseStudies: "history_and_case_studies",
   };
-
-  /* ---------------- BUILD SECTIONS ---------------- */
-
-  function buildSectionsFromProposal(p: any) {
-    if (!p) return {};
-
-    return {
-      "Cover Page": {
-        "Prepared By": p.provider_name,
-        Date: p.proposal_date,
-        Client: p.client_name,
-        "Valid Until": p.valid_until,
-      },
-
-      "Executive Summary": p.summary,
-      "Problem & Context": p.problem_and_context,
-      "Solution Overview": p.solution_overview,
-      "Objectives & Success Criteria": p.objectives_and_success_criteria,
-      Deliverables: p.deliverables,
-      "Assumptions & Dependencies": p.assumptions_and_dependencies,
-      "Timeline & Milestones": p.timeline_milestones,
-      "Team & Communication": p.team_and_communication,
-      "Technology & Architecture": p.technology_and_architecture,
-      "Change Management Process": p.change_management_process,
-      "Pricing & Commercial Terms": p.pricing_and_commercial,
-      "Risk & Responsibility Boundaries": p.risk_and_responsabilities,
-      "Next Steps": p.next_steps,
-      Disclaimer: p.disclaimer,
-      AssuranceAndQuality: p.assurance_and_quality,
-      HistoryAndCaseStudies: p.history_and_case_studies,
-    };
-  }
 
   /* ---------------- BUILD DB UPDATES ---------------- */
 
