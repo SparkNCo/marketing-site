@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 
-const CAL_BASE = "https://api.cal.com/v1";
+const CAL_BASE = "https://api.cal.com/v2";
 
 export const GET: APIRoute = async ({ request }) => {
   try {
@@ -17,31 +17,38 @@ export const GET: APIRoute = async ({ request }) => {
         { status: 400 },
       );
     }
+
     const url =
       `${CAL_BASE}/slots?` +
       new URLSearchParams({
-        apiKey: import.meta.env.CAL_KEY,
+        start,
+        end,
+        eventTypeSlug: eventSlug,
         username: import.meta.env.CAL_USERNAME,
-        eventTypeId: import.meta.env.EVENT_TYPE_ID,
-        startTime: start,
-        endTime: end,
       }).toString();
 
-    const res = await fetch(url);
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${import.meta.env.CAL_KEY}`,
+        "cal-api-version": "2024-09-04",
+      },
+    });
+
     if (!res.ok) {
       throw new Error(await res.text());
     }
 
-    const data = await res.json();
+    const json = await res.json();
+    const rawSlots: Record<string, { start: string }[]> = json.data ?? {};
 
     const days: Record<
       string,
       { start: string; end: string; available: boolean }[]
     > = {};
 
-    for (const [day, slots] of Object.entries(data.slots)) {
-      days[day] = (slots as { time: string }[]).map((slot) => {
-        const startTime = new Date(slot.time);
+    for (const [day, slots] of Object.entries(rawSlots)) {
+      days[day] = slots.map((slot) => {
+        const startTime = new Date(slot.start);
         const endTime = new Date(startTime.getTime() + 30 * 60 * 1000);
 
         return {
@@ -63,7 +70,7 @@ export const GET: APIRoute = async ({ request }) => {
       },
     );
   } catch (err: any) {
-    console.error("🔥 Cal availability error:", err.message);
+    console.error("Cal availability error:", err.message);
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
     });
