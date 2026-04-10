@@ -28,10 +28,6 @@ export default function DonutChatSection({ setMode }: Readonly<DonutChatSectionP
       
         <SDLCDonutChart setMode={setMode} />
 
-        {/* <p className="mt-12 max-w-lg text-center text-sm text-foreground">
-          True product completeness requires orchestrating the entire software
-          development lifecycle—not just writing code.
-        </p> */}
       </div>
     </main>
   );
