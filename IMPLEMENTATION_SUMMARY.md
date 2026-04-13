@@ -12,116 +12,160 @@ The chat icon was visible on mobile devices before users made a cookie consent d
 
 ### Architecture
 
-The solution uses a React state-based approach with event-driven updates:
+The solution uses a React global state approach with the existing `AppProvider`:
 
-1. **Mobile Detection**: Viewport width check (< 768px = mobile)
-2. **Consent State**: Read from existing `localStorage.getItem('cookie_consent')`
-3. **Conditional Rendering**: Only load chat script when conditions are met
-4. **Event System**: Custom `cookie_consent_updated` event for immediate reactivity
+1. **Global State**: Added `cookieConsent` to `AppProvider` context
+2. **Mobile Detection**: Viewport width check (< 768px = mobile)
+3. **Consent State**: Stored in global state and synced with localStorage
+4. **Conditional Rendering**: Only load chat script when conditions are met
+5. **Reactive Updates**: React state automatically triggers re-renders
 
 ### Components Modified
 
-#### 1. ChatbaseWidget.tsx
+#### 1. AppProvider.tsx
 
 **Key Changes:**
-- Added `shouldShowOnMobile` state to control script loading
-- Implemented `isMobile()` helper to check viewport width
-- Implemented `hasConsentDecision()` helper to check localStorage
-- Added two useEffect hooks:
-  - First: Manages consent checking and event listeners
-  - Second: Conditionally loads chat script based on state
+- Added `cookieConsent: string | null` state to global context
+- Added `setCookieConsent` setter to global context
+- Loads initial consent value from localStorage on mount
+- Provides global access to consent state across all components
 
-**Logic Flow:**
+**Code:**
+```typescript
+const [cookieConsent, setCookieConsent] = useState<string | null>(null);
+
+useEffect(() => {
+  if (typeof localStorage !== "undefined") {
+    const stored = localStorage.getItem("cookie_consent");
+    setCookieConsent(stored);
+  }
+}, []);
+```
+
+#### 2. ChatbaseWidget.tsx
+
+**Key Changes:**
+- Uses `useApp()` hook to access global `cookieConsent` state
+- Simplified to single `useEffect` that watches `cookieConsent`
+- Implemented `isMobile()` helper to check viewport width
+- Conditionally loads chat script based on mobile status and consent
+
+**Logic:**
+```typescript
+const { cookieConsent } = useApp();
+
+useEffect(() => {
+  // If mobile and no consent, skip loading
+  if (isMobile() && !cookieConsent) {
+    return;
+  }
+  
+  // Load chat script
+  // ...
+}, [cookieConsent]);
+```
+
+#### 3. CookieBanner.tsx
+
+**Key Changes:**
+- Uses `useApp()` hook to access `setCookieConsent`
+- Calls `setCookieConsent()` when user accepts or rejects
+- Global state update automatically triggers ChatbaseWidget re-render
+- Syncs with localStorage for persistence
+
+**Logic:**
+```typescript
+const { setCookieConsent } = useApp();
+
+const accept = () => {
+  localStorage.setItem("cookie_consent", "accepted");
+  setCookieConsent("accepted"); // Updates global state
+};
+
+const reject = () => {
+  localStorage.setItem("cookie_consent", "rejected");
+  setCookieConsent("rejected"); // Updates global state
+};
+```
+
+### Flow Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    ChatbaseWidget Mounts                        │
+│                    Page Loads                                   │
 └─────────────────────────┬───────────────────────────────────────┘
                           │
                           ▼
-                  ┌───────────────┐
-                  │ Check Viewport│
-                  └───────┬───────┘
+                ┌──────────────────┐
+                │   AppProvider    │
+                │ loads consent    │
+                │ from localStorage│
+                └─────────┬────────┘
                           │
-              ┌───────────┴───────────┐
-              │                       │
-              ▼                       ▼
-        ┌──────────┐            ┌──────────┐
-        │  Mobile  │            │ Desktop  │
-        │ (< 768px)│            │(>= 768px)│
-        └─────┬────┘            └─────┬────┘
-              │                       │
-              ▼                       │
-      ┌───────────────┐               │
-      │Check Consent? │               │
-      └───────┬───────┘               │
-              │                       │
-      ┌───────┴───────┐               │
-      │               │               │
-      ▼               ▼               │
-┌──────────┐    ┌──────────┐         │
-│ Consent  │    │    No    │         │
-│  Exists  │    │ Consent  │         │
-└────┬─────┘    └────┬─────┘         │
-     │               │               │
-     │               │               │
-     ▼               ▼               ▼
-┌─────────────┐ ┌─────────────┐ ┌─────────────┐
-│shouldShow = │ │shouldShow = │ │shouldShow = │
-│    true     │ │   false     │ │    true     │
-└──────┬──────┘ └──────┬──────┘ └──────┬──────┘
-       │               │               │
-       └───────────────┴───────────────┘
-                       │
-                       ▼
-              ┌────────────────┐
-              │ Load Chat      │
-              │ Script?        │
-              └────────┬───────┘
-                       │
-           ┌───────────┴───────────┐
-           │                       │
-           ▼                       ▼
-    ┌──────────┐            ┌──────────┐
-    │shouldShow│            │shouldShow│
-    │ = true   │            │ = false  │
-    └─────┬────┘            └─────┬────┘
-          │                       │
-          ▼                       ▼
-    ┌──────────┐            ┌──────────┐
-    │  Load    │            │   Skip   │
-    │ Script   │            │ Loading  │
-    └──────────┘            └──────────┘
-
-Events:
-┌─────────────────────────────────────────────────────────────────┐
-│ cookie_consent_updated → Recheck consent → Update shouldShow    │
-│ resize → Recheck viewport → Update shouldShow                   │
-└─────────────────────────────────────────────────────────────────┘
+          ┌───────────────┴───────────────┐
+          │                               │
+          ▼                               ▼
+┌──────────────────┐            ┌──────────────────┐
+│  CookieBanner    │            │ ChatbaseWidget   │
+│ reads consent    │            │ reads consent    │
+│ from global state│            │ from global state│
+└─────────┬────────┘            └─────────┬────────┘
+          │                               │
+          │ (if no consent)               │
+          ▼                               ▼
+┌──────────────────┐            ┌──────────────────┐
+│  Show banner     │            │  Check mobile?   │
+│  after 1s        │            └─────────┬────────┘
+└─────────┬────────┘                      │
+          │                     ┌─────────┴─────────┐
+          │                     │                   │
+          │ User clicks         ▼                   ▼
+          │ Accept/Reject  ┌─────────┐        ┌─────────┐
+          │                │ Mobile  │        │Desktop  │
+          ▼                └────┬────┘        └────┬────┘
+┌──────────────────┐           │                  │
+│ setCookieConsent │           ▼                  │
+│ ("accepted" or   │     ┌──────────┐             │
+│  "rejected")     │     │ Consent? │             │
+└─────────┬────────┘     └────┬─────┘             │
+          │                   │                   │
+          │         ┌─────────┴─────────┐         │
+          │         │                   │         │
+          │         ▼                   ▼         ▼
+          │    ┌─────────┐        ┌─────────┐ ┌─────────┐
+          │    │ Yes     │        │  No     │ │ Always  │
+          │    └────┬────┘        └────┬────┘ └────┬────┘
+          │         │                  │           │
+          │         ▼                  ▼           ▼
+          │    ┌─────────┐        ┌─────────┐ ┌─────────┐
+          │    │  Load   │        │  Skip   │ │  Load   │
+          │    │ Script  │        │ Loading │ │ Script  │
+          │    └─────────┘        └─────────┘ └─────────┘
+          │
+          └──────────────────────────────────────────────┐
+                                                         │
+                    Global State Update                  │
+                    React Re-renders                     │
+                    ChatbaseWidget sees consent          │
+                    Loads script immediately              │
+                                                         │
+                    ┌────────────────────────────────────┘
+                    ▼
+              ┌──────────┐
+              │ Chat Icon│
+              │ Appears  │
+              └──────────┘
 ```
-
-**Detailed Steps:**
-1. Component mounts
-2. Check if mobile viewport
-   - If mobile: Check for consent decision
-     - If consent exists: Set shouldShowOnMobile = true
-     - If no consent: Set shouldShowOnMobile = false
-   - If desktop: Set shouldShowOnMobile = true
-3. Listen for events:
-   - cookie_consent_updated: Recheck consent
-   - resize: Recheck viewport and consent
-4. Second useEffect watches shouldShowOnMobile:
-   - If mobile AND no consent: Don't load script
-   - Otherwise: Load chat script
-```
-
-#### 2. CookieBanner.tsx
-
-**Key Changes:**
-- Added `window.dispatchEvent(new Event('cookie_consent_updated'))` to both `accept()` and `reject()` functions
-- This enables immediate reactivity without polling or page refresh
 
 ### Technical Decisions
+
+#### Why use global state instead of events?
+- **Simpler**: No custom event system needed
+- **React-idiomatic**: Uses standard React patterns
+- **Automatic re-renders**: React handles updates automatically
+- **Type-safe**: TypeScript knows about the state
+- **Easier to debug**: Can see state in React DevTools
+- **Less code**: Removed ~30 lines of event handling logic
 
 #### Why 768px breakpoint?
 - Industry standard for tablet/mobile boundary
@@ -133,30 +177,17 @@ Events:
 - The goal is to hide the icon until an explicit decision is made, not to hide it permanently
 - Both decisions indicate user awareness and explicit choice
 
-#### Why custom event instead of polling?
-- More efficient (no interval timers)
-- Immediate reactivity (no delay)
-- Cleaner code (event-driven vs. polling)
-- Better performance (fewer checks)
-
-#### Why two separate useEffect hooks?
-- **First useEffect**: Manages event listeners and consent checking logic
-  - Depends on `shouldShowOnMobile` to re-establish listeners when state changes
-- **Second useEffect**: Manages script loading/unloading
-  - Depends on `shouldShowOnMobile` to load/unload script when state changes
-- Separation of concerns: consent checking vs. script management
-
 ### Edge Cases Handled
 
 1. **SSR/Hydration**: Checks for `window` and `document` before accessing
-2. **Viewport Resize**: Dynamically updates when user resizes browser
+2. **Initial Load**: AppProvider loads consent from localStorage on mount
 3. **Malformed Consent**: Treats any value other than "accepted" or "rejected" as no consent
 4. **Script Already Loaded**: Checks for existing script before loading
-5. **Cleanup**: Removes event listeners and script on unmount
+5. **Cleanup**: Removes script on unmount
 
 ### Browser Compatibility
 
-- Uses standard Web APIs (localStorage, addEventListener, CustomEvent)
+- Uses standard Web APIs (localStorage, React Context)
 - No polyfills required
 - Compatible with all modern browsers (Chrome, Firefox, Safari, Edge)
 - Works on mobile browsers (iOS Safari, Chrome Mobile)
@@ -182,22 +213,38 @@ See `TESTING_MOBILE_CHAT_CONSENT.md` for comprehensive test cases covering:
 
 ### Positive Impacts
 - **Reduced Script Loading**: On mobile without consent, chat script is not loaded at all
-- **Event-Driven**: No polling intervals consuming CPU cycles
+- **No Event Listeners**: No custom event handling overhead
 - **Lazy Loading**: Script only loads when needed
 
 ### Neutral Impacts
-- **State Management**: Minimal overhead from React state
-- **Event Listeners**: Two lightweight event listeners (resize, custom event)
+- **State Management**: Minimal overhead from React state (already using AppProvider)
 
 ### No Negative Impacts
 - No additional network requests
 - No blocking operations
 - No layout shifts
 
+## Code Comparison
+
+### Before (Event-driven approach)
+- ChatbaseWidget: 108 lines
+- CookieBanner: 60 lines
+- Custom event system
+- Multiple useEffect hooks
+- Event listeners for resize and custom events
+
+### After (Global state approach)
+- ChatbaseWidget: 68 lines (-40 lines)
+- CookieBanner: 60 lines (same)
+- AppProvider: +10 lines
+- Single useEffect hook
+- No event listeners needed
+- **Net reduction: 30 lines of code**
+
 ## Security Considerations
 
 - **No New Storage**: Reuses existing localStorage mechanism
-- **No External Dependencies**: Uses only native browser APIs
+- **No External Dependencies**: Uses only React Context and native APIs
 - **No User Data**: Only checks consent state, doesn't store user data
 - **XSS Protection**: Script loading uses existing NOSONAR-approved pattern
 
@@ -213,11 +260,10 @@ See `TESTING_MOBILE_CHAT_CONSENT.md` for comprehensive test cases covering:
 
 1. **Breakpoint Configuration**: Could be extracted to a config file if needed
 2. **Consent Key**: Currently hardcoded as `'cookie_consent'`, could be configurable
-3. **Event Name**: Currently `'cookie_consent_updated'`, could be namespaced
 
 ### Potential Improvements
 
-1. **Debounce Resize**: Could debounce resize event for better performance
+1. **Viewport Resize Handling**: Could add resize listener if needed (currently checks once on mount)
 2. **Prefers-Reduced-Motion**: Could respect user's motion preferences
 3. **Testing Framework**: Could add unit tests with Jest/Vitest
 
@@ -225,6 +271,7 @@ See `TESTING_MOBILE_CHAT_CONSENT.md` for comprehensive test cases covering:
 
 - [x] Code changes committed
 - [x] Build passes successfully
+- [x] Refactored to use global state
 - [x] PR created with detailed description
 - [x] Testing guide provided
 - [ ] Manual testing completed
@@ -237,7 +284,7 @@ See `TESTING_MOBILE_CHAT_CONSENT.md` for comprehensive test cases covering:
 
 If issues arise in production:
 
-1. **Quick Fix**: Revert the two commits:
+1. **Quick Fix**: Revert the commits:
    ```bash
    git revert HEAD~1..HEAD
    git push
@@ -267,6 +314,7 @@ If issues arise in production:
 
 ## Related Documentation
 
+- `QUICK_REFERENCE.md` - Quick start guide for developers
 - `TESTING_MOBILE_CHAT_CONSENT.md` - Comprehensive manual testing guide
 - Linear Issue: SPA-108
 - PR: #106
