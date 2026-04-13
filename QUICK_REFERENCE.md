@@ -6,8 +6,9 @@ The mobile chat icon now requires cookie consent before appearing. Desktop behav
 
 ## Key Files
 
-- `src/components/utils/ChatbaseWidget.tsx` - Main implementation
-- `src/components/utils/CookieBanner.tsx` - Event dispatch
+- `src/lib/AppProvider.tsx` - Global state management
+- `src/components/utils/ChatbaseWidget.tsx` - Conditional script loading
+- `src/components/utils/CookieBanner.tsx` - State updates
 
 ## How It Works
 
@@ -34,21 +35,24 @@ Always show chat icon (unchanged)
 ## Quick Test Commands
 
 ```javascript
-// Clear consent
+// Clear consent (requires page reload to see effect)
 localStorage.removeItem('cookie_consent');
+location.reload();
 
-// Set accepted
+// Set accepted (requires page reload to see effect)
 localStorage.setItem('cookie_consent', 'accepted');
-window.dispatchEvent(new Event('cookie_consent_updated'));
+location.reload();
 
-// Set rejected
+// Set rejected (requires page reload to see effect)
 localStorage.setItem('cookie_consent', 'rejected');
-window.dispatchEvent(new Event('cookie_consent_updated'));
+location.reload();
 
 // Check state
 console.log('Consent:', localStorage.getItem('cookie_consent'));
 console.log('Mobile:', window.innerWidth < 768);
 console.log('Script loaded:', !!document.getElementById('chatbase-embed-script'));
+
+// Or use the cookie banner UI to test live updates without reload
 ```
 
 ## Configuration
@@ -63,8 +67,9 @@ const MOBILE_BREAKPOINT = 768; // Change this to adjust mobile detection
 ### Chat icon not appearing on mobile after consent
 1. Check console for errors
 2. Verify localStorage: `localStorage.getItem('cookie_consent')`
-3. Verify event fired: `window.dispatchEvent(new Event('cookie_consent_updated'))`
+3. Check global state in React DevTools
 4. Check viewport width: `window.innerWidth`
+5. Verify AppProvider is wrapping the components
 
 ### Chat icon appearing before consent on mobile
 1. Check if consent is already stored: `localStorage.getItem('cookie_consent')`
