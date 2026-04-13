@@ -30,12 +30,14 @@ export default function CookieBanner() {
     win.posthog?.capture("$pageview");
 
     localStorage.setItem("cookie_consent", "accepted");
+    window.dispatchEvent(new Event("cookie_consent_updated"));
     setVisible(false);
   };
 
   const reject = () => {
     win.posthog?.opt_out_capturing();
     localStorage.setItem("cookie_consent", "rejected");
+    window.dispatchEvent(new Event("cookie_consent_updated"));
     setVisible(false);
   };
 
