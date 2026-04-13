@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useApp } from "../../lib/AppProvider";
 
 declare global {
   interface Window {
@@ -22,14 +23,8 @@ function isMobile(): boolean {
   return window.innerWidth < MOBILE_BREAKPOINT;
 }
 
-function hasConsentDecision(): boolean {
-  if (typeof localStorage === "undefined") return false;
-  const consent = localStorage.getItem("cookie_consent");
-  return consent === "accepted" || consent === "rejected";
-}
-
 export default function ChatbaseWidget() {
-  const [shouldShowOnMobile, setShouldShowOnMobile] = useState(false);
+  const { cookieConsent } = useApp();
 
   useEffect(() => {
     if (
@@ -39,42 +34,7 @@ export default function ChatbaseWidget() {
       return;
     }
 
-    const checkConsent = () => {
-      if (isMobile()) {
-        setShouldShowOnMobile(hasConsentDecision());
-      } else {
-        setShouldShowOnMobile(true);
-      }
-    };
-
-    checkConsent();
-
-    const handleConsentUpdate = () => {
-      checkConsent();
-    };
-
-    const handleResize = () => {
-      checkConsent();
-    };
-
-    window.addEventListener("cookie_consent_updated", handleConsentUpdate);
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("cookie_consent_updated", handleConsentUpdate);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [shouldShowOnMobile]);
-
-  useEffect(() => {
-    if (
-      typeof globalThis.window === "undefined" ||
-      typeof document === "undefined"
-    ) {
-      return;
-    }
-
-    if (!shouldShowOnMobile && isMobile()) {
+    if (isMobile() && !cookieConsent) {
       return;
     }
 
@@ -102,7 +62,7 @@ export default function ChatbaseWidget() {
         existingScript.remove();
       }
     };
-  }, [shouldShowOnMobile]);
+  }, [cookieConsent]);
 
   return null;
 }
