@@ -7,17 +7,22 @@ import Header from "../Header";
 import Footer from "../Footer";
 import { AppProvider } from "../../lib/AppProvider";
 
-const programProjects = [
+type ProgramProject = {
+  id: number;
+  title: string;
+  description: string;
+  image?: string;
+};
+
+const programProjects: ProgramProject[] = [
   {
     id: 1,
-    image: "/dashboard.png",
-    title: "SoCo",
+    title: "SoCo Market",
     description:
       "Protects freelancers from fraudulent transactions, helps them with secure contracts, and provides them a community to grow.",
   },
   {
     id: 2,
-    image: "/dashboard.png",
     title: "DFTM",
     description:
       "Educates buyers on where their money is going, so they can make socially responsible purchase decisions and only support companies that support them.",
@@ -38,16 +43,16 @@ const ImpactShell: React.FC = () => {
       <div className="bg-background min-h-screen">
         <Header headerMode="index" />
 
-        <main className="pt-32 pb-20 px-6 lg:px-20">
+        <main className="pt-32 mt-10 pb-20 px-6 lg:px-20">
           <div className="max-w-5xl mx-auto">
             <section className="mb-20">
               <h1 className="text-heading1 md:text-[56px] font-bold text-foreground mb-8 leading-tight">
-                Impact Program
+                Social Contracts
               </h1>
 
               <div className="space-y-6 text-foreground">
                 <p className="text-largeBody md:text-heading2 leading-relaxed">
-                  The Impact Program subsidizes our fees for qualifying projects
+                  The Social Contracts Program subsidizes our fees for qualifying projects
                   that create meaningful social, community, educational,
                   environmental, or public-benefit outcomes.
                 </p>
@@ -119,14 +124,6 @@ const ImpactShell: React.FC = () => {
                     className="text-body px-8 py-6 h-auto"
                   >
                     Apply Through Main Landing Page
-                  </Button>
-                  <Button
-                    onClick={handleBackHome}
-                    variant="outline"
-                    size="lg"
-                    className="text-body px-8 py-6 h-auto border-2 border-foreground text-foreground hover:bg-foreground/10"
-                  >
-                    Back to Home
                   </Button>
                 </div>
               </div>

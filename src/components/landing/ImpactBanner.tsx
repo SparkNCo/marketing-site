@@ -6,16 +6,17 @@ const ImpactBanner: React.FC = () => {
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className="w-full bg-primary py-4
-       px-6 lg:px-20 cursor-pointer hover:opacity-90 transition-opacity border-none"
-    >
-      <p className="text-background text-body md:text-largeBody font-semibold text-center">
-        Accepting 2 more teams for the Impact Program — See if you qualify
-      </p>
-    </button>
+    <div className="my-[12rem] w-full px-6 lg:px-[4rem]">
+      <button
+        type="button"
+        onClick={handleClick}
+        className="mx-auto block w-fit max-w-full cursor-pointer border-none bg-secondary py-4 px-6 transition-opacity hover:opacity-90  "
+      >
+        <p className="text-center text-body font-semibold text-background lg:text-largeBody">
+          We're accepting 2 more teams for our subsidized software development program, <span className="font-extrabold text-primary">Social Contracts.</span> Click here to see if you qualify.
+        </p>
+      </button>
+    </div>
   );
 };
 
