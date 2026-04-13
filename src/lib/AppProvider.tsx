@@ -20,6 +20,8 @@ type AppContextType = {
   setLeadEmail: React.Dispatch<React.SetStateAction<string>>;
   test: string;
   setTest: React.Dispatch<React.SetStateAction<string>>;
+  cookieConsent: string | null;
+  setCookieConsent: React.Dispatch<React.SetStateAction<string | null>>;
 };
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -29,6 +31,14 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
   const [dbUser, setDbUser] = useState<DbUser | null>(null);
   const [leadEmail, setLeadEmail] = useState("");
   const [test, setTest] = useState("Test312321321");
+  const [cookieConsent, setCookieConsent] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof localStorage !== "undefined") {
+      const stored = localStorage.getItem("cookie_consent");
+      setCookieConsent(stored);
+    }
+  }, []);
   /**
    * Fetch user from DB by email
    */
@@ -101,9 +111,9 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
   };
 
   const contextValue = useMemo(
-    () => ({ user, dbUser, login, logout, leadEmail, setLeadEmail, test, setTest }),
+    () => ({ user, dbUser, login, logout, leadEmail, setLeadEmail, test, setTest, cookieConsent, setCookieConsent }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [user, dbUser, leadEmail, test],
+    [user, dbUser, leadEmail, test, cookieConsent],
   );
 
   return (
