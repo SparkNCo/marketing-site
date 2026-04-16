@@ -159,6 +159,13 @@ export default function DealForm() {
       </div>
 
       <div
+        className="text-foreground"
+        onClick={() => console.log({ currentStep })}
+      >
+        VER currentStep
+      </div>
+
+      <div
         className={` w-full lg:max-w-2xl px-2 lg:p-8 shadow-xl rounded-xl bg-background`}
       >
         {currentStep === "contact" && (
