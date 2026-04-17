@@ -94,6 +94,8 @@ export default function DealForm() {
   });
 
   const handleCalendarSubmit = (data: CalendarSubmitData) => {
+    console.log("im here !");
+
     const redirectUrl =
       process.env.NODE_ENV === "development"
         ? "http://localhost:4321"
