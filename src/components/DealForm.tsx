@@ -95,6 +95,7 @@ export default function DealForm() {
 
   const handleCalendarSubmit = (data: CalendarSubmitData) => {
     console.log("im here !");
+    console.log("im here two!");
 
     const redirectUrl =
       process.env.NODE_ENV === "development"
