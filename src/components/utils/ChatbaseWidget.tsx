@@ -19,8 +19,8 @@ const CHATBASE_CONFIG = {
 const MOBILE_BREAKPOINT = 768;
 
 function isMobile(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.innerWidth < MOBILE_BREAKPOINT;
+  if (typeof globalThis.window === "undefined") return false;
+  return globalThis.window.innerWidth < MOBILE_BREAKPOINT;
 }
 
 export default function ChatbaseWidget() {
