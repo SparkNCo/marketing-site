@@ -1,5 +1,6 @@
+"use client";
+
 import { useEffect } from "react";
-import { useApp } from "../../lib/AppProvider";
 
 declare global {
   interface Window {
@@ -23,9 +24,11 @@ function isMobile(): boolean {
   return globalThis.window.innerWidth < MOBILE_BREAKPOINT;
 }
 
-export default function ChatbaseWidget() {
-  const { cookieConsent } = useApp();
+type ChatbaseWidgetProps = Readonly<{
+  cookieConsent: string | null;
+}>;
 
+export default function ChatbaseWidget({ cookieConsent }: ChatbaseWidgetProps) {
   useEffect(() => {
     if (
       typeof globalThis.window === "undefined" ||
@@ -46,7 +49,7 @@ export default function ChatbaseWidget() {
       chatbotId: CHATBASE_CONFIG.chatbotId,
       domain: CHATBASE_CONFIG.domain,
     };
-    
+
     const script = document.createElement("script"); // NOSONAR
     script.src = "https://www.chatbase.co/embed.min.js";
     script.id = CHATBASE_SCRIPT_ID;

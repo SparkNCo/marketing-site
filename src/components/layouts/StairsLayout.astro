@@ -1,8 +1,7 @@
 ---
 import Stairs from "../animation/StairsAstro";
 import Posthog from "../posthog.astro";
-import CookieBanner from "../utils/CookieBanner";
-import ChatbaseWidget from "../utils/ChatbaseWidget";
+import ConsentChatbaseIsland from "../utils/ConsentChatbaseIsland";
 
 const location = Astro.url.pathname;
 ---
@@ -61,8 +60,7 @@ const location = Astro.url.pathname;
   <body class="bg-background">
     <Stairs location="{location}" client:load>
       <slot />
-      <CookieBanner client:load />
-      <ChatbaseWidget client:load />
+      <ConsentChatbaseIsland client:load />
     </Stairs>
   </body>
   <!-- foreground -->

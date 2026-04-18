@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
-import { useApp } from "../../lib/AppProvider";
+"use client";
+
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../../lib/AppProvider";
 
 type WindowWithPosthog = typeof globalThis & {
   posthog?: {
@@ -11,9 +13,31 @@ type WindowWithPosthog = typeof globalThis & {
 
 const win = globalThis as WindowWithPosthog;
 
-export default function CookieBanner() {
-  const { cookieConsent, setCookieConsent } = useApp();
+type CookieBannerProps = Readonly<{
+  /** When set with `onCookieConsentChange`, consent is owned by the parent (e.g. ConsentChatbaseIsland). */
+  cookieConsent?: string | null;
+  onCookieConsentChange?: (value: string) => void;
+}>;
+
+export default function CookieBanner({
+  cookieConsent: controlledConsent,
+  onCookieConsentChange,
+}: CookieBannerProps = {}) {
+  const app = useContext(AppContext);
+  const [localConsent, setLocalConsent] = useState<string | null>(null);
   const [visible, setVisible] = useState(false);
+
+  const controlled = Boolean(onCookieConsentChange);
+
+  useEffect(() => {
+    if (controlled) return;
+    if (typeof globalThis.localStorage === "undefined") return;
+    setLocalConsent(globalThis.localStorage.getItem("cookie_consent"));
+  }, [controlled]);
+
+  const cookieConsent = controlled
+    ? (controlledConsent ?? null)
+    : (app?.cookieConsent ?? localConsent);
 
   useEffect(() => {
     if (cookieConsent) return;
@@ -29,15 +53,26 @@ export default function CookieBanner() {
     win.posthog?.opt_in_capturing();
     win.posthog?.capture("$pageview");
 
-    localStorage.setItem("cookie_consent", "accepted");
-    setCookieConsent("accepted");
+    if (onCookieConsentChange) {
+      onCookieConsentChange("accepted");
+    } else {
+      globalThis.localStorage?.setItem("cookie_consent", "accepted");
+      app?.setCookieConsent("accepted");
+      setLocalConsent("accepted");
+    }
     setVisible(false);
   };
 
   const reject = () => {
     win.posthog?.opt_out_capturing();
-    localStorage.setItem("cookie_consent", "rejected");
-    setCookieConsent("rejected");
+
+    if (onCookieConsentChange) {
+      onCookieConsentChange("rejected");
+    } else {
+      globalThis.localStorage?.setItem("cookie_consent", "rejected");
+      app?.setCookieConsent("rejected");
+      setLocalConsent("rejected");
+    }
     setVisible(false);
   };
 
@@ -46,11 +81,11 @@ export default function CookieBanner() {
       <p>We use analytics cookies to improve your experience.</p>
 
       <div className="actions">
-        <button className="reject" onClick={reject}>
+        <button type="button" className="reject" onClick={reject}>
           Reject
         </button>
 
-        <button className="accept" onClick={accept}>
+        <button type="button" className="accept" onClick={accept}>
           Accept
         </button>
       </div>
