@@ -32,6 +32,38 @@ type FeaturedCaseStudy = CaseStudyBase & {
 
 type TextCaseStudy = CaseStudyBase;
 
+type FeaturedTextOnlyCaseStudy = Omit<
+  CaseStudyBase,
+  "review" | "author" | "role"
+> & {
+  review?: string;
+  author?: string;
+  role?: string;
+  highlights?: readonly string[];
+};
+
+const featuredTextOnlyCaseStudies: FeaturedTextOnlyCaseStudy[] = [
+  {
+    id: 0,
+    clientName: "Independence Pet Group",
+    industry: "Employee Benefits — Technology Leadership",
+    scope: "Scale",
+    stack: "AWS / Java / React · Azure / C#",
+    subtitle:
+      "End-to-end technology leadership for IPG's employee benefits line of business—owning roadmap, architecture, delivery, and day-to-day operations across a team of 30 developers, stakeholders in Ops, Sales, Finance, and Leadership, and two major cloud stacks.",
+    paragraph1:
+      "At Independence Pet Group, we lead technology for the employee benefits line of business—effectively wearing the hats of engineering manager, architect, director of technology, product owner, and project manager under one engagement. That means owning the product roadmap alongside business leaders, setting the architectural direction across stacks, running delivery for a team of 30 developers, and staying close to individual contributors through coaching, code review, and team training. Stakeholders span operations, sales, finance, and leadership, and a core part of the job is translating between commercial priorities and technical execution so the roadmap reflects what the business actually needs.",
+    paragraph2:
+      "On the delivery side, the scope is deliberately full-spectrum: new development and integrations with external partners and internal software teams, but also the unglamorous work that keeps a line of business alive—handling support requests, responding to incidents and bringing the site back up when it crashes, and owning the DevOps pipelines that ship it all. This runs across two core stacks: AWS with Java and Azure with C#. It's a scale engagement, with a lead developer from our team deployed onto one of the projects to keep leadership decisions close to the code.",
+    highlights: [
+      "Managing multiple development teams",
+      "Roadmap, architecture & delivery",
+      "Interface with Ops, Sales, Finance, and ELT",
+      "New dev, integrations, support & incidents"
+    ],
+  },
+];
+
 const featuredCaseStudies: FeaturedCaseStudy[] = [
   {
     id: 1,
@@ -364,6 +396,60 @@ function FeaturedSection({ study }: Readonly<{ study: FeaturedCaseStudy }>) {
   );
 }
 
+function FeaturedTextOnlySection({
+  study,
+}: Readonly<{ study: FeaturedTextOnlyCaseStudy }>) {
+  return (
+    <section className="border-b border-foreground/10 py-16 lg:py-24 first:border-t first:border-foreground/10 last:border-b-0">
+      <div>
+        <CaseStudyMeta
+          clientName={study.clientName}
+          industry={study.industry}
+          scope={study.scope}
+          stack={study.stack}
+        />
+
+        <p className="mt-6 text-body md:text-heading2 leading-relaxed text-foreground/95">
+          {study.subtitle}
+        </p>
+
+        <SectionRule />
+
+        <p className="text-body leading-relaxed text-foreground/90">
+          {study.paragraph1}
+        </p>
+
+        <SectionRule />
+
+        <p className="text-body leading-relaxed text-foreground/90">
+          {study.paragraph2}
+        </p>
+
+        {study.highlights && study.highlights.length > 0 && (
+          <ul className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {study.highlights.map((item) => (
+              <li
+                key={item}
+                className="border-l-2 border-primary pl-4 text-smalltext font-semibold uppercase tracking-wide text-foreground/85 md:text-body"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {study.review && study.author && study.role && (
+          <Testimonial
+            review={study.review}
+            author={study.author}
+            role={study.role}
+          />
+        )}
+      </div>
+    </section>
+  );
+}
+
 function TextOnlyCard({ study }: Readonly<{ study: TextCaseStudy }>) {
   return (
     <article className="flex h-full flex-col rounded-xl border border-foreground/12 bg-foreground/[0.04] p-6 shadow-sm lg:p-8">
@@ -418,6 +504,9 @@ const CaseStudiesPage: React.FC = () => {
             </header>
 
             <div>
+              {featuredTextOnlyCaseStudies.map((study) => (
+                <FeaturedTextOnlySection key={study.id} study={study} />
+              ))}
               {featuredCaseStudies.map((study) => (
                 <FeaturedSection key={study.id} study={study} />
               ))}
