@@ -3,7 +3,7 @@ import clsx from "clsx";
 export default function Footer({ mode = "index" }: Readonly<{ mode?: string }>) {
   return (
     <footer
-      className={clsx("w-full bg-foreground text-title font-semibold", {
+      className={clsx("w-full bg-foreground text-background font-semibold", {
         fixed: mode === "loading" || mode === "bottom",
         relative: mode !== "loading" && mode !== "bottom",
         "bottom-0 left-0": mode === "bottom",
@@ -27,7 +27,10 @@ export default function Footer({ mode = "index" }: Readonly<{ mode?: string }>) 
           Cookie Policy
         </a>
 
-        <a href="/contact" className="hover:underline p-2">
+        <a
+          href="mailto:kabir@buildwithspark.co"
+          className="hover:underline p-2"
+        >
           Contact
         </a>
 

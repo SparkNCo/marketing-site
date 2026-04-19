@@ -1,16 +1,24 @@
 export function TermsIntroduction() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h1 className="text-3xl font-bold">Terms and Conditions</h1>
 
       <h2 className="text-2xl font-semibold">1. Introduction</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
-        Welcome to the website of Spark&Co. These Terms and Conditions ("Terms")
-        govern your access to and use of our website, located at [Website URL].
+      <p className="leading-relaxed">
+        Welcome to the website of Spark &amp; Co Technologies. These Terms and
+        Conditions (&quot;Terms&quot;) govern your access to and use of our
+        website at{" "}
+        <a
+          href="https://buildwithspark.co"
+          className="underline underline-offset-2 hover:opacity-80"
+        >
+          buildwithspark.co
+        </a>
+        .
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         By accessing or using the Website, you agree to be bound by these Terms
         and all applicable laws and regulations. If you do not agree with any
         part of these Terms, you must not use our Website.
@@ -25,10 +33,10 @@ export function TermsIntroduction() {
 
 export function AcceptanceOfTerms() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">2. Acceptance of Terms</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         By using our Website, you signify your acceptance of these Terms. If you
         are using the Website on behalf of an entity, you represent and warrant
         that you have the authority to bind that entity to these Terms.
@@ -43,16 +51,16 @@ export function AcceptanceOfTerms() {
 
 export function ServicesOffered() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">3. Services Offered</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         The Agency provides a range of software development services, including
         but not limited to custom software development, web application
         development, mobile app development, UI/UX design, and IT consulting.
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         The information provided on this Website is for general informational
         purposes only and does not constitute a binding offer for services.
         Specific service agreements will be entered into separately.
@@ -67,11 +75,11 @@ export function ServicesOffered() {
 
 export function UserObligations() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">4. User Obligations</h2>
 
       {/* Section A */}
-      <div className="space-y-3 max-w-3xl ">
+      <div className="space-y-3 ">
         <p className="font-semibold">A.</p>
 
         <p className="leading-relaxed">
@@ -82,7 +90,7 @@ export function UserObligations() {
       </div>
 
       {/* Section B */}
-      <div className="space-y-4 max-w-3xl ">
+      <div className="space-y-4 ">
         <p className="font-semibold">B. You must not use the Website to:</p>
 
         <ul className="space-y-3 text-left">
@@ -135,10 +143,10 @@ export function UserObligations() {
 
 export function IntellectualProperty() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">5. Intellectual Property</h2>
 
-      <div className="space-y-4 max-w-3xl  leading-relaxed">
+      <div className="space-y-4 leading-relaxed">
         <p>
           <span className="font-semibold">A.</span> All content on the Website,
           including text, graphics, logos, images, audio clips, digital
@@ -173,10 +181,10 @@ export function IntellectualProperty() {
 
 export function UserSubmissionsLicense() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">6. User Submissions License</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         By submitting any content (including text, images, videos, or other
         materials) to the Website, you grant the Agency a worldwide,
         non-exclusive, royalty-free, perpetual, irrevocable, and fully
@@ -185,7 +193,7 @@ export function UserSubmissionsLicense() {
         content throughout the world in any media.
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         You represent and warrant that you own or otherwise control all of the
         rights to the content that you post; that the content is accurate; that
         use of the content you supply does not violate this policy and will not
@@ -202,15 +210,15 @@ export function UserSubmissionsLicense() {
 
 export function TermsPrivacyReference() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">7. Privacy Policy</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         Your use of the Website is also governed by our Privacy Policy, which is
         incorporated into these Terms by this reference.
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         Please review our Privacy Policy at [Privacy Policy URL] to understand
         our practices regarding your personal information.
       </p>
@@ -223,18 +231,18 @@ export function TermsPrivacyReference() {
 
 export function NoRelianceDisclaimer() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">
         8. No Reliance / Professional Advice
       </h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         Information on this Website is for general informational purposes only
         and does not constitute professional, legal, technical, security, or
         engineering advice.
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         Decisions made based on this content are at the user’s own risk.
       </p>
     </section>
@@ -246,12 +254,12 @@ export function NoRelianceDisclaimer() {
 
 export function ThirdPartyDisclaimer() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">
         9. Third-Party Links / Tools Disclaimer
       </h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         We are not responsible for the availability, accuracy, security, or
         practices of third-party websites or services linked from this Website.
       </p>
@@ -264,12 +272,12 @@ export function ThirdPartyDisclaimer() {
 
 export function CookieTrackingNotice() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">
         10. Cookie / Tracking / Analytics Notice
       </h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         The Website may use cookies, analytics tools, and tracking technologies
         to operate, improve, and secure the Website.
       </p>
@@ -282,12 +290,12 @@ export function CookieTrackingNotice() {
 
 export function TerminationClause() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">
         11. Termination / Access Suspension Clause
       </h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         We may suspend or terminate access to the Website at any time for any
         reason including violation of these Terms.
       </p>
@@ -300,10 +308,10 @@ export function TerminationClause() {
 
 export function EntireAgreementClause() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">12. Entire Agreement Clause</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         These Terms constitute the entire agreement regarding Website use and
         supersede prior communications.
       </p>
@@ -316,12 +324,12 @@ export function EntireAgreementClause() {
 
 export function AvailabilityDisclaimer() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">
         13. Availability / Accuracy Disclaimer
       </h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         While we strive to ensure the Website is available and accurate, we do
         not guarantee uninterrupted access or that all information is
         error-free. We reserve the right to modify or discontinue the Website at
@@ -336,10 +344,10 @@ export function AvailabilityDisclaimer() {
 
 export function DisclaimersSection() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">14. Disclaimers</h2>
 
-      <p className="max-w-3xl  leading-relaxed uppercase">
+      <p className="leading-relaxed uppercase">
         THE WEBSITE AND ALL INFORMATION, CONTENT, MATERIALS, PRODUCTS (INCLUDING
         SOFTWARE), AND SERVICES INCLUDED ON OR OTHERWISE MADE AVAILABLE TO YOU
         THROUGH THE WEBSITE ARE PROVIDED BY THE AGENCY ON AN "AS IS" AND "AS
@@ -360,10 +368,10 @@ export function DisclaimersSection() {
 
 export function LimitationOfLiability() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">15. Limitation of Liability</h2>
 
-      <p className="max-w-3xl  leading-relaxed uppercase">
+      <p className="leading-relaxed uppercase">
         TO THE FULL EXTENT PERMISSIBLE BY APPLICABLE LAW, THE AGENCY WILL NOT BE
         LIABLE FOR ANY DAMAGES OF ANY KIND ARISING FROM THE USE OF THE WEBSITE
         OR FROM ANY INFORMATION, CONTENT, MATERIALS, PRODUCTS (INCLUDING
@@ -381,10 +389,10 @@ export function LimitationOfLiability() {
 
 export function IndemnificationSection() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">16. Indemnification</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         You agree to indemnify, defend, and hold harmless the Agency, its
         officers, directors, employees, agents, licensors, and suppliers from
         and against all losses, expenses, damages, and costs, including
@@ -402,10 +410,10 @@ export function IndemnificationSection() {
 
 export function GoverningLawSection() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">17. Governing Law</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         These Terms and your use of the Website shall be governed by and
         construed in accordance with the laws of the Province of Ontario,
         Canada, without regard to its conflict of law principles. You agree to
@@ -422,10 +430,10 @@ export function GoverningLawSection() {
 
 export function ChangesToTermsSection() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">18. Changes to Terms</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         We reserve the right to make changes to our Website, policies, and these
         Terms at any time. If any of these conditions shall be deemed invalid,
         void, or for any reason unenforceable, that condition shall be deemed
@@ -443,50 +451,40 @@ export function ChangesToTermsSection() {
 
 export function TermsContactInformationSection() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">19. Contact Information</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         If you have any questions about these Terms, please contact us at:
       </p>
 
-      <ul className="space-y-2 max-w-3xl ">
+      <ul className="space-y-2 ">
+        <li>
+          • <strong>Company:</strong> Spark &amp; Co Technologies
+        </li>
+
         <li>
           • <strong>Email:</strong>{" "}
-          <span className="font-semibold text-gray-400">test@test.com</span>
+          <a
+            href="mailto:kabir@buildwithspark.co"
+            className="underline underline-offset-2 hover:opacity-80"
+          >
+            kabir@buildwithspark.co
+          </a>
         </li>
 
         <li>
-          • <strong>Address:</strong>{" "}
-          <span className="font-semibold text-gray-400">
-            Your Company Address
-          </span>
+          • <strong>Address:</strong> 251 Jarvis St, Toronto, ON
         </li>
 
         <li>
-          • <strong>Phone:</strong>{" "}
-          <span className="font-semibold text-gray-400">555-5555</span>
+          • <strong>Phone:</strong> 647 929 7059
         </li>
       </ul>
 
-      <div className="space-y-1 text-sm pt-4">
-        <h2 className="text-xl font-semibold">Software Development Agency</h2>
-
-        <div className="flex justify-left gap-2">
-          <span>Date:</span>
-          <span className="font-semibold text-gray-400">02/17/26</span>
-        </div>
-
-        <div className="flex justify-left gap-2">
-          <span>Name:</span>
-          <span className="font-semibold text-gray-400">Jim</span>
-        </div>
-
-        <div className="flex justify-left gap-2">
-          <span>Title:</span>
-          <span className="font-semibold text-gray-400">Title</span>
-        </div>
-      </div>
+      <p className="text-sm pt-4">
+        Spark &amp; Co Technologies — software development services.
+      </p>
     </section>
   );
 }
