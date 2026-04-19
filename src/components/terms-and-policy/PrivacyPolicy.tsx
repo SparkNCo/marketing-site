@@ -2,19 +2,26 @@
 
 export function PrivacyPolicyIntro() {
   return (
-    <section className="bg-transparent text-background text-left space-y-4 px-4 py-8 mx-8">
+    <section className="bg-transparent text-background text-left space-y-4 px-10 py-10">
       <h1 className="text-3xl font-bold">Privacy Policy</h1>
 
       <p className="text-sm opacity-80">Last Updated: 02/17/26</p>
 
-      <p className="max-w-3xl  leading-relaxed">
-        This Privacy Policy describes how Spark & Co collects, uses, and
-        discloses your personal information when you visit our website [Your
-        Website URL] and use our software development services. As a Canadian
-        agency, we are committed to protecting your privacy and handling your
-        personal information in compliance with the Personal Information
-        Protection and Electronic Documents Act (PIPEDA) and other applicable
-        provincial privacy legislation.
+      <p className="leading-relaxed">
+        This Privacy Policy describes how Spark &amp; Co Technologies collects,
+        uses, and discloses your personal information when you visit our website
+        at{" "}
+        <a
+          href="https://buildwithspark.co"
+          className="underline underline-offset-2 hover:opacity-80"
+        >
+          buildwithspark.co
+        </a>{" "}
+        and use our software development services. As a Canadian agency, we are
+        committed to protecting your privacy and handling your personal
+        information in compliance with the Personal Information Protection and
+        Electronic Documents Act (PIPEDA) and other applicable provincial
+        privacy legislation.
       </p>
     </section>
   );
@@ -22,18 +29,18 @@ export function PrivacyPolicyIntro() {
 
 export function InformationWeCollect() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10 mx-8">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">
         1. Information We Collect and Sources of Data
       </h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         We collect various types of information in connection with the services
         we provide, including:
       </p>
 
       {/* A */}
-      <div className="space-y-4 max-w-3xl ">
+      <div className="space-y-4 ">
         <h3 className="text-xl font-semibold">
           A. Personal Information You Voluntarily Provide
         </h3>
@@ -69,7 +76,7 @@ export function InformationWeCollect() {
       </div>
 
       {/* B */}
-      <div className="space-y-4 max-w-3xl ">
+      <div className="space-y-4 ">
         <h3 className="text-xl font-semibold">
           B. Information Collected Automatically
         </h3>
@@ -148,15 +155,15 @@ export function InformationWeCollect() {
 }
 
 /* -------------------------------------------------------------------------- */
-/* 3. Consent Explanation                                                     */
+/* 2. Consent Explanation                                                     */
 /* -------------------------------------------------------------------------- */
 
 export function ConsentExplanation() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
-      <h2 className="text-2xl font-semibold">3. Consent Explanation</h2>
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
+      <h2 className="text-2xl font-semibold">2. Consent Explanation</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         We collect, use, and disclose your personal information with your
         knowledge and consent, except where otherwise permitted or required by
         law. Your consent may be express or implied, depending on the
@@ -164,7 +171,7 @@ export function ConsentExplanation() {
         individual.
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         When you provide us with personal information, you are consenting to our
         collection, use, and disclosure of that information as described in this
         Privacy Policy. For certain sensitive information or uses, we will
@@ -174,21 +181,21 @@ export function ConsentExplanation() {
   );
 }
 /* -------------------------------------------------------------------------- */
-/* 4. Withdrawal of Consent                                                   */
+/* 3. Withdrawal of Consent                                                   */
 /* -------------------------------------------------------------------------- */
 
 export function WithdrawalOfConsent() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
-      <h2 className="text-2xl font-semibold">4. Withdrawal of Consent</h2>
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
+      <h2 className="text-2xl font-semibold">3. Withdrawal of Consent</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         You have the right to withdraw your consent to the collection, use, or
         disclosure of your personal information at any time, subject to legal or
         contractual restrictions and reasonable notice.
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         Please note that withdrawing consent may limit our ability to provide
         you with certain services or features of our Site. To withdraw your
         consent, please contact our Privacy Officer using the details provided
@@ -198,22 +205,22 @@ export function WithdrawalOfConsent() {
   );
 }
 /* -------------------------------------------------------------------------- */
-/* 8. Breach Notification                                                     */
+/* 4. Breach Notification                                                     */
 /* -------------------------------------------------------------------------- */
 
 export function BreachNotification() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
-      <h2 className="text-2xl font-semibold">8. Breach Notification</h2>
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
+      <h2 className="text-2xl font-semibold">4. Breach Notification</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         In the event of a security breach involving personal information that
         poses a real risk of significant harm to individuals, we will notify
         affected individuals and the Office of the Privacy Commissioner of
         Canada (OPC) as required by PIPEDA.
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         We will take all necessary steps to contain the breach, mitigate its
         impact, and prevent future occurrences.
       </p>
@@ -221,22 +228,22 @@ export function BreachNotification() {
   );
 }
 /* -------------------------------------------------------------------------- */
-/* 9. Retention                                                               */
+/* 5. Retention                                                               */
 /* -------------------------------------------------------------------------- */
 
 export function DataRetention() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
-      <h2 className="text-2xl font-semibold">9. Retention</h2>
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
+      <h2 className="text-2xl font-semibold">5. Retention</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         We retain your personal information only for as long as necessary to
         fulfill the purposes for which it was collected, or as required by law.
         For example, we generally retain personal information for a period of 7
         years to comply with tax and other legal obligations.
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         Once your personal information is no longer needed, we will securely
         dispose of it in a manner that prevents unauthorized access. Retention
         periods may vary depending on the type of information and the purpose of
@@ -246,19 +253,19 @@ export function DataRetention() {
   );
 }
 /* -------------------------------------------------------------------------- */
-/* 10. Your Choices and Rights                                                */
+/* 6. Your Choices and Rights                                                 */
 /* -------------------------------------------------------------------------- */
 
 export function YourChoicesAndRights() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
-      <h2 className="text-2xl font-semibold">10. Your Choices and Rights</h2>
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
+      <h2 className="text-2xl font-semibold">6. Your Choices and Rights</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         You have certain rights regarding your personal information, including:
       </p>
 
-      <ul className="space-y-3 max-w-3xl ">
+      <ul className="space-y-3 ">
         <li>
           • <strong>Access and Correction:</strong> You can request access to
           the personal information we hold about you and ask for corrections to
@@ -295,21 +302,21 @@ export function YourChoicesAndRights() {
 }
 
 /* -------------------------------------------------------------------------- */
-/* 11. Third-Party Links                                                      */
+/* 7. Third-Party Links                                                       */
 /* -------------------------------------------------------------------------- */
 
 export function ThirdPartyLinks() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
-      <h2 className="text-2xl font-semibold">11. Third-Party Links</h2>
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
+      <h2 className="text-2xl font-semibold">7. Third-Party Links</h2>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         Our Site may contain links to third-party websites or services that are
         not operated by us. We are not responsible for the privacy practices of
         these third parties.
       </p>
 
-      <p className="max-w-3xl  leading-relaxed">
+      <p className="leading-relaxed">
         We encourage you to review the privacy policies of any third-party sites
         you visit.
       </p>
@@ -318,82 +325,53 @@ export function ThirdPartyLinks() {
 }
 
 /* -------------------------------------------------------------------------- */
-/* 14. Contact Us and Privacy Officer                                         */
+/* 8. Contact Us and Privacy Officer                                          */
 /* -------------------------------------------------------------------------- */
 
 export function ContactAndPrivacyOfficer() {
   return (
-    <section className="bg-transparent text-background text-left space-y-6 px-4 py-10">
+    <section className="bg-transparent text-background text-left space-y-6 px-10 py-10">
       <h2 className="text-2xl font-semibold">
-        14. Contact Us and Privacy Officer
+        8. Contact Us and Privacy Officer
       </h2>
 
-      <p className="max-w-3xl leading-relaxed">
+      <p className="leading-relaxed">
         If you have any questions about this Privacy Policy or our data
         practices, please contact us:
       </p>
 
-      {/* Company Contact Info */}
-      <ul className="space-y-2 max-w-3xl">
+      <ul className="space-y-2">
+        <li>
+          • <strong>Company:</strong> Spark &amp; Co Technologies
+        </li>
+
         <li>
           • <strong>By Email:</strong>{" "}
-          <span className="font-semibold text-gray-400">test@test.com</span>
+          <a
+            href="mailto:kabir@buildwithspark.co"
+            className="underline underline-offset-2 hover:opacity-80"
+          >
+            kabir@buildwithspark.co
+          </a>
         </li>
 
         <li>
-          • <strong>By Phone:</strong>{" "}
-          <span className="font-semibold text-gray-400">555-5555</span>
+          • <strong>By Phone:</strong> 647 929 7059
         </li>
 
         <li>
-          • <strong>By Mail:</strong>{" "}
-          <span className="font-semibold text-gray-400">Your Company Address</span>
+          • <strong>By Mail:</strong> 251 Jarvis St, Toronto, ON
         </li>
       </ul>
 
-      {/* Privacy Officer */}
-      <div className="space-y-3 max-w-3xl pt-4">
-        <p className="font-semibold">Privacy Officer:</p>
+      <div className="space-y-3 pt-4">
+        <p className="font-semibold">Privacy Officer</p>
 
         <p className="leading-relaxed">
-          For any questions or concerns regarding our privacy practices or to
-          exercise your rights under PIPEDA, please contact our Privacy Officer:
+          For questions about our privacy practices or to exercise your rights
+          under PIPEDA, contact our Privacy Officer using the details above.
         </p>
-
-        <ul className="space-y-2">
-          <li className="space-y-2">
-            <strong>Name:</strong>{" "}
-            <span className="font-semibold text-gray-400">Jim</span>
-          </li>
-
-          <li>
-            <strong>Email:</strong>{" "}
-            <span className="font-semibold text-gray-400">test@test.com</span>
-          </li>
-
-          <li>
-            <strong>Phone:</strong>{" "}
-            <span className="font-semibold text-gray-400">555-5555</span>
-          </li>
-        </ul>
       </div>
-
-      {/* Signature / Company Block */}
-      {/*  <div className="space-y-2 max-w-3xl  pt-6">
-        <p>Spark & Co</p>
-
-        <div className="space-y-1">
-          <p>
-            <strong>Date:</strong>  <p>02/17/26</p>
-          </p>
-          <p>
-            <strong>Name:</strong> <p>Jim</p>
-          </p>
-          <p>
-            <strong>Title:</strong>
-          </p>
-        </div>
-      </div> */}
     </section>
   );
 }

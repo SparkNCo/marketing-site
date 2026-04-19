@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../components/layouts/BaseLayout.astro";
+import CookiePolicyShell from "./Shell/CookiePolicyShell";
+
+const user = Astro.locals.user;
+const location = Astro.url.pathname;
+---
+
+<BaseLayout>
+  <main>
+    <CookiePolicyShell location={location} client:load user={user} />
+  </main>
+</BaseLayout>
