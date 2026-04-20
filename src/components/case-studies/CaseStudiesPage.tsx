@@ -52,9 +52,9 @@ const featuredTextOnlyCaseStudies: FeaturedTextOnlyCaseStudy[] = [
     subtitle:
       "End-to-end technology leadership for IPG's employee benefits line of business, owning roadmap, architecture, delivery, and day-to-day operations across a team of 30 developers, stakeholders in Ops, Sales, Finance, and Leadership, and two major cloud stacks.",
     paragraph1:
-      "At Independence Pet Group, we led technology for the employee benefits line of business by directly supporting everything from staffing and managing engineering teams, to designing new systems and architectures, to packaging it all for stakeholders and senior leadership. We owned the product roadmap in partnership with business leaders, set architectural direction across stacks, and ran delivery for a team of 30 developers. Stakeholders spanned operations, sales, finance, and executive leadership, requiring continual translation between commercial priorities and technical execution so the roadmap delivered what the business actually needed.", 
+      "At Independence Pet Group, we lead technology for the employee benefits line of business by directly supporting everything from staffing and managing engineering teams, to designing new systems, to packaging it all for stakeholders. We own the product roadmap in partnership with business leaders, set architectural direction across stacks, and run delivery for a team of 30 developers. Stakeholders span operations, sales, finance, and executive leadership, requiring continual translation between commercial priorities and technical execution so the roadmap delivers what the business actually needs.",
     paragraph2:
-      "On the delivery side, the scope is deliberately full-spectrum: new development and integrations with external partners and internal software teams, plus the unglamorous work that keeps a line of business alive, including handling support requests, responding to incidents, bringing the site back up when it crashes, and owning the DevOps pipelines that ship it all. This runs across two core stacks: AWS with Java and Azure with C#. It's a scale engagement, with a lead developer from our team deployed onto one of the projects to keep leadership decisions close to the code.",
+      "On the delivery side, the scope is deliberately full-spectrum: new development and integrations with external partners and internal software teams, plus the unglamorous work that keeps a line of business alive, including handling support requests, responding to incidents, bringing the site back up when it crashes, and owning the deployment pipelines that ship it all. This runs across two core stacks: AWS with Java and Azure with C#. We provide both technical consulting, and have deployed a lead developer from our team onto one of the projects to keep leadership decisions close to the code.",
     highlights: [
       "Managing multiple development teams",
       "Roadmap, architecture & delivery",
@@ -72,13 +72,13 @@ const featuredCaseStudies: FeaturedCaseStudy[] = [
     scope: "Scale",
     stack: "React / Node.js / GCP / Firebase",
     subtitle:
-      "A review and discovery product that evolved into a business-focused visibility platform across Google Maps and Search, with ongoing development, design, and DevOps support.",
+      "A review and discovery product that evolves into a business-focused visibility platform across Google Maps and Search, with ongoing development, design, and DevOps support.",
     paragraph1:
-      "BeAssured started as a general-purpose review site, covering everything from local diners to the next presidential candidate. As the product grew up, the thesis narrowed: help businesses earn measurable visibility on Google Maps and Search, rather than run another open opinions site. We partnered with BeAssured to evolve the platform around that sharper positioning while keeping the system stable enough to run in production.",
+      "BeAssured starts as a general-purpose review site, covering everything from local diners to the next presidential candidate. As the product grows up, the thesis narrows: help businesses earn measurable visibility on Google Maps and Search, rather than run another open opinions site. We partner with BeAssured to evolve the platform around that sharper positioning while keeping the system stable enough to run in production.",
     paragraph2:
-      "We provide development, design, and DevOps services by building out the UI system, implementing core services, and running the CI/CD pipelines on GCP and Firebase. The result is a consolidated SEO and GMB optimization platform the team can iterate on week over week, with reliable deploys, tighter feedback loops, and a UX that reflects BeAssured’s business-centric focus.",
+      "We provide full services across the full SDLC by building out their UI, developing core AI and Google My Business servicea, and running their CI/CD pipelines on GCP and Firebase. The result is a consolidated SEO and GMB optimization platform the team can iterate on week over week, with reliable deploys, tighter feedback loops, and a UX that reflects BeAssured’s business-centric focus.",
     review:
-      "Could not be happier. The team turned our SEO and GMB goals into a product we trust and enjoy shipping.",
+      "It feels like a true partnership. They help us evolve the product thoughtfully and keep things solid as we scale.",
     author: "Tom Davenport",
     role: "Owner",
     primaryImage: "/screenshots/beassured-1.jpeg",
@@ -95,7 +95,7 @@ const featuredCaseStudies: FeaturedCaseStudy[] = [
     paragraph1:
       "RentScape set out to unify the messy parts of residential rentals into one operator-friendly system. For most landlords and small operators, the flow meant juggling five or six tools across listing syndication, applicant qualification, credit and background reports, showings, and ongoing tenant communication. The goal was a production-ready platform that could cover the full lifecycle from discovery to post move in without making operators context switch constantly.",
     paragraph2:
-      "We designed and built the end-to-end workflow: automated showing scheduling, an Uber-style realtor dispatch for live tours, generated e-sign agreements, and ongoing tenant management once a lease is active. Search is powered by an LLM-based property finder that turns plain-language renter requirements into real results. The platform reduces manual handoffs, shortens the time from interest to signed lease, and gives operators one durable surface for leasing and tenancy.",
+      "We designed and built the end-to-end workflow: automated showing scheduling, an Uber-style realtor dispatch for live tours, generated e-sign agreements, and ongoing tenant management once a lease was active. Search was powered by an LLM-based property finder that turned plain-language renter requirements into real results. The platform reduced manual handoffs, shortened the time from interest to signed lease, and gave operators one durable surface for leasing and tenancy.",
     review:
       "Your crew made building our rental agent feel effortless; we're grateful for the speed, care, and partnership.",
     author: "Nicolaus Wong",
@@ -114,7 +114,8 @@ const featuredCaseStudies: FeaturedCaseStudy[] = [
     paragraph1:
       "PursuitAI came to us with a membership-linked model: a mobile app offered to members of client gyms as part of what they already pay for. Instead of competing with gyms, the app acts as an added incentive. Members get personalized training and nutrition plans for free, and gyms get a differentiator that helps win and retain new members. The goal was a production-ready mobile experience that felt consistent with gym branding and ran reliably on member phones.",
     paragraph2:
-      "We designed and built the app on React Native and Expo, with structured training and nutrition programs, a messaging-style coaching flow, and instrumentation for retention and progress. Gyms get a clearer window into how engaged their members actually are, which feeds back into retention conversations and member growth. The result is a benefit gyms can layer on top of an existing subscription, without having to run a second product themselves.",
+      "We designed and built the app on React Native and Expo, with structured training and nutrition programs that gyms could upload and members could track progress against even when not with their coach, complete with recipe finders and automated grocery lists. Gyms get a clearer window into how engaged their members actually are, which feeds back into retention conversations and member growth. The result is a benefit gyms can layer on top of an existing subscription, without having to run a second product themselves.",
+ 
     review:
       "Delighted you steered our fitness app from fuzzy idea to launch; the collaboration felt supportive every week.",
     author: "Sash Alagh",
@@ -133,7 +134,7 @@ const featuredCaseStudies: FeaturedCaseStudy[] = [
     paragraph1:
       "NextMarket is a two-sided marketplace: vendors find markets to host stalls at, markets find vendors to fill them, and bookings and transactions are handled between the two. Before NextMarket, coordination happened over email and spreadsheets, which was hard to scale as calendars, stall inventory, and payments piled up. The team engaged us for MVP development services to move fast alongside their existing crew.",
     paragraph2:
-      "We injected developers and designers into NextMarket’s existing team and helped ship the MVP on a tight timeline. Scope included vendor and market profiles, stall listings and booking flows, and a payments layer that handles transactions between both sides. The result is a workable first version of the marketplace that can run live markets today, with clean seams for iterating on pricing, availability, and matching.",
+      "We injected developers and designers into NextMarket’s existing team and helped ship the MVP on a tight timeline. Scope included vendor and market profiles, stall listings and booking flows, and a payments layer that handled transactions between both sides. The result is a workable first version of the marketplace that can run live markets today, with clean seams for iterating on pricing, availability, and matching.",
     review:
       "Incredibly thankful for how you walked us through marketplace complexity and helped us ship with confidence.",
     author: "Alkyhan Sehra",
@@ -151,11 +152,11 @@ const textCaseStudies: TextCaseStudy[] = [
     scope: "Build",
     stack: "Python / GCP",
     subtitle:
-      "A WhatsApp-integrated bot that handles conversations for influencers and, based on what fans ask, surfaces the right payment and service integrations.",
+      "A WhatsApp-integrated bot that handled conversations for influencers and, based on what fans asked, surfaced the right payment and service integrations.",
     paragraph1:
-      "Bender is a WhatsApp-integrated conversational bot built for influencers. Based on the incoming chat, the bot handles common questions and drops in the right links, payment flows, booking options, and third-party service integrations, so influencers stay responsive without living in DMs. The goal was a production system that could run reliably on WhatsApp at the volume a large creator actually sees.",
+      "Bender was a WhatsApp bot for influencers: it handled common fan questions and surfaced the right links, payments, and bookings, so creators stayed responsive without living in DMs. We built it to run reliably on WhatsApp at real creator volume.",
     paragraph2:
-      "We designed and built Bender in Python on GCP, focused on reliable message handling, low-latency routing, and integrations with payment and service providers. The next step is a web platform that can deploy instances quickly to new influencers at scale, turning onboarding into configuration rather than a custom build. The result is an experience fans can genuinely converse with, while still converting into payments, bookings, and services behind the scenes.",
+      "We built Bender in Python on GCP with low-latency routing and integrations to payments and partner services. The planned next step was a web layer that onboarded new influencers through configuration instead of one-off builds.",
     review:
       "Working with you was a joy. You helped us ship a social chat product that finally matches our brand and pace.",
     author: "Ivo Sofiganov",
@@ -170,9 +171,9 @@ const textCaseStudies: TextCaseStudy[] = [
     subtitle:
       "A customizable chatbot for general web and Shopify, with Dialogflow-powered conversations and BERT-vectorized inputs feeding an analytics layer for frequent topics and sentiment. Built in 2020, pre-chatbase and before the LLM boom.",
     paragraph1:
-      "Curabit was built in 2020, well before chatbase and the modern LLM boom. The product is a customizable chatbot with drop-in integrations for general websites and Shopify stores, aimed at support and storefront teams that needed better chat without investing in a full ML team. Training and intent updates were deliberately simple: teams edited an Excel file, and the bot’s conversations updated accordingly so non-engineers could own the content side of the product.",
+      "Curabit shipped in 2020, before chatbase and the modern LLM wave. It was a customizable web and Shopify chatbot for teams that wanted stronger support chat without an ML hire—non-engineers updated intents in Excel and the bot followed.",
     paragraph2:
-      "Under the hood, conversations ran through Dialogflow, while BERT vectorized chat inputs to power an analytics layer that clustered messages into frequent topics and scored their sentiment. Teams got a view of what customers were actually talking about and how they felt about it, not just ticket volume. We built the platform on GCP and Firebase, with a pragmatic feedback loop between the support team and the underlying bot configuration.",
+      "Dialogflow ran conversations; BERT-vectorized inputs powered topic and sentiment analytics beyond raw ticket counts. We hosted it on GCP and Firebase with a tight loop between support and the bot’s configuration.",
     review:
       "Happy is not strong enough. You helped us unify reviews and chatbot flows so support finally feels human.",
     author: "Sana Mungroo",
@@ -187,9 +188,9 @@ const textCaseStudies: TextCaseStudy[] = [
     subtitle:
       "Part of Social Contracts, a Spark & Co initiative helping freelancers and founders build their businesses. SoCo Market focuses on a creator marketplace and secure transactions backed by Solidity smart contracts.",
     paragraph1:
-      "SoCo Market is part of Social Contracts, a Spark & Co initiative focused on helping freelancers and founders build their businesses. Within that, SoCo Market’s job is specific: give creators a marketplace to list and sell services, and make transactions between customers and creators feel safe by default. The target experience avoids crypto novelty for its own sake and leans on the parts that actually de-risk the relationship between buyer and seller.",
+      "SoCo Market sits inside Social Contracts (Spark & Co): a creator marketplace for listing and selling services, with customer–creator transactions that feel safe by default. It leans on trust mechanics that de-risk buyers and sellers, not crypto novelty for its own sake.",
     paragraph2:
-      "We designed and built the creator marketplace alongside Solidity smart contracts that govern how funds move between parties. The resulting customer flow feels like a normal services marketplace, with on-chain guarantees doing the heavy lifting underneath, making payouts and disputes more predictable than a pure off-chain model. Thai Doan leads SoCo Market as project lead within Social Contracts.",
+      "We designed and built the marketplace and Solidity contracts that moved funds between parties. Buyers and sellers saw a normal services-style flow, with clearer payouts and disputes backed by on-chain rules than a purely off-chain setup.",
     review:
       "Thrilled with how you shaped our marketplace and on-chain transactions; customers feel the polish and we do too.",
     author: "Thai Doan",

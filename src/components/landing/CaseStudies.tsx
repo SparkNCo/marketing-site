@@ -8,7 +8,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "BeAssured",
       subtitle: "SEO & Google Business Optimization Platform",
       review:
-        "Could not be happier. The team turned our SEO and GMB goals into a product we trust and enjoy shipping.",
+        "It feels like a true partnership. They help us evolve the product thoughtfully and keep things solid as we scale.",
       author: "Tom Davenport",
       role: "Owner",
       primaryImage: "/screenshots/beassured-1.jpeg",
@@ -19,7 +19,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "RentScape",
       subtitle: "End-to-End Rental Management Platform",
       review:
-        "Your crew made building our rental agent feel effortless; we're grateful for the speed, care, and partnership.",
+        "Getting this product live at first was overwhelming, but with your help we were able to get the idea out of our heads and into production.",
       author: "Nicolaus Wong",
       role: "CEO",
       primaryImage: "/screenshots/rentscape-1.jpeg",
@@ -30,7 +30,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "Bender",
       subtitle: "WhatsApp Influencer Assistant",
       review:
-        "Working with you was a joy. You helped us ship a social chat product that finally matches our brand and pace.",
+        "Collaboration felt thoughtful from the start. Helped us turn big ideas into a product. Working with you was a joy.",
       author: "Ivo Sofiganov",
       role: "Owner",
     },
@@ -39,7 +39,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "PursuitAI",
       subtitle: "Gym-Connected Fitness & Nutrition App",
       review:
-        "Delighted you steered our fitness app from fuzzy idea to launch; the collaboration felt supportive every week.",
+        "I knew what I wanted for gyms and members, but didn't know how to build it. You helped me turn the vision into something I could take to market.",
       author: "Sash Alagh",
       role: "CEO",
       primaryImage: "/screenshots/pursuit-1.jpeg",
@@ -50,7 +50,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "NextMarket",
       subtitle: "Vendors & Markets Marketplace",
       review:
-        "Incredibly thankful for how you walked us through marketplace complexity and helped us ship with confidence.",
+        "Incredibly thankful for the speedy delivery and online support. Couldn't have done it without you guys.",
       author: "Alkyhan Sehra",
       role: "CEO",
       primaryImage: "/screenshots/nextmarket-1.jpeg",
@@ -61,7 +61,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "Curabit",
       subtitle: "Customizable Chatbot & Conversation Analytics",
       review:
-        "Happy is not strong enough. You helped us unify reviews and chatbot flows so support finally feels human.",
+        "With your help we grew the team, and found possibilities with our product we couldn't have imagined before.",
       author: "Sana Mungroo",
       role: "CEO",
     },
@@ -70,7 +70,8 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "SoCo Market",
       subtitle: "Creator Marketplace & Secure Transactions",
       review:
-        "Thrilled with how you shaped our marketplace and on-chain transactions; customers feel the polish and we do too.",
+        "Just works — super smooth and solid. Love the vibe.",
+   
       author: "Thai Doan",
       role: "Project Lead",
     },
