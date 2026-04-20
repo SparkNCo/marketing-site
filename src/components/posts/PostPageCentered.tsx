@@ -44,7 +44,7 @@ export default function PostPageCentered({ uniquePost, edit, blogId }) {
             className="w-[90%] text-[38px] font-light text-background bg-transparent outline-none resize-none text-center whitespace-pre-line h-[660px] overflow-y-hidden"
           />
         ) : (
-          <div className="w-[90%] text-[38px] font-light text-background whitespace-pre-line h-[660px] overflow-y-hidden">
+          <div className="w-[90%] text-[38px] font-light text-background whitespace-pre-line h-[780px] overflow-y-hidden ">
             {content}
           </div>
         )}
