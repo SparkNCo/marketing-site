@@ -31,9 +31,8 @@ export default function PostPageCentered({ uniquePost, edit, blogId }) {
 
     return () => clearTimeout(debounceRef.current);
   }, [content]);
-
   return (
-    <article className="w-full h-[1170px]  bg-white text-background flex flex-col text-center relative ">
+    <article className="w-full h-[1170px]  bg-white text-background flex flex-col text-center relative  ">
       {/* Content */}
       <div className="w-[90%] mx-auto flex flex-col items-center overflow-y-hidden mt-[6rem]">
         {edit ? (

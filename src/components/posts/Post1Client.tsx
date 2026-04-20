@@ -54,17 +54,17 @@ export function PostShell1({ blog, squaresConfig, edit }: Readonly<Post1Props>) 
     <div className="relative max-w-[1080px] h-[1350px] mx-auto">
       {!edit && <div className="absolute inset-0 bg-transparent opacity-100 z-20" />}
 
-      <div className="max-w-[1080px] h-[1350px] mx-auto z-10">
+      <div className="w-full h-[1350px] z-10">
         <SquaresPostLayout
           squares={squaresConfig}
           tags={tags}
           edit={edit}
           blogId={blog}
         >
-          <div className="layout title-foreground">
-            <article>
+          <div className="layout title-foreground w-full">
+            <article className="w-full">
               <div
-                className="h-[1080px] bg-cover bg-center relative"
+                className="w-full h-[1080px] bg-cover bg-center relative"
                 style={{ backgroundImage: `url(${uniquePost.coverImage})` }}
               ></div>
             </article>
