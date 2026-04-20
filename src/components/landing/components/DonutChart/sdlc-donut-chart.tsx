@@ -104,6 +104,8 @@ const SEGMENTS: Segment[] = [
   },
 ];
 
+const ALL_SEGMENT_IDS = new Set(SEGMENTS.map((s) => s.id));
+
 const SIZE = 320;
 const STROKE_WIDTH = 44;
 const RADIUS = (SIZE - STROKE_WIDTH) / 2;
@@ -359,7 +361,7 @@ type SDLCDonutChartProps = {
 
 export function SDLCDonutChart({ setMode }: Readonly<SDLCDonutChartProps>) {
   const [selectedSegments, setSelectedSegments] = useState<Set<string>>(
-    new Set(),
+    () => new Set(ALL_SEGMENT_IDS),
   );
   const [hoveredSegment, setHoveredSegment] = useState<string | null>(null);
   const [isComplete] = useState(false);
@@ -536,23 +538,23 @@ export function SDLCDonutChart({ setMode }: Readonly<SDLCDonutChartProps>) {
                     x:
                       SIZE / 2 +
                       RADIUS *
-                        Math.cos(
-                          (((hoveredAngle.startAngle + hoveredAngle.endAngle) /
-                            2 -
-                            90) *
-                            Math.PI) /
-                            180,
-                        ),
+                      Math.cos(
+                        (((hoveredAngle.startAngle + hoveredAngle.endAngle) /
+                          2 -
+                          90) *
+                          Math.PI) /
+                        180,
+                      ),
                     y:
                       SIZE / 2 +
                       RADIUS *
-                        Math.sin(
-                          (((hoveredAngle.startAngle + hoveredAngle.endAngle) /
-                            2 -
-                            90) *
-                            Math.PI) /
-                            180,
-                        ),
+                      Math.sin(
+                        (((hoveredAngle.startAngle + hoveredAngle.endAngle) /
+                          2 -
+                          90) *
+                          Math.PI) /
+                        180,
+                      ),
                   }}
                 />
               )}
@@ -582,10 +584,10 @@ export function SDLCDonutChart({ setMode }: Readonly<SDLCDonutChartProps>) {
                     type="button"
                     onClick={() => toggleSegment(segment.id)}
                     className={cn(
-                      "absolute flex items-center gap-3 border px-[18px] py-[9px] text-lg font-medium transition-all whitespace-nowrap pointer-events-auto lg:gap-2 lg:px-3 lg:py-1.5 lg:text-body",
+                      "absolute flex items-center gap-3 border border-transparent px-[18px] py-[9px] text-lg font-medium transition-all whitespace-nowrap pointer-events-auto lg:gap-2 lg:px-3 lg:py-1.5 lg:text-body",
                       selectedSegments.has(segment.id) || isComplete
-                        ? "border-donut bg-secondary/50 text-foreground"
-                        : "border-donut bg-transparent text-foreground hover:border-muted-foreground",
+                        ? "bg-secondary/50 text-foreground hover:border-donut"
+                        : "bg-transparent text-foreground hover:border-muted-foreground",
                     )}
                     style={{
                       left: labelX,
