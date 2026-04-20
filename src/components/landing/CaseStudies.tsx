@@ -71,7 +71,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       subtitle: "Creator Marketplace & Secure Transactions",
       review:
         "Just works — super smooth and solid. Love the vibe.",
-   
+
       author: "Thai Doan",
       role: "Project Lead",
     },

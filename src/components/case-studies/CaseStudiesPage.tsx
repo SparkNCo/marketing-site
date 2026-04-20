@@ -97,7 +97,7 @@ const featuredCaseStudies: FeaturedCaseStudy[] = [
     paragraph2:
       "We designed and built the end-to-end workflow: automated showing scheduling, an Uber-style realtor dispatch for live tours, generated e-sign agreements, and ongoing tenant management once a lease was active. Search was powered by an LLM-based property finder that turned plain-language renter requirements into real results. The platform reduced manual handoffs, shortened the time from interest to signed lease, and gave operators one durable surface for leasing and tenancy.",
     review:
-      "Your crew made building our rental agent feel effortless; we're grateful for the speed, care, and partnership.",
+      "Getting this product live at first was overwhelming, but with your help we were able to get the idea out of our heads and into production.",
     author: "Nicolaus Wong",
     role: "CEO",
     primaryImage: "/screenshots/rentscape-1.jpeg",
@@ -115,9 +115,9 @@ const featuredCaseStudies: FeaturedCaseStudy[] = [
       "PursuitAI came to us with a membership-linked model: a mobile app offered to members of client gyms as part of what they already pay for. Instead of competing with gyms, the app acts as an added incentive. Members get personalized training and nutrition plans for free, and gyms get a differentiator that helps win and retain new members. The goal was a production-ready mobile experience that felt consistent with gym branding and ran reliably on member phones.",
     paragraph2:
       "We designed and built the app on React Native and Expo, with structured training and nutrition programs that gyms could upload and members could track progress against even when not with their coach, complete with recipe finders and automated grocery lists. Gyms get a clearer window into how engaged their members actually are, which feeds back into retention conversations and member growth. The result is a benefit gyms can layer on top of an existing subscription, without having to run a second product themselves.",
- 
+
     review:
-      "Delighted you steered our fitness app from fuzzy idea to launch; the collaboration felt supportive every week.",
+      "I knew what I wanted for gyms and members, but didn't know how to build it. You helped me turn the vision into something I could take to market.",
     author: "Sash Alagh",
     role: "CEO",
     primaryImage: "/screenshots/pursuit-1.jpeg",
@@ -136,7 +136,7 @@ const featuredCaseStudies: FeaturedCaseStudy[] = [
     paragraph2:
       "We injected developers and designers into NextMarket’s existing team and helped ship the MVP on a tight timeline. Scope included vendor and market profiles, stall listings and booking flows, and a payments layer that handled transactions between both sides. The result is a workable first version of the marketplace that can run live markets today, with clean seams for iterating on pricing, availability, and matching.",
     review:
-      "Incredibly thankful for how you walked us through marketplace complexity and helped us ship with confidence.",
+      "Incredibly thankful for the speedy delivery and online support. Couldn't have done it without you guys.",
     author: "Alkyhan Sehra",
     role: "CEO",
     primaryImage: "/screenshots/nextmarket-1.jpeg",
@@ -158,7 +158,7 @@ const textCaseStudies: TextCaseStudy[] = [
     paragraph2:
       "We built Bender in Python on GCP with low-latency routing and integrations to payments and partner services. The planned next step was a web layer that onboarded new influencers through configuration instead of one-off builds.",
     review:
-      "Working with you was a joy. You helped us ship a social chat product that finally matches our brand and pace.",
+      "Collaboration felt thoughtful from the start. Helped us turn big ideas into a product. Working with you was a joy.",
     author: "Ivo Sofiganov",
     role: "Owner",
   },
@@ -175,7 +175,7 @@ const textCaseStudies: TextCaseStudy[] = [
     paragraph2:
       "Dialogflow ran conversations; BERT-vectorized inputs powered topic and sentiment analytics beyond raw ticket counts. We hosted it on GCP and Firebase with a tight loop between support and the bot’s configuration.",
     review:
-      "Happy is not strong enough. You helped us unify reviews and chatbot flows so support finally feels human.",
+      "With your help we grew the team, and found possibilities with our product we couldn't have imagined before.",
     author: "Sana Mungroo",
     role: "CEO",
   },
@@ -192,7 +192,7 @@ const textCaseStudies: TextCaseStudy[] = [
     paragraph2:
       "We designed and built the marketplace and Solidity contracts that moved funds between parties. Buyers and sellers saw a normal services-style flow, with clearer payouts and disputes backed by on-chain rules than a purely off-chain setup.",
     review:
-      "Thrilled with how you shaped our marketplace and on-chain transactions; customers feel the polish and we do too.",
+      "Just works — super smooth and solid. Love the vibe.",
     author: "Thai Doan",
     role: "Project Lead, SoCo Market",
   },
