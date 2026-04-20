@@ -31,7 +31,7 @@ const EmailCapture: React.FC<EmailCaptureProps> = ({
   const submitMutation = useMutation({
     mutationFn: async (email: string) => {
       const lead_id = crypto.randomUUID();
-
+      console.log("submitting");
       const res = await fetch(supabaseFunctionsUrl("lead"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
