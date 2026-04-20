@@ -21,7 +21,7 @@ export const steps = [
     id: 3,
     title: "MVP",
     description:
-      "We build the first version of your product to validate real demand—fast. This is not a throwaway prototype, but a production-ready foundation designed to get in front of users quickly. By combining strong engineering with AI-accelerated workflows, we reduce time to insight and move you toward product-market fit with less waste.",
+      "We build the first version of your product to validate real demand quickly. This is not a throwaway prototype, but a production-ready foundation designed to get in front of users quickly. By combining strong engineering with AI-accelerated workflows, we reduce time to insight and move you toward product-market fit with less waste.",
   },
   /*   {
     id: 4,
@@ -32,7 +32,7 @@ export const steps = [
     id: 5,
     title: "Launch",
     description:
-      "We take your product live with the reliability and performance expected of modern software. From final QA to release orchestration, everything is designed to hold up under real-world usage—so your launch is a milestone, not a risk.",
+      "We take your product live with the reliability and performance expected of modern software. From final QA to release orchestration, everything is designed to hold up under real-world usage, so your launch is a milestone, not a risk.",
   },
   {
     id: 6,
@@ -44,7 +44,7 @@ export const steps = [
     id: 7,
     title: "Support",
     description:
-      "We give you continuous visibility into product health, delivery, and performance—without the overhead. Through integrated dashboards, automated reporting, and AI-assisted insights, you stay informed and in control while focusing on growth, not operations.",
+      "We give you continuous visibility into product health, delivery, and performance without the overhead. Through integrated dashboards, automated reporting, and AI-assisted insights, you stay informed and in control while focusing on growth, not operations.",
   },
   { id: 8, title: "" },
 ];

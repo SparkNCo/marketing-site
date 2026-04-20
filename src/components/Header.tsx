@@ -17,7 +17,7 @@ export default function Header({
     if (headerMode === "form") {
       setMode("dark");
       setHidden(false);
-      // Keep header fixed and visible on proposal flows — avoids transform
+      // Keep header fixed and visible on proposal flows - avoids transform
       // conflicts with centered layout and overlap with page content.
       return;
     }

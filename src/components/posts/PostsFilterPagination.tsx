@@ -13,7 +13,7 @@ export default function PostsFilterPagination({
 }) {
   return (
     <div className="w-full flex flex-row items-center justify-between gap-3 bg-foreground px-4 py-2">
-      {/* LEFT — TAG */}
+      {/* LEFT - TAG */}
       <div className="flex items-center min-w-0">
         {selectedFeatures?.[0] && (
           <span
@@ -30,7 +30,7 @@ export default function PostsFilterPagination({
         )}
       </div>
 
-      {/* RIGHT — PAGINATION */}
+      {/* RIGHT - PAGINATION */}
       {totalPosts > 0 && (
         <div className="flex items-center gap-2 text-white shrink-0 ">
           <button

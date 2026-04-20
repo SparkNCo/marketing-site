@@ -16,7 +16,7 @@ import Footer from "../Footer";
 
 type PageMode = "features" | "loading" | "view" | "draft" | "waiting";
 
-/** Proposal is ready for client review — not still filling discovery. */
+/** Proposal is ready for client review - not still filling discovery. */
 const PROPOSAL_READY_STAGES = new Set(["for-review", "accepted"]);
 
 function isDiscoveryEditingStage(stage?: string | null) {

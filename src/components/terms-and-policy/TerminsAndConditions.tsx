@@ -483,7 +483,7 @@ export function TermsContactInformationSection() {
       </ul>
 
       <p className="text-sm pt-4">
-        Spark &amp; Co Technologies — software development services.
+        Spark &amp; Co Technologies, software development services.
       </p>
     </section>
   );

@@ -53,7 +53,7 @@ const principleContent: Record<
   businessTransparency: {
     title: "Business Transparency",
     description:
-      "Clear visibility into progress, risks, and performance—without needing constant check-ins.",
+      "Clear visibility into progress, risks, and performance without needing constant check ins.",
     bullets: [
       "Real-time insight into project status and metrics",
       "Early visibility into risks and delays",
@@ -141,7 +141,7 @@ function FeaturesSection({
       </div>
       {/* DESKTOP LAYOUT */}
       <div className="hidden lg:flex flex-row gap-4 items-stretch w-full max-w-[850px] mx-auto ">
-        {/* LEFT COLUMN — title only; full copy in the expanded panel */}
+        {/* LEFT COLUMN - title only; full copy in the expanded panel */}
         <div className="flex flex-col min-w-[300px] gap-4 ">
           {MODES.filter((m) => m !== mode).map((item) => (
             <LeftBox

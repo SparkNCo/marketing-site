@@ -69,7 +69,7 @@ const faqData: FAQItem[] = [
     id: 10,
     question: "How are you different from AI tools like Cursor or ChatGPT?",
     answer:
-      "AI tools generate code. We build the system around that code — including validation, deployment, monitoring, and reporting — so it can operate reliably in production.",
+      "AI tools generate code. We build the system around that code, including validation, deployment, monitoring, and reporting, so it can operate reliably in production.",
   },
   {
     id: 11,
@@ -99,7 +99,7 @@ const faqData: FAQItem[] = [
     id: 15,
     question: "What happens after launch?",
     answer:
-      "We continue with monitoring, iteration, and performance visibility. Launch is not the end — it's the start of a system that needs to evolve.",
+      "We continue with monitoring, iteration, and performance visibility. Launch is not the end. It is the start of a system that needs to evolve.",
   },
   {
     id: 16,
@@ -111,7 +111,7 @@ const faqData: FAQItem[] = [
     id: 17,
     question: 'What does "production-ready" actually mean?',
     answer:
-      "Production-ready means tested, deployable, observable, and maintainable — not just functional. It's software that can run, adapt, and scale reliably.",
+      "Production-ready means tested, deployable, observable, and maintainable, not just functional. It is software that can run, adapt, and scale reliably.",
   },
 ];
 

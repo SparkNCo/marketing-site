@@ -14,7 +14,7 @@ export function CaseStudyCardMobile({ study }: Readonly<{ study: CaseStudy }>) {
     <a
       href="/case-studies"
       className="flex h-full min-h-[28rem] w-[45vw] max-w-md flex-shrink-0 flex-col self-stretch bg-white overflow-hidden shadow-md no-underline text-inherit cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F78035]"
-      aria-label={`View case studies — ${study.title}`}
+      aria-label={`View case studies - ${study.title}`}
     >
       {/* Content */}
       <div className="flex min-h-0 min-w-0 flex-1 flex-col p-6 pb-0">
@@ -39,7 +39,7 @@ export function CaseStudyCardMobile({ study }: Readonly<{ study: CaseStudy }>) {
         <div className="min-h-0 min-w-0 flex-1" aria-hidden />
       </div>
 
-      {/* Orange block — 16:9, full card width on mobile */}
+      {/* Orange block - 16:9, full card width on mobile */}
       <div className="relative w-full shrink-0 overflow-hidden shadow-lg aspect-[16/9]">
         {study.primaryImage ? (
           <img

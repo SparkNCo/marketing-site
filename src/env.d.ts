@@ -1,6 +1,6 @@
 /// <reference path="../.astro/types.d.ts" />
 
-/** Meta (Facebook) Pixel — injected by layout scripts */
+/** Meta (Facebook) Pixel - injected by layout scripts */
 interface Window {
   fbq?: (...args: unknown[]) => void;
 }

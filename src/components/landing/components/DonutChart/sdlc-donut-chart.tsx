@@ -558,7 +558,7 @@ export function SDLCDonutChart({ setMode }: Readonly<SDLCDonutChartProps>) {
               )}
             </AnimatePresence>
 
-            {/* Radial labels — md+ only (positioned around chart) */}
+            {/* Radial labels - md+ only (positioned around chart) */}
             <div
               className="absolute inset-0 hidden md:block lg:scale-100"
               style={{ pointerEvents: "none" }}

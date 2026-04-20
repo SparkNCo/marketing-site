@@ -1,5 +1,5 @@
 /**
- * Meta (Facebook) Pixel — standard events. No-op if the pixel script is not loaded.
+ * Meta (Facebook) Pixel - standard events. No-op if the pixel script is not loaded.
  */
 export function trackMetaPixel(
   eventName: string,

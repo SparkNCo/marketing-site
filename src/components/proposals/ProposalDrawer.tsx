@@ -22,7 +22,7 @@ export default function ProposalDrawer({
 
   return (
     <>
-      {/* Trigger — floating pill at bottom-right */}
+      {/* Trigger - floating pill at bottom-right */}
       <button
         type="button"
         onClick={handleOpen}

@@ -14,7 +14,7 @@ export function CaseStudyCard({ study }: Readonly<{ study: CaseStudy }>) {
     <a
       href="/case-studies"
       className="max-w-[65rem] min-h-[360px] h-[360px] bg-white overflow-hidden shadow-md flex-shrink-0 relative block no-underline text-inherit cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F78035]"
-      aria-label={`View case studies — ${study.title}`}
+      aria-label={`View case studies - ${study.title}`}
     >
       {/* Content */}
       <div className="p-6 pr-[calc(0.75rem+360px*64/45)] h-full flex flex-col justify-between">
@@ -36,7 +36,7 @@ export function CaseStudyCard({ study }: Readonly<{ study: CaseStudy }>) {
         </p>
       </div>
 
-      {/* Orange block — 16:9, full card height on desktop */}
+      {/* Orange block - 16:9, full card height on desktop */}
       <div className="absolute right-0 bottom-0 h-4/5 w-auto aspect-[16/9] shadow-lg overflow-hidden">
         {study.primaryImage ? (
           <img

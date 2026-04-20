@@ -16,7 +16,7 @@ export type ContentfulPostFields = {
   title?: string;
   author?: string;
   coverImage?: string;
-  /** Markdown body — API may use any of these keys */
+  /** Markdown body - API may use any of these keys */
   content?: string;
   body?: string;
   markdown?: string;

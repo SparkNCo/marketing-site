@@ -179,7 +179,7 @@ export default function ProposalPage({
   };
   return (
     <div className="flex min-h-screen w-full flex-col bg-background font-body lg:flex-row ">
-      {/* Sidebar — hidden when viewing features */}
+      {/* Sidebar - hidden when viewing features */}
       {!showFeatures && (
         <aside
           className="
@@ -192,7 +192,7 @@ export default function ProposalPage({
       )}
 
       <div className="w-full min-w-0 flex-1 lg:min-h-0">
-        {/* Mobile drawer — only for proposal view */}
+        {/* Mobile drawer - only for proposal view */}
 
         {!showFeatures && (
           <div className="lg:hidden">

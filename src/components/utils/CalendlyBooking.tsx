@@ -98,7 +98,7 @@ export default function CalendlyBooking({
         Schedule a Discovery Call
       </h2>
 
-      {/* STEP 1 — SELECT DAY */}
+      {/* STEP 1 - SELECT DAY */}
       <section>
         <h2 className="text-body font-semibold mb-4">Select a day</h2>
 

@@ -8,7 +8,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "BeAssured",
       subtitle: "SEO & Google Business Optimization Platform",
       review:
-        "Couldn't be happier—the team turned our SEO and GMB goals into a product we trust and enjoy shipping.",
+        "Could not be happier. The team turned our SEO and GMB goals into a product we trust and enjoy shipping.",
       author: "Tom Davenport",
       role: "Owner",
       primaryImage: "/screenshots/beassured-1.jpeg",
@@ -30,7 +30,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "Bender",
       subtitle: "WhatsApp Influencer Assistant",
       review:
-        "Working with you was a joy—you helped us ship a social chat product that finally matches our brand and pace.",
+        "Working with you was a joy. You helped us ship a social chat product that finally matches our brand and pace.",
       author: "Ivo Sofiganov",
       role: "Owner",
     },
@@ -61,7 +61,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
       title: "Curabit",
       subtitle: "Customizable Chatbot & Conversation Analytics",
       review:
-        "Happy isn't strong enough—you helped us unify reviews and chatbot flows so support finally feels human.",
+        "Happy is not strong enough. You helped us unify reviews and chatbot flows so support finally feels human.",
       author: "Sana Mungroo",
       role: "CEO",
     },
@@ -90,7 +90,7 @@ function CaseStudiesSection({ isMobile }: Readonly<{ isMobile: boolean }>) {
         <p className="text-body md:text-heading2 text-foreground mb-12 text-left leading-relaxed lg:container">
           We partner with teams to ship software that holds up in production,
           not just on a roadmap. Here’s how founders and product leaders
-          describe working with us—and what it unlocked for their businesses.
+          describe working with us, and what it unlocked for their businesses.
         </p>
       </div>
 

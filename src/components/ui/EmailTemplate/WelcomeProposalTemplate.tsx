@@ -26,7 +26,7 @@ const WelcomeProposalTemplate = ({
   proposalLink,
 }: WelcomeProposalTemplateProps) => {
   const previewText =
-    "Your proposal is ready — confirm your meeting to continue.";
+    "Your proposal is ready - confirm your meeting to continue.";
 
   return (
     <Html>

@@ -55,7 +55,7 @@ export default function CardBlock({
             <>
               <p className="font-semibold">{ref.author}</p>
               <p className="text-muted-foreground">
-                {ref.position} — {ref.company}
+                {ref.position} - {ref.company}
               </p>
             </>
           ) : (

@@ -125,7 +125,7 @@ export const ProposalInProgress = () => {
         </div>
 
         <p className="text-smalltext text-muted-foreground">
-          Please check back soon — we&apos;ll notify you once it&apos;s ready
+          Please check back soon. We&apos;ll notify you once it&apos;s ready
         </p>
       </div>
     </div>

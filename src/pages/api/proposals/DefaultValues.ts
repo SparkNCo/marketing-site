@@ -70,7 +70,7 @@ export const DEFAULT_SUMMARY_ITEMS: SummaryItem[] = [
   {
     title: "Opportunity & Value Statement (Test) ",
     content:
-      "Our proposed cloud-based solution will reduce inventory processing time by 60%, eliminate duplicate data entry, and provide actionable insights through advanced analytics—translating to estimated annual savings of $450,000 and improved customer satisfaction.",
+      "Our proposed cloud-based solution will reduce inventory processing time by 60%, eliminate duplicate data entry, and provide actionable insights through advanced analytics-translating to estimated annual savings of $450,000 and improved customer satisfaction.",
   },
   {
     title: "High-Level Solution Methodology (Test)",
