@@ -1,0 +1,15 @@
+export const ContactCardMotifSquaresConfig = [
+  { left: 0, top: 6, width: 4, height: 8, color: "#111111" },
+  { left: 0, top: 0, width: 12, height: 10, color: "#111111" },
+  { left: 8, top: 6, width: 4, height: 4, color: "#111111" },
+  { left: 8, top: 8, width: 2, height: 2, color: "#111111" },
+  { left: 8, top: 6, width: 4, height: 4, color: "#F7F4F0" },
+  { left: 8, top: 6, width: 2, height: 2, color: "#111111" },
+  { left: 0, top: 2, width: 4, height: 4, color: "#F7F4F0" },
+  { left: 8, top: 0, width: 2, height: 2, color: "#F7F4F0" },
+  { left: 2, top: 8, width: 2, height: 2, color: "#F7F4F0" },
+  { left: 6, top: 2, width: 2, height: 2, color: "#F78035" },
+  { left: 0, top: 0, width: 2, height: 2, color: "#F78035" },
+  { left: 4, top: 6, width: 4, height: 4, color: "#F78035" },
+  { left: 0, top: 12, width: 2, height: 2, color: "#F78035" },
+];
