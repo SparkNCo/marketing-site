@@ -97,9 +97,9 @@ const featuredCaseStudies: FeaturedCaseStudy[] = [
     paragraph2:
       "We designed and built the end-to-end workflow: automated showing scheduling, an Uber-style realtor dispatch for live tours, generated e-sign agreements, and ongoing tenant management once a lease was active. Search was powered by an LLM-based property finder that turned plain-language renter requirements into real results. The platform reduced manual handoffs, shortened the time from interest to signed lease, and gave operators one durable surface for leasing and tenancy.",
     review:
-      "Getting this product live at first was overwhelming, but with your help we were able to get the idea out of our heads and into production.",
-    author: "Nicolaus Wong",
-    role: "CEO",
+      "Removed the usual friction between development and production. We were able to maintain high velocity and rock-solid stability.",
+    author: "Gaston Jacinto",
+    role: "Lead Engineer",
     primaryImage: "/screenshots/rentscape-1.jpeg",
     secondaryImage: "/screenshots/rentscape-2.jpeg",
   },
@@ -136,9 +136,9 @@ const featuredCaseStudies: FeaturedCaseStudy[] = [
     paragraph2:
       "We injected developers and designers into NextMarket’s existing team and helped ship the MVP on a tight timeline. Scope included vendor and market profiles, stall listings and booking flows, and a payments layer that handled transactions between both sides. The result is a workable first version of the marketplace that can run live markets today, with clean seams for iterating on pricing, availability, and matching.",
     review:
-      "Incredibly thankful for the speedy delivery and online support. Couldn't have done it without you guys.",
-    author: "Alkyhan Sehra",
-    role: "CEO",
+      "Impressed by the speedy delivery and online support. Couldn't have done it without you guys.",
+    author: "Murtaza Saifuddin",
+    role: "Engineering Lead",
     primaryImage: "/screenshots/nextmarket-1.jpeg",
     secondaryImage: "/screenshots/nextmarket-2.jpeg",
   },
