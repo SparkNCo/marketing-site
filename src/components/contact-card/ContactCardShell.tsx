@@ -130,7 +130,15 @@ export default function ContactCardShell() {
           </h1>
           <div className="mt-6 mx-auto max-w-[200px] h-9 bg-[#F7F4F0] text-[#111111] flex items-center gap-3 px-3">
             <img alt="" src={iconWeb} className="w-6 h-6 shrink-0" />
-            <span className="font-body text-[18px]">buildwithspark.co</span>
+            <a
+              href="https://buildwithspark.co"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-body text-[18px] underline"
+            >
+              buildwithspark.co
+            </a>
+       
           </div>
         </section>
 
