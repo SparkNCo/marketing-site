@@ -7,7 +7,7 @@ import { ContactCardMotifSquaresConfig } from "./ContactCardSquaresConfig.ts";
 const profileImage =
   "https://www.figma.com/api/mcp/asset/3a2e3406-2f3c-4341-97e6-367260c04b7c";
 const qrImage =
-  "https://www.figma.com/api/mcp/asset/ec14feef-5729-4e55-8d2b-8122d5d1897d";
+  "https://api.qrserver.com/v1/create-qr-code/?size=129x129&data=https%3A%2F%2Fbuildwithspark.co%2Fcontact-card";
 const iconPhone =
   "https://www.figma.com/api/mcp/asset/dd2a4e84-c59b-4f00-b492-ca6d8af30faa";
 const iconEmail =
@@ -24,22 +24,41 @@ const iconShare =
 type ActionRowProps = {
   iconSrc: string;
   text: string;
+  href?: string;
+  onClick?: () => void;
 };
 
-function ActionRow({ iconSrc, text }: Readonly<ActionRowProps>) {
+function ActionRow({ iconSrc, text, href, onClick }: Readonly<ActionRowProps>) {
+  const baseClassName =
+    "bg-[#111111] h-9 w-fit flex items-center gap-3 px-3 text-[#F7F4F0] text-[18px] leading-none cursor-pointer transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F78035]";
+
+  if (href) {
+    return (
+      <a href={href} className={baseClassName}>
+        <img alt="" src={iconSrc} className="w-6 h-6 shrink-0" />
+        <span className="font-body font-light">{text}</span>
+      </a>
+    );
+  }
+
   return (
-    <div
-      className="bg-[#111111] h-9 w-fit flex items-center gap-3 px-3 text-[#F7F4F0] text-[18px] leading-none"
-    >
+    <button type="button" onClick={onClick} className={baseClassName}>
       <img alt="" src={iconSrc} className="w-6 h-6 shrink-0" />
       <span className="font-body font-light">{text}</span>
-    </div>
+    </button>
   );
 }
 
 export default function ContactCardShell() {
   const [hideMotifSquares, setHideMotifSquares] = React.useState(false);
   const [showQrCode, setShowQrCode] = React.useState(true);
+  const [shareLabel, setShareLabel] = React.useState("Share");
+
+  const phoneHref = "tel:+16479297059";
+  const emailAddress = "kabir@buildwithspark.co";
+  const emailHref = `mailto:${emailAddress}`;
+  const calendarHref =
+    "https://cal.com/kabir-malkani-glnivq/15min";
 
   React.useEffect(() => {
     const handleResize = () => {
@@ -51,6 +70,50 @@ export default function ContactCardShell() {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleDownloadContact = React.useCallback(() => {
+    const vCard = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      "FN:Kabir Malkani",
+      "N:Malkani;Kabir;;;",
+      "ORG:Spark/co",
+      "TITLE:Founder",
+      "TEL;TYPE=WORK,VOICE:+16479297059",
+      `EMAIL;TYPE=WORK:${emailAddress}`,
+      "URL:https://buildwithspark.co",
+      "END:VCARD",
+    ].join("\n");
+
+    const blob = new Blob([vCard], { type: "text/vcard;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "kabir-malkani.vcf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, []);
+
+  const handleShare = React.useCallback(async () => {
+    const shareData = {
+      title: "Kabir Malkani - Spark/co",
+      text: "Get in touch with Kabir Malkani.",
+      url: "https://buildwithspark.co/contact-card",
+    };
+
+    if (navigator.share) {
+      await navigator.share(shareData);
+      return;
+    }
+
+    await navigator.clipboard.writeText(
+      `${shareData.text} ${phoneHref.replace("tel:", "Phone: ")} ${emailAddress} ${shareData.url}`,
+    );
+    setShareLabel("Copied");
+    window.setTimeout(() => setShareLabel("Share"), 1500);
   }, []);
 
   return (
@@ -102,17 +165,24 @@ export default function ContactCardShell() {
             <ActionRow
               iconSrc={iconPhone}
               text="+1 (647) 929-7059"
+              href={phoneHref}
             />
             <ActionRow
               iconSrc={iconEmail}
               text="kabir@buildwithspark.co"
+              href={emailHref}
             />
             <ActionRow
               iconSrc={iconCalendar}
               text="Calendar Booking"
+              href={calendarHref}
             />
-            <ActionRow iconSrc={iconDownload} text="Download" />
-            <ActionRow iconSrc={iconShare} text="Share" />
+            <ActionRow
+              iconSrc={iconDownload}
+              text="Download"
+              onClick={handleDownloadContact}
+            />
+            <ActionRow iconSrc={iconShare} text={shareLabel} onClick={handleShare} />
           </div>
         </section>
 
