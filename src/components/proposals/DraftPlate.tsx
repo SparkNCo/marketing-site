@@ -27,7 +27,7 @@ export const DraftPlate = ({
 }: DraftPlateProps) => {
   const [optionA, optionB] = options;
   const isA = value === optionA.value;
-
+  console.log("TESTinglog");
   const toggle = () => onChange(isA ? optionB.value : optionA.value);
 
   const statusText = isA ? optionA.statusText : optionB.statusText;
