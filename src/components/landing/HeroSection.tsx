@@ -17,7 +17,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setMode }) => {
           flex flex-col items-start 
         "
       >
-        {/* CONTENT WRAPPER */}
         <div className="w-full flex flex-col items-start ">
           {/* TITLE */}
           <h1 className="text-largeBody md:text-heading1 font-bold tracking-tight text-background mb-6 leading-tight max-w-[520px]">
