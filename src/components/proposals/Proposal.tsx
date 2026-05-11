@@ -91,14 +91,6 @@ async function fetchProposal(passcode: string) {
 const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
   const { dbUser } = useApp();
 
-  // TEST BUTTON — remove before merging
-  const handleTestBuildError = (): void => {
-    const x: number = "this is a deliberate type error";
-    console.log(x);
-  };
-
-
-
   const initialMode: PageMode =
     mode === "features" ||
     mode === "draft" ||
@@ -238,8 +230,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
             )}
           </motion.div>
         )}
-      {/* TEST — remove before merging */}
-      <button onClick={handleTestBuildError} style={{ display: "none" }} />
+
     </AnimatePresence>
   );
 };
