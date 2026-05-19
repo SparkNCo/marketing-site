@@ -39,6 +39,7 @@ export const DraftPlate = ({
 
       <div className="flex items-center gap-4">
         <span className="text-sm opacity-80">{optionA.label}</span>
+        <button onClick={() => console.log({ statusText })}>VER TESTING</button>
 
         <button
           onClick={toggle}
