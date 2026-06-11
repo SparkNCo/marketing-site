@@ -44,8 +44,6 @@ export function FeaturesCollectionMobile({
   // populate local state when data arrives
   useEffect(() => {
     if (featuresQuery.data) {
-      console.log("test");
-    
       setFeatures(featuresQuery.data);
     }
   }, [featuresQuery.data]);
