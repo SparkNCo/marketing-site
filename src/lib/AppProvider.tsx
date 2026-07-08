@@ -35,7 +35,9 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
   const [dbUser, setDbUser] = useState<DbUser | null>(null);
   const [leadEmail, setLeadEmail] = useState("");
   const [test, setTest] = useState("Test312321321");
-
+  /**
+   * Fetch user from DB by email
+   */
   const fetchDbUser = async (email: string) => {
     try {
       const res = await fetch(
