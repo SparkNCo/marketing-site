@@ -47,7 +47,6 @@ export default function DealForm() {
       const start = new Date(now);
       start.setDate(start.getDate() + 1);
       start.setHours(0, 0, 0, 0);
-      console.log("hi");
 
       const end = new Date(now);
       end.setDate(end.getDate() + 5);
