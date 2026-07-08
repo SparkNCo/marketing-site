@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../pages/api/submissions/server";
+import { supabaseFunctionsUrl } from "./supabaseFunctionsUrl";
 
 type DbUser = {
   id: string;
@@ -58,7 +59,17 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
         setDbUser(null);
         return;
       }
+      if (!res.ok) {
+        setDbUser(null);
+        return;
+      }
 
+      const data = await res.json();
+      setDbUser(data.user);
+    } catch (err) {
+      console.error("Failed to fetch DB user:", err);
+      setDbUser(null);
+    }
       const data = await res.json();
       setDbUser(data.user);
     } catch (err) {
