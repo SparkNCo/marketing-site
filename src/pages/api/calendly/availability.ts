@@ -24,7 +24,7 @@ export const GET: APIRoute = async ({ request }) => {
         start,
         end,
         eventTypeSlug: eventSlug,
-        username: import.meta.env.CAL_USERNAME,
+        username: "kabir-malkani-glnivq",
       }).toString();
 
     const res = await fetch(url, {

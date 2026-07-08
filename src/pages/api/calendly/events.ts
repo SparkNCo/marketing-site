@@ -4,7 +4,7 @@ const CAL_BASE = "https://api.cal.com/v2";
 
 export const GET: APIRoute = async () => {
   try {
-    const USERNAME = import.meta.env.CAL_USERNAME;
+    const USERNAME = "kabir-malkani-glnivq";
 
     if (!USERNAME) {
       return new Response(JSON.stringify({ error: "Missing CAL_USERNAME" }), {
