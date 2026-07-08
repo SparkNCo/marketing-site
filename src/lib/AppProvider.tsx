@@ -38,18 +38,23 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
    * Fetch user from DB by email
    */
   const fetchDbUser = async (email: string) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/users?email=${encodeURIComponent(email)}`,
-      { headers: API_HEADERS },
-    );
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/users?email=${encodeURIComponent(email)}`,
+        { headers: API_HEADERS },
+      );
 
-    if (!res.ok) {
+      if (!res.ok) {
+        setDbUser(null);
+        return;
+      }
+
+      const data = await res.json();
+      setDbUser(data.user);
+    } catch (err) {
+      console.error("Failed to fetch DB user:", err);
       setDbUser(null);
-      return;
     }
-
-    const data = await res.json();
-    setDbUser(data.user);
   };
 
   /**
