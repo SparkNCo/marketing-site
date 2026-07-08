@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../pages/api/submissions/server";
+import { supabaseFunctionsUrl } from "./supabaseFunctionsUrl";
 
 type DbUser = {
   id: string;
@@ -23,8 +24,8 @@ type AppContextType = {
 };
 
 const API_HEADERS = {
-  apikey: process.env.NEXT_PUBLIC_SUPABASE_KEY!,
-  Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_KEY}`,
+  apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+  Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY}`,
 };
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -34,13 +35,11 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
   const [dbUser, setDbUser] = useState<DbUser | null>(null);
   const [leadEmail, setLeadEmail] = useState("");
   const [test, setTest] = useState("Test312321321");
-  /**
-   * Fetch user from DB by email
-   */
+
   const fetchDbUser = async (email: string) => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/users?email=${encodeURIComponent(email)}`,
+        `${supabaseFunctionsUrl("/users")}?email=${encodeURIComponent(email)}`,
         { headers: API_HEADERS },
       );
 
