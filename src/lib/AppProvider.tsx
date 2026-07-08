@@ -22,6 +22,11 @@ type AppContextType = {
   setTest: React.Dispatch<React.SetStateAction<string>>;
 };
 
+const API_HEADERS = {
+  apikey: process.env.NEXT_PUBLIC_SUPABASE_KEY!,
+  Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_KEY}`,
+};
+
 export const AppContext = createContext<AppContextType | null>(null);
 
 export function AppProvider({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -34,7 +39,8 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
    */
   const fetchDbUser = async (email: string) => {
     const res = await fetch(
-      `/api/users/get-user?email=${encodeURIComponent(email)}`,
+      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/users?email=${encodeURIComponent(email)}`,
+      { headers: API_HEADERS },
     );
 
     if (!res.ok) {
@@ -42,8 +48,8 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
       return;
     }
 
-    const { user } = await res.json();
-    setDbUser(user);
+    const data = await res.json();
+    setDbUser(data.user);
   };
 
   /**
