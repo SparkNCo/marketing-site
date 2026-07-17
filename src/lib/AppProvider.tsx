@@ -61,7 +61,7 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
       }
 
       const data = await res.json();
-      setDbUser(data.user);
+      setDbUser(data.user ?? data);
     } catch (err) {
       console.error("Failed to fetch DB user:", err);
       setDbUser(null);

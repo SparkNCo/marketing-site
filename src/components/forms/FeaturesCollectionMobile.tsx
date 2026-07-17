@@ -75,7 +75,10 @@ export function FeaturesCollectionMobile({
       if (!response.ok) throw new Error("Failed to save features");
       return response.json();
     },
-    onSuccess: () => toast.success("Features saved"),
+    onSuccess: () => {
+      toast.success("Features saved");
+      setPageMode("waiting");
+    },
     onError: (error) => console.error("[v0] Error saving features:", error),
   });
 

@@ -114,6 +114,7 @@ export function FeaturesCollection({
     },
     onSuccess: () => {
       toast.success("Features saved");
+      setPageMode("waiting");
     },
     onError: (error) => {
       console.error("[v0] Error saving features:", error);
