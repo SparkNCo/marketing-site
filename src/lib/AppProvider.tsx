@@ -26,8 +26,8 @@ type AppContextType = {
 };
 
 const API_HEADERS = {
-  apikey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-  Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_ANON_KEY}`,
+  apikey: import.meta.env.PUBLIC_SUPABASE_KEY,
+  Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_KEY}`,
 };
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -61,7 +61,7 @@ export function AppProvider({ children }: Readonly<{ children: React.ReactNode }
       }
 
       const data = await res.json();
-      setDbUser(data.user);
+      setDbUser(data.user ?? data);
     } catch (err) {
       console.error("Failed to fetch DB user:", err);
       setDbUser(null);

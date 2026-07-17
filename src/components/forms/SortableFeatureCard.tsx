@@ -99,8 +99,6 @@ export function SortableFeatureCard({
             w-full
             h-14 sm:h-16 lg:h-10
             text-body sm:text-body
-            placeholder:text-xl sm:placeholder:text-3xl lg:placeholder:text-sm
-            placeholder:text-background placeholder:opacity-60
             bg-secondary text-background
             focus:ring-primary
             selection:bg-primary selection:text-black selection:font-bold
@@ -122,7 +120,7 @@ export function SortableFeatureCard({
             min-h-40 resize-none
             bg-secondary
             px-4 pt-4 pb-8
-            text-body text-sm sm:text-base
+            text-body
             border border-input
             focus:outline-none focus:ring-2 focus:ring-primary
             selection:bg-primary selection:text-body

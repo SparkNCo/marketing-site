@@ -6,7 +6,7 @@ interface Window {
 }
 
 interface ImportMetaEnv {
-  readonly PUBLIC_SUPABASE_ANON_KEY: string;
+  readonly PUBLIC_SUPABASE_KEY: string;
   readonly PUBLIC_SUPABASE_URL: string;
 }
 

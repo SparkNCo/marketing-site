@@ -114,6 +114,7 @@ export function FeaturesCollection({
     },
     onSuccess: () => {
       toast.success("Features saved");
+      setPageMode("waiting");
     },
     onError: (error) => {
       console.error("[v0] Error saving features:", error);
@@ -129,6 +130,28 @@ export function FeaturesCollection({
 
     saveFeaturesMutation.mutate();
   };
+
+  /* --------------------------------
+   * Delete feature
+   * -------------------------------- */
+  const deleteFeatureMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(
+        `${supabaseFunctionsUrl("features")}?id=${encodeURIComponent(id)}`,
+        { method: "DELETE" },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete feature");
+      }
+
+      return id;
+    },
+    onError: (error) => {
+      console.error("[v0] Error deleting feature:", error);
+      toast.error("Failed to delete feature");
+    },
+  });
 
   /* --------------------------------
    * Feature helpers
@@ -156,6 +179,8 @@ export function FeaturesCollection({
     const filtered = features.filter((f) => f.id !== id);
     const reordered = filtered.map((f, idx) => ({ ...f, sort_order: idx }));
     setFeatures(reordered);
+
+    deleteFeatureMutation.mutate(id);
   };
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -215,7 +240,7 @@ export function FeaturesCollection({
           <Button
             variant="outline"
             onClick={() => addFeature()}
-            className=" w-full md:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm text-foreground hover:text-primary border-2 bg-transparent "
+            className=" w-full sm:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm text-foreground hover:text-primary border-2 bg-transparent "
           >
             <Plus className="mr-2 h-3 w-3 sm:h-4 sm:w-4 " />
             Add Feature
@@ -225,7 +250,7 @@ export function FeaturesCollection({
             onClick={handleSaveFeatures}
             disabled={isSaving}
             title="Complete at least one feature before saving"
-            className="w-full md:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm font-bold"
+            className="w-full sm:w-fit px-4 sm:px-5 py-6 sm:py-3 text-xs sm:text-sm font-bold"
           >
             {isSaving ? (
               <span className="flex items-center justify-center">

@@ -3,7 +3,7 @@
 import { FileText } from "lucide-react";
 import { Card } from "./ui/card";
 import { FeaturesCollection } from "./forms/features-collection";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { AIResponse } from "./forms/product-idea-form";
 
 import { RangeSliderSection } from "./discorveryForm/RangeSliderSection";
@@ -13,6 +13,21 @@ import type {
   DiscoveryFormState,
 } from "./discorveryForm/DiscoveryFormProps";
 import type { Feature } from "./forms/SortableFeatureCard";
+import type { RawDbFeature } from "./proposals/Proposal";
+
+/** DB rows use `feature_name`/`integration_text`; the form's Feature type uses `title`/`integrations`. */
+function mapDbFeature(raw: RawDbFeature, index: number): Feature {
+  return {
+    id: raw.id,
+    title: raw.feature_name ?? "",
+    feature_name: raw.feature_name,
+    purpose: raw.purpose ?? "",
+    description: raw.description ?? "",
+    integrations: raw.integration_text ?? "",
+    tech_constraints: raw.tech_constraints ?? "",
+    sort_order: index,
+  };
+}
 
 export default function DiscoveryForm({
   proposal,
@@ -25,10 +40,15 @@ export default function DiscoveryForm({
   formatted_date,
 }: DiscoveryFormProps & {
   readOnly?: boolean;
-  features?: Feature[];
+  features?: RawDbFeature[];
   discoveryState?: DiscoveryFormState;
   formatted_date?: string;
 }) {
+  const mappedFeatures = useMemo(
+    () => (features ?? []).map(mapDbFeature),
+    [features],
+  );
+
   const [state, setState] = useState<DiscoveryFormState | null>(
     discoveryStateProp ?? null,
   );
@@ -57,7 +77,7 @@ export default function DiscoveryForm({
       budget_min: proposal.lead.budget_min ?? 1000,
       budget_max: proposal.lead.budget_max ?? 50000,
       formatted_date: proposal.lead.formatted_date ?? undefined,
-      currentState: "",
+      currentState: proposal.lead.discovery_state ?? "",
     });
   }, [proposal, discoveryStateProp, formatted_date]);
 
@@ -184,7 +204,7 @@ export default function DiscoveryForm({
             pageMode={pageMode}
             setPageMode={setPageMode}
             discoveryState={state}
-            initialFeatures={features}
+            initialFeatures={mappedFeatures}
             readOnly={readOnly}
           />
         </Card>

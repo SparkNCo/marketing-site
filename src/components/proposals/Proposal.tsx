@@ -33,12 +33,26 @@ function showDiscoveryForm(
   return role !== "admin" || stage === "justCreated";
 }
 
+/** Raw shape returned by the `features` table, embedded on the proposal by GET `proposals?passcode=`. */
+export type RawDbFeature = {
+  id: string;
+  created_at: string;
+  proposal_id: string;
+  submission_id: string;
+  feature_name: string;
+  description: string;
+  purpose: string;
+  integration_text: string;
+  tech_constraints: string;
+};
+
 export type Proposal = {
   proposal_id: string;
   passcode: string;
   stage?: string;
   lead_id?: string;
   lead?: any;
+  features?: RawDbFeature[];
   summary_items: any[];
   scopes: any[];
   sections: any[];
@@ -168,6 +182,7 @@ const ProposalIsland: React.FC<ProposalIslandProps> = ({ mode, passcode }) => {
                 passcode={passcode}
                 pageMode={pageMode}
                 setPageMode={setPageMode}
+                features={proposal.features ?? []}
               />
             )}
           </motion.div>
