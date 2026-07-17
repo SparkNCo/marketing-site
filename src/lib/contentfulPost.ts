@@ -25,7 +25,7 @@ export type ContentfulPostFields = {
 
 /** Supabase Edge Functions expect the anon JWT (and often `apikey`) on every request. */
 function contentfulAuthHeaders(): HeadersInit {
-  const key = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+  const key = import.meta.env.PUBLIC_SUPABASE_KEY;
   if (!key) {
     return {};
   }

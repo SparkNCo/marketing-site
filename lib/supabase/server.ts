@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 export async function createClient() {
   const cookieStore = await cookies()
 
-  return createServerClient(process.env.PUBLIC_SUPABASE_URL!, process.env.PUBLIC_SUPABASE_ANON_KEY!, {
+  return createServerClient(process.env.PUBLIC_SUPABASE_URL!, process.env.PUBLIC_SUPABASE_KEY!, {
     cookies: {
       getAll() {
         return cookieStore.getAll()
