@@ -1,6 +1,6 @@
 "use client";
 
-import type { Stack } from "../../lib/architect/stacks";
+import type { Stack } from "./types";
 
 /** Compact read-only version of the priority diagram showing a stack's leaning. */
 export function MiniAxis({ stack }: Readonly<{ stack: Stack }>) {

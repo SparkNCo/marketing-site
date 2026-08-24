@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "../../../lib/utils";
+import { toOptionValue, toTitleCase } from "./optionFormat";
 
 type Props = {
   options: readonly string[];
@@ -36,13 +37,14 @@ export function MultiSelectButtons({
         )}
       >
         {options.map((option) => {
-          const active = selected.includes(option);
+          const value = toOptionValue(option);
+          const active = selected.some((s) => toOptionValue(s) === value);
           return (
             <button
-              key={option}
+              key={value}
               type="button"
               aria-pressed={active}
-              onClick={() => onToggle(option)}
+              onClick={() => onToggle(value)}
               className={cn(
                 "rounded-full border px-4 py-2 text-smalltext font-medium transition-all",
                 active
@@ -50,7 +52,7 @@ export function MultiSelectButtons({
                   : "border-foreground/25 bg-transparent text-foreground hover:border-primary/70 hover:text-primary",
               )}
             >
-              {option}
+              {toTitleCase(option)}
             </button>
           );
         })}

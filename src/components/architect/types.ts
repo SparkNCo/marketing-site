@@ -1,4 +1,18 @@
-import type { Stack } from "../../lib/architect/stacks";
+export type Stack = {
+  id: string;
+  name: string;
+  tagline: string | null;
+  description: string;
+  languages: string[];
+  frameworks: string[];
+  hosting: string[];
+  best_for: string[];
+  sample_repo_url: string | null;
+  speed: number;
+  customizability: number;
+  portability: number;
+  integrated: number;
+};
 
 /**
  * Where the user placed themselves on the priority diagram.
@@ -21,14 +35,14 @@ export type ArchitectAnswers = {
   priority: PriorityAxis;
 };
 
-/** Response from POST /api/architect/recommend. */
+/** Response from the architect-recommend function. */
 export type RecommendationResult = {
   stack: Stack;
   reasoning: string;
   writeup: string;
 };
 
-/** Partial answers returned from the AI pre-fill call. */
+/** Partial answers returned from the architect-prefill function. */
 export type PrefillResult = Partial<
   Pick<
     ArchitectAnswers,
