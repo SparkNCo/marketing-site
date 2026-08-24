@@ -125,7 +125,8 @@ export function RecommendationStep({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
-                className="flex-1 rounded-lg border border-foreground/20 bg-foreground/[0.04] px-4 py-2.5 text-body text-foreground placeholder:text-foreground/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
+                autoComplete="email"
+                className="flex-1 rounded-lg border border-foreground/20 bg-[#1b1b1b] px-4 py-2.5 text-body text-foreground caret-primary placeholder:text-foreground/40 [color-scheme:dark] focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
               />
               <button
                 type="button"

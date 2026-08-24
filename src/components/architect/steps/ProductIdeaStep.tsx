@@ -23,7 +23,7 @@ export function ProductIdeaStep({ value, onChange, onManual, error }: Readonly<P
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="e.g. A mobile app that lets gym members track workouts and get AI nutrition plans, with push notifications and progress analytics..."
-        className="min-h-40 w-full resize-none rounded-lg border border-foreground/20 bg-foreground/[0.04] p-4 text-body text-foreground placeholder:text-foreground/40 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
+        className="min-h-40 w-full resize-none rounded-lg border border-foreground/20 bg-[#1b1b1b] p-4 text-body text-foreground caret-primary placeholder:text-foreground/40 [color-scheme:dark] focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
       />
 
       {error ? <p className="text-smalltext text-red-400">{error}</p> : null}
