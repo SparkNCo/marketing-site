@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "./api";
-import { isShown, pageError } from "./conditions";
+import { isShown, missingRequired, pageError } from "./conditions";
 import { QuestionField } from "./QuestionField";
 import { Spinner } from "../ui/spinner";
 import { ResultsView } from "./ResultsView";
@@ -65,6 +65,8 @@ export function TechnicalReviewFlow() {
   const [results, setResults] = useState<Results | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  // After a Next that didn't pass: highlight what's missing until it's fixed.
+  const [showMissing, setShowMissing] = useState(false);
   const topRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,6 +74,7 @@ export function TechnicalReviewFlow() {
   }, []);
 
   useEffect(() => {
+    setShowMissing(false);
     topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [index, results]);
 
@@ -100,8 +103,14 @@ export function TechnicalReviewFlow() {
 
   async function next() {
     if (!page || busy) return;
-    const problem = pageError(page.questions, answers);
-    if (problem) return setError(problem);
+    if (pageError(page.questions, answers)) {
+      setError(null);
+      setShowMissing(true);
+      const first = missingRequired(page.questions, answers)[0];
+      if (first) document.getElementById(`q-${first}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+    setShowMissing(false);
     setError(null);
 
     const shown = page.questions.filter((q) => isShown(q, answers));
@@ -170,6 +179,11 @@ export function TechnicalReviewFlow() {
     setIndex((i) => Math.max(0, i - 1));
   }
 
+  // Recomputed as they answer, so the message and highlights clear on their own.
+  const validation = showMissing && page ? pageError(page.questions, answers) : null;
+  const missing = new Set(showMissing && page ? missingRequired(page.questions, answers) : []);
+  const message = validation ?? error;
+
   if (loadError) return <p className="text-body text-foreground">{loadError}</p>;
   if (!qs || !page) {
     return (
@@ -224,13 +238,14 @@ export function TechnicalReviewFlow() {
                   onChange={setAnswer}
                   hint={enrichment?.questions[q.id]?.hint}
                   placeholder={enrichment?.questions[q.id]?.placeholder}
+                  missing={missing.has(q.id)}
                 />
               ))}
           </fieldset>
 
-          {error && (
+          {message && (
             <p role="alert" className="text-smalltext text-red-400">
-              {error}
+              {message}
             </p>
           )}
 

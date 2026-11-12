@@ -23,9 +23,11 @@ type Props = {
   onChange: (id: string, value: AnswerValue) => void;
   hint?: string | null;
   placeholder?: string | null;
+  // Required and still unanswered after they pressed Next.
+  missing?: boolean;
 };
 
-export function QuestionField({ question: q, answers, onChange, hint, placeholder }: Readonly<Props>) {
+export function QuestionField({ question: q, answers, onChange, hint, placeholder, missing = false }: Readonly<Props>) {
   const value = answers[q.id];
   const labelId = `${q.id}-label`;
 
@@ -40,10 +42,22 @@ export function QuestionField({ question: q, answers, onChange, hint, placeholde
   };
 
   return (
-    <fieldset className="space-y-3" aria-labelledby={labelId}>
+    <fieldset
+      id={`q-${q.id}`}
+      className={`space-y-3 scroll-mt-32 ${missing ? "border-l-2 border-red-400 pl-4" : ""}`}
+      aria-labelledby={labelId}
+      aria-invalid={missing || undefined}
+    >
       <legend id={labelId} className="text-body font-semibold text-foreground">
         {questionText(q, answers)}
+        {q.required && (
+          <>
+            <span aria-hidden="true" className="ml-1 text-primary">*</span>
+            <span className="sr-only"> (required)</span>
+          </>
+        )}
         {!q.required && <span className="ml-2 text-smalltext font-normal text-foreground/50">(optional)</span>}
+        {missing && <span className="ml-2 text-smalltext font-normal text-red-400">Required</span>}
       </legend>
       {q.subtitle && <p className="-mt-2 text-sm italic text-foreground/60">{q.subtitle}</p>}
       {hint && <p className="-mt-1 text-sm text-primary/90">{hint}</p>}

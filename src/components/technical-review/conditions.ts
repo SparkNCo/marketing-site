@@ -25,13 +25,22 @@ export function isAnswered(value: Answers[string]): boolean {
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// The first problem on a page, or null when it can move on.
+// Required questions on screen that still have no answer.
+export function missingRequired(questions: Question[], answers: Answers): string[] {
+  return questions.filter((q) => isShown(q, answers) && q.required && !isAnswered(answers[q.id])).map((q) => q.id);
+}
+
+// What stops the page from moving on, or null when it can. The questions
+// themselves are highlighted on the page (see QuestionField's `missing`).
 export function pageError(questions: Question[], answers: Answers): string | null {
+  const missing = missingRequired(questions, answers).length;
+  if (missing === 1) return "One question still needs an answer. It's highlighted above.";
+  if (missing > 1) return `${missing} questions still need an answer. They're highlighted above.`;
   for (const q of questions) {
-    if (!isShown(q, answers)) continue;
     const value = answers[q.id];
-    if (q.required && !isAnswered(value)) return "Please answer every question marked as required.";
-    if (q.type === "email" && isAnswered(value) && !EMAIL.test(String(value).trim())) return "Please enter a valid email.";
+    if (isShown(q, answers) && q.type === "email" && isAnswered(value) && !EMAIL.test(String(value).trim())) {
+      return "Please enter a valid email.";
+    }
   }
   return null;
 }
