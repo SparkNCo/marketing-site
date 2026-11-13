@@ -63,6 +63,7 @@
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.561.0",
     "marked": "^17.0.5",
+    "pdf-lib": "^1.17.1",
     "pg": "^8.17.2",
     "posthog-js": "^1.355.0",
     "prop-types": "^15.8.1",
@@ -80,15 +81,16 @@
   },
   "devDependencies": {
     "@astrojs/react": "^4.4.2",
+    "@types/node": "^26.2.0",
     "@types/pg": "^8.16.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "astro": "^5.16.5",
+    "dotenv-cli": "^8.0.0",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "prisma": "^7.3.0",
     "supabase": "^2.72.8",
-    "typescript": "^5.9.3",
-    "dotenv-cli": "^8.0.0"
+    "typescript": "^5.9.3"
   }
 }
