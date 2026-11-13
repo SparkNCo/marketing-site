@@ -85,9 +85,9 @@ A progress bar is shown on every step. Target times: Idea, Building and MVP < 4 
 
 | ID | Question | Answers | Required | Shown when |
 |---|---|---|:-:|---|
-| `about_company` | What does your company do? | Short text | Idea only | Always |
-| `about_product` | What does (or will) your product do? | Short text | Idea only | Always |
-| `about_audience` | Who is it for? | Short text | Idea only | Always |
+| `about_company` | What does your company do? | Free text (multiline) | Idea only | Always |
+| `about_product` | What does (or will) your product do? | Free text (multiline) | Idea only | Always |
+| `about_audience` | Who is it for? | Free text (multiline) | Idea only | Always |
 
 ### Step 4 · Scope definition
 

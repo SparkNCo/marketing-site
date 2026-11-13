@@ -329,6 +329,29 @@ function IdeaView({ results }: Readonly<{ results: IdeaResults }>) {
   );
 }
 
+// Right under the title: book a time to go over the report. The personalized
+// offer (Invite) stays at the end. Same wording as the report email
+// (portal/supabase/functions/technical-review/report.ts, TOP_CTA_*).
+function BookConsultTop({ results, reviewId }: Readonly<{ results: Results; reviewId: string }>) {
+  const text =
+    results.stage === "idea"
+      ? "If you'd like to review your results together, book some time here."
+      : "If you'd like to review your results together or try our free code scan, book some time here.";
+  function book() {
+    // Open first so pop-up blockers allow it; recording the choice can follow.
+    window.open(results.bookingUrl, "_blank", "noopener");
+    api.book(reviewId, "free_consult").catch(() => undefined);
+  }
+  return (
+    <section className="flex flex-col gap-4 border border-primary/40 bg-primary/5 p-5 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-body text-foreground">{text}</p>
+      <button type="button" className={`${primaryButtonClass} shrink-0`} onClick={book}>
+        Book a free consult
+      </button>
+    </section>
+  );
+}
+
 export function ResultsView({
   results,
   reviewId,
@@ -337,6 +360,7 @@ export function ResultsView({
   return (
     <div className="space-y-10">
       <h1 className="text-heading1 font-bold text-foreground md:text-[56px]">Your report</h1>
+      <BookConsultTop results={results} reviewId={reviewId} />
       <ConfirmEmail reviewId={reviewId} initialEmail={email} />
       {results.stage === "idea" ? <IdeaView results={results} /> : <TechnicalView results={results} />}
       <Invite results={results} reviewId={reviewId} />

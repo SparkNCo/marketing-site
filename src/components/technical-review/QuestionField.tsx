@@ -49,6 +49,9 @@ export function QuestionField({ question: q, answers, onChange, hint, placeholde
       aria-invalid={missing || undefined}
     >
       <legend id={labelId} className="text-body font-semibold text-foreground">
+        {/* The technical subtitle sits just above the question. Inside the
+            legend, since a fieldset's legend has to come first. */}
+        {q.subtitle && <span className="mb-1 block text-sm font-normal italic text-foreground/60">{q.subtitle}</span>}
         {questionText(q, answers)}
         {q.required && (
           <>
@@ -59,7 +62,6 @@ export function QuestionField({ question: q, answers, onChange, hint, placeholde
         {!q.required && <span className="ml-2 text-smalltext font-normal text-foreground/50">(optional)</span>}
         {missing && <span className="ml-2 text-smalltext font-normal text-red-400">Required</span>}
       </legend>
-      {q.subtitle && <p className="-mt-2 text-sm italic text-foreground/60">{q.subtitle}</p>}
       {hint && <p className="-mt-1 text-sm text-primary/90">{hint}</p>}
 
       {(q.type === "email" || q.type === "text") && (
