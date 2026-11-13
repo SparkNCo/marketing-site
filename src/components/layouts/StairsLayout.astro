@@ -8,6 +8,10 @@ const location = Astro.url.pathname;
 
 <html lang="en">
   <head>
+    <!-- Must come first: browsers only honour it within the first 1024 bytes,
+         otherwise characters like … and — show up garbled. -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <Posthog />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,9 +56,6 @@ const location = Astro.url.pathname;
         src="https://www.facebook.com/tr?id=1416419010229959&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
-
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
 
   <body class="bg-background">
