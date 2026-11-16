@@ -1,6 +1,6 @@
 // Calls to the portal's `technical-review` Supabase function. All POST.
 import { supabaseFunctionsUrl } from "../../lib/supabaseFunctionsUrl";
-import type { Answers, IdeaEnrichment, Plan, Questionnaire, Results } from "./types";
+import type { Answers, IdeaEnrichment, Plan, Questionnaire, Results, ResumedReview, Score } from "./types";
 
 const HEADERS = {
   "Content-Type": "application/json",
@@ -8,10 +8,11 @@ const HEADERS = {
   Authorization: `Bearer ${import.meta.env.PUBLIC_SUPABASE_KEY}`,
 };
 
-async function post<T>(action: string, body: unknown = {}): Promise<T> {
+// `token`: a signed-in user's access token, instead of the anon key.
+async function post<T>(action: string, body: unknown = {}, token?: string): Promise<T> {
   const res = await fetch(supabaseFunctionsUrl(`technical-review/${action}`), {
     method: "POST",
-    headers: HEADERS,
+    headers: token ? { ...HEADERS, Authorization: `Bearer ${token}` } : HEADERS,
     body: JSON.stringify(body),
   });
   const data = await res.json().catch(() => null);
@@ -33,4 +34,9 @@ export const api = {
   confirmEmail: (reviewId: string, email: string) =>
     post<{ ok: true; alreadySent?: boolean }>("confirm-email", { reviewId, email }),
   book: (reviewId: string, offer: string) => post<{ ok: true }>("book", { reviewId, offer }),
+  score: (reviewId: string, answers: Answers, completed: string[]) =>
+    post<Score>("score", { reviewId, answers, completed }),
+  signIn: (email: string) => post<{ ok: true }>("sign-in", { email, origin: globalThis.location?.origin }),
+  // `intro`: the first page's answers, kept on the lead rather than the run.
+  resume: (token: string) => post<{ review: ResumedReview | null; intro?: Answers }>("resume", {}, token),
 };

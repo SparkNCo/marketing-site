@@ -72,6 +72,7 @@ export type TechnicalResults = {
     blindSpots: string[];
     complianceAsked: boolean;
   };
+  agentsMd: string;
   findings: Finding[];
   nextStage: { title: string; items: string[] };
   overflow: { id: string; text: string }[];
@@ -92,6 +93,7 @@ export type IdeaResults = {
   stage: "idea";
   profile: IdeaProfile;
   gaps: { title: string; explanation: string; nextStep: string }[];
+  agentsMd: string;
   offers: Offers;
   invite: string;
   bookingUrl: string;
@@ -102,4 +104,16 @@ export type Results = TechnicalResults | IdeaResults;
 export type IdeaEnrichment = {
   questions: Record<string, { hint: string | null; placeholder: string | null }>;
   whoGuess: "external" | "internal" | "both" | null;
+};
+
+// /assessment: the running score after each finished checklist section.
+export type Score = { overall: number; areas: TechnicalResults["result"]["areas"] };
+
+// /assessment: the newest assessment of a signed-in lead.
+export type ResumedReview = {
+  reviewId: string;
+  answers: Answers;
+  plan: Plan | null;
+  updatedAt: string;
+  completed: boolean;
 };

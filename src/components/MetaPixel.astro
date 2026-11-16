@@ -1,0 +1,39 @@
+---
+// Meta Pixel base code, in every layout's <head> so PageView fires on every
+// page. Two pixels: the site's original one and the assessment campaign's
+// (Leads objective). Events like Lead go to both; /assessment fires Lead
+// when the initial form is done (see technical-review/AssessmentFlow.tsx).
+const PIXEL_IDS = ["1416419010229959", "1223904389851488"];
+---
+
+<!-- Meta Pixel Code -->
+<script is:inline define:vars={{ PIXEL_IDS }}>
+  !(function (f, b, e, v, n, t, s) {
+    if (f.fbq) return;
+    n = f.fbq = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    if (!f._fbq) f._fbq = n;
+    n.push = n;
+    n.loaded = !0;
+    n.version = "2.0";
+    n.queue = [];
+    t = b.createElement(e);
+    t.async = !0;
+    t.src = v;
+    s = b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t, s);
+  })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+  PIXEL_IDS.forEach(function (id) {
+    fbq("init", id);
+  });
+  fbq("track", "PageView");
+</script>
+<noscript>
+  {
+    PIXEL_IDS.map((id) => (
+      <img height="1" width="1" style="display:none" src={`https://www.facebook.com/tr?id=${id}&ev=PageView&noscript=1`} alt="" />
+    ))
+  }
+</noscript>
+<!-- End Meta Pixel Code -->

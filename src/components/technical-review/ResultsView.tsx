@@ -352,6 +352,46 @@ function BookConsultTop({ results, reviewId }: Readonly<{ results: Results; revi
   );
 }
 
+// A file for their repository so AI coding agents know the context, the
+// rules that matter and the gaps found. Copy or download.
+function AgentsMd({ content }: Readonly<{ content: string }>) {
+  const [copied, setCopied] = useState(false);
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }
+  function download() {
+    const url = URL.createObjectURL(new Blob([content], { type: "text/markdown" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "AGENTS.md";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  return (
+    <Section title="Your AGENTS.md">
+      <p className="text-smalltext text-foreground/85">
+        Save this as <code className="bg-foreground/10 px-1.5 py-0.5">AGENTS.md</code> in the root of your repository. Cursor, Claude
+        Code, Codex, Copilot and other AI coding agents read it, so they follow these rules and know about the gaps above.
+      </p>
+      <div className="flex flex-wrap gap-3">
+        <button type="button" className={primaryButtonClass} onClick={copy}>
+          {copied ? "Copied" : "Copy AGENTS.md"}
+        </button>
+        <button type="button" className={buttonClass} onClick={download}>
+          Download
+        </button>
+      </div>
+      <pre className="max-h-[28rem] overflow-auto whitespace-pre-wrap bg-foreground/5 p-4 text-sm text-foreground/90">{content}</pre>
+    </Section>
+  );
+}
+
 export function ResultsView({
   results,
   reviewId,
@@ -363,6 +403,7 @@ export function ResultsView({
       <BookConsultTop results={results} reviewId={reviewId} />
       <ConfirmEmail reviewId={reviewId} initialEmail={email} />
       {results.stage === "idea" ? <IdeaView results={results} /> : <TechnicalView results={results} />}
+      {results.agentsMd && <AgentsMd content={results.agentsMd} />}
       <Invite results={results} reviewId={reviewId} />
     </div>
   );

@@ -1,8 +1,4 @@
 ---
-import StairsLayout from "../components/layouts/StairsLayout.astro";
-import TechnicalReviewPage from "../components/technical-review/TechnicalReviewPage";
+// Moved to /assessment (SPA-586). Kept so old links still work.
+return Astro.redirect("/assessment", 301);
 ---
-
-<StairsLayout>
-  <TechnicalReviewPage client:load />
-</StairsLayout>
