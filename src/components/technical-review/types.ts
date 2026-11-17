@@ -32,7 +32,20 @@ export type Answers = Record<string, AnswerValue | undefined>;
 
 type FixedPage = { title: string; copy?: string; questions: Question[] };
 
+type ChecklistModule = { key: string; title: string; copy?: string; questions: Question[] };
+
 export type Questionnaire = {
+  // /assessment: page 1, then these modules first in the checklist.
+  checklist: {
+    intro: FixedPage;
+    productScope: Omit<ChecklistModule, "questions"> & {
+      privacyNote: string;
+      questions: { idea: Question[]; technical: Question[] };
+      prefillAfter: string;
+    };
+    governance: ChecklistModule;
+    dataPrivacy: ChecklistModule & { mergesArea: string };
+  };
   intro: FixedPage;
   stage: FixedPage;
   about: { title: string; copy: string; privacyNote: string; questions: { idea: Question[]; technical: Question[] } };

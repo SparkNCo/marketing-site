@@ -12,7 +12,10 @@ export type SavedAssessment = {
   intakeIndex: number;
   intakeDone: boolean;
   score: Score | null;
-  scoredSections: string[];
+  // Question IDs the score was last computed for (sorted, joined).
+  scoredKey: string;
+  // Context answers the plan was last computed for (see AssessmentFlow).
+  plannedKey: string;
   leadTracked: boolean;
   // Checklist topic open when they left ("" = table of contents), so a
   // reload comes back to it.
@@ -32,7 +35,8 @@ export const emptyAssessment = (): SavedAssessment => ({
   intakeIndex: 0,
   intakeDone: false,
   score: null,
-  scoredSections: [],
+  scoredKey: "",
+  plannedKey: "",
   leadTracked: false,
   openSection: "",
   dirty: false,

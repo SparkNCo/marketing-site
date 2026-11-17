@@ -3,8 +3,8 @@ import { supabase } from "../../pages/api/submissions/server";
 import { trackMetaPixel } from "../../lib/metaPixel";
 import { api } from "./api";
 import { AssessmentBar } from "./AssessmentBar";
-import { ChecklistHome, SectionView, sectionProgress, type ChecklistSection } from "./Checklist";
-import { isShown, missingRequired, pageError } from "./conditions";
+import { ChecklistHome, SectionView, sectionProgress, type ChecklistSection, type PrefillAction } from "./Checklist";
+import { isAnswered, isShown, missingRequired, pageError } from "./conditions";
 import { QuestionField } from "./QuestionField";
 import { ResultsView } from "./ResultsView";
 import { clearAssessment, emptyAssessment, loadAssessment, saveAssessment, type SavedAssessment } from "./storage";
@@ -19,18 +19,19 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
-import type { AnswerValue, Answers, IdeaEnrichment, Question, Questionnaire, Results, ResumedReview } from "./types";
+import type { AnswerValue, Answers, IdeaEnrichment, Plan, Questionnaire, Results, ResumedReview } from "./types";
 
 // /assessment (SPA-586):
-//   1. Initial form, required: Intro → Stage → About → Scope (→ T1–T3 for
-//      Building / MVP / Scaling). It decides which checklist topics show.
-//   2. Checklist: one topic per plan area (or Idea question group), opened in
-//      any order. The score (top right) updates when a topic is finished.
-//   3. All topics done → results, with an AGENTS.md for their repository.
+//   1. First page, required: name, email, company, role and stage.
+//   2. Checklist: Product scope, Governance (not in Idea) and Data privacy,
+//      then the plan's areas (or the Idea question groups), in any order.
+//      Finishing a context module recalculates the plan, which can add
+//      modules or questions. The score (top right) updates when a module is
+//      finished; only Yes / No / Unsure checks count.
+//   3. All modules done → results, with an AGENTS.md for their repository.
 // Progress is kept in localStorage; signing in also lets them continue on
 // another device. The backend decides the questions and scores.
 
-type PageDef = { key: string; title: string; copy?: string; note?: string; questions: Question[] };
 type View = { kind: "intake" } | { kind: "home" } | { kind: "section"; key: string } | { kind: "results" };
 
 // Same default as the backend; the results carry the live link.
@@ -44,77 +45,89 @@ const linkClass = "text-sm text-foreground/60 underline hover:text-primary";
 
 const str = (v: AnswerValue | undefined) => (typeof v === "string" ? v.trim() : "");
 const TECH_STAGES = new Set(["building", "mvp", "scaling"]);
+const ABOUT_IDS = ["about_company", "about_product", "about_audience"];
+// Free-text answers don't re-plan on every keystroke; choices do.
+const PLAN_INPUT_TYPES = new Set(["single", "multi", "check"]);
 
-function intakePages(qs: Questionnaire | null, stage: string | null, prefilled: boolean): PageDef[] {
-  if (!qs) return [];
+function checklistSections(qs: Questionnaire | null, stage: string | null, plan: Plan | null): ChecklistSection[] {
+  if (!qs || !stage) return [];
+  const c = qs.checklist;
   const isIdea = stage === "idea";
-  const pages: PageDef[] = [
-    { key: "intro", ...qs.intro },
-    { key: "stage", ...qs.stage },
-    {
-      key: "about",
-      title: qs.about.title,
-      copy: qs.about.copy,
-      note: qs.about.privacyNote,
-      questions: isIdea ? qs.about.questions.idea : qs.about.questions.technical,
-    },
-    {
-      key: "scope",
-      title: qs.scope.title,
-      copy: prefilled ? qs.scope.copy : "A few quick questions so we can skip what doesn't apply to you.",
-      questions: qs.scope.questions,
-    },
-  ];
-  if (!stage || isIdea) return pages;
-  return [...pages, ...qs.intake.map((p, i) => ({ key: `intake-${i}`, ...p }))];
+  const merged = plan?.sections.find((s) => s.area === c.dataPrivacy.mergesArea);
+  const productScope: ChecklistSection = {
+    key: c.productScope.key,
+    title: c.productScope.title,
+    copy: c.productScope.copy,
+    note: c.productScope.privacyNote,
+    questions: isIdea ? c.productScope.questions.idea : c.productScope.questions.technical,
+    context: true,
+    prefillAfter: c.productScope.prefillAfter,
+  };
+  const governance: ChecklistSection = { ...c.governance, context: true };
+  const dataPrivacy: ChecklistSection = {
+    key: c.dataPrivacy.key,
+    title: c.dataPrivacy.title,
+    copy: c.dataPrivacy.copy,
+    questions: [...c.dataPrivacy.questions, ...(merged?.questions ?? [])],
+    context: true,
+  };
+  if (isIdea) {
+    return [productScope, dataPrivacy, ...qs.idea.map((p, i) => ({ key: `idea-${i}`, title: p.title, questions: p.questions }))];
+  }
+  const areas = (plan?.sections ?? [])
+    .filter((s) => s !== merged)
+    .map((s) => ({ key: s.area, title: s.label, questions: s.questions }));
+  return [productScope, governance, dataPrivacy, ...areas];
 }
 
-function checklistSections(qs: Questionnaire | null, state: SavedAssessment): ChecklistSection[] {
-  if (!qs) return [];
-  if (state.answers.stage === "idea") return qs.idea.map((p, i) => ({ key: `idea-${i}`, title: p.title, questions: p.questions }));
-  return (state.plan?.sections ?? []).map((s) => ({ key: s.area, title: s.label, questions: s.questions }));
+// The plan depends on the choice answers of the finished context modules
+// (not on the checks merged into Data privacy).
+function planKeyOf(qs: Questionnaire | null, sections: ChecklistSection[], answers: Answers): string {
+  if (!qs) return "";
+  const c = qs.checklist;
+  const contextIds = new Set(
+    [...c.productScope.questions.technical, ...c.productScope.questions.idea, ...c.governance.questions, ...c.dataPrivacy.questions].map(
+      (q) => q.id,
+    ),
+  );
+  return sections
+    .filter((s) => s.context && sectionProgress(s, answers).done)
+    .map((s) => {
+      const inputs = s.questions.filter((q) => contextIds.has(q.id) && PLAN_INPUT_TYPES.has(q.type));
+      return `${s.key}=${JSON.stringify(inputs.map((q) => [q.id, answers[q.id] ?? null]))}`;
+    })
+    .join("|");
 }
 
-// Where a run from the server picks up: the first initial-form page with a
-// missing answer, or the checklist when the form is done. The intro page is
-// already done (the run exists); its answers live on the lead, not the run,
-// so they come from `intro` (the resume response / the session's email).
-function fromServer(review: ResumedReview, qs: Questionnaire, intro: Answers): SavedAssessment {
+// A run from the server. The first page is done once the run has a stage;
+// its other answers live on the lead, not the run, so they come from `intro`.
+function fromServer(review: ResumedReview, intro: Answers): SavedAssessment {
   const answers: Answers = { ...intro, ...review.answers };
-  const stage = str(answers.stage) || null;
-  const pages = intakePages(qs, stage, false);
-  const firstMissing = pages.findIndex((p) => p.key !== "intro" && pageError(p.questions, answers) !== null);
-  const formDone = firstMissing === -1 && (stage === "idea" || !!review.plan);
   return {
     ...emptyAssessment(),
     reviewId: review.reviewId,
     answers,
     plan: review.plan,
-    prefilled: true,
-    intakeIndex: formDone ? 0 : firstMissing === -1 ? pages.length - 1 : Math.max(firstMissing, 1),
-    intakeDone: formDone,
-    leadTracked: true, // tracked when they first finished the form
+    intakeDone: !!str(answers.stage),
+    leadTracked: true, // tracked when they first finished the first page
     updatedAt: review.updatedAt,
   };
 }
 
 // The same run on the server, with nothing unsaved here: the server is as
 // new or newer, so its answers win. This browser keeps what only it has
-// (intro answers, AI prefill guesses, the open topic). A different stage over
-// there means different questions, so then the server's run replaces this one.
-function mergeSameRun(local: SavedAssessment, review: ResumedReview, qs: Questionnaire, intro: Answers): SavedAssessment {
-  const server = fromServer(review, qs, intro);
+// (intro answers, AI prefill guesses, the open module). A different stage
+// over there means different questions, so then the server's run replaces it.
+function mergeSameRun(local: SavedAssessment, review: ResumedReview, intro: Answers): SavedAssessment {
   if (str(review.answers.stage) && review.answers.stage !== local.answers.stage) {
-    return { ...server, leadTracked: local.leadTracked };
+    return { ...fromServer(review, intro), leadTracked: local.leadTracked };
   }
-  const intakeDone = local.intakeDone || server.intakeDone;
   return {
     ...local,
     answers: { ...local.answers, ...review.answers },
     plan: review.plan ?? local.plan,
-    intakeDone,
-    intakeIndex: intakeDone ? 0 : Math.max(local.intakeIndex, server.intakeIndex),
-    scoredSections: [], // score again with the merged answers
+    intakeDone: local.intakeDone || !!str(review.answers.stage),
+    scoredKey: "", // score again with the merged answers
     dirty: false,
     updatedAt: review.updatedAt,
   };
@@ -133,6 +146,10 @@ export function AssessmentFlow() {
   const [showMissing, setShowMissing] = useState(false);
   const [session, setSession] = useState<{ token: string; email: string } | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
+  const [planning, setPlanning] = useState(false);
+  const [planRetry, setPlanRetry] = useState(0);
+  const [newKeys, setNewKeys] = useState<Set<string>>(new Set());
+  const [prefill, setPrefill] = useState<Omit<PrefillAction, "onClick">>({ busy: false, done: false, error: null });
   const topRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -142,7 +159,12 @@ export function AssessmentFlow() {
 
   // ── Load: questionnaire, this browser's progress, the session ────────────
   useEffect(() => {
-    api.questions().then(setQs, () => setLoadError("We couldn't load the assessment. Please refresh the page."));
+    api.questions().then(
+      (q) =>
+        // An older backend has no checklist modules yet (deploy order).
+        q.checklist ? setQs(q) : setLoadError("The assessment is being updated. Please try again in a few minutes."),
+      () => setLoadError("We couldn't load the assessment. Please refresh the page."),
+    );
     const saved = loadAssessment();
     if (saved) {
       setState(saved);
@@ -188,7 +210,7 @@ export function AssessmentFlow() {
         if (local.reviewId === review.reviewId) {
           // Unsaved changes here: keep them; the autosave sends them.
           if (local.dirty) return;
-          const merged = mergeSameRun(local, review, qs, introAnswers);
+          const merged = mergeSameRun(local, review, introAnswers);
           setState(merged);
           if (merged.intakeDone && !local.intakeDone) setView({ kind: "home" });
           if (!merged.intakeDone) setView({ kind: "intake" });
@@ -197,7 +219,7 @@ export function AssessmentFlow() {
         // A different run, or a fresh start after "Start a new assessment":
         // keep whichever was touched last (a new device is dated 1970).
         if (new Date(local.updatedAt) >= new Date(review.updatedAt)) return;
-        const next = fromServer(review, qs, introAnswers);
+        const next = fromServer(review, introAnswers);
         setState(next);
         setResults(null);
         setView(next.intakeDone ? { kind: "home" } : { kind: "intake" });
@@ -206,13 +228,20 @@ export function AssessmentFlow() {
     );
   }, [session, hydrated, qs, resumeTick]);
 
+  // Signed in before the first page (it can be the first thing they do):
+  // their account's email fills the empty email field.
+  useEffect(() => {
+    if (!session?.email || str(stateRef.current.answers.intro_email)) return;
+    setState((s) => ({ ...s, answers: { ...s.answers, intro_email: session.email } }));
+  }, [session?.email]);
+
   useEffect(() => {
     setShowMissing(false);
     topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, [view, state.intakeIndex]);
+  }, [view]);
 
-  // Remember the open topic, so a reload (F5) comes back to it. Not a change
-  // to their answers, so updatedAt stays as it is.
+  // Remember the open module, so a reload (F5) comes back to it. Not a
+  // change to their answers, so updatedAt stays as it is.
   useEffect(() => {
     if (!hydrated) return;
     const openSection = view.kind === "section" ? view.key : "";
@@ -222,16 +251,68 @@ export function AssessmentFlow() {
   const stage = str(state.answers.stage) || null;
   const isIdea = stage === "idea";
   const isTech = !!stage && TECH_STAGES.has(stage);
-  const pages = useMemo(() => intakePages(qs, stage, state.prefilled), [qs, stage, state.prefilled]);
-  const sections = useMemo(() => checklistSections(qs, state), [qs, state.answers.stage, state.plan]);
-  const completed = sections.filter((s) => sectionProgress(s, state.answers).done).map((s) => s.key);
-  const completedKey = completed.join(",");
+  const sections = useMemo(() => checklistSections(qs, stage, state.plan), [qs, stage, state.plan]);
+  const done = sections.filter((s) => sectionProgress(s, state.answers).done);
+  const completedKey = done
+    .flatMap((s) => s.questions.map((q) => q.id))
+    .sort()
+    .join(",");
+  const planKey = planKeyOf(qs, sections, state.answers);
+  const planUpToDate = !!state.plan && planKey === state.plannedKey;
+  const scopeDone = !!sections[0] && done.includes(sections[0]);
 
-  // Idea: AI examples for the checklist wording (not stored; fetched again
-  // after a reload).
+  // ── Plan: on the first visit, then whenever a context module's answers
+  //    change (finishing one, or changing a choice in a finished one) ─────
   useEffect(() => {
-    if (!isIdea || !state.intakeDone || !state.reviewId || enrichment) return;
-    api.enrich({ reviewId: state.reviewId, answers: {} }).then(
+    if (!isTech || !state.intakeDone || !state.reviewId || planUpToDate) return;
+    const reviewId = state.reviewId;
+    const key = planKey;
+    const hadPlan = !!state.plan;
+    const t = setTimeout(
+      () => {
+        setPlanning(true);
+        const before = new Set(checklistSections(qs, stage, stateRef.current.plan).map((s) => s.key));
+        api
+          .plan({ reviewId, answers: stateRef.current.answers })
+          .then(
+            ({ plan }) => {
+              setState((s) => ({ ...s, plan, plannedKey: key }));
+              const added = checklistSections(qs, stage, plan)
+                .map((s) => s.key)
+                .filter((k) => !before.has(k));
+              if (hadPlan && added.length) setNewKeys(new Set(added));
+            },
+            // Try again shortly: results wait for an up-to-date plan.
+            () => setTimeout(() => setPlanRetry((n) => n + 1), 5000),
+          )
+          .finally(() => setPlanning(false));
+      },
+      hadPlan ? 700 : 0,
+    );
+    return () => clearTimeout(t);
+  }, [isTech, state.intakeDone, state.reviewId, planKey, planUpToDate, planRetry]);
+
+  // ── Running score: when the set of finished modules changes ─────────────
+  async function rescore(key: string) {
+    const { reviewId, answers } = stateRef.current;
+    if (!reviewId || !isTech) return;
+    try {
+      const score = await api.score(reviewId, answers, key ? key.split(",") : []);
+      setState((s) => ({ ...s, score, scoredKey: key }));
+    } catch {
+      // The score catches up on the next finished module.
+    }
+  }
+  useEffect(() => {
+    if (!isTech || !state.intakeDone || !state.reviewId || completedKey === state.scoredKey) return;
+    void rescore(completedKey);
+  }, [completedKey, isTech, state.intakeDone, state.reviewId, state.scoredKey]);
+
+  // Idea: AI examples for the question wording, once Product scope is done
+  // (not stored; fetched again after a reload).
+  useEffect(() => {
+    if (!isIdea || !scopeDone || !state.reviewId || enrichment) return;
+    api.enrich({ reviewId: state.reviewId, answers: state.answers }).then(
       ({ enrichment: e }) => {
         setEnrichment(e);
         if (e.whoGuess && !stateRef.current.answers.i3_who) {
@@ -240,23 +321,7 @@ export function AssessmentFlow() {
       },
       () => undefined,
     );
-  }, [isIdea, state.intakeDone, state.reviewId, enrichment]);
-
-  // ── Running score: when the set of finished topics changes ───────────────
-  async function rescore(done: string[]) {
-    const { reviewId, answers } = stateRef.current;
-    if (!reviewId || !isTech) return;
-    try {
-      const score = await api.score(reviewId, answers, done);
-      update({ score, scoredSections: done });
-    } catch {
-      // The score catches up on the next finished topic.
-    }
-  }
-  useEffect(() => {
-    if (!state.intakeDone || !isTech || !state.plan) return;
-    if (completedKey !== state.scoredSections.join(",")) void rescore(completed);
-  }, [completedKey, state.intakeDone, state.plan]);
+  }, [isIdea, scopeDone, state.reviewId, enrichment]);
 
   // ── Autosave the checklist answers to the run (for signing in elsewhere) ─
   useEffect(() => {
@@ -277,87 +342,74 @@ export function AssessmentFlow() {
     if (busy) return;
     // A different stage means different questions.
     const stageChanged = id === "stage" && stateRef.current.answers.stage !== value;
-    if (stageChanged) setEnrichment(null);
+    if (stageChanged) {
+      setEnrichment(null);
+      setNewKeys(new Set());
+    }
     setState((s) => ({
       ...s,
       answers: { ...s.answers, [id]: value },
       dirty: true,
-      ...(stageChanged && { plan: null, score: null, scoredSections: [], intakeDone: false }),
+      ...(stageChanged && { plan: null, plannedKey: "", score: null, scoredKey: "", intakeDone: false }),
       updatedAt: new Date().toISOString(),
     }));
   }
 
-  // The initial form is done: open the checklist. Lead event fires once.
-  function finishIntake(patch: Partial<SavedAssessment>) {
-    if (!stateRef.current.leadTracked) {
-      trackMetaPixel("Lead", { content_name: "Spark Assessment", content_category: "Assessment Lead" });
+  // "Fill in the rest from my description": AI guesses for the questions
+  // they haven't answered; they confirm or change them.
+  async function prefillFromDescription() {
+    const { reviewId, answers } = stateRef.current;
+    if (!reviewId || prefill.busy) return;
+    setPrefill({ busy: true, done: false, error: null });
+    try {
+      const about = Object.fromEntries(ABOUT_IDS.filter((id) => isAnswered(answers[id])).map((id) => [id, answers[id]]));
+      const { scope } = await api.prefill({ reviewId, answers: about, lastQuestion: "about_audience" });
+      setState((s) => {
+        const filled = { ...s.answers };
+        for (const [id, value] of Object.entries(scope)) if (filled[id] === undefined) filled[id] = value;
+        return { ...s, answers: filled, prefilled: true, dirty: true, updatedAt: new Date().toISOString() };
+      });
+      setPrefill({ busy: false, done: true, error: null });
+    } catch {
+      setPrefill({ busy: false, done: false, error: "We couldn't read your description. Please answer the questions below." });
     }
-    update({ ...patch, intakeDone: true, intakeIndex: 0, leadTracked: true });
-    setView({ kind: "home" });
   }
 
-  // ── Initial form: one page at a time ─────────────────────────────────────
-  const index = Math.min(state.intakeIndex, Math.max(pages.length - 1, 0));
-  const page = pages[index];
-  const isLastPage = !!page && !!stage && index === pages.length - 1;
-
-  const pageAnswers = (p: PageDef): Answers =>
-    Object.fromEntries(p.questions.filter((q) => state.answers[q.id] !== undefined).map((q) => [q.id, state.answers[q.id]]));
+  // ── First page ───────────────────────────────────────────────────────────
+  const intro = qs?.checklist.intro;
 
   async function next() {
-    if (!page || busy) return;
-    if (pageError(page.questions, state.answers)) {
+    if (!intro || busy) return;
+    if (pageError(intro.questions, state.answers)) {
       setError(null);
       setShowMissing(true);
-      const first = missingRequired(page.questions, state.answers)[0];
+      const first = missingRequired(intro.questions, state.answers)[0];
       if (first) document.getElementById(`q-${first}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
     setShowMissing(false);
     setError(null);
-    const shown = page.questions.filter((q) => isShown(q, state.answers));
-    const lastQuestion = shown[shown.length - 1]?.id;
     const answers = state.answers;
-
+    setBusy("Saving…");
     try {
+      const introDetails = {
+        email: str(answers.intro_email),
+        name: str(answers.intro_name),
+        company: str(answers.intro_company) || undefined,
+        role: str(answers.intro_role),
+      };
       let reviewId = state.reviewId;
-      if (page.key === "intro") {
-        if (!reviewId) {
-          setBusy("Saving…");
-          reviewId = (
-            await api.start({
-              email: str(answers.intro_email),
-              name: str(answers.intro_name),
-              company: str(answers.intro_company) || undefined,
-              role: str(answers.intro_role),
-            })
-          ).reviewId;
-        }
-        update({ reviewId, intakeIndex: index + 1, dirty: false });
-        return;
+      // New run: creates the lead. Existing run (they edited their details):
+      // updates it, so the report and the sign-in passcode use this email.
+      if (reviewId) await api.intro(reviewId, introDetails);
+      else reviewId = (await api.start(introDetails)).reviewId;
+      await api.progress({ reviewId, answers: { stage: answers.stage }, lastQuestion: "stage" });
+      // Done: open the checklist. The Lead event fires once.
+      if (!stateRef.current.leadTracked) {
+        trackMetaPixel("Lead", { content_name: "Spark Assessment", content_category: "Assessment Lead" });
       }
-      if (!reviewId) throw new Error("Please start from the first step.");
-      const progressBody = { reviewId, answers: pageAnswers(page), lastQuestion };
-
-      if (page.key === "about") {
-        setBusy("Reading your description…");
-        const { scope } = await api.prefill(progressBody);
-        // Only fill what they haven't answered; they confirm on the next page.
-        const filled = { ...stateRef.current.answers };
-        for (const [id, value] of Object.entries(scope)) if (filled[id] === undefined) filled[id] = value;
-        update({ answers: filled, prefilled: Object.keys(scope).length > 0, intakeIndex: index + 1, dirty: false });
-        return;
-      }
-      if (isLastPage && isTech) {
-        setBusy("Tailoring your checklist…");
-        const { plan } = await api.plan(progressBody);
-        finishIntake({ plan, score: null, scoredSections: [], dirty: false });
-        return;
-      }
-      setBusy("Saving…");
-      await api.progress(progressBody);
-      if (isLastPage && isIdea) finishIntake({ dirty: false });
-      else update({ intakeIndex: index + 1, dirty: false });
+      update({ reviewId, intakeDone: true, leadTracked: true, dirty: false });
+      setView({ kind: "home" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
@@ -387,6 +439,8 @@ export function AssessmentFlow() {
     setState({ ...emptyAssessment(), updatedAt: new Date().toISOString() });
     setResults(null);
     setEnrichment(null);
+    setNewKeys(new Set());
+    setPrefill({ busy: false, done: false, error: null });
     setView({ kind: "intake" });
   }
 
@@ -397,7 +451,7 @@ export function AssessmentFlow() {
 
   // ── Render ───────────────────────────────────────────────────────────────
   if (loadError) return <p className="text-body text-foreground">{loadError}</p>;
-  if (!qs || !hydrated) {
+  if (!qs || !intro || !hydrated) {
     return (
       <div className="flex justify-center py-24">
         <Spinner className="size-10 text-primary" />
@@ -409,7 +463,7 @@ export function AssessmentFlow() {
     <AssessmentBar
       score={state.score}
       showScore={isTech && state.intakeDone}
-      sectionsDone={state.intakeDone ? completed.length : 0}
+      sectionsDone={state.intakeDone ? done.length : 0}
       sectionsTotal={state.intakeDone ? sections.length : 0}
       signedInEmail={session?.email || null}
       defaultEmail={str(state.answers.intro_email)}
@@ -431,10 +485,17 @@ export function AssessmentFlow() {
     const i = sections.findIndex((s) => s.key === view.key);
     const section = sections[i];
     const leave = () => {
-      // Changed answers in a finished topic count right away.
-      if (section && sectionProgress(section, stateRef.current.answers).done) void rescore(completed);
+      // Changed answers in a finished module count right away.
+      if (section && sectionProgress(section, stateRef.current.answers).done) void rescore(completedKey);
+      setNewKeys((keys) => {
+        if (!keys.has(view.key)) return keys;
+        const rest = new Set(keys);
+        rest.delete(view.key);
+        return rest;
+      });
     };
-    body = section ? (
+    const showPrefill = !!section.prefillAfter && ABOUT_IDS.some((id) => isAnswered(state.answers[id]));
+    body = (
       <SectionView
         section={section}
         index={i}
@@ -442,6 +503,7 @@ export function AssessmentFlow() {
         answers={state.answers}
         onChange={setAnswer}
         enrichment={enrichment}
+        prefill={showPrefill ? { ...prefill, onClick: prefillFromDescription } : undefined}
         onBack={() => {
           leave();
           setView({ kind: "home" });
@@ -455,7 +517,7 @@ export function AssessmentFlow() {
             : null
         }
       />
-    ) : null;
+    );
   } else if (view.kind !== "intake" && state.intakeDone) {
     body = (
       <div className="space-y-6">
@@ -467,42 +529,34 @@ export function AssessmentFlow() {
           loadingResults={busy === "Building your report…"}
           error={error}
           bookingUrl={BOOKING_URL}
+          canFinish={isIdea || (planUpToDate && !planning)}
+          updating={planning}
+          newKeys={newKeys}
         />
         <p className="flex flex-wrap gap-x-6 gap-y-2">
           <button type="button" className={linkClass} onClick={() => setView({ kind: "intake" })}>
-            Edit your project details
+            Edit your details
           </button>
           <button type="button" className={linkClass} onClick={() => setConfirmReset(true)}>
             Start a new assessment
           </button>
         </p>
-        <StartOverDialog
-          open={confirmReset}
-          onOpenChange={setConfirmReset}
-          onConfirm={startOver}
-          signedIn={!!session}
-        />
+        <StartOverDialog open={confirmReset} onOpenChange={setConfirmReset} onConfirm={startOver} signedIn={!!session} />
       </div>
     );
-  } else if (page) {
+  } else {
     body = (
       <IntakePage
-        page={page}
-        index={index}
-        total={stage ? pages.length : pages.length + (isIdea ? 0 : 2)}
+        title={intro.title}
+        copy={intro.copy}
+        questions={intro.questions}
         answers={state.answers}
         onChange={setAnswer}
         busy={busy}
         showMissing={showMissing}
         error={error}
-        isLastPage={isLastPage}
         onNext={next}
-        onBack={() => {
-          setError(null);
-          if (index === 0 && state.intakeDone) setView({ kind: "home" });
-          else update({ intakeIndex: Math.max(0, index - 1) });
-        }}
-        canGoBack={index > 0 || state.intakeDone}
+        onBack={state.intakeDone ? () => setView({ kind: "home" }) : null}
       />
     );
   }
@@ -516,7 +570,7 @@ export function AssessmentFlow() {
 }
 
 // "Start a new assessment?" in the site's look, instead of the browser's
-// confirm(). Escape, the overlay or Cancel close it.
+// confirm(). Escape or Cancel close it.
 function StartOverDialog({
   open,
   onOpenChange,
@@ -547,26 +601,24 @@ function StartOverDialog({
 }
 
 type IntakeProps = {
-  page: PageDef;
-  index: number;
-  total: number;
+  title: string;
+  copy?: string;
+  questions: Questionnaire["checklist"]["intro"]["questions"];
   answers: Answers;
   onChange: (id: string, value: AnswerValue) => void;
   busy: string | null;
   showMissing: boolean;
   error: string | null;
-  isLastPage: boolean;
   onNext: () => void;
-  onBack: () => void;
-  canGoBack: boolean;
+  // Set when they came back to edit their details from the checklist.
+  onBack: (() => void) | null;
 };
 
-function IntakePage({ page, index, total, answers, onChange, busy, showMissing, error, isLastPage, onNext, onBack, canGoBack }: Readonly<IntakeProps>) {
+function IntakePage({ title, copy, questions, answers, onChange, busy, showMissing, error, onNext, onBack }: Readonly<IntakeProps>) {
   // Recomputed as they answer, so the message and highlights clear on their own.
-  const validation = showMissing ? pageError(page.questions, answers) : null;
-  const missing = new Set(showMissing ? missingRequired(page.questions, answers) : []);
+  const validation = showMissing ? pageError(questions, answers) : null;
+  const missing = new Set(showMissing ? missingRequired(questions, answers) : []);
   const message = validation ?? error;
-  const pct = Math.round((index / Math.max(total, 1)) * 100);
 
   return (
     <form
@@ -576,35 +628,19 @@ function IntakePage({ page, index, total, answers, onChange, busy, showMissing, 
         onNext();
       }}
     >
-      <div className="space-y-3">
-        <p className="text-sm uppercase tracking-[0.2em] text-foreground/60">
-          A quick introduction · Step {index + 1} of {total}
-        </p>
-        <div
-          className="h-1.5 w-full bg-foreground/10"
-          role="progressbar"
-          aria-valuenow={pct}
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-label="Initial form progress"
-        >
-          <div className="h-full bg-primary transition-all duration-300" style={{ width: `${pct}%` }} />
-        </div>
-      </div>
-
       <header className="space-y-3">
-        <h1 className="text-heading1 font-bold leading-tight text-foreground md:text-[48px]">{page.title}</h1>
-        {page.copy && <p className="text-body text-foreground/85">{page.copy}</p>}
-        {page.note && <p className="border-l-2 border-primary pl-4 text-smalltext text-foreground/85">{page.note}</p>}
+        <p className="text-sm uppercase tracking-[0.2em] text-primary">A quick introduction</p>
+        <h1 className="text-heading1 font-bold leading-tight text-foreground md:text-[48px]">{title}</h1>
+        {copy && <p className="text-body text-foreground/85">{copy}</p>}
       </header>
 
-      {/* Locked while Next is saving, so what's sent is what's on screen. */}
+      {/* Locked while saving, so what's sent is what's on screen. */}
       <fieldset
         disabled={!!busy}
         aria-busy={!!busy}
         className={`space-y-8 transition-opacity ${busy ? "pointer-events-none opacity-60" : ""}`}
       >
-        {page.questions
+        {questions
           .filter((q) => isShown(q, answers))
           .map((q) => (
             <QuestionField key={q.id} question={q} answers={answers} onChange={onChange} missing={missing.has(q.id)} />
@@ -618,17 +654,17 @@ function IntakePage({ page, index, total, answers, onChange, busy, showMissing, 
       )}
 
       <div className="flex flex-wrap items-center gap-4">
-        {canGoBack && (
+        {onBack && (
           <button type="button" className={buttonClass} onClick={onBack} disabled={!!busy}>
             Back
           </button>
         )}
         <button type="submit" className={`${nextButtonClass} inline-flex items-center gap-2`} disabled={!!busy}>
           {busy && <Spinner className="size-4" />}
-          {busy ?? (isLastPage ? "Continue to your checklist" : index === 0 ? "Start" : "Next")}
+          {busy ?? "Continue to your checklist"}
         </button>
       </div>
-      {index === 0 && <p className="text-sm text-foreground/50">No account needed. Your progress saves on this device.</p>}
+      {!onBack && <p className="text-sm text-foreground/50">No account needed. Your progress saves on this device.</p>}
     </form>
   );
 }
