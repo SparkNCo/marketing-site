@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import { isAnswered, isShown } from "./conditions";
 import { QuestionField } from "./QuestionField";
 import { Spinner } from "../ui/spinner";
@@ -15,14 +14,9 @@ export type ChecklistSection = {
   questions: Question[];
   copy?: string;
   note?: string; // privacy note under the title
-  // Context module: finishing it recalculates the plan.
+  // Context module: submitting it (leaving it) recalculates the plan.
   context?: boolean;
-  // Show "Fill in the rest from my description" after this question.
-  prefillAfter?: string;
 };
-
-// "Fill in the rest from my description" (AI guesses for the scope questions).
-export type PrefillAction = { onClick: () => void; busy: boolean; done: boolean; error: string | null };
 
 const primaryButtonClass =
   "px-6 py-3 bg-primary text-smalltext font-bold text-black hover:opacity-90 transition-opacity disabled:opacity-50";
@@ -83,8 +77,9 @@ type HomeProps = {
   // False while the plan is still being worked out (no results yet).
   canFinish: boolean;
   updating: boolean;
-  // Modules added by the last recalculation, marked "New".
-  newKeys: Set<string>;
+  // Modules the last recalculation added or added questions to, with the
+  // mark to show ("New", "+2 new questions").
+  newKeys: Map<string, string>;
 };
 
 export function ChecklistHome({
@@ -167,7 +162,9 @@ export function ChecklistHome({
                     <span className="flex flex-wrap items-center gap-2">
                       <span className="text-body font-semibold text-foreground group-hover:text-primary">{s.title}</span>
                       {newKeys.has(s.key) && (
-                        <span className="bg-primary px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-black">New</span>
+                        <span className="bg-primary px-1.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-black">
+                          {newKeys.get(s.key)}
+                        </span>
                       )}
                     </span>
                     {s.copy && <span className="block text-sm text-foreground/70">{s.copy}</span>}
@@ -214,11 +211,22 @@ type SectionProps = {
   onChange: (id: string, value: AnswerValue) => void;
   onBack: () => void;
   onNext: (() => void) | null;
+  // The last topic's button instead of Next: back to the checklist.
+  onFinish: () => void;
   enrichment: IdeaEnrichment | null;
-  prefill?: PrefillAction;
 };
 
-export function SectionView({ section, index, count, answers, onChange, onBack, onNext, enrichment, prefill }: Readonly<SectionProps>) {
+export function SectionView({
+  section,
+  index,
+  count,
+  answers,
+  onChange,
+  onBack,
+  onNext,
+  onFinish,
+  enrichment,
+}: Readonly<SectionProps>) {
   const p = sectionProgress(section, answers);
   const shown = section.questions.filter((q) => isShown(q, answers));
 
@@ -251,18 +259,15 @@ export function SectionView({ section, index, count, answers, onChange, onBack, 
 
       <ol className="space-y-8">
         {shown.map((q) => (
-          <Fragment key={q.id}>
-            <li>
-              <QuestionField
-                question={q}
-                answers={answers}
-                onChange={onChange}
-                hint={enrichment?.questions[q.id]?.hint}
-                placeholder={enrichment?.questions[q.id]?.placeholder}
-              />
-            </li>
-            {prefill && q.id === section.prefillAfter && <PrefillRow prefill={prefill} />}
-          </Fragment>
+          <li key={q.id}>
+            <QuestionField
+              question={q}
+              answers={answers}
+              onChange={onChange}
+              hint={enrichment?.questions[q.id]?.hint}
+              placeholder={enrichment?.questions[q.id]?.placeholder}
+            />
+          </li>
         ))}
       </ol>
 
@@ -272,35 +277,13 @@ export function SectionView({ section, index, count, answers, onChange, onBack, 
         </button>
         <div className="flex items-center gap-4">
           <span className="text-sm text-foreground/50">Progress saves automatically</span>
-          {onNext && p.done && (
-            <button type="button" className={primaryButtonClass} onClick={onNext}>
-              Next topic
+          {p.done && (
+            <button type="button" className={primaryButtonClass} onClick={onNext ?? onFinish}>
+              {onNext ? "Next topic" : "Finish"}
             </button>
           )}
         </div>
       </div>
     </section>
-  );
-}
-
-function PrefillRow({ prefill }: Readonly<{ prefill: PrefillAction }>) {
-  return (
-    <li className="flex flex-col gap-3 border border-dashed border-primary/60 bg-primary/5 p-5 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-smalltext text-foreground/85">
-        {prefill.done
-          ? "We filled in what we could from your description. Check the answers below and change anything that's wrong."
-          : "Described your product above? We can fill in the questions below from it. You confirm or change each answer."}
-      </p>
-      <button
-        type="button"
-        className={`${primaryButtonClass} inline-flex shrink-0 items-center gap-2`}
-        onClick={prefill.onClick}
-        disabled={prefill.busy}
-      >
-        {prefill.busy && <Spinner className="size-4" />}
-        {prefill.busy ? "Reading your description…" : "Fill in the rest from my description"}
-      </button>
-      {prefill.error && <p className="text-sm text-red-400">{prefill.error}</p>}
-    </li>
   );
 }

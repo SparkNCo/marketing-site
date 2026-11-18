@@ -314,7 +314,7 @@ Step 4 answers add short packs of questions. Rules:
 | `no_spof` | Could the app keep running if any single part of it failed?<br/>*No single points of failure* | M | 100,000+ users |
 | `incident_runbook` | Is there a written plan for what to do when something goes badly wrong?<br/>*Incident response / runbook* | M | 100,000+ users |
 
-Where module questions go: Privacy & compliance (Building: Launch readiness; Scaling: Compliance) · Security · Performance & scale (Building: Data & architecture; MVP: Architecture) · Abuse & cost (Building / Scaling: Security).
+Where module questions go: Privacy & compliance, in every stage (/assessment shows it inside the Data privacy module; Building and Scaling get the area only when a module adds compliance questions) · Security · Performance & scale (Building: Data & architecture; MVP: Architecture) · Abuse & cost (Building / Scaling: Security).
 
 ---
 
@@ -473,7 +473,7 @@ The spec leaves these open. Until someone confirms, the questions and logic abov
 | 4 | Order of modules 4–9 for the cap | Government → Enterprise → Marketplace → Region → Public → Large user base |
 | 5 | Does a hide rule beat a module that adds the same question? | Yes, except the stated `data_residency` exception |
 | 6 | Internal + under 100 also hides `load_testing` / `autoscaling` in **Scaling** core? | Yes (literal reading of the spec) |
-| 7 | Which Building area module questions go into (Building has no Privacy area) | Launch readiness |
+| 7 | Which area module compliance questions go into (Building and Scaling have no Privacy area of their own) | Privacy & compliance in every stage, added when needed; shown inside /assessment's Data privacy module (decided 2026-11-18, from review: "HIPAA questions in the Data Privacy module") |
 | 8 | How to score `t3_code_control` (single select, not Yes / No / Unsure) | Own / In-house = 2 · Agency / Mixed = 1 · AI platform only / Not sure = 0 + critical flag |
 | 9 | How to score `soc2` (4 options) | We have one = 2 · Not yet asked = excluded · Unsure = 1 · We don't yet = 0 |
 | 10 | `pub_ugc_moderation` starts with "If users post content…" but no T2 option covers it | Always asked when the Public module triggers; answer options are Yes / No / Unsure |

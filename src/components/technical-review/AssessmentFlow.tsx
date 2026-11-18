@@ -3,8 +3,8 @@ import { supabase } from "../../pages/api/submissions/server";
 import { trackMetaPixel } from "../../lib/metaPixel";
 import { api } from "./api";
 import { AssessmentBar } from "./AssessmentBar";
-import { ChecklistHome, SectionView, sectionProgress, type ChecklistSection, type PrefillAction } from "./Checklist";
-import { isAnswered, isShown, missingRequired, pageError } from "./conditions";
+import { ChecklistHome, SectionView, sectionProgress, type ChecklistSection } from "./Checklist";
+import { isShown, missingRequired, pageError } from "./conditions";
 import { QuestionField } from "./QuestionField";
 import { ResultsView } from "./ResultsView";
 import { clearAssessment, emptyAssessment, loadAssessment, saveAssessment, type SavedAssessment } from "./storage";
@@ -45,9 +45,6 @@ const linkClass = "text-sm text-foreground/60 underline hover:text-primary";
 
 const str = (v: AnswerValue | undefined) => (typeof v === "string" ? v.trim() : "");
 const TECH_STAGES = new Set(["building", "mvp", "scaling"]);
-const ABOUT_IDS = ["about_company", "about_product", "about_audience"];
-// Free-text answers don't re-plan on every keystroke; choices do.
-const PLAN_INPUT_TYPES = new Set(["single", "multi", "check"]);
 
 function checklistSections(qs: Questionnaire | null, stage: string | null, plan: Plan | null): ChecklistSection[] {
   if (!qs || !stage) return [];
@@ -61,7 +58,6 @@ function checklistSections(qs: Questionnaire | null, stage: string | null, plan:
     note: c.productScope.privacyNote,
     questions: isIdea ? c.productScope.questions.idea : c.productScope.questions.technical,
     context: true,
-    prefillAfter: c.productScope.prefillAfter,
   };
   const governance: ChecklistSection = { ...c.governance, context: true };
   const dataPrivacy: ChecklistSection = {
@@ -80,8 +76,9 @@ function checklistSections(qs: Questionnaire | null, stage: string | null, plan:
   return [productScope, governance, dataPrivacy, ...areas];
 }
 
-// The plan depends on the choice answers of the finished context modules
-// (not on the checks merged into Data privacy).
+// The plan depends on the answers of the finished context modules, the
+// free text included (the AI reads it), not on the checks merged into Data
+// privacy.
 function planKeyOf(qs: Questionnaire | null, sections: ChecklistSection[], answers: Answers): string {
   if (!qs) return "";
   const c = qs.checklist;
@@ -93,7 +90,7 @@ function planKeyOf(qs: Questionnaire | null, sections: ChecklistSection[], answe
   return sections
     .filter((s) => s.context && sectionProgress(s, answers).done)
     .map((s) => {
-      const inputs = s.questions.filter((q) => contextIds.has(q.id) && PLAN_INPUT_TYPES.has(q.type));
+      const inputs = s.questions.filter((q) => contextIds.has(q.id));
       return `${s.key}=${JSON.stringify(inputs.map((q) => [q.id, answers[q.id] ?? null]))}`;
     })
     .join("|");
@@ -116,7 +113,7 @@ function fromServer(review: ResumedReview, intro: Answers): SavedAssessment {
 
 // The same run on the server, with nothing unsaved here: the server is as
 // new or newer, so its answers win. This browser keeps what only it has
-// (intro answers, AI prefill guesses, the open module). A different stage
+// (intro answers, the open module). A different stage
 // over there means different questions, so then the server's run replaces it.
 function mergeSameRun(local: SavedAssessment, review: ResumedReview, intro: Answers): SavedAssessment {
   if (str(review.answers.stage) && review.answers.stage !== local.answers.stage) {
@@ -148,8 +145,9 @@ export function AssessmentFlow() {
   const [confirmReset, setConfirmReset] = useState(false);
   const [planning, setPlanning] = useState(false);
   const [planRetry, setPlanRetry] = useState(0);
-  const [newKeys, setNewKeys] = useState<Set<string>>(new Set());
-  const [prefill, setPrefill] = useState<Omit<PrefillAction, "onClick">>({ busy: false, done: false, error: null });
+  // Modules the last recalculation added ("New") or added questions to
+  // ("+2 new questions"), marked in the table of contents until opened.
+  const [newKeys, setNewKeys] = useState<Map<string, string>>(new Map());
   const topRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -259,38 +257,47 @@ export function AssessmentFlow() {
     .join(",");
   const planKey = planKeyOf(qs, sections, state.answers);
   const planUpToDate = !!state.plan && planKey === state.plannedKey;
+  // Inside a context module the plan waits: it's recalculated when they
+  // submit it (leave it with Back or Next), not while they type.
+  const inContextModule = view.kind === "section" && !!sections.find((s) => s.key === view.key)?.context;
   const scopeDone = !!sections[0] && done.includes(sections[0]);
 
-  // ── Plan: on the first visit, then whenever a context module's answers
-  //    change (finishing one, or changing a choice in a finished one) ─────
+  // ── Plan: on the first visit, then each time a context module is
+  //    submitted with changed answers. The backend applies the rules and
+  //    asks the AI whether the answers call for more modules or questions.
   useEffect(() => {
     if (!isTech || !state.intakeDone || !state.reviewId || planUpToDate) return;
+    if (state.plan && inContextModule) return;
     const reviewId = state.reviewId;
     const key = planKey;
     const hadPlan = !!state.plan;
-    const t = setTimeout(
-      () => {
-        setPlanning(true);
-        const before = new Set(checklistSections(qs, stage, stateRef.current.plan).map((s) => s.key));
-        api
-          .plan({ reviewId, answers: stateRef.current.answers })
-          .then(
-            ({ plan }) => {
-              setState((s) => ({ ...s, plan, plannedKey: key }));
-              const added = checklistSections(qs, stage, plan)
-                .map((s) => s.key)
-                .filter((k) => !before.has(k));
-              if (hadPlan && added.length) setNewKeys(new Set(added));
-            },
-            // Try again shortly: results wait for an up-to-date plan.
-            () => setTimeout(() => setPlanRetry((n) => n + 1), 5000),
-          )
-          .finally(() => setPlanning(false));
-      },
-      hadPlan ? 700 : 0,
+    setPlanning(true);
+    const before = new Map(
+      checklistSections(qs, stage, stateRef.current.plan).map((s) => [s.key, new Set(s.questions.map((q) => q.id))]),
     );
-    return () => clearTimeout(t);
-  }, [isTech, state.intakeDone, state.reviewId, planKey, planUpToDate, planRetry]);
+    api
+      .plan({ reviewId, answers: stateRef.current.answers })
+      .then(
+        ({ plan }) => {
+          setState((s) => ({ ...s, plan, plannedKey: key }));
+          if (!hadPlan) return;
+          const marks = new Map<string, string>();
+          for (const s of checklistSections(qs, stage, plan)) {
+            const had = before.get(s.key);
+            if (!had) {
+              marks.set(s.key, "New");
+              continue;
+            }
+            const added = s.questions.filter((q) => !had.has(q.id)).length;
+            if (added) marks.set(s.key, `+${added} new question${added === 1 ? "" : "s"}`);
+          }
+          if (marks.size) setNewKeys(marks);
+        },
+        // Try again shortly: results wait for an up-to-date plan.
+        () => setTimeout(() => setPlanRetry((n) => n + 1), 5000),
+      )
+      .finally(() => setPlanning(false));
+  }, [isTech, state.intakeDone, state.reviewId, planKey, planUpToDate, inContextModule, planRetry]);
 
   // ── Running score: when the set of finished modules changes ─────────────
   async function rescore(key: string) {
@@ -344,7 +351,7 @@ export function AssessmentFlow() {
     const stageChanged = id === "stage" && stateRef.current.answers.stage !== value;
     if (stageChanged) {
       setEnrichment(null);
-      setNewKeys(new Set());
+      setNewKeys(new Map());
     }
     setState((s) => ({
       ...s,
@@ -353,26 +360,6 @@ export function AssessmentFlow() {
       ...(stageChanged && { plan: null, plannedKey: "", score: null, scoredKey: "", intakeDone: false }),
       updatedAt: new Date().toISOString(),
     }));
-  }
-
-  // "Fill in the rest from my description": AI guesses for the questions
-  // they haven't answered; they confirm or change them.
-  async function prefillFromDescription() {
-    const { reviewId, answers } = stateRef.current;
-    if (!reviewId || prefill.busy) return;
-    setPrefill({ busy: true, done: false, error: null });
-    try {
-      const about = Object.fromEntries(ABOUT_IDS.filter((id) => isAnswered(answers[id])).map((id) => [id, answers[id]]));
-      const { scope } = await api.prefill({ reviewId, answers: about, lastQuestion: "about_audience" });
-      setState((s) => {
-        const filled = { ...s.answers };
-        for (const [id, value] of Object.entries(scope)) if (filled[id] === undefined) filled[id] = value;
-        return { ...s, answers: filled, prefilled: true, dirty: true, updatedAt: new Date().toISOString() };
-      });
-      setPrefill({ busy: false, done: true, error: null });
-    } catch {
-      setPrefill({ busy: false, done: false, error: "We couldn't read your description. Please answer the questions below." });
-    }
   }
 
   // ── First page ───────────────────────────────────────────────────────────
@@ -439,8 +426,7 @@ export function AssessmentFlow() {
     setState({ ...emptyAssessment(), updatedAt: new Date().toISOString() });
     setResults(null);
     setEnrichment(null);
-    setNewKeys(new Set());
-    setPrefill({ busy: false, done: false, error: null });
+    setNewKeys(new Map());
     setView({ kind: "intake" });
   }
 
@@ -489,12 +475,11 @@ export function AssessmentFlow() {
       if (section && sectionProgress(section, stateRef.current.answers).done) void rescore(completedKey);
       setNewKeys((keys) => {
         if (!keys.has(view.key)) return keys;
-        const rest = new Set(keys);
+        const rest = new Map(keys);
         rest.delete(view.key);
         return rest;
       });
     };
-    const showPrefill = !!section.prefillAfter && ABOUT_IDS.some((id) => isAnswered(state.answers[id]));
     body = (
       <SectionView
         section={section}
@@ -503,7 +488,6 @@ export function AssessmentFlow() {
         answers={state.answers}
         onChange={setAnswer}
         enrichment={enrichment}
-        prefill={showPrefill ? { ...prefill, onClick: prefillFromDescription } : undefined}
         onBack={() => {
           leave();
           setView({ kind: "home" });
@@ -516,6 +500,16 @@ export function AssessmentFlow() {
               }
             : null
         }
+        // Last topic: back to the checklist, and never a re-check — new
+        // questions right after "Finish" would feel like it never ends. The
+        // current plan is taken as final (the last topic is a stage area
+        // anyway: the context modules come first). Results still score
+        // exactly what they answered.
+        onFinish={() => {
+          leave();
+          setState((s) => (s.plan ? { ...s, plannedKey: planKey } : s));
+          setView({ kind: "home" });
+        }}
       />
     );
   } else if (view.kind !== "intake" && state.intakeDone) {
