@@ -41,7 +41,6 @@ export type Questionnaire = {
     productScope: Omit<ChecklistModule, "questions"> & {
       privacyNote: string;
       questions: { idea: Question[]; technical: Question[] };
-      prefillAfter: string;
     };
     governance: ChecklistModule;
     dataPrivacy: ChecklistModule & { mergesArea: string };
